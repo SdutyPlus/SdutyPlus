@@ -14,5 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "SdutyPlus"
 include ':presentation'
-include ':domain'
 include ':data'
+include ':domain'
