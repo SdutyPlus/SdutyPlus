@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_bottom_sheet_dialog">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- 버튼 레이아웃 : (버튼 길이를 늘릴지에 대한 고민이 있음) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <!--        <Button-->
+            <!--            android:id="@+id/btn_join_kakao"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="48dp"-->
+            <!--            android:background="@drawable/btn_kakao_container_400px"-->
+            <!--            android:text="      카카오로 시작하기"-->
+            <!--            android:textSize="16sp"-->
+            <!--            android:textColor="@color/black"-->
+            <!--            android:textStyle="bold"-->
+            <!--            android:layout_marginTop="16dp"/>-->
+
+            <!--        <Button-->
+            <!--            android:id="@+id/btn_join_naver"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="48dp"-->
+            <!--            android:background="@drawable/btn_naver_container_400px"-->
+            <!--            android:text="      네이버로 시작하기"-->
+            <!--            android:textSize="16sp"-->
+            <!--            android:textColor="@color/white"-->
+            <!--            android:textStyle="bold"-->
+            <!--            android:layout_marginTop="16dp"/>-->
+
+
+            <Button
+                android:id="@+id/btn_join_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/btn_login_container"
+                android:backgroundTint="@color/app_purple_light"
+                android:text="이메일로 회원가입하기"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

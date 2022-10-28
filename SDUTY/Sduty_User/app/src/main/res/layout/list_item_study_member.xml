@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="studyMember"
+            type="com.d108.sduty.model.dto.Member" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/const_study_member"
+        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <!-- 리사이클러 뷰에 들어가는 아이템 목록 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            app:cardElevation="1dp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@{studyMember.is_studying() == 0 ? @drawable/border_study : @drawable/gradient_study_border}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/user_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="닉네임"
+                    android:textSize="10dp"
+                    android:text="@{studyMember.nickname}"
+                    android:textColor="@{studyMember.is_studying() == 0 ? @color/sduty_action_off : @color/sduty_mix_violet}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="10dp"/>
+
+                <TextView
+                    android:id="@+id/user_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="00:00:00"
+                    android:textSize="10dp"
+                    android:text="@{studyMember.total_time.toString()}"
+                    android:textColor="@{studyMember.is_studying() == 0 ? @color/sduty_action_off : @color/sduty_mix_violet}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/user_nickname"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_type_cam"
+                    android:layout_width="40dp"
+                    android:layout_height="36dp"
+                    android:src="@{studyMember.is_studying() == 0 ? @drawable/img_type_study_off : @drawable/img_type_study}"
+                    app:layout_constraintTop_toBottomOf="@+id/user_time"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
