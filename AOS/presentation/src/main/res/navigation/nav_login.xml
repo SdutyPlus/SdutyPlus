@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_login">
+    android:id="@+id/nav_login"
+    app:startDestination="@id/loginActivity">
 
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.d205.sdutyplus.view.login.LoginActivity"
+        android:label="LoginActivity" />
 </navigation>
