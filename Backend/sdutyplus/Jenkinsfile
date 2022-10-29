@@ -23,7 +23,7 @@ pipeline {
                                 sh 'docker container ls -a -f name=sdutyplus -q \
                                         | xargs -r docker container rm'
 
-                                sh 'docker run -v /home/files:/home/files -d --name sdutyplus -p 8090:8090 sdutyplusimg'
+                                sh 'docker run -v /home/files:/home/files -d --name sdutyplus -p 8081:8090 sdutyplusimg'
                         }
                 }
         }
