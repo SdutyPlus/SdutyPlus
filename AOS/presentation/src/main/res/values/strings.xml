@@ -3,4 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="test">test</string>
+
+    <string name="naver_client_id">pF8mXN898yVFEssyqQv9</string>
+    <string name="naver_client_secret">JGhqjabixT</string>
+    <string name="naver_client_name">네이버아이디 로그인</string>
 </resources>
