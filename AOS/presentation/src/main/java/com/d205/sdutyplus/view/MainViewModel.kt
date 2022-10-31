@@ -10,6 +10,10 @@ class MainViewModel: ViewModel() {
     val bottomNavVisibility : LiveData<Boolean>
         get() = _bottomNavVisibility
 
+    init {
+        _bottomNavVisibility.postValue(true)
+    }
+
     fun displayBottomNav(show: Boolean){
         _bottomNavVisibility.postValue(show)
     }
