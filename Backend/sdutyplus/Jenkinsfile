@@ -26,6 +26,14 @@ pipeline {
                                 sh 'docker run -v /home/files:/home/files -d --name sdutyplus -p 8081:8090 sdutyplusimg'
                         }
                 }
+                stage('Clear Image') {
+                                        agent any
+                                        steps {
+                                                sh 'docker container prune -f'
+
+                                                sh 'docker image prune -f'
+                                        }
+                                }
         }
 
 }
