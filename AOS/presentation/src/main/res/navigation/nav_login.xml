@@ -2,10 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_login"
-    app:startDestination="@id/loginActivity">
-
-    <activity
-        android:id="@+id/loginActivity"
-        android:name="com.d205.sdutyplus.view.login.LoginActivity"
-        android:label="LoginActivity" />
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.d205.sdutyplus.view.login.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>

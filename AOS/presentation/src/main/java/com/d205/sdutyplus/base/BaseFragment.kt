@@ -8,12 +8,15 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 
 abstract class BaseFragment<T: ViewDataBinding>(
     @LayoutRes val layoutResId: Int
 )  : Fragment() {
     private var _binding: T? = null
     protected val binding get() = _binding!!
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

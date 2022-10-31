@@ -12,7 +12,7 @@ import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentMyPageBinding
 
-const val TAG = "MyPageFragment"
+private const val TAG = "MyPageFragment"
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
     private val args by navArgs<MyPageFragmentArgs>()
 
