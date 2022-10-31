@@ -3,8 +3,8 @@ package com.d205.data.repository.study
 import com.d205.data.mapper.mapperToStudy
 import com.d205.data.repository.study.local.StudyMockDataSource
 import com.d205.data.repository.study.remote.StudyRemoteDataSource
-import com.example.domain.model.study.Study
-import com.example.domain.repository.StudyRepository
+import com.d205.domain.model.study.Study
+import com.d205.domain.repository.StudyRepository
 import javax.inject.Inject
 
 class StudyRepositoryImpl @Inject constructor(

@@ -1,4 +1,4 @@
-package com.example.domain
+package com.d205.domain
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

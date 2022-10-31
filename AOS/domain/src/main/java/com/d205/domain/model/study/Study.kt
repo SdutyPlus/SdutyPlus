@@ -1,4 +1,4 @@
-package com.example.domain.model.study
+package com.d205.domain.model.study
 
 import java.util.*
 

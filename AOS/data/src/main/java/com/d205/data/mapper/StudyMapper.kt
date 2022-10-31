@@ -1,7 +1,7 @@
 package com.d205.data.mapper
 
 import com.d205.data.model.study.StudyResponse
-import com.example.domain.model.study.Study
+import com.d205.domain.model.study.Study
 
 fun mapperToStudy(studyResponse: StudyResponse): Study {
     return Study(

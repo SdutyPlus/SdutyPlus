@@ -1,7 +1,7 @@
-package com.example.domain.usecase.study
+package com.d205.domain.usecase.study
 
-import com.example.domain.model.study.Study
-import com.example.domain.repository.StudyRepository
+import com.d205.domain.model.study.Study
+import com.d205.domain.repository.StudyRepository
 import javax.inject.Inject
 
 class GetStudyListUseCase @Inject constructor(private val studyRepository: StudyRepository) {
