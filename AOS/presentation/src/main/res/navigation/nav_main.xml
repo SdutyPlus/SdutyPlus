@@ -8,11 +8,18 @@
         android:id="@+id/feedFragment"
         android:name="com.d205.sdutyplus.view.feed.FeedFragment"
         android:label="FeedFragment" >
+        <action
+            android:id="@+id/action_feedFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment" />
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
         android:name="com.d205.sdutyplus.view.mypage.MyPageFragment"
         android:label="MyPageFragment" >
+
+        <argument
+            android:name="qwe"
+            app:argType="integer"/>
     </fragment>
     <fragment
         android:id="@+id/reportFragment"

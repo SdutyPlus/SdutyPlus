@@ -14,11 +14,11 @@ import com.d205.sdutyplus.databinding.FragmentMyPageBinding
 
 const val TAG = "MyPageFragment"
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
-    //private val args by navArgs<MyPageFragmentArgs>()
+    private val args by navArgs<MyPageFragmentArgs>()
 
     override fun init() {
-       // val tmp = args.args
-       // Log.d(TAG, "init: $tmp")
+        val tmp = args.qwe
+        Log.d(TAG, "init: $tmp")
     }
 
 }

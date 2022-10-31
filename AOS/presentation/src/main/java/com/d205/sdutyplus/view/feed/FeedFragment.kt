@@ -13,7 +13,7 @@ import com.d205.sdutyplus.databinding.FragmentFeedBinding
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
     override fun init() {
-        //findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToMypageFragment(1000))
+        findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToMypageFragment(1000))
     }
 
 }
