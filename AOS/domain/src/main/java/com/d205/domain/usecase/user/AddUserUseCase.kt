@@ -1,6 +1,6 @@
-package com.example.domain.usecase.user
+package com.d205.domain.usecase.user
 
-import com.example.domain.repository.UserRepository
+import com.d205.domain.repository.UserRepository
 
 class AddUserUseCase(private val userRepository: UserRepository) {
     fun execute(): Boolean{

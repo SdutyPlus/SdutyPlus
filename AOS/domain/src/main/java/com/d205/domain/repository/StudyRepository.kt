@@ -1,6 +1,6 @@
-package com.example.domain.repository
+package com.d205.domain.repository
 
-import com.example.domain.model.study.Study
+import com.d205.domain.model.study.Study
 
 interface StudyRepository {
     suspend fun getStudyList(userSeq: Int): List<Study>

@@ -7,7 +7,7 @@ import com.d205.data.repository.study.local.StudyMockDataSourceImpl
 import com.d205.data.repository.study.remote.StudyRemoteDataSource
 import com.d205.data.repository.study.remote.StudyRemoteDataSourceImpl
 import com.d205.sdutyplus.uitls.BASE_URL
-import com.example.domain.repository.StudyRepository
+import com.d205.domain.repository.StudyRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

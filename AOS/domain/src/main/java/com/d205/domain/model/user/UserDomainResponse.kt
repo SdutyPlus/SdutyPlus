@@ -1,4 +1,4 @@
-package com.example.domain.model.user
+package com.d205.domain.model.user
 
 data class UserDomainResponse(val id: Int)
 
