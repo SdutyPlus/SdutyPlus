@@ -70,4 +70,5 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             Toast.makeText(requireContext(), "다시 로그인해주세요", Toast.LENGTH_SHORT).show()
         }
     }
+
 }
