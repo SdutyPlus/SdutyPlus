@@ -34,7 +34,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- AppBar 필터 버튼 : 타임라인 필터 -->
                 <ImageView
                     android:id="@+id/iv_filter"
                     android:layout_width="48dp"
@@ -45,7 +44,6 @@
                     app:layout_constraintEnd_toStartOf="@id/iv_register_story"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!-- AppBar 게시물 등록 버튼 : 게시물 등록 & 타임라인으로 돌아감 -->
                 <ImageView
                     android:id="@+id/iv_register_story"
                     android:layout_width="48dp"
@@ -55,7 +53,15 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-                
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
