@@ -13,11 +13,17 @@ import com.d205.sdutyplus.databinding.FragmentFeedBinding
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
     override fun init() {
+        initView()
+    }
+
+    private fun initView() {
         displayBottomNav(true)
-        binding.apply {
-            ivCreateStory.setOnClickListener {
-                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToFeedCreateFragment())
-            }
+        binding.ivCreateFeed.setOnClickListener {
+            moveToFeedCreateFragment()
         }
+    }
+
+    private fun moveToFeedCreateFragment() {
+        findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToFeedCreateFragment())
     }
 }
