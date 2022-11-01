@@ -16,7 +16,7 @@ private const val TAG = "MyPageFragment"
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
     private val args by navArgs<MyPageFragmentArgs>()
 
-    override fun init() {
+    override fun initOnViewCreated() {
         val tmp = args.qwe
         Log.d(TAG, "init: $tmp")
     }

@@ -26,23 +26,22 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun initView() {
-        val todayString: String = convertTimeDateToString(getTodayDate())
+//        val todayString: String = convertTimeDateToString(getTodayDate())
 
         initTimer()
     }
 
     private val timerViewModel: TimerViewModel by viewModels()
     private fun initTimer() {
-
         binding.apply {
             ivTimer.setOnClickListener {
-                when (timerViewModel.isRunningTimer.value as Boolean) {
-                    false -> {
-                        animationSettingOnFalse()
+                when (timerViewModel.isRunningTimer.value as Boolean) { // todo 함수로 하나 빼기
+                    false -> { // todo 스타트 타이머?
+                        startTimer()
                     }
                     true -> {
-                        timerViewModel.delayTimer()
-                        DelayDialog().show(requireActivity().supportFragmentManager, "DelayDialog")
+//                        timerViewModel.delayTimer()
+//                        DelayDialog().show(requireActivity().supportFragmentManager, "DelayDialog")
                     }
                 }
             }
@@ -50,10 +49,10 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
     }
 
-    private fun animationSettingOnFalse() {
+    private fun startTimer() {
         binding.animationView.playAnimation()
-        timerViewModel.startTimer(mainViewModel.user.value!!.seq)
-        timerViewModel.saveTime()
+        timerViewModel.startTimer() // todo mainViewModel.user.value!!.seq
+        timerViewModel.saveStartTimeOnTimer()
         Toast.makeText(requireActivity(), "공부 시간 측정을 시작합니다!", Toast.LENGTH_SHORT).show()
     }
 }

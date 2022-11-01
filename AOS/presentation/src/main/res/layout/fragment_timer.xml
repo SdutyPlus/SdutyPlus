@@ -104,18 +104,17 @@
                 android:id="@+id/animation_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:lottie_rawRes="@raw/timer_animation"
                 app:lottie_loop="false"
                 />
             <ImageView
                 android:id="@+id/iv_timer"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:src="@drawable/naver_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:src="@drawable/naver_icon"
                 />
             <TextView
                 android:id="@+id/tv_timer"
@@ -124,7 +123,6 @@
                 android:gravity="center_vertical|center"
                 android:textColor="@color/sduty_mix_violet"
                 android:textSize="50sp"
-                android:visibility="@drawable/naver_icon"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -151,7 +149,6 @@
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="20dp"
             android:backgroundTint="@color/sduty_mix_violet"
-            android:src="@drawable/naver_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
