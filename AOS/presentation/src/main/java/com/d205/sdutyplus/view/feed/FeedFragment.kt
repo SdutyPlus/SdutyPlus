@@ -14,7 +14,10 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
     override fun init() {
         displayBottomNav(true)
-        findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToMypageFragment(1000))
+        binding.apply {
+            ivCreateStory.setOnClickListener {
+                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToFeedCreateFragment())
+            }
+        }
     }
-
 }
