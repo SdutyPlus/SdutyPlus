@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".di.ApplicationClass"
@@ -15,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SdutyPlus"
         tools:targetApi="31">
+        <activity
+            android:name=".view.common.CropImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.common.CropActivity"
+            android:exported="false" />
         <activity
             android:name=".view.login.LoginActivity"
             android:exported="true">

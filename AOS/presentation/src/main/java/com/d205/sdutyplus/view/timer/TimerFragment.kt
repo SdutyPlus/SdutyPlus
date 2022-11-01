@@ -14,8 +14,6 @@ import com.d205.sdutyplus.view.MainViewModel
 
 private const val TAG = "TimerFragment"
 class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer) {
-    private val mainViewModel : MainViewModel by activityViewModels()
-
     override fun init() {
 
     }

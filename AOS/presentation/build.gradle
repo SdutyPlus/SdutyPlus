@@ -90,4 +90,13 @@ dependencies {
 
     // Lottie
     implementation 'com.airbnb.android:lottie:3.0.7'
+
+    //원형 이미지
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // ImagePicker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    // ImageCrop
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.3.1'
 }

@@ -2,9 +2,12 @@ package com.d205.sdutyplus.view.login
 
 import android.content.Intent
 import android.util.Log
+import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentLoginBinding
+import com.d205.sdutyplus.uitls.KAKAO_JOIN
+import com.d205.sdutyplus.uitls.NAVER_JOIN
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.MainActivity
 import com.kakao.sdk.auth.model.OAuthToken
@@ -19,6 +22,7 @@ import com.navercorp.nid.profile.data.NidProfileResponse
 private const val TAG = "LoginFragment"
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val userApiClient = UserApiClient.instance
+    private lateinit var userToken: String
 
     override fun init() {
         initKakao()
@@ -46,6 +50,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             btnNaverLogin.setOnClickListener {
                 startNaverLogin()
             }
+            btnJoin.setOnClickListener {
+                moveToJoinIdFragment()
+            }
         }
     }
 
@@ -68,6 +75,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (token != null) {
             Log.d(TAG, "카카오계정 로그인 성공 token : ${token.accessToken}")
+            userToken = token.accessToken
 
             // 사용자 정보 가져오기
             userApiClient.me { user, error ->
@@ -83,7 +91,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                                 "아이디 : ${user.id}\n" +
                                 "이름 : ${user.kakaoAccount?.name}"
                     )
-                    moveToMainActivity()
+                    if(isJoinedUser(token.accessToken)) {
+                        moveToMainActivity()
+                    }
+                    else {
+                        moveToJoinProfileFragment(KAKAO_JOIN)
+                    }
                 }
             }
         }
@@ -98,12 +111,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
         val profileCallback = object : NidProfileCallback<NidProfileResponse> {
             override fun onSuccess(response: NidProfileResponse) {
-                val userId = response.profile?.id
                 Log.d(TAG, "onSuccess: id: ${response.profile} \n" +
                         "token: $naverToken")
-                //Toast.makeText(requireContext(), "네이버 아이디 로그인 성공!", Toast.LENGTH_SHORT).show()
+
+                userToken = naverToken!!
                 requireContext().showToast("네이버 아이디 로그인 성공!")
-                moveToMainActivity()
+
+                if(isJoinedUser(userToken)) {
+                    moveToMainActivity()
+                }
+                else {
+                    moveToJoinProfileFragment(NAVER_JOIN)
+                }
             }
             override fun onFailure(httpStatus: Int, message: String) {
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
@@ -121,10 +140,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             override fun onSuccess() {
                 // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                 naverToken = NaverIdLoginSDK.getAccessToken()
-//                var naverRefreshToken = NaverIdLoginSDK.getRefreshToken()
-//                var naverExpiresAt = NaverIdLoginSDK.getExpiresAt().toString()
-//                var naverTokenType = NaverIdLoginSDK.getTokenType()
-//                var naverState = NaverIdLoginSDK.getState().toString()
 
                 //로그인 유저 정보 가져오기
                 NidOAuthLogin().callProfileApi(profileCallback)
@@ -144,7 +159,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         NaverIdLoginSDK.authenticate(requireContext(), oauthLoginCallback)
     }
 
+    private fun isJoinedUser(token: String): Boolean {
+        return false
+    }
+
     fun moveToMainActivity() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
+    }
+
+    fun moveToJoinProfileFragment(route: Int) {
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinProfileFragment(route = route, userToken))
+    }
+
+    private fun moveToJoinIdFragment() {
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinIdFragment())
     }
 }
