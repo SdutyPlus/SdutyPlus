@@ -120,7 +120,7 @@ class TagSelectDialog(val mContext: Context) : DialogFragment() {
     }
 
     interface OnClickConfirm{
-        fun onClick(selectedJobList: JobHashtag?)
+        fun onClick(selectedJob: JobHashtag?)
     }
 
 

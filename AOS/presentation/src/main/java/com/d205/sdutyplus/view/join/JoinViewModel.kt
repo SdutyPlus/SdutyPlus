@@ -5,15 +5,24 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.d205.domain.model.user.UserDto
+import com.d205.domain.usecase.user.AddKakaoUserUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 private const val TAG = "JoinViewModel"
-class JoinViewModel: ViewModel() {
-    private val _isUsedId = MutableLiveData<Boolean>(false)
+class JoinViewModel @Inject constructor(
+    private val addKakaoUserUseCase: AddKakaoUserUseCase
+): ViewModel() {
+    private val _isUsedId = MutableLiveData(false)
     val isUsedId: LiveData<Boolean>
         get() = _isUsedId
 
-    private val _isIdCorrectPattern = MutableLiveData<Boolean>(true)
+    private val _isIdCorrectPattern = MutableLiveData(true)
     val isIdCorrectPattern: LiveData<Boolean>
         get() = _isIdCorrectPattern
 
@@ -48,6 +57,12 @@ class JoinViewModel: ViewModel() {
         return Patterns.EMAIL_ADDRESS.matcher(name).matches()
     }
 
+    suspend fun addKakaoUser(userDto: UserDto): Boolean {
+        val result = viewModelScope.async {
+            addKakaoUserUseCase.execute(userDto)
+        }
+        return result.await()
+    }
 
 
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProfileViewModel: ViewModel() {
-    private val _isUsedNickname = MutableLiveData<Boolean>(false)
+    private val _isUsedNickname = MutableLiveData(false)
     val isUsedNickname: LiveData<Boolean>
         get() = _isUsedNickname
 
@@ -18,9 +18,5 @@ class ProfileViewModel: ViewModel() {
         viewModelScope.launch(Dispatchers.IO){
             _isUsedNickname.postValue(false)
         }
-    }
-
-    fun joinUser(user: User) {
-
     }
 }

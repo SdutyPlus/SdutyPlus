@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.d205.domain.model.common.JobHashtag
+import com.d205.domain.model.user.UserDto
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentJoinProfileBinding
@@ -18,11 +19,13 @@ import com.d205.sdutyplus.uitls.PROFILE
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.MainActivity
 import com.d205.sdutyplus.view.common.CropImageActivity
+import kotlinx.coroutines.*
 
 private const val TAG = "JoinProfileFragment"
 class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fragment_join_profile) {
     private val args by navArgs<JoinProfileFragmentArgs>()
     private val profileViewModel: ProfileViewModel by viewModels()
+    private val joinViewModel: JoinViewModel by viewModels()
 
     private lateinit var imageUrl: String
     private var jobHashtag: JobHashtag? = null
@@ -34,7 +37,8 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
             binding.ivProfile.setImageURI(Uri.parse(uri))
             imageUrl = uri!!
-        }else{
+        }
+        else{
             Log.d(TAG, "resultLauncher: NO DATA")
         }
     }
@@ -52,7 +56,19 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
                     requireContext().showToast("이미 사용중인 닉네임입니다.")
                 }
                 else {
-                    moveToMainActivity()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val isAddUserSucceeded = joinViewModel.addKakaoUser(
+                            UserDto(
+                                token = args.token,
+                                nickName = binding.etNickname.text.toString(),
+                                job = jobHashtag!!.seq))
+                        if(isAddUserSucceeded) {
+                            moveToMainActivity()
+                        }
+                        else {
+                            requireContext().showToast("회원가입에 실패했습니다.")
+                        }
+                    }
                 }
             }
 
@@ -86,8 +102,8 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         TagSelectDialog(requireContext()).let {
             it.arguments = bundleOf("flag" to PROFILE)
             it.onClickConfirm = object : TagSelectDialog.OnClickConfirm {
-                override fun onClick(selectedJobList: JobHashtag?) {
-                    jobHashtag = selectedJobList
+                override fun onClick(selectedJob: JobHashtag?) {
+                    jobHashtag = selectedJob
                     binding.apply {
                         btnJob.text = jobHashtag!!.name
                         btnJob.visibility = View.VISIBLE
