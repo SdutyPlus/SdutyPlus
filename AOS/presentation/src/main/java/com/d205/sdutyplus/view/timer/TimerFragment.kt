@@ -7,6 +7,7 @@ import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentTimerBinding
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.getTodayDate
+import com.d205.sdutyplus.view.timer.dialog.StopStudyConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.concurrent.timer
@@ -23,8 +24,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
     private fun initView() {
 
-        TodayAtView()
-
+        setTodayAtView()
         initTimer()
         initObserver()
     }
@@ -42,6 +42,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
                         startTimer()
                     }
                     true -> {
+                        pauseTimer()
 //                        timerViewModel.delayTimer()
 //                        DelayDialog().show(requireActivity().supportFragmentManager, "DelayDialog")
                     }
@@ -57,10 +58,25 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
     private fun startTimer() {
         binding.animationView.playAnimation()
-        timerViewModel.startTimer() // todo mainViewModel.user.value!!.seq
+        timerViewModel.startTimer()
         timerViewModel.saveStartTime()
         Toast.makeText(requireActivity(), "공부 시간 측정을 시작합니다!", Toast.LENGTH_SHORT).show()
     }
+
+    private fun pauseTimer() {
+//        startDelayTimer()
+        showStopStudyConfirmDialog()
+    }
+
+    private fun showStopStudyConfirmDialog() {
+        StopStudyConfirmDialog()
+            .show(requireActivity().supportFragmentManager, "StopStudyConfirmDialog")
+    }
+
+    private fun startDelayTimer() {
+    }
+
+
 
     private fun initObserver() {
         timerViewModel.apply {
