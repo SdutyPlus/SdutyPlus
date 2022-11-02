@@ -12,9 +12,12 @@ import com.d205.sdutyplus.databinding.FragmentFeedBinding
 
 class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
-    override fun init() {
+    override fun initOnViewCreated() {
         displayBottomNav(true)
-        findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToMypageFragment(1000))
+        binding.apply {
+            ivCreateStory.setOnClickListener {
+                findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToFeedCreateFragment())
+            }
+        }
     }
-
 }

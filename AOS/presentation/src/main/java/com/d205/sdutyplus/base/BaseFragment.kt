@@ -32,14 +32,14 @@ abstract class BaseFragment<T: ViewDataBinding>(
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
         displayBottomNav(false)
-        init()
+        initOnViewCreated()
     }
 
     protected fun displayBottomNav(flag : Boolean) {
         mainViewModel.displayBottomNav(flag)
     }
 
-    protected abstract fun init()
+    protected abstract fun initOnViewCreated()
 
     override fun onDestroy() {
         super.onDestroy()
