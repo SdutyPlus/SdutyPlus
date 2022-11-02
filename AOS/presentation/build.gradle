@@ -93,4 +93,7 @@ dependencies {
 
     // layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    // Calendar
+    implementation 'com.kizitonwose.calendar:view:2.0.1'
 }
