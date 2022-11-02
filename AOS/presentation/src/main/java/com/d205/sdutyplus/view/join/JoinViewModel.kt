@@ -56,11 +56,11 @@ class JoinViewModel @Inject constructor(
         _isSamePassword.postValue(flag)
     }
 
-    private fun isCorrectEmailPattern(name: String): Boolean {
-        if (name.isEmpty())
-            return true
+    private fun isCorrectEmailPattern(email: String): Boolean {
+        if (email.isEmpty())
+            return false
 
-        return Patterns.EMAIL_ADDRESS.matcher(name).matches()
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
     suspend fun addKakaoUser(userDto: UserDto): Boolean {
