@@ -11,7 +11,7 @@ class SaveStartTimeOnTimerUsecase @Inject constructor(
 ) {
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
-    suspend operator  fun invoke(startTime: String) = withContext(defaultDispatcher) {
+    suspend operator fun invoke(startTime: String) = withContext(defaultDispatcher) {
             timerRepository.saveStartTimeOnTimer(startTime)
     }
 }
