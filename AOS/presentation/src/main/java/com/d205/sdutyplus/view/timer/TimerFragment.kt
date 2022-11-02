@@ -5,6 +5,8 @@ import androidx.fragment.app.viewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentTimerBinding
+import com.d205.sdutyplus.uitls.convertTimeDateToString
+import com.d205.sdutyplus.uitls.getTodayDate
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.concurrent.timer
@@ -20,10 +22,16 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun initView() {
-//        val todayString: String = convertTimeDateToString(getTodayDate())
+
+        TodayAtView()
 
         initTimer()
         initObserver()
+    }
+
+    private fun setTodayAtView() {
+        val todayString: String = convertTimeDateToString(getTodayDate(),"yyyy년 M월 d일")
+        binding.tvToday.text = todayString
     }
 
     private fun initTimer() {
