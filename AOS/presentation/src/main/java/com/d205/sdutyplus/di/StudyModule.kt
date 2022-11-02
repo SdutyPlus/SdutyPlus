@@ -6,8 +6,8 @@ import com.d205.data.repository.study.local.StudyMockDataSource
 import com.d205.data.repository.study.local.StudyMockDataSourceImpl
 import com.d205.data.repository.study.remote.StudyRemoteDataSource
 import com.d205.data.repository.study.remote.StudyRemoteDataSourceImpl
-import com.d205.sdutyplus.uitls.BASE_URL
 import com.d205.domain.repository.StudyRepository
+import com.d205.sdutyplus.uitls.SERVER_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +23,7 @@ object StudyModule {
     @Provides
     @Singleton
     fun provideRetrofitInstance(): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(SERVER_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
