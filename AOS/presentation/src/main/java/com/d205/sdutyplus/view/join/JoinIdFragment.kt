@@ -32,23 +32,36 @@ class JoinIdFragment : BaseFragment<FragmentJoinIdBinding>(R.layout.fragment_joi
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    this@JoinIdFragment.joinViewModel.checkIdCorrect(binding.etEmail.text.toString())
+                    updateCorrectIdFlag()
                 }
             })
 
             btnNext.setOnClickListener {
-                this@JoinIdFragment.joinViewModel.checkUsedId(binding.etEmail.text.toString())
+                updateUsedIdFlag()
 
-                if(this@JoinIdFragment.joinViewModel.isUsedId.value!!) {
+                if(isIdUsed()) {
                     requireContext().showToast("이미 존재하는 아이디입니다.")
                 }
                 else {
                     val userId = binding.etEmail.text.toString()
-                    findNavController().navigate(
-                        JoinIdFragmentDirections.actionJoinIdFragmentToJoinPwFragment(id = userId))
+                    moveToJoinPwFragment(userId)
                 }
             }
         }
     }
 
+    private fun moveToJoinPwFragment(userId: String) {
+        findNavController().navigate(
+            JoinIdFragmentDirections.actionJoinIdFragmentToJoinPwFragment(id = userId))
+    }
+
+    private fun isIdUsed(): Boolean = this@JoinIdFragment.joinViewModel.isUsedId.value!!
+
+    private fun updateUsedIdFlag() {
+        this@JoinIdFragment.joinViewModel.checkUsedId(binding.etEmail.text.toString())
+    }
+
+    private fun updateCorrectIdFlag() {
+        this@JoinIdFragment.joinViewModel.checkIdPatternCorrect(binding.etEmail.text.toString())
+    }
 }

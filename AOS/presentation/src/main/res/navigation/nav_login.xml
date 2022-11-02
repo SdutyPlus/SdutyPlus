@@ -41,7 +41,7 @@
         android:name="com.d205.sdutyplus.view.join.JoinProfileFragment"
         android:label="JoinProfileFragment" >
         <argument
-            android:name="route"
+            android:name="type"
             android:defaultValue="-1"
             app:argType="integer" />
         <argument

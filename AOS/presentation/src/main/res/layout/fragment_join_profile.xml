@@ -116,13 +116,13 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/btn_job_interest"
+                            android:id="@+id/btn_job_select"
                             android:layout_width="wrap_content"
                             android:layout_height="48dp"
                             android:background="@drawable/btn_study_filter"
                             android:textColor="@color/white"
                             android:paddingHorizontal="16dp"
-                            android:text="직업 및 공부 분야  +"
+                            android:text="직업 선택"
                             android:textSize="16sp"/>
 
                         <Button

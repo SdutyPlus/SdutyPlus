@@ -32,16 +32,13 @@ class JoinPwFragment : BaseFragment<FragmentJoinPwBinding>(R.layout.fragment_joi
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    this@JoinPwFragment.joinViewModel.setPasswordSame(checkPasswordSame())
+                    updateIsSameFlag()
                 }
             })
 
             btnNext.setOnClickListener {
                 if(this@JoinPwFragment.joinViewModel.isSamePassword.value!!) {
-                    findNavController().navigate(
-                        JoinPwFragmentDirections.actionJoinPwFragmentToJoinProfileFragment(
-                            id = args.id, pw = etPassword.text.toString()
-                        ))
+                    moveToJoinProfileFragment(userId = args.id, password = etPassword.text.toString())
                 }
                 else {
                     requireContext().showToast("비밀번호가 일치하지 않습니다!")
@@ -54,4 +51,14 @@ class JoinPwFragment : BaseFragment<FragmentJoinPwBinding>(R.layout.fragment_joi
         return binding.etPassword.text.toString() == binding.etPasswordCheck.text.toString()
     }
 
+    private fun updateIsSameFlag() {
+        this@JoinPwFragment.joinViewModel.setPasswordSame(checkPasswordSame())
+    }
+
+    private fun moveToJoinProfileFragment(userId: String, password: String) {
+        findNavController().navigate(
+            JoinPwFragmentDirections.actionJoinPwFragmentToJoinProfileFragment(
+                id = userId, pw = password
+            ))
+    }
 }

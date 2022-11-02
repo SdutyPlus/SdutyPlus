@@ -13,9 +13,9 @@ class JoinViewModel: ViewModel() {
     val isUsedId: LiveData<Boolean>
         get() = _isUsedId
 
-    private val _isCorrectId = MutableLiveData<Boolean>(true)
-    val isCorrectId: LiveData<Boolean>
-        get() = _isCorrectId
+    private val _isIdCorrectPattern = MutableLiveData<Boolean>(true)
+    val isIdCorrectPattern: LiveData<Boolean>
+        get() = _isIdCorrectPattern
 
     private val _isSamePassword = MutableLiveData(false)
     val isSamePassword: LiveData<Boolean>
@@ -30,10 +30,10 @@ class JoinViewModel: ViewModel() {
         _isUsedId.value = false
     }
 
-    fun checkIdCorrect(id : String) {
-        val result = isCorrectId(id)
-        Log.d(TAG, "checkCorrectId: $result")
-        _isCorrectId.postValue(result)
+    fun checkIdPatternCorrect(id : String) {
+        val result = isCorrectEmailPattern(id)
+        Log.d(TAG, "isCorrectEmailPattern : $result")
+        _isIdCorrectPattern.postValue(result)
     }
 
     fun setPasswordSame(flag: Boolean) {
@@ -41,7 +41,7 @@ class JoinViewModel: ViewModel() {
         _isSamePassword.postValue(flag)
     }
 
-    private fun isCorrectId(name: String): Boolean {
+    private fun isCorrectEmailPattern(name: String): Boolean {
         if (name.isEmpty())
             return true
 

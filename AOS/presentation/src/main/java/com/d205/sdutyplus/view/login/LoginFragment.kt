@@ -25,17 +25,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private lateinit var userToken: String
 
     override fun init() {
-        initKakao()
-        initNaver()
+        getKakaoKeyHash()
+        initNaverLogin()
         initView()
     }
 
-    private fun initKakao() {
+    private fun getKakaoKeyHash() {
         val keyHash = Utility.getKeyHash(context = requireContext())
         Log.d(TAG, "init: $keyHash")
     }
 
-    private fun initNaver() {
+    private fun initNaverLogin() {
         val naverClientId = getString(R.string.naver_client_id)
         val naverClientSecret = getString(R.string.naver_client_secret)
         val naverClientName = getString(R.string.naver_client_name)
@@ -72,26 +72,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         }
     }
 
-    private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        if (token != null) {
-            Log.d(TAG, "카카오계정 로그인 성공 token : ${token.accessToken}")
-            userToken = token.accessToken
+    private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { kakoToken, error ->
+        if (kakoToken != null) {
+            Log.d(TAG, "카카오계정 로그인 성공 token : ${kakoToken.accessToken}")
+            userToken = kakoToken.accessToken
 
             // 사용자 정보 가져오기
-            userApiClient.me { user, error ->
+            userApiClient.me { userInfo, error ->
                 if (error != null) {
                     Log.d(TAG, "카카오계정 사용자 정보 가져오기 실패")
-                } else if (user != null) {
+                } else if (userInfo != null) {
                     Log.d(
                         TAG,
                         "카카오계정 사용자 정보 가져오기 성공\n" +
-                                "닉네임 = ${user.kakaoAccount?.profile?.nickname}\n " +
-                                "프사 : ${user.kakaoAccount?.profile?.profileImageUrl}\n" +
-                                "이메일 : ${user.kakaoAccount?.email}\n" +
-                                "아이디 : ${user.id}\n" +
-                                "이름 : ${user.kakaoAccount?.name}"
+                                "닉네임 = ${userInfo.kakaoAccount?.profile?.nickname}\n " +
+                                "프사 : ${userInfo.kakaoAccount?.profile?.profileImageUrl}\n" +
+                                "이메일 : ${userInfo.kakaoAccount?.email}\n" +
+                                "아이디 : ${userInfo.id}\n" +
+                                "이름 : ${userInfo.kakaoAccount?.name}"
                     )
-                    if(isJoinedUser(token.accessToken)) {
+                    if(isJoinedUser(userToken)) {
                         moveToMainActivity()
                     }
                     else {
@@ -109,7 +109,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private fun startNaverLogin(){
         var naverToken :String? = ""
 
-        val profileCallback = object : NidProfileCallback<NidProfileResponse> {
+        val nidProfileCallback = object : NidProfileCallback<NidProfileResponse> {
             override fun onSuccess(response: NidProfileResponse) {
                 Log.d(TAG, "onSuccess: id: ${response.profile} \n" +
                         "token: $naverToken")
@@ -142,7 +142,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 naverToken = NaverIdLoginSDK.getAccessToken()
 
                 //로그인 유저 정보 가져오기
-                NidOAuthLogin().callProfileApi(profileCallback)
+                NidOAuthLogin().callProfileApi(nidProfileCallback)
             }
             override fun onFailure(httpStatus: Int, message: String) {
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
@@ -167,8 +167,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         startActivity(Intent(requireContext(), MainActivity::class.java))
     }
 
-    fun moveToJoinProfileFragment(route: Int) {
-        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinProfileFragment(route = route, userToken))
+    fun moveToJoinProfileFragment(loginType: Int) {
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinProfileFragment(type = loginType, userToken))
     }
 
     private fun moveToJoinIdFragment() {

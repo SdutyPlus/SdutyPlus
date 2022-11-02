@@ -31,10 +31,11 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         if(it.resultCode == Activity.RESULT_OK){
             val uri = it.data!!.getStringExtra("uri")
             Log.d(TAG, "uri : $uri")
+
             binding.ivProfile.setImageURI(Uri.parse(uri))
             imageUrl = uri!!
         }else{
-            Log.d(TAG, "resultLauncher: NODATA")
+            Log.d(TAG, "resultLauncher: NO DATA")
         }
     }
 
@@ -45,8 +46,9 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     private fun initView() {
         binding.apply {
             btnJoin.setOnClickListener {
-                profileViewModel.checkNickname(etNickname.text.toString())
-                if(profileViewModel.isUsedNickname.value!!) {
+                updateNicknameUsedFlag()
+
+                if(isNicknameUsed()) {
                     requireContext().showToast("이미 사용중인 닉네임입니다.")
                 }
                 else {
@@ -55,15 +57,25 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
             }
 
             ivProfile.setOnClickListener {
-                val intent = Intent(requireContext(), CropImageActivity::class.java)
-                intent.putExtra("flag", PROFILE)
-                resultLauncher.launch(intent)
+                launchImageCrop()
             }
 
-            btnJobInterest.setOnClickListener {
+            btnJobSelect.setOnClickListener {
                 openTagSelectDialog()
             }
         }
+    }
+
+    private fun isNicknameUsed() = profileViewModel.isUsedNickname.value!!
+
+    private fun updateNicknameUsedFlag() {
+        profileViewModel.checkNickname(binding.etNickname.text.toString())
+    }
+
+    private fun launchImageCrop() {
+        val intent = Intent(requireContext(), CropImageActivity::class.java)
+        intent.putExtra("flag", PROFILE)
+        resultLauncher.launch(intent)
     }
 
     private fun moveToMainActivity() {
@@ -73,15 +85,13 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     private fun openTagSelectDialog() {
         TagSelectDialog(requireContext()).let {
             it.arguments = bundleOf("flag" to PROFILE)
-            it.onClickConfirm = object : TagSelectDialog.OnClickConfirm{
+            it.onClickConfirm = object : TagSelectDialog.OnClickConfirm {
                 override fun onClick(selectedJobList: JobHashtag?) {
                     jobHashtag = selectedJobList
                     binding.apply {
-                        // 직업과 관심분야 선택을 하나로 표현하기 위해 수정
-                        // job은 필수 선택
                         btnJob.text = jobHashtag!!.name
                         btnJob.visibility = View.VISIBLE
-                        btnJobInterest.visibility = View.GONE
+                        btnJobSelect.visibility = View.GONE
                     }
                 }
             }
