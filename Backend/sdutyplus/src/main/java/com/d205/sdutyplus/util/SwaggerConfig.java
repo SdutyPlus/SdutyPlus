@@ -18,6 +18,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Collections;
 
+//http://localhost:8090/swagger-ui/index.html#/
 @OpenAPIDefinition(
         info = @Info(title = "API 명세서",
                 description = "API 명세서 테스트 입니다.",
@@ -42,7 +43,7 @@ public class SwaggerConfig {
         Server testServer = new Server("test", "https://d205.kro.kr/api", "for testing", Collections.emptyList(), Collections.emptyList());
         Server testServer2 = new Server("test2", "http://k7d205.p.ssafy.io:8090", "for testing", Collections.emptyList(), Collections.emptyList());
 
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
                 .servers(serverLocal, testServer, testServer2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
