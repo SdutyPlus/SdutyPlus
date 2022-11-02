@@ -8,12 +8,16 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
+import com.d205.sdutyplus.view.MainViewModel
 
 abstract class BaseFragment<T: ViewDataBinding>(
     @LayoutRes val layoutResId: Int
 )  : Fragment() {
     private var _binding: T? = null
     protected val binding get() = _binding!!
+    protected val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,10 +31,15 @@ abstract class BaseFragment<T: ViewDataBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-        init()
+        displayBottomNav(false)
+        initOnViewCreated()
     }
 
-    protected abstract fun init()
+    protected fun displayBottomNav(flag : Boolean) {
+        mainViewModel.displayBottomNav(flag)
+    }
+
+    protected abstract fun initOnViewCreated()
 
     override fun onDestroy() {
         super.onDestroy()

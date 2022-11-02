@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_main">
+    android:id="@+id/nav_main"
+    app:startDestination="@id/feedFragment">
 
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.d205.sdutyplus.view.feed.FeedFragment"
+        android:label="FeedFragment" >
+        <action
+            android:id="@+id/action_feedFragment_to_mypageFragment"
+            app:destination="@id/mypageFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_feedCreateFragment"
+            app:destination="@id/feedCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mypageFragment"
+        android:name="com.d205.sdutyplus.view.mypage.MyPageFragment"
+        android:label="MyPageFragment" >
+
+        <argument
+            android:name="qwe"
+            app:argType="integer"/>
+    </fragment>
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.d205.sdutyplus.view.report.ReportFragment"
+        android:label="ReportFragment" />
+    <fragment
+        android:id="@+id/timerFragment"
+        android:name="com.d205.sdutyplus.view.timer.TimerFragment"
+        android:label="TimerFragment" />
+    <fragment
+        android:id="@+id/feedCreateFragment"
+        android:name="com.d205.sdutyplus.view.feed.FeedCreateFragment"
+        android:label="FeedCreateFragment" />
 </navigation>
