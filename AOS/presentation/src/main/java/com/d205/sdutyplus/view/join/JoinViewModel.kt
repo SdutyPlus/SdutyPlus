@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.view.join
 
 import android.util.Log
+import android.util.LogPrinter
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.usecase.user.AddKakaoUserUseCase
+import com.d205.domain.usecase.user.AddNaverUserUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -15,8 +18,11 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 private const val TAG = "JoinViewModel"
+
+@HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val addKakaoUserUseCase: AddKakaoUserUseCase
+    private val addKakaoUserUseCase: AddKakaoUserUseCase,
+    private val addNaverUserUseCase: AddNaverUserUseCase
 ): ViewModel() {
     private val _isUsedId = MutableLiveData(false)
     val isUsedId: LiveData<Boolean>
@@ -59,7 +65,14 @@ class JoinViewModel @Inject constructor(
 
     suspend fun addKakaoUser(userDto: UserDto): Boolean {
         val result = viewModelScope.async {
-            addKakaoUserUseCase.execute(userDto)
+            addKakaoUserUseCase(userDto)
+        }
+        return result.await()
+    }
+
+    suspend fun addNaverUser(userDto: UserDto): Boolean {
+        val result = viewModelScope.async {
+            addNaverUserUseCase(userDto)
         }
         return result.await()
     }

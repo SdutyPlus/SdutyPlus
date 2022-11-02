@@ -10,13 +10,16 @@ import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentJoinPwBinding
 import com.d205.sdutyplus.uitls.showToast
+import dagger.hilt.android.AndroidEntryPoint
 
 private const val TAG = "JoinPwFragment"
+
+@AndroidEntryPoint
 class JoinPwFragment : BaseFragment<FragmentJoinPwBinding>(R.layout.fragment_join_pw) {
     private val joinViewModel : JoinViewModel by viewModels()
     private val args by navArgs<JoinPwFragmentArgs>()
 
-    override fun init() {
+    override fun initOnViewCreated() {
         initView()
     }
 

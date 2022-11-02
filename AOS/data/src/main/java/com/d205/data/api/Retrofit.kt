@@ -17,7 +17,7 @@ object Retrofit {
         retrofit.create(StudyApi::class.java)
     }
 
-    val userApi: UserRestApi by lazy {
-        retrofit.create(UserRestApi::class.java)
+    val userApi: UserApi by lazy {
+        retrofit.create(UserApi::class.java)
     }
 }

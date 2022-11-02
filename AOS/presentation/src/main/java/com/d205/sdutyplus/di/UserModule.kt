@@ -1,6 +1,6 @@
 package com.d205.sdutyplus.di
 
-import com.d205.data.api.UserRestApi
+import com.d205.data.api.UserApi
 import com.d205.data.repository.user.UserRepositoryImpl
 import com.d205.data.repository.user.local.UserMockDataSource
 import com.d205.data.repository.user.local.UserMockDataSourceImpl
@@ -20,8 +20,8 @@ object UserModule {
 
     @Provides
     @Singleton
-    fun provideUserApiService(retrofit: Retrofit): UserRestApi =
-        retrofit.create(UserRestApi::class.java)
+    fun provideUserApiService(retrofit: Retrofit): UserApi =
+        retrofit.create(UserApi::class.java)
 
     @Provides
     @Singleton
@@ -31,7 +31,7 @@ object UserModule {
 
     @Provides
     @Singleton
-    fun provideUserRemoteDataSource(userApi: UserRestApi) =
+    fun provideUserRemoteDataSource(userApi: UserApi) =
         UserRemoteDataSourceImpl(userApi)
 
     @Provides

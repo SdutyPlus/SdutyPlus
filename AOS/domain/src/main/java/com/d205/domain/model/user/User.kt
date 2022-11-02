@@ -4,8 +4,8 @@ import java.util.*
 
 data class User(
     var seq: Int = -1,
-    var id: String,
-    var nickName: String,
+    var id: String = "",
+    var nickName: String = "",
     var fcmToken: String = "",
     var job: Int = 1
 )

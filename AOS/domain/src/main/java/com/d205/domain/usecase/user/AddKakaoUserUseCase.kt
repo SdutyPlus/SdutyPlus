@@ -4,7 +4,5 @@ import com.d205.domain.model.user.UserDto
 import com.d205.domain.repository.UserRepository
 
 class AddKakaoUserUseCase(private val userRepository: UserRepository) {
-    suspend fun execute(user: UserDto): Boolean {
-        return userRepository.addKakaoUser(user)
-    }
+    suspend operator fun invoke(user: UserDto): Boolean = userRepository.addKakaoUser(user)
 }
