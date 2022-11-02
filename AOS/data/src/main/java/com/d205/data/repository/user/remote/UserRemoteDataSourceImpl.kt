@@ -1,8 +1,16 @@
 package com.d205.data.repository.user.remote
 
-class UserRemoteDataSourceImpl() {
+import com.d205.data.api.UserRestApi
+import com.d205.domain.model.user.UserDto
+import com.skydoves.sandwich.ApiResponse
+import retrofit2.Response
+import javax.inject.Inject
 
-    //UserRestApi 통신하는 곳
+class UserRemoteDataSourceImpl @Inject constructor(
+    private val userApi: UserRestApi
+): UserRemoteDataSource {
 
-
+    override suspend fun addKakaoUser(user: UserDto): ApiResponse<String> {
+        return userApi.addKakaoUser(user)
+    }
 }

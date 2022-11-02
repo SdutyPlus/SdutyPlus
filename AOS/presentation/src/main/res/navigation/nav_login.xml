@@ -6,5 +6,55 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.d205.sdutyplus.view.login.LoginFragment"
-        android:label="LoginFragment" />
+        android:label="LoginFragment" >
+
+        <action
+            android:id="@+id/action_loginFragment_to_joinIdFragment"
+            app:destination="@id/joinIdFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_joinProfileFragment"
+            app:destination="@id/joinProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinIdFragment"
+        android:name="com.d205.sdutyplus.view.join.JoinIdFragment"
+        android:label="JoinFragment">
+
+        <action
+            android:id="@+id/action_joinIdFragment_to_joinPwFragment"
+            app:destination="@id/joinPwFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinPwFragment"
+        android:name="com.d205.sdutyplus.view.join.JoinPwFragment"
+        android:label="JoinPwFragment" >
+        <argument
+            android:name="id"
+            android:defaultValue=""
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_joinPwFragment_to_joinProfileFragment"
+            app:destination="@id/joinProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinProfileFragment"
+        android:name="com.d205.sdutyplus.view.join.JoinProfileFragment"
+        android:label="JoinProfileFragment" >
+        <argument
+            android:name="type"
+            android:defaultValue="-1"
+            app:argType="integer" />
+        <argument
+            android:name="token"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="id"
+            android:defaultValue=""
+            app:argType="string"/>
+        <argument
+            android:name="pw"
+            android:defaultValue=""
+            app:argType="string"/>
+    </fragment>
 </navigation>
