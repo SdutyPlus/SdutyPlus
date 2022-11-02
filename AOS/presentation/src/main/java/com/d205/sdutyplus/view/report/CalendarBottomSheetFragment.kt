@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentCalendarBottomSheetBinding
@@ -35,11 +36,11 @@ import java.time.YearMonth
 @RequiresApi(Build.VERSION_CODES.O)
 class CalendarBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCalendarBottomSheetBinding
-
     private val monthCalendarView: CalendarView get() = binding.exOneCalendar
-
     private val selectedDates = mutableSetOf<LocalDate>()
     private val today = LocalDate.now()
+    private val reportViewModel by activityViewModels<ReportViewModel>()
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -121,8 +122,8 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun dateClicked(date: LocalDate) {
-        context?.showToast("$date")
         Log.d("TAG", "dateClicked: ${date}")
+        dismiss()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
