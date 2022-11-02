@@ -12,7 +12,19 @@ import com.d205.sdutyplus.databinding.FragmentReportBinding
 class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_report) {
 
     override fun initOnViewCreated() {
+        lottie()
+        initClickListener()
+    }
 
+    private fun initClickListener() {
+        binding.ivCalendarCall.setOnClickListener {
+            val dialog = CalendarBottomSheetFragment()
+            //dialog.show(supportFragmentManager, "exampleBo")
+        }
+    }
+
+    private fun lottie() {
+        binding.lottie.playAnimation()
     }
 
 }

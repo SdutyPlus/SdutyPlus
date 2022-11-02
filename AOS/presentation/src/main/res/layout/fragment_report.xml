@@ -64,7 +64,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tv_totalTime"
             tools:text="2022년 7월 25일"/>
+
         <ImageView
+            android:id="@+id/iv_calendar_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_down"
@@ -85,11 +87,12 @@
             />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_task"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginVertical="24dp"
             app:layout_constraintTop_toBottomOf="@id/tv_totalTime"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lottie"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,6 +112,18 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginVertical="40dp"
+            app:lottie_rawRes="@raw/lottie"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
+            app:layout_constraintTop_toBottomOf="@id/scroll_task"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
