@@ -11,7 +11,7 @@ import com.d205.sdutyplus.databinding.FragmentFeedCreateBinding
 
 class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.fragment_feed_create) {
 
-    override fun init() {
+    override fun initOnViewCreated() {
 
     }
 }

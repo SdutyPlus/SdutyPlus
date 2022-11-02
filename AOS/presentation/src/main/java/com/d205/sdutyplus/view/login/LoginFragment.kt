@@ -20,7 +20,7 @@ private const val TAG = "LoginFragment"
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val userApiClient = UserApiClient.instance
 
-    override fun init() {
+    override fun initOnViewCreated() {
         initKakao()
         initNaver()
         initView()
