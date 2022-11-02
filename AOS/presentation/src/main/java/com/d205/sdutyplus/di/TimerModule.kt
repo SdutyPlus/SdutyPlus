@@ -25,7 +25,8 @@ object TimerModule {
     @Singleton
     fun provideTimerRepository(
         timerLocalDataSource: TimerLocalDataSource
-    ) : TimerRepository = TimerRepositoryImpl(timerLocalDataSource)
+    ) : TimerRepository =
+        TimerRepositoryImpl(timerLocalDataSource)
 
     @Provides
     @Singleton
@@ -33,4 +34,5 @@ object TimerModule {
         timerSharedPreference: TimerSharedPreference
     ) : TimerLocalDataSource =
         TimerLocalDataSourceImpl(timerSharedPreference)
+
 }

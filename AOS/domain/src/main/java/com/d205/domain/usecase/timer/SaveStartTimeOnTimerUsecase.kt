@@ -7,9 +7,10 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SaveStartTimeOnTimerUsecase @Inject constructor(
-    private val timerRepository: TimerRepository,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private val timerRepository: TimerRepository
 ) {
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+
     suspend operator  fun invoke(startTime: String) = withContext(defaultDispatcher) {
             timerRepository.saveStartTimeOnTimer(startTime)
     }
