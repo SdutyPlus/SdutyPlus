@@ -11,7 +11,7 @@ import com.d205.sdutyplus.databinding.FragmentReportBinding
 
 class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_report) {
 
-    override fun init() {
+    override fun initOnViewCreated() {
 
     }
 
