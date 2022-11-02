@@ -16,7 +16,7 @@ class JoinPwFragment : BaseFragment<FragmentJoinPwBinding>(R.layout.fragment_joi
     private val joinViewModel : JoinViewModel by viewModels()
     private val args by navArgs<JoinPwFragmentArgs>()
 
-    override fun init() {
+    override fun initOnViewCreated() {
         initView()
     }
 

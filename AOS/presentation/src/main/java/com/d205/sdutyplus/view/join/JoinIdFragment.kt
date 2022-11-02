@@ -15,7 +15,7 @@ private const val TAG = "JoinIdFragment"
 class JoinIdFragment : BaseFragment<FragmentJoinIdBinding>(R.layout.fragment_join_id) {
     private val joinViewModel : JoinViewModel by viewModels()
 
-    override fun init() {
+    override fun initOnViewCreated() {
         initView()
     }
 

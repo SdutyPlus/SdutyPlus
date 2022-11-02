@@ -43,7 +43,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         }
     }
 
-    override fun init() {
+    override fun initOnViewCreated() {
         initView()
     }
 
