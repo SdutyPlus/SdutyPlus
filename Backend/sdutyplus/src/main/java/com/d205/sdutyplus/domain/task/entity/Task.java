@@ -16,9 +16,9 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class Task {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(columnDefinition = "UNSIGNED INT")
+    @Column(columnDefinition = "INT UNSIGNED")
     private Long seq;
-    @Column(name = "owner_seq", columnDefinition = "UNSIGNED INT", nullable = false)
+    @Column(name = "owner_seq", columnDefinition = "INT UNSIGNED", nullable = false)
     private Long ownerSeq;
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
