@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.util;
 
-import com.fasterxml.classmate.TypeResolver;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Server;
 import springfox.documentation.spi.DocumentationType;
@@ -27,8 +25,6 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SwaggerConfig {
 
-    private final TypeResolver typeResolver;
-
     @Bean
     public Docket api() {
         final ApiInfo apiInfo = new ApiInfoBuilder()
@@ -41,13 +37,13 @@ public class SwaggerConfig {
 
         Server serverLocal = new Server("local", "http://localhost:8090", "for local usages", Collections.emptyList(), Collections.emptyList());
         Server testServer = new Server("test", "https://d205.kro.kr/api", "for testing", Collections.emptyList(), Collections.emptyList());
-        Server testServer2 = new Server("test2", "http://k7d205.p.ssafy.io:8090", "for testing", Collections.emptyList(), Collections.emptyList());
+        Server testServer2 = new Server("test2", "http://k7d205.p.ssafy.io:8081", "for testing", Collections.emptyList(), Collections.emptyList());
 
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
                 .servers(serverLocal, testServer, testServer2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.d205.domain"))
+                .paths(PathSelectors.ant("/**"))
                 .build();
     }
 
