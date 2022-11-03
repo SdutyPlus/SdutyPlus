@@ -42,7 +42,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
                 .servers(serverLocal, testServer, testServer2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.d205.domain"))
+                .apis(RequestHandlerSelectors.basePackage("com.d205.domain.**"))
                 .paths(PathSelectors.ant("/**"))
                 .build();
     }
