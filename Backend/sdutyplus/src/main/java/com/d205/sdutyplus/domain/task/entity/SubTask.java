@@ -13,9 +13,9 @@ import javax.persistence.*;
 public class SubTask {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(columnDefinition = "UNSIGNED INT")
+    @Column(columnDefinition = "INT UNSIGNED")
     private Long seq;
-    @Column(name = "task_seq", columnDefinition = "UNSIGNED INT", nullable = false)
+    @Column(name = "task_seq", columnDefinition = "INT UNSIGNED", nullable = false)
     private Long taskSeq;
     @Column(nullable = false)
     private String content;
