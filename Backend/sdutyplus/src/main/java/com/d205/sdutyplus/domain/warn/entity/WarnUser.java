@@ -23,16 +23,16 @@ import lombok.NoArgsConstructor;
 public class WarnUser {
 
     @Id
-    @Column(name = "seq")
+    @Column(name = "seq", columnDefinition = "INT UNSIGNED")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "from_user_seq")
+    @JoinColumn(nullable = false, name = "from_user_seq")
     private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "to_user_seq")
+    @JoinColumn(nullable = false, name = "to_user_seq")
     private User toUser;
 
     @Builder
