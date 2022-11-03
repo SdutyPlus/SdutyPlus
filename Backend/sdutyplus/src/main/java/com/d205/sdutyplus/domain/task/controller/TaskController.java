@@ -22,10 +22,6 @@ public class TaskController {
     @PostMapping("")
     public ResponseEntity<?> registTask(@RequestBody TaskRequestDto taskRequestDto){
         Task registedTask = taskService.registTask(new Long(1), taskRequestDto);
-        if(registedTask==null){
-            return ResponseEntity.badRequest()
-                    .body("테스크가 등록되지 않았습니다.");
-        }
         return ResponseEntity.ok().body(null);
     }
 }

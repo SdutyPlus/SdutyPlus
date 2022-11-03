@@ -17,6 +17,6 @@ public class SubTask {
     private Long seq;
     @Column(name = "task_seq", columnDefinition = "INT UNSIGNED", nullable = false)
     private Long taskSeq;
-    @Column(nullable = false)
+    @Column(nullable = false, length=50)
     private String content;
 }

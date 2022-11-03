@@ -26,7 +26,7 @@ public class Task {
     private LocalDateTime endTime;
     @Column(name = "duration_time", nullable = false)
     private int durationTime;
-    @Column(nullable = false)
+    @Column(nullable = false, length=200)
     private String content;
 
     @Builder
