@@ -58,4 +58,13 @@ class TimerViewModel @Inject constructor(
     }
 
 
+    fun stopTimer() {
+        _isTimerRunning.value = false
+
+        timerObj!!.cancel()
+        _timerTime.value = 0
+
+    }
+
+
 }
