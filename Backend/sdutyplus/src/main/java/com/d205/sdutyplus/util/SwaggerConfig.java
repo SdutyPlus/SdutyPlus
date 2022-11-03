@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -42,8 +43,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
                 .servers(serverLocal, testServer, testServer2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.d205.domain.**"))
-                .paths(PathSelectors.ant("/**"))
+                .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+                .paths(PathSelectors.any())
                 .build();
     }
 
