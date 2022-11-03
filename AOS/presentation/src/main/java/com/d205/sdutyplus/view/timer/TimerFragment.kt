@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.view.timer
 
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
@@ -16,14 +17,13 @@ import kotlin.concurrent.timer
 private const val TAG = "TimerFragment"
 @AndroidEntryPoint
 class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer) {
-    private val timerViewModel: TimerViewModel by viewModels()
+    private val timerViewModel: TimerViewModel by activityViewModels()
 
     override fun initOnViewCreated() {
         initView()
     }
 
     private fun initView() {
-
         setTodayAtView()
         initTimer()
         initObserver()
@@ -69,11 +69,12 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun showStopStudyConfirmDialog() {
-        StopStudyConfirmDialog()
+        StopStudyConfirmDialog(requireContext())
             .show(requireActivity().supportFragmentManager, "StopStudyConfirmDialog")
     }
 
     private fun startDelayTimer() {
+
     }
 
 

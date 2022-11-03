@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -43,6 +47,7 @@
             app:layout_constraintBottom_toTopOf="@id/btn_finish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:text="하하하하하"
             tools:text="측정을 이어서 하려면 \n[20]초 이내에 클릭하세요"
             />
 
