@@ -122,7 +122,7 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun dateClicked(date: LocalDate) {
-        Log.d("TAG", "dateClicked: ${date}")
+        Log.d("TAG", "dateClicked: $date")
         dismiss()
     }
 

@@ -1,7 +1,9 @@
 package com.d205.domain.repository
 
 import com.d205.domain.model.report.Report
+import com.d205.domain.utils.ResultState
+import kotlinx.coroutines.flow.Flow
 
 interface ReportRepository {
-    suspend fun getReportList(date: String): Report
+    fun getReportList(date: String): Flow<ResultState<Report>>
 }

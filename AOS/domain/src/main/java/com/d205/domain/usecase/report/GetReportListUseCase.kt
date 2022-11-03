@@ -6,5 +6,5 @@ import javax.inject.Inject
 class GetReportListUseCase @Inject constructor(
     private val reportRepository: ReportRepository
 ) {
-    suspend operator fun invoke(date: String) = reportRepository.getReportList(date)
+    operator fun invoke(date: String) = reportRepository.getReportList(date)
 }
