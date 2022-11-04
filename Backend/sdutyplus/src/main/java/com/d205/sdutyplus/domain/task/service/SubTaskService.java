@@ -26,5 +26,10 @@ public class SubTaskService {
         subTaskRepository.deleteById(subTaskSeq);
     }
 
+    @Transactional
+    public void deleteSubTaskByTask(Long TaskSeq) {
+        subTaskRepository.deleteByTaskSeq(TaskSeq);
+    }
+
     //get & set => private
 }
