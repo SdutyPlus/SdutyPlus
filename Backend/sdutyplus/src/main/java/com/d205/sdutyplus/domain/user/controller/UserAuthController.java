@@ -34,7 +34,6 @@ public class UserAuthController {
     @ApiOperation(value="네이버 로그인")
     @PostMapping("/naver/login")
     public ResponseEntity<?> naverLogin(@RequestBody String token){
-        System.out.println(token);
         Map<String, Object> userInfo = userAuthService.getNaverUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
@@ -51,7 +50,6 @@ public class UserAuthController {
     @ApiOperation(value="카카오 로그인")
     @PostMapping("/kakao/login")
     public ResponseEntity<?> kakaoLogin(@RequestBody String token){
-        System.out.println(token);
         Map<String, Object> userInfo = userAuthService.getKakaoUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
