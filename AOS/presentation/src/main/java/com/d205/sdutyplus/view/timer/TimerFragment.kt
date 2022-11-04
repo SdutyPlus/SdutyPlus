@@ -24,22 +24,34 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun initView() {
+
         setTodayAtView()
         initTimer()
         initObserver()
     }
 
     private fun setTodayAtView() {
+        setLocalTimeAtTodayView()
+        setRemoteTimeAtTodayView()
+    }
+
+    private fun setLocalTimeAtTodayView() {
         val todayString: String = convertTimeDateToString(getTodayDate(),"yyyy년 M월 d일")
         binding.tvToday.text = todayString
     }
+
+    private fun setRemoteTimeAtTodayView() {
+        timerViewModel.getRealTime()
+    }
+
+
 
     private fun initTimer() {
         binding.apply {
             ivTimer.setOnClickListener {
                 when (isTimerRunning()) {
                     false -> {
-                        startTimer()
+                        startTimer() // todo 서버로 부터 시간 획득
                     }
                     true -> {
                         pauseTimer()
@@ -49,7 +61,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
                 }
             }
         }
-        settingTimerTime(0)
+        settingTimerTime(0) // todo 서버 시간 세팅
     }
 
     private fun isTimerRunning() :Boolean {
@@ -64,17 +76,12 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun pauseTimer() {
-//        startDelayTimer()
         showStopStudyConfirmDialog()
     }
 
     private fun showStopStudyConfirmDialog() {
         StopStudyConfirmDialog(requireContext())
             .show(requireActivity().supportFragmentManager, "StopStudyConfirmDialog")
-    }
-
-    private fun startDelayTimer() {
-
     }
 
 

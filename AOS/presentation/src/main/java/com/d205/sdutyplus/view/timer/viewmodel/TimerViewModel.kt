@@ -1,11 +1,11 @@
 package com.d205.sdutyplus.view.timer.viewmodel
 
 import android.util.Log
-import androidx.core.view.WindowInsetsAnimationCompat.Callback.DispatchMode
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d205.domain.usecase.timer.GetRealTimeUsecase
 import com.d205.domain.usecase.timer.SaveStartTimeOnTimerUsecase
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.getTodayDate
@@ -21,7 +21,8 @@ import kotlin.concurrent.timer
 private const val TAG = "TimerViewModel"
 @HiltViewModel
 class TimerViewModel @Inject constructor(
-    private val saveStartTimeUsecase: SaveStartTimeOnTimerUsecase
+    private val saveStartTimeUsecase: SaveStartTimeOnTimerUsecase,
+    private val getRealTimeUsecase: GetRealTimeUsecase
 ): ViewModel() {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -40,6 +41,13 @@ class TimerViewModel @Inject constructor(
     val resumeCountDown: LiveData<Int>
         get() = _resumeCountDown
 
+
+    fun getRealTime() {
+        viewModelScope.launch(defaultDispatcher){
+            val result = getRealTimeUsecase()
+            Log.d(TAG, result)
+        }
+    }
 
 
     fun startTimer() {
