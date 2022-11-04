@@ -4,6 +4,7 @@ package com.d205.sdutyplus.domain.task.service;
 import com.d205.sdutyplus.domain.task.dto.TaskRequestDto;
 import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
+import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,9 @@ import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
-public class TaskService {
+public class TaskService{
     private final TaskRepository taskRepository;
+    private final SubTaskRepository subTaskRepository;
 
     @Transactional
     public Task createTask(Long userSeq, TaskRequestDto taskRequestDto){
@@ -37,7 +39,7 @@ public class TaskService {
 
     @Transactional
     public void deleteTask(Long taskSeq){
-        //TODO : Task와 연결된 subTask 삭제
+        subTaskRepository.deleteByTaskSeq(taskSeq);
         taskRepository.deleteById(taskSeq);
     }
 

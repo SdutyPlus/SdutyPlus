@@ -6,12 +6,10 @@ import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.d205.sdutyplus.global.response.ResponseCode.CREATE_SUBTASK_SUCCESS;
+import static com.d205.sdutyplus.global.response.ResponseCode.DELETE_SUBTASK_SUCCESS;
 
 @RestController
 @RequestMapping("/task/sub")
@@ -26,4 +24,12 @@ public class SubTaskController {
         subTaskService.createSubTask(subTaskRequestDto);
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_SUBTASK_SUCCESS));
     }
+
+    @ApiOperation(value = "서브테스크 삭제")
+    @DeleteMapping("{sub_seq}")
+    public ResponseEntity<?> deleteSubTask(@PathVariable(value="sub_seq") Long subTaskSeq){
+        subTaskService.deleteSubTask(subTaskSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(DELETE_SUBTASK_SUCCESS));
+    }
+
 }
