@@ -1,6 +1,6 @@
 package com.d205.sdutyplus.uitls
 
-const val SERVER_URL = "12345"
+const val SERVER_URL = "https://d205.kro.kr/api/"
 
 const val COMMON_JOIN = 0
 const val KAKAO_JOIN = 1

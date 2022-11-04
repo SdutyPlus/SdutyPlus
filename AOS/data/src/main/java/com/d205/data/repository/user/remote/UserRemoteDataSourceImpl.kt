@@ -1,11 +1,17 @@
 package com.d205.data.repository.user.remote
 
+import android.util.Log
 import com.d205.data.api.UserApi
 import com.d205.data.model.user.UserEntity
 import com.d205.domain.model.user.UserDto
 import com.skydoves.sandwich.ApiResponse
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import retrofit2.Response
 import javax.inject.Inject
 
+
+private const val TAG = "UserRemoteDataSourceImpl"
 class UserRemoteDataSourceImpl @Inject constructor(
     private val userApi: UserApi
 ): UserRemoteDataSource {
@@ -19,9 +25,19 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun checkNickname(nickname: String): ApiResponse<String> =
         userApi.checkNickname(nickname)
 
-    override suspend fun loginKakaoUser(token: String): ApiResponse<UserEntity> =
-        userApi.loginKakaoUser(token)
+    override fun loginKakaoUser(token: String): Response<UserEntity>  {
+        Log.d(TAG, "loginKakaoUser: $TAG token : $token")
+        val response = userApi.loginKakaoUser(token)
 
-    override suspend fun loginNaverUser(token: String): ApiResponse<UserEntity> =
-        userApi.loginNaverUser(token)
+
+        Log.d(TAG, "loginKakaoUser: $TAG result : ${response.body()!!}")
+        return response
+    }
+
+
+    override fun loginNaverUser(token: String): Flow<Response<UserEntity>> = flow {
+        Log.d(TAG, "loginNaverUser: $TAG token : $token")
+        //Log.d(TAG, "loginNaverUser: $TAG api result : ${userApi.loginNaverUser(token).body()}")
+        emit(userApi.loginNaverUser(token))
+    }
 }

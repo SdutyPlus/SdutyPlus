@@ -8,9 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
 import com.d205.domain.usecase.user.KakaoLoginUseCase
 import com.d205.domain.usecase.user.NaverLoginUseCase
+import com.d205.domain.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,9 +25,11 @@ class LoginViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase,
     private val naverLoginUseCase: NaverLoginUseCase
 ): ViewModel() {
-    private val _user = MutableLiveData<User>()
-    val user : LiveData<User>
-        get() = _user
+    private val _user : MutableStateFlow<ResultState<User>> = MutableStateFlow(ResultState.Uninitialized)
+    val user get() = _user.asStateFlow()
+
+//    val user : LiveData<User>
+//        get() = _user
 
     private val _token = MutableLiveData<String>()
     val token: LiveData<String>
@@ -32,25 +38,35 @@ class LoginViewModel @Inject constructor(
         _token.postValue(token)
     }
 
-    private val _isLoginSucceed = MutableLiveData<Boolean>()
+    private val _isLoginSucceed = MutableLiveData<Boolean>(false)
     val isLoginSucceed: LiveData<Boolean>
         get() = _isLoginSucceed
 
 
-    suspend fun kakaoLogin(token: String) {
+    fun kakaoLogin(token: String) {
+        val tmp = kakaoLoginUseCase.invoke(token)
+        //_isLoginSucceed.value = isLoginSucceeded()
+    }
+
+    fun naverLogin(token: String) {
         viewModelScope.launch {
-            _user.value = kakaoLoginUseCase.invoke(token)
-            _isLoginSucceed.value = isLoginSucceeded()
+            //_user.value = naverLoginUseCase.invoke(token)
+
+            //_isLoginSucceed.value = isLoginSucceeded()
+            Log.d(TAG, "naverLogin $TAG: ")
+            naverLoginUseCase.invoke(token).collect {
+                if(it is ResultState.Success) {
+                    _user.value = it
+                    Log.d(TAG, "naverLogin User : ${it.data}")
+                }
+                else {
+                    Log.d(TAG, "naverLogin $TAG: invoke Done!! $it")
+                }
+
+            }
         }
     }
 
-    suspend fun naverLogin(token: String) {
-        viewModelScope.launch {
-            _user.value = naverLoginUseCase.invoke(token)
-            _isLoginSucceed.value = isLoginSucceeded()
-        }
-    }
-
-    private fun isLoginSucceeded(): Boolean =
-        user.value!!.seq != -1
+//    private fun isLoginSucceeded(): Boolean =
+//        user.value!!.seq != -1
 }

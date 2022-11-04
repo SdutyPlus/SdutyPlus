@@ -2,9 +2,9 @@ package com.d205.sdutyplus.view.login
 
 import android.content.Intent
 import android.util.Log
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentLoginBinding
@@ -12,7 +12,6 @@ import com.d205.sdutyplus.uitls.KAKAO_JOIN
 import com.d205.sdutyplus.uitls.NAVER_JOIN
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.MainActivity
-import com.d205.sdutyplus.view.MainViewModel
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
@@ -21,12 +20,12 @@ import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
 private const val TAG = "LoginFragment"
+
+@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val userApiClient = UserApiClient.instance
     private lateinit var userAccessToken: String
@@ -101,11 +100,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     )
                     CoroutineScope(Dispatchers.IO).launch {
                         if(isJoinedKakaoUser(userAccessToken)) {
-                            mainViewModel.setUserValue(loginViewModel.user.value!!)
-                            moveToMainActivity()
+                            loginViewModel.user.collect {
+                                if(it is ResultState.Success) {
+                                    mainViewModel.setUserValue(it.data)
+                                    moveToMainActivity()
+                                }
+                            }
+                            //mainViewModel.setUserValue(loginViewModel.user.data)
+
                         }
                         else {
-                            moveToJoinProfileFragment(KAKAO_JOIN)
+                            withContext(Dispatchers.Main) {
+                                moveToJoinProfileFragment(KAKAO_JOIN)
+                            }
+                            //moveToJoinProfileFragment(KAKAO_JOIN)
                         }
                     }
                 }
@@ -130,11 +138,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
                 CoroutineScope(Dispatchers.IO).launch {
                     if(isJoinedNaverUser(userAccessToken)) {
-                        mainViewModel.setUserValue(loginViewModel.user.value!!)
-                        moveToMainActivity()
+//                        mainViewModel.setUserValue(loginViewModel.user.value!!)
+//                        moveToMainActivity()
+                        loginViewModel.user.collect {
+                            if(it is ResultState.Success) {
+                                mainViewModel.setUserValue(it.data)
+                                moveToMainActivity()
+                            }
+                        }
                     }
                     else {
-                        moveToJoinProfileFragment(NAVER_JOIN)
+                        withContext(Dispatchers.Main) {
+                            moveToJoinProfileFragment(NAVER_JOIN)
+                        }
                     }
                 }
             }
@@ -173,17 +189,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         NaverIdLoginSDK.authenticate(requireContext(), oauthLoginCallback)
     }
 
-    private suspend fun isJoinedKakaoUser(kakaoToken: String): Boolean =
-        CoroutineScope(Dispatchers.IO).async {
+    private suspend fun isJoinedKakaoUser(kakaoToken: String): Boolean {
+        withContext(CoroutineScope(Dispatchers.Main).coroutineContext) {
             loginViewModel.kakaoLogin(kakaoToken)
-            loginViewModel.isLoginSucceed.value!!
-        }.await()
+        }
+        return loginViewModel.isLoginSucceed.value!!
+    }
 
-    private suspend fun isJoinedNaverUser(naverToken: String): Boolean =
-        CoroutineScope(Dispatchers.IO).async {
+
+    private suspend fun isJoinedNaverUser(naverToken: String): Boolean {
+        withContext(CoroutineScope(Dispatchers.Main).coroutineContext) {
             loginViewModel.naverLogin(naverToken)
-            loginViewModel.isLoginSucceed.value!!
-        }.await()
+        }
+        return loginViewModel.isLoginSucceed.value!!
+    }
 
     fun moveToMainActivity() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
