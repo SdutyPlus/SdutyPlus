@@ -5,10 +5,12 @@ import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.entity.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
+import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -39,7 +41,7 @@ public class UserAuthService {
     private final UserRepository userRepository;
 
     @Transactional
-    public JwtDto loginUser(String email, SocialType socialType) {
+    public UserLoginDto loginUser(String email, SocialType socialType) {
         //가입된 유저인지 확인
         Optional<User> userOp = userRepository.findByEmailAndSocialType(email, socialType);
         User realUser = null;
@@ -47,6 +49,7 @@ public class UserAuthService {
             User user = new User();
             user.setEmail(email);
             user.setSocialType(socialType);
+            user.setRegTime(LocalDateTime.now());
             realUser = userRepository.save(user);
             if(realUser == null) {
                 return null;
@@ -63,7 +66,10 @@ public class UserAuthService {
         jwt.setAccessToken(jwtDto.getAccessToken());
         jwt.setRefreshToken(jwtDto.getRefreshToken());
         jwtRepository.save(jwt);
-        return jwtDto;
+
+        UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto);
+
+        return userLoginDto;
     }
 
 
