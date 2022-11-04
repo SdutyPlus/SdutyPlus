@@ -11,7 +11,7 @@ public class UserDto {
     private String email;
     private String nickname;
     private Long job;
-    private String imaUrl;
+    private String imgUrl;
     private String fcmToken;
 
     public UserDto(User user) {
@@ -19,7 +19,7 @@ public class UserDto {
         this.email = user.getEmail();
         this.nickname = user.getNickname();
         this.job = user.getJob();
-        this.imaUrl = user.getImgUrl();
+        this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
     }
 }
