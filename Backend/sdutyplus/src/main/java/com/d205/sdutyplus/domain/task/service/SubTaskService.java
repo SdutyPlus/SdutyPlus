@@ -12,13 +12,11 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class SubTaskService {
     private final SubTaskRepository subTaskRepository;
-    private final TaskService taskService;
 
     @Transactional
     public void createSubTask(SubTaskRequestDto subTaskRequestDto){
         SubTask subTask = subTaskRequestDto.toEntity();
         subTaskRepository.save(subTask);
-        taskService.addSubTask(subTask);
     }
 
     @Transactional
