@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.view.feed
 
-import android.os.Build.VERSION_CODES.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
