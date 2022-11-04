@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedDecoBinding
-import com.d205.sdutyplus.uitls.PROFILE
+import com.d205.sdutyplus.uitls.NOT_PROFILE
 import com.d205.sdutyplus.view.common.CropImageActivity
 
 class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment_feed_deco) {
@@ -26,7 +26,7 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
 
     private fun launchImageCrop() {
         val intent = Intent(requireContext(), CropImageActivity::class.java)
-        intent.putExtra("flag", PROFILE)
+        intent.putExtra("flag", NOT_PROFILE)
         getImageResultLauncher.launch(intent)
     }
 
