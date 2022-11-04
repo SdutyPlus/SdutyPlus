@@ -87,6 +87,7 @@
     <color name="white">#ffffff</color>
 
     <!-- sduty color -->
+    <color name="background">#FFFFFF</color>
     <color name="sduty_light_blue">#c6d4ff</color>
     <color name="sduty_main_blue">#7b9cff</color>
     <color name="sduty_light_purple">#d8abeb</color>
