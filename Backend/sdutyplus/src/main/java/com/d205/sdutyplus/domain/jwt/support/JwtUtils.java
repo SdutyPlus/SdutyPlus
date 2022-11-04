@@ -1,7 +1,5 @@
-package com.d205.sdutyplus.domain.jwt.entity;
+package com.d205.sdutyplus.domain.jwt.support;
 
-import com.d205.sdutyplus.domain.jwt.entity.JwtKey;
-import com.d205.sdutyplus.domain.jwt.entity.JwtProperties;
 import com.d205.sdutyplus.domain.jwt.entity.Pair;
 import com.d205.sdutyplus.domain.user.entity.User;
 import io.jsonwebtoken.*;

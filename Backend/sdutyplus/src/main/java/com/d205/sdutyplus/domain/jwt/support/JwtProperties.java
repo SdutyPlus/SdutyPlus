@@ -1,4 +1,4 @@
-package com.d205.sdutyplus.domain.jwt.entity;
+package com.d205.sdutyplus.domain.jwt.support;
 
 //jwt 기본 설정
 //public static final => interface 사용

@@ -1,8 +1,8 @@
 package com.d205.sdutyplus.util;
 
-import com.d205.sdutyplus.domain.jwt.entity.CustomAuthenticationEntryPoint;
-import com.d205.sdutyplus.domain.jwt.entity.ExceptionHandlerFilter;
-import com.d205.sdutyplus.domain.jwt.entity.JwtRequestFilter;
+import com.d205.sdutyplus.domain.jwt.support.CustomAuthenticationEntryPoint;
+import com.d205.sdutyplus.domain.jwt.support.ExceptionHandlerFilter;
+import com.d205.sdutyplus.domain.jwt.support.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

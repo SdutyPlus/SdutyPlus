@@ -1,6 +1,6 @@
 package com.d205.sdutyplus.util;
 
-import com.d205.sdutyplus.domain.jwt.entity.JwtProperties;
+import com.d205.sdutyplus.domain.jwt.support.JwtProperties;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +43,8 @@ public class SwaggerConfig {
         //Server testServer2 = new Server("test2", "http://k7d205.p.ssafy.io:8081", "for testing", Collections.emptyList(), Collections.emptyList());
 
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
+                .securityContexts(Arrays.asList(securityContext()))
+                .securitySchemes(Arrays.asList(apiKey()))
                 .servers(serverLocal, testServer)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))

@@ -1,7 +1,6 @@
-package com.d205.sdutyplus.domain.jwt.entity;
+package com.d205.sdutyplus.domain.jwt.support;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
