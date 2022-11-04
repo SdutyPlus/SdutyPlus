@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.domain.task.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,4 +20,11 @@ public class SubTask {
     private Long taskSeq;
     @Column(nullable = false, length=50)
     private String content;
+
+    @Builder
+    public SubTask(Long taskSeq, String content){
+        this.taskSeq = taskSeq;
+        this.content = content;
+    }
+
 }
