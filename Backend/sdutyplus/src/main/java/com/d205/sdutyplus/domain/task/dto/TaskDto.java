@@ -4,7 +4,7 @@ import com.d205.sdutyplus.domain.task.entity.Task;
 import lombok.Data;
 
 @Data
-public class TaskRequestDto {
+public class TaskDto {
     private String startTime;
     private String endTime;
     private int durationTime;
@@ -18,4 +18,5 @@ public class TaskRequestDto {
                 .content(content)
                 .build();
     }
+
 }

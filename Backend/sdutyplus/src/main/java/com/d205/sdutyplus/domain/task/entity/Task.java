@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.domain.task.entity;
 
 import com.d205.sdutyplus.global.enums.TimeEnum;
+import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -31,10 +30,6 @@ public class Task {
     @Column(nullable = false, length=200)
     private String content;
 
-    //JPA 연관관계
-    @OneToMany(mappedBy="taskSeq")
-    private List<SubTask> subTasks = new ArrayList<>();
-
     @Builder
     public Task(String startTime, String endTime, int durationTime, String content){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
@@ -48,14 +43,10 @@ public class Task {
     }
 
     public void updateStartTime(String startTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
-        LocalDateTime startLDT = LocalDateTime.parse(startTime, formatter);
-        this.startTime = startLDT;
+        this.startTime = TimeFormatter.StringToLocalDateTime(startTime);
     }
 
     public void updateEndTime(String endTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
-        LocalDateTime endLDT = LocalDateTime.parse(endTime, formatter);
-        this.endTime = endLDT;
+        this.endTime = TimeFormatter.StringToLocalDateTime(endTime);
     }
 }

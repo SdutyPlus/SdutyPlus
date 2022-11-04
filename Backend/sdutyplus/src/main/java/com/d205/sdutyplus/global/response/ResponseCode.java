@@ -20,7 +20,8 @@ public enum ResponseCode {
     DELETE_TASK_SUCCESS(200, "T003", "테스크가 삭제되었습니다."),
     CREATE_SUBTASK_SUCCESS(200, "T004", "서브테스크가 생성되었습니다."),
     UPDATE_SUBTASK_SUCCESS(200, "T005", "서브테스크가 수정되었습니다."),
-    DELETE_SUBTASK_SUCCESS(200, "T006", "서브테스크가 삭제되었습니다.");
+    DELETE_SUBTASK_SUCCESS(200, "T006", "서브테스크가 삭제되었습니다."),
+    GET_DAILYTASK_SUCCESS(200, "T007", "데일리 테스크 조회에 성공하였습니다.");
 
     private final int status;
     private final String code;
