@@ -9,6 +9,8 @@ import retrofit2.Response
 
 fun mapperToReport(reportResponse: Response<ReportResponse>): Report {
     return Report(
-        seq = reportResponse.body()!!.seq
+        seq = reportResponse.body()!!.seq,
+        totalTime = reportResponse.body()!!.totalTime,
+        task = reportResponse.body()!!.task
     )
 }

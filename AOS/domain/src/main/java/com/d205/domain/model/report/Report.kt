@@ -1,5 +1,8 @@
 package com.d205.domain.model.report
 
+
 data class Report(
-    var seq: Int
+    val seq: Int,
+    val totalTime: String,
+    var task: List<Task>
 )
