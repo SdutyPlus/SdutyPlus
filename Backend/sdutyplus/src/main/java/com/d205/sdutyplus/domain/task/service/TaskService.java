@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.task.service;
 
 
 import com.d205.sdutyplus.domain.task.dto.TaskRequestDto;
+import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
@@ -38,6 +39,12 @@ public class TaskService {
     public void deleteTask(Long taskSeq){
         //TODO : Task와 연결된 subTask 삭제
         taskRepository.deleteById(taskSeq);
+    }
+
+    @Transactional
+    public void addSubTask(SubTask subTask){
+        Task task = getTask(subTask.getTaskSeq());
+        task.getSubTasks().add(subTask);
     }
 
     //get & set => private
