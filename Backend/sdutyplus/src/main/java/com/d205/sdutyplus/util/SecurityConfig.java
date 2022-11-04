@@ -41,9 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user").authenticated()
-                .antMatchers(HttpMethod.POST, "**/macro/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/user/reg").authenticated()
                 .antMatchers(HttpMethod.GET, "/user/**").authenticated()
-                .antMatchers(HttpMethod.GET, "/**/macro/**").authenticated()
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated();
 
