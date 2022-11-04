@@ -25,6 +25,7 @@ public class TaskController {
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, registedTask));
     }
 
+
     @ApiOperation(value = "테스크 수정")
     @PutMapping("/{task_seq}")
     public ResponseEntity<?> updateTask(@PathVariable(value="task_seq") Long taskSeq, @RequestBody TaskRequestDto taskRequestDto){

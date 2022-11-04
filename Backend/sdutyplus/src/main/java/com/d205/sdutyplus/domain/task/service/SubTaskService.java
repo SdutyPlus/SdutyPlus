@@ -20,4 +20,11 @@ public class SubTaskService {
         subTaskRepository.save(subTask);
         taskService.addSubTask(subTask);
     }
+
+    @Transactional
+    public void deleteSubTask(Long subTaskSeq){
+        subTaskRepository.deleteById(subTaskSeq);
+    }
+
+    //get & set => private
 }
