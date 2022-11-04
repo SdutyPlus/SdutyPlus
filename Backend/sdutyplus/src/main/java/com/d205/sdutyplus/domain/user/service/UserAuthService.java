@@ -9,25 +9,27 @@ import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 
-import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -104,13 +106,12 @@ public class UserAuthService {
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         HttpEntity<MultiValueMap<String, String>> header = new HttpEntity<>(headers);
-        System.out.println("here");
         ResponseEntity<String> res = rt.exchange(
                 "https://kapi.kakao.com/v2/user/me",
                 HttpMethod.GET,
                 header,
                 String.class
-        );
+                );
 
         //결과 parsing
         Map<String, Object> userInfo = null;

@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/user")
 public class UserAuthController {
 
-    private UserAuthService userAuthService;
+    private final UserAuthService userAuthService;
 
     @ApiOperation(value="네이버 로그인")
     @PostMapping("/naver/login")
@@ -51,6 +51,9 @@ public class UserAuthController {
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
             JwtDto jwtDto = userAuthService.loginUser(email, SocialType.KAKAO);
+
+            System.out.println(jwtDto);
+
             if(jwtDto!=null) {
                 return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
             }

@@ -44,12 +44,12 @@ public class User {
     @Column(name="reset_cron", length = 50)
     private String resetCron;
 
-    @Column(name = "del_YN", nullable = false)
+    @Column(name = "del_YN")
     private boolean delYN;
 
-    @Column(name = "ban_YN", nullable = false)
+    @Column(name = "ban_YN")
     private boolean banYN;
 
-    @Column(name = "reg_time", nullable = false)
+    @Column(name = "reg_time")
     private LocalDateTime regTime;
 }
