@@ -40,4 +40,16 @@ public class Task {
         this.durationTime = durationTime;
         this.content = content;
     }
+
+    public void updateStartTime(String startTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
+        LocalDateTime startLDT = LocalDateTime.parse(startTime, formatter);
+        this.startTime = startLDT;
+    }
+
+    public void updateEndTime(String endTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
+        LocalDateTime endLDT = LocalDateTime.parse(endTime, formatter);
+        this.endTime = endLDT;
+    }
 }
