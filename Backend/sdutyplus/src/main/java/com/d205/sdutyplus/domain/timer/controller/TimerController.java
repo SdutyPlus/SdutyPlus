@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.timer.controller;
 
+import com.d205.sdutyplus.global.response.ResponseDto;
 import com.d205.sdutyplus.util.TimeFormatter;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 
+import static com.d205.sdutyplus.global.response.ResponseCode.GET_LOCALDATETIME_SUCCESS;
+
 @RestController
 @RequestMapping("/timer")
 public class TimerController {
@@ -19,6 +22,6 @@ public class TimerController {
     public ResponseEntity<?> getServerTime(){
         LocalDateTime datetime = LocalDateTime.now();
         String now = TimeFormatter.LocalDateTimeToString(datetime);
-        return new ResponseEntity<String>(now, HttpStatus.OK);
+        return ResponseEntity.ok().body(ResponseDto.of(GET_LOCALDATETIME_SUCCESS, now));
     }
 }
