@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.domain.task.entity;
 
 import com.d205.sdutyplus.global.enums.TimeEnum;
+import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,14 +49,10 @@ public class Task {
     }
 
     public void updateStartTime(String startTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
-        LocalDateTime startLDT = LocalDateTime.parse(startTime, formatter);
-        this.startTime = startLDT;
+        this.startTime = TimeFormatter.StringToLocalDateTime(startTime);
     }
 
     public void updateEndTime(String endTime){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
-        LocalDateTime endLDT = LocalDateTime.parse(endTime, formatter);
-        this.endTime = endLDT;
+        this.endTime = TimeFormatter.StringToLocalDateTime(endTime);
     }
 }
