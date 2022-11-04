@@ -34,6 +34,12 @@ public class TaskService {
         task.setContent(updatedTask.getContent());
     }
 
+    @Transactional
+    public void deleteTask(Long taskSeq){
+        //TODO : Task와 연결된 subTask 삭제
+        taskRepository.deleteById(taskSeq);
+    }
+
     //get & set => private
     private Task getTask(Long taskSeq){
         return taskRepository.findById(taskSeq)

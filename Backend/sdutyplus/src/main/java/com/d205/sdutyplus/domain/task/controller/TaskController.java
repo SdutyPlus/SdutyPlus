@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.d205.sdutyplus.global.response.ResponseCode.CREATE_TASK_SUCCESS;
-import static com.d205.sdutyplus.global.response.ResponseCode.UPDATE_TASK_SUCCESS;
+import static com.d205.sdutyplus.global.response.ResponseCode.*;
 
 @RestController
 @RequestMapping("/task")
@@ -31,5 +30,12 @@ public class TaskController {
     public ResponseEntity<?> updateTask(@PathVariable Long taskSeq, @RequestBody TaskRequestDto taskRequestDto){
         taskService.updateTask(taskSeq, taskRequestDto);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_TASK_SUCCESS));
+    }
+
+    @ApiOperation(value = "테스크 삭제")
+    @DeleteMapping("/{task_seq}")
+    public ResponseEntity<?> deleteTask(@PathVariable(value="task_seq") Long taskSeq){
+        taskService.deleteTask(taskSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(DELETE_TASK_SUCCESS));
     }
 }

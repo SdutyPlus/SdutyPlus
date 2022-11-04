@@ -16,7 +16,8 @@ import lombok.Getter;
 public enum ResponseCode {
     //Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
-    UPDATE_TASK_SUCCESS(200, "T002", "테스크가 수정되었습니다.");
+    UPDATE_TASK_SUCCESS(200, "T002", "테스크가 수정되었습니다."),
+    DELETE_TASK_SUCCESS(200, "T003", "테스크가 삭제되었습니다.");
 
     private final int status;
     private final String code;
