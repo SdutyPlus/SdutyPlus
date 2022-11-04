@@ -59,8 +59,8 @@ public class UserAuthService {
             realUser = userOp.get();
         }
         JwtDto jwtDto = new JwtDto(JwtUtils.createAccessToken(realUser), JwtUtils.createRefreshToken(realUser));
+        
         //token저장
-
         Jwt jwt = jwtRepository.findByUserSeq(realUser.getSeq()).orElseGet(()->new Jwt());
         jwt.setUserSeq(realUser.getSeq());
         jwt.setAccessToken(jwtDto.getAccessToken());
