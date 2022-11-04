@@ -23,7 +23,10 @@ private const val TAG = "TimerViewModel"
 class TimerViewModel @Inject constructor(
     private val saveStartTimeUsecase: SaveStartTimeOnTimerUsecase
 ): ViewModel() {
+
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+    private var timerObj: Timer? = null
+    private var isResumeCountDownStart = false
 
     private val _isTimerRunning = MutableLiveData<Boolean>(false)
     val isTimerRunning: LiveData<Boolean>
@@ -33,15 +36,45 @@ class TimerViewModel @Inject constructor(
     val timerTime: LiveData<Int>
         get() = _timerTime
 
-    private var timerObj: Timer? = null
+    private val _resumeCountDown = MutableLiveData<Int>(5)
+    val resumeCountDown: LiveData<Int>
+        get() = _resumeCountDown
+
 
 
     fun startTimer() {
-        _isTimerRunning.value = true
+        updateTimerRunningState()
+        setTimer()
+    }
 
+    private fun updateTimerRunningState() {
+        _isTimerRunning.value = !_isTimerRunning.value!!
+    }
+
+    private fun setTimer() {
         timerObj = timer(period = 1000) {
-            _timerTime.postValue(_timerTime.value!! + 1)
+            _timerTime.postValue(_timerTime.value!! + 1) // todo refactoring
+            Log.d("timer","isResumeCountDownStart : $isResumeCountDownStart")
+            if(isResumeCountDownStart) {
+                updateCountDown()
+            }
         }
+    }
+
+    private fun updateCountDown() {
+        if(isResumeCountDownEnd()) {
+            resumeCountDownReset()
+        }
+        _resumeCountDown.postValue(_resumeCountDown.value!! - 1)
+    }
+
+    private fun isResumeCountDownEnd(): Boolean {
+        return _resumeCountDown.value!! == 0
+    }
+
+    fun resumeCountDownReset() {
+        _resumeCountDown.postValue(5)
+        isResumeCountDownStart = false
     }
 
     fun saveStartTime() {
@@ -58,12 +91,20 @@ class TimerViewModel @Inject constructor(
     }
 
 
+
+    fun startResumeCountDown() {
+        isResumeCountDownStart = true
+    }
+
+
+
     fun stopTimer() {
         _isTimerRunning.value = false
-
         timerObj!!.cancel()
-        _timerTime.value = 0
+    }
 
+    fun timerTimeReset() {
+        _timerTime.value = 0
     }
 
 
