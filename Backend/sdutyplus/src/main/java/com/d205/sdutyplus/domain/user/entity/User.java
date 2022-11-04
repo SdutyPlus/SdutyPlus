@@ -44,10 +44,10 @@ public class User {
     @Column(name="reset_cron", length = 50)
     private String resetCron;
 
-    @Column(name = "del_YN")
+    @Column(name = "del_YN", columnDefinition="tinyint(1) default 0")
     private boolean delYN;
 
-    @Column(name = "ban_YN")
+    @Column(name = "ban_YN", columnDefinition="tinyint(1) default 0")
     private boolean banYN;
 
     @Column(name = "reg_time")

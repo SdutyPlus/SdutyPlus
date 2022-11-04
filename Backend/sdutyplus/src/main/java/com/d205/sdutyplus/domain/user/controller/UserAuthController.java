@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.user.controller;
 
 
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
+import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.service.UserAuthService;
 import com.d205.sdutyplus.domain.user.service.UserService;
@@ -36,9 +37,11 @@ public class UserAuthController {
         Map<String, Object> userInfo = userAuthService.getNaverUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
-            JwtDto jwtDto = userAuthService.loginUser(email, SocialType.NAVER);
-            if(jwtDto!=null) {
-                return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
+            UserLoginDto userLoginDto = userAuthService.loginUser(email, SocialType.NAVER);
+
+
+            if(userLoginDto != null) {
+                return new ResponseEntity<UserLoginDto>(userLoginDto, HttpStatus.OK);
             }
         }
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -50,12 +53,11 @@ public class UserAuthController {
         Map<String, Object> userInfo = userAuthService.getKakaoUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
-            JwtDto jwtDto = userAuthService.loginUser(email, SocialType.KAKAO);
+            UserLoginDto userLoginDto = userAuthService.loginUser(email, SocialType.KAKAO);
 
-            System.out.println(jwtDto);
 
-            if(jwtDto!=null) {
-                return new ResponseEntity<JwtDto>(jwtDto, HttpStatus.OK);
+            if(userLoginDto != null) {
+                return new ResponseEntity<UserLoginDto>(userLoginDto, HttpStatus.OK);
             }
         }
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
