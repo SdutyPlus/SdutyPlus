@@ -6,12 +6,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GetRealTimeUsecase @Inject constructor(
+class SaveStartTimeUsecase @Inject constructor(
     private val timerRepository: TimerRepository
 ) {
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 
-    suspend operator fun invoke(): String = withContext(defaultDispatcher) {
-        timerRepository.getRealTime()
+    suspend operator fun invoke(startTime: String) = withContext(defaultDispatcher) {
+            timerRepository.saveStartTime(startTime)
     }
 }
