@@ -1,7 +1,14 @@
+buildscript {
+	ext {
+		queryDslVersion = "5.0.0"
+	}
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.d205.sdutyplus'
@@ -42,9 +49,46 @@ dependencies {
 //	implementation group: 'org.springframework.security', name: 'spring-security-web', version: '5.7.3'
 
 	//querydsl
-	implementation 'com.querydsl:querydsl-jpa:4.1.4'
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	//implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+	// https://mvnrepository.com/artifact/javax.inject/javax.inject
+	implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+
 
 }
+
+//querydsl start
+def querydslDir = "$buildDir/generated/querydsl"
+//def querydslDir = 'src/main/generated'
+
+querydsl {
+	library = "com.querydsl:querydsl-apt"
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', querydslDir]
+		}
+	}
+}
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl.doFirst {
+	if(file(querydslDir).exists())
+		delete(file(querydslDir))
+}
+tasks.withType(JavaCompile) { options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir) }
+
+//querydsl end
 
 tasks.named('test') {
 	useJUnitPlatform()

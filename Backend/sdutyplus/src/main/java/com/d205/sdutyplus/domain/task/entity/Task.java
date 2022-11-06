@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -29,6 +31,9 @@ public class Task {
     private int durationTime;
     @Column(nullable = false, length=200)
     private String content;
+
+    @OneToMany(mappedBy = "taskSeq")
+    private List<SubTask> subTasks = new ArrayList<>();
 
     @Builder
     public Task(String startTime, String endTime, int durationTime, String content){
