@@ -8,10 +8,14 @@ import com.d205.data.repository.study.remote.StudyRemoteDataSource
 import com.d205.data.repository.study.remote.StudyRemoteDataSourceImpl
 import com.d205.domain.repository.StudyRepository
 import com.d205.sdutyplus.uitls.SERVER_URL
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -19,13 +23,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object StudyModule {
-
-    @Provides
-    @Singleton
-    fun provideRetrofitInstance(): Retrofit = Retrofit.Builder()
-        .baseUrl(SERVER_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
 
     @Provides
     @Singleton
