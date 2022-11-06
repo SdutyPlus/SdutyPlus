@@ -2,13 +2,17 @@ package com.d205.sdutyplus.view.feed
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.net.Uri
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedDecoBinding
+import com.d205.sdutyplus.di.ApplicationClass
 import com.d205.sdutyplus.uitls.NOT_PROFILE
 import com.d205.sdutyplus.view.common.CropImageActivity
 
@@ -22,6 +26,15 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
 
     private fun initView() {
         launchImageCrop()
+
+        binding.apply {
+            btnDecoNone.setOnClickListener {
+                setPolaroidVisiblity(View.GONE)
+            }
+            btnDecoPolaroidWhite.setOnClickListener {
+                setPolaroidVisiblity(View.VISIBLE)
+            }
+        }
     }
 
     private fun launchImageCrop() {
@@ -44,5 +57,9 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
         Glide.with(requireContext())
             .load(Uri.parse(imageUrl).path)
             .into(binding.imgPreview)
+    }
+    
+    private fun setPolaroidVisiblity(visiblity: Int) {
+        binding.layoutPolaroid.visibility = visiblity
     }
 }
