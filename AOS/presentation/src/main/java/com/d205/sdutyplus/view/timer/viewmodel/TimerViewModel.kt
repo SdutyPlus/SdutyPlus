@@ -5,9 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d205.domain.usecase.timer.GetRealTimeUsecase
-import com.d205.domain.usecase.timer.SaveStartTimeOnTimerUsecase
+import com.d205.domain.usecase.timer.GetCurrentTimeUsecase
+import com.d205.domain.usecase.timer.SaveStartTimeUsecase
+import com.d205.domain.usecase.timer.StartTimerUsecase
 import com.d205.sdutyplus.uitls.convertTimeDateToString
+import com.d205.sdutyplus.uitls.convertTimeStringToDate
 import com.d205.sdutyplus.uitls.getTodayDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -21,8 +23,9 @@ import kotlin.concurrent.timer
 private const val TAG = "TimerViewModel"
 @HiltViewModel
 class TimerViewModel @Inject constructor(
-    private val saveStartTimeUsecase: SaveStartTimeOnTimerUsecase,
-    private val getRealTimeUsecase: GetRealTimeUsecase
+    private val startTimerUsecase: StartTimerUsecase,
+    private val saveStartTimeUsecase: SaveStartTimeUsecase,
+    private val getCurrentTimeUsecase: GetCurrentTimeUsecase
 ): ViewModel() {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -41,22 +44,35 @@ class TimerViewModel @Inject constructor(
     val resumeCountDown: LiveData<Int>
         get() = _resumeCountDown
 
+    private val _currentTime = MutableLiveData<String>()
+    val currentTime: LiveData<String>
+        get() = _currentTime
 
-    fun getRealTime() {
+
+    fun getCurrentTime() {
         viewModelScope.launch(defaultDispatcher){
-            val result = getRealTimeUsecase()
-            Log.d(TAG, result)
+            var result = getCurrentTimeUsecase()
+            if(result != "error") {
+                val dateTime = convertTimeStringToDate(result, "yyyy-mm-dd hh:mm:ss")
+                Log.d(TAG, "timeconvert $result $dateTime")
+                result = convertTimeDateToString(dateTime,"yyyy년 M월 d일")
+                Log.d(TAG, "timeconvert $dateTime $result")
+                _currentTime.postValue(result)
+            }
         }
     }
 
 
     fun startTimer() {
-        updateTimerRunningState()
-        setTimer()
+        viewModelScope.launch(defaultDispatcher) {
+            startTimerUsecase()
+            updateTimerRunningState()
+            setTimer()
+        }
     }
 
     private fun updateTimerRunningState() {
-        _isTimerRunning.value = !_isTimerRunning.value!!
+        _isTimerRunning.postValue(!_isTimerRunning.value!!)
     }
 
     private fun setTimer() {

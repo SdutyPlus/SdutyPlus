@@ -14,3 +14,4 @@ fun getDeviceSize(activity: Activity): Point {
     val windowManager = activity.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     return windowManager.currentWindowMetricsPointCompat()
 }
+

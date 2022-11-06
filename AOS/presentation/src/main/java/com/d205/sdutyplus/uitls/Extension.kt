@@ -16,6 +16,11 @@ fun convertTimeDateToString(date: Date, format: String = "yyyy년 M월 d일"): S
     return simpleDateFormat.format(date)
 }
 
+fun convertTimeStringToDate(str: String, format: String): Date {
+    val simpleDateFormat = SimpleDateFormat(format, Locale("ko", "KR"))
+    return simpleDateFormat.parse(str)
+}
+
 fun WindowManager.currentWindowMetricsPointCompat() : Point {
     // R(30) 이상
     return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {

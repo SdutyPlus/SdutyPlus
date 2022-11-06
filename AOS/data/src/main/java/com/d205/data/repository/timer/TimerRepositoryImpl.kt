@@ -9,12 +9,17 @@ class TimerRepositoryImpl @Inject constructor(
     private val timerLocalDatasource: TimerLocalDataSource,
     private val timerRemoteDataSource: TimerRemoteDataSource
 ): TimerRepository {
-    override suspend fun saveStartTimeOnTimer(startTime: String): Boolean {
-        return timerLocalDatasource.saveStartTimeOnTimer(startTime)
+    override suspend fun saveStartTime(startTime: String): Boolean {
+        return timerLocalDatasource.saveStartTime(startTime)
     }
 
-    override suspend fun getRealTime(): String {
-        return timerRemoteDataSource.getRealTime()
+    override suspend fun getCurrentTime(): String { // remote 통신 실패 시 local 시간 반환
+        var result  = timerRemoteDataSource.getRealTime()
+        if(result != "error") {
+            return result
+        } else {
+            return timerLocalDatasource.getLocalCurrentTime()
+        }
     }
 
 

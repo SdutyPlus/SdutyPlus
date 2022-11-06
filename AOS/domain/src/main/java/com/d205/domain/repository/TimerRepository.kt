@@ -1,7 +1,7 @@
 package com.d205.domain.repository
 
 interface TimerRepository {
-    suspend fun saveStartTimeOnTimer(startTime: String): Boolean
+    suspend fun saveStartTime(startTime: String): Boolean
 
-    suspend fun getRealTime(): String
+    suspend fun getCurrentTime(): String
 }

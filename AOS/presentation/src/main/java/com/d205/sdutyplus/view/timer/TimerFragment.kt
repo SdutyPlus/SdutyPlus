@@ -11,6 +11,7 @@ import com.d205.sdutyplus.uitls.getTodayDate
 import com.d205.sdutyplus.view.timer.dialog.StopStudyConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import kotlin.concurrent.timer
 
 
@@ -31,18 +32,9 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun setTodayAtView() {
-        setLocalTimeAtTodayView()
-        setRemoteTimeAtTodayView()
+        timerViewModel.getCurrentTime()
     }
 
-    private fun setLocalTimeAtTodayView() {
-        val todayString: String = convertTimeDateToString(getTodayDate(),"yyyy년 M월 d일")
-        binding.tvToday.text = todayString
-    }
-
-    private fun setRemoteTimeAtTodayView() {
-        timerViewModel.getRealTime()
-    }
 
 
 
@@ -91,7 +83,13 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
             timerTime.observe(viewLifecycleOwner) { time ->
                 settingTimerTime(time)
             }
+
+            currentTime.observe(viewLifecycleOwner) { currentTime ->
+                binding.tvToday.text = currentTime
+            }
         }
+
+
     }
 
     private fun settingTimerTime(time: Int) {

@@ -11,10 +11,10 @@ class TimerRemoteDataSourceImpl @Inject constructor(
     override suspend fun getRealTime(): String {
         val response = timerApi.getRealTime()
         if(response.isSuccessful && response.body() != null) {
-            Log.d("timerApi", "success ${response.body()!!.data}")
-            return "성공"
+            Log.d("timerApi", "timerApi success ${response.body()!!.data}")
+            return response.body()!!.data
         } else {
-            Log.d("timerApi", "${response.body()!!.code}")
+            Log.d("timerApi", "timerApi ${response.body()!!.code}")
             return "error"
         }
 
