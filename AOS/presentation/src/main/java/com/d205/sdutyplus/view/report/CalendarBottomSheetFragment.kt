@@ -34,11 +34,11 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CalendarBottomSheetFragment : BottomSheetDialogFragment() {
+class CalendarBottomSheetFragment(date: String) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCalendarBottomSheetBinding
     private val monthCalendarView: CalendarView get() = binding.exOneCalendar
     private val selectedDates = mutableSetOf<LocalDate>()
-    private val today = LocalDate.now()
+    private val today = date
     private val reportViewModel by activityViewModels<ReportViewModel>()
 
 
@@ -122,7 +122,8 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     private fun dateClicked(date: LocalDate) {
-        Log.d("TAG", "dateClicked: $date")
+        reportViewModel.getReportTotalTime(date.toString())
+        reportViewModel.getReportList(date.toString())
         dismiss()
     }
 
@@ -135,7 +136,7 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment() {
                     textView.setTextColorRes(R.color.example_1_bg)
                     textView.setBackgroundResource(R.drawable.bg_calendar_selected)
                 }
-                today == date -> {
+                today == date.toString() -> {
                     textView.setTextColorRes(R.color.example_1_white)
                     textView.setBackgroundResource(R.drawable.bg_calendar_today)
                 }

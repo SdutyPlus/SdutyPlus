@@ -5,5 +5,5 @@ data class Task (
     val startTime: String,
     val endTime: String,
     val content: String,
-    var subTask: List<SubTask>
+    var subTaskDtos: List<SubTask>
 )

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.d205.domain.model.report.Report
 import com.d205.domain.model.report.Task
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.view.report.ReportAdapter

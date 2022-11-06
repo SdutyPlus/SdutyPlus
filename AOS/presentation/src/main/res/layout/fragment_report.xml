@@ -69,6 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/tv_totalTime"
+
             tools:text="2022년 7월 25일"/>
 
         <ImageView
@@ -89,6 +90,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_selected_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{ReportVM.totalTime}"
             tools:text="00:00:00"
             />
 
@@ -109,7 +111,7 @@
                     android:id="@+id/rv_report"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    submitList="@{ReportVM.remoteReport}"
+                    submitList="@{ReportVM.remoteTask}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/list_item_task"
                     app:layout_constraintTop_toTopOf="parent"

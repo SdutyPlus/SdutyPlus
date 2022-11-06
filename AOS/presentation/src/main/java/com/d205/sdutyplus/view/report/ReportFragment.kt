@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.view.report
 
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentReportBinding
+import com.d205.sdutyplus.uitls.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
@@ -33,15 +35,19 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
 
     private fun initView() {
         binding.tvSelectedDate.text = today.toString()
+        reportViewModel.getReportTotalTime(binding.tvSelectedDate.text.toString())
+        reportViewModel.getReportList(binding.tvSelectedDate.text.toString())
 
-        // test
-        // reportViewModel.get("2000-22-22")
+        reportViewModel.today.observe(viewLifecycleOwner) {
+            Log.d(TAG, "initView: $it")
+            binding.tvSelectedDate.text = it
+        }
     }
 
 
     private fun initClickListener() {
         binding.ivCalendarCall.setOnClickListener {
-            val dialog = CalendarBottomSheetFragment()
+            val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString())
             dialog.show(parentFragmentManager, "BottomSheet")
         }
     }
@@ -51,7 +57,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     }
 
     override fun onItemClicked(task: Task) {
-        TODO("Not yet implemented")
+        context?.showToast("asdas")
     }
 
 }
