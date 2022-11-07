@@ -1,6 +1,6 @@
 package com.d205.sdutyplus.di
 
-import android.app.Application
+
 import android.content.Context
 import com.d205.data.api.StudyApi
 import com.d205.data.common.XAccessTokenInterceptor
@@ -11,7 +11,6 @@ import com.d205.data.repository.study.local.StudyMockDataSourceImpl
 import com.d205.data.repository.study.remote.StudyRemoteDataSource
 import com.d205.data.repository.study.remote.StudyRemoteDataSourceImpl
 import com.d205.domain.repository.StudyRepository
-import com.d205.sdutyplus.di.ApplicationClass.Companion.userPrefs
 import com.d205.sdutyplus.uitls.SERVER_URL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -25,7 +24,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module

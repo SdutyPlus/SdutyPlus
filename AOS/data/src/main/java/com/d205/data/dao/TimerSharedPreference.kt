@@ -3,10 +3,11 @@ package com.d205.data.dao
 import android.content.Context
 import android.content.SharedPreferences
 import com.d205.data.common.NOT_FOUND_STRING
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class TimerSharedPreference @Inject constructor(
-    override val applicationContext: Context
+    @ApplicationContext override val applicationContext: Context
 ): SharedPreferenceHelper {
 
     override val PREFERENCES_NAME: String = "timerSharedPreference"
@@ -26,6 +27,18 @@ class TimerSharedPreference @Inject constructor(
 
     override fun getStringFromPreference(key: String): String {
         return sharedPreference.getString(key, NOT_FOUND_STRING)!!
+    }
+
+     fun setIntFromPreference(key: String, value: Int): Boolean {
+        sharedPreferenceEditor.apply {
+            putInt(key, value)
+            commit()
+        }
+        return sharedPreference.getInt(key, 0)!! == value
+    }
+
+     fun getIntFromPreference(key: String): Int {
+        return sharedPreference.getInt(key, 0)!!
     }
 
     override fun removeFromPreference(key: String): Boolean {
