@@ -1,5 +1,6 @@
 package com.d205.data.repository.user.remote
 
+import com.d205.data.model.BaseResponse
 import com.d205.data.model.user.UserEntity
 import com.d205.data.model.user.UserResponse
 import com.d205.domain.model.user.UserDto
@@ -11,5 +12,5 @@ interface UserRemoteDataSource {
     fun joinUser(user: UserDto): Flow<Response<UserEntity>>
     suspend fun checkNickname(nickname: String): ApiResponse<String>
     fun loginKakaoUser(token: String): Flow<Response<UserResponse>>
-    fun loginNaverUser(token: String): Flow<Response<UserResponse>>
+    fun loginNaverUser(token: String): Flow<UserResponse>
 }

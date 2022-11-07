@@ -1,9 +1,9 @@
 package com.d205.domain.model.user
 
-import java.util.*
+import com.google.gson.annotations.SerializedName
 
 data class UserDto (
     var imgUrl: String,
     var nickname: String,
-    var job: Int
+    var userJob: Int
 )

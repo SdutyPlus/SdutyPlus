@@ -53,7 +53,7 @@ class UserRepositoryImpl @Inject constructor(
         userRemoteDataSource.loginKakaoUser(token).collect {
             Log.d(TAG, "loginKakaoUser $TAG: collect ${it.body()!!}")
             val accessToken = it.body()!!.jwtDto!!.accessToken
-            userLocalDataSource.saveJwt(accessToken)
+            userLocalDataSource.saveJwt(accessToken!!)
             emit(ResultState.Success(mapperUserResponseToUser(it.body()!!)))
         }
     }.catch { e ->
@@ -63,12 +63,19 @@ class UserRepositoryImpl @Inject constructor(
     override fun loginNaverUser(token: String): Flow<ResultState<User>> = flow {
         Log.d(TAG, "loginNaverUser: $TAG: Loading")
         emit(ResultState.Loading)
+
         userRemoteDataSource.loginNaverUser(token).collect {
-            Log.d(TAG, "loginNaverUser $TAG: collect ${it.body()!!}")
-            val accessToken = it.body()!!.jwtDto!!.accessToken
-            userLocalDataSource.saveJwt(accessToken)
-            Log.d(TAG, "loginNaverUser: ${mapperUserResponseToUser(it.body()!!)}")
-            emit(ResultState.Success(mapperUserResponseToUser(it.body()!!)))
+            Log.d(TAG, "loginNaverUser $TAG: collect it")
+            val accessToken = it.jwtDto!!.accessToken
+            if(accessToken != null) {
+                userLocalDataSource.saveJwt(accessToken)
+            }
+            else {
+                userLocalDataSource.saveJwt("")
+            }
+
+            Log.d(TAG, "loginNaverUser: ${mapperUserResponseToUser(it)}")
+            emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
     }.catch { e ->
         emit(ResultState.Error(e))

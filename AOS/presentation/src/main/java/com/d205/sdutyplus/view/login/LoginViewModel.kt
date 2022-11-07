@@ -73,7 +73,6 @@ class LoginViewModel @Inject constructor(
                 else {
                     Log.d(TAG, "naverLogin $TAG: invoke Done!! $it")
                 }
-
             }
         }
     }

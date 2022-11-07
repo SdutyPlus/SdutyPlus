@@ -10,7 +10,7 @@ fun mapperUserResponseToUser(UserResponse: UserResponse): User =
         id = UserResponse.email,
         nickname = UserResponse.nickname,
         imgUrl = UserResponse.imgUrl,
-        job = UserResponse.job,
+        userJob = UserResponse.userJob,
         fcmToken = UserResponse.fcmToken
     )
 
@@ -20,6 +20,6 @@ fun mapperUserEntityToUser(userEntity: UserEntity): User =
         id = userEntity.email,
         nickname = userEntity.nickname,
         imgUrl = userEntity.imgUrl,
-        job = userEntity.job,
+        userJob = userEntity.userJob,
         fcmToken = userEntity.fcmToken
     )

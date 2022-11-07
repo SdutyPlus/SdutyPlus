@@ -13,5 +13,4 @@ class KakaoLoginUseCase @Inject constructor(private val userRepository: UserRepo
         Log.d(TAG, "invoke: $TAG")
         return userRepository.loginKakaoUser(token)
     }
-
 }
