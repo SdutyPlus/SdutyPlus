@@ -57,14 +57,18 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         binding.apply {
             btnJoin.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    if(checkNicknameIsUsed()) {
-                        requireContext().showToast("이미 사용중인 닉네임입니다.")
-                    }
-                    else {
-                        when(getSocialType()) {
-                            KAKAO_JOIN -> joinKakaoUser()
-                            NAVER_JOIN -> joinNaverUser()
-                        }
+//                    if(checkNicknameIsUsed()) {
+//                        requireContext().showToast("이미 사용중인 닉네임입니다.")
+//                    }
+//                    else {
+//                        when(getSocialType()) {
+//                            KAKAO_JOIN -> joinKakaoUser()
+//                            NAVER_JOIN -> joinNaverUser()
+//                        }
+//                    }
+                    when(getSocialType()) {
+                        KAKAO_JOIN -> joinKakaoUser()
+                        NAVER_JOIN -> joinNaverUser()
                     }
                 }
             }
@@ -85,13 +89,18 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     private fun getSocialType(): Int = args.socialType
 
     private fun joinKakaoUser() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val isAddUserSucceeded = joinViewModel.addKakaoUser(
+
+    }
+
+    private fun joinNaverUser() {
+        CoroutineScope(Dispatchers.Main).launch {
+            joinViewModel.addNaverUser(
                 UserDto(
-                    token = args.token,
-                    nickName = binding.etNickname.text.toString(),
-                    job = jobHashtag!!.seq))
-            if(isAddUserSucceeded) {
+                    imgUrl = profileImageUrl,
+                    nickname = binding.etNickname.text.toString(),
+                    job = jobHashtag!!.seq)
+            )
+            if(isUserJoinedSucceeded()) {
                 moveToMainActivity()
             }
             else {
@@ -100,21 +109,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         }
     }
 
-    private fun joinNaverUser() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val isAddUserSucceeded = joinViewModel.addNaverUser(
-                UserDto(
-                    token = args.token,
-                    nickName = binding.etNickname.text.toString(),
-                    job = jobHashtag!!.seq))
-            if(isAddUserSucceeded) {
-                moveToMainActivity()
-            }
-            else {
-                requireContext().showToast("회원가입에 실패했습니다.")
-            }
-        }
-    }
+    private fun isUserJoinedSucceeded() = joinViewModel.isJoinSucceeded.value!!
 
     private fun launchImageCrop() {
         val intent = Intent(requireContext(), CropImageActivity::class.java)

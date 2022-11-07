@@ -3,6 +3,7 @@ package com.d205.data.repository.user.remote
 import android.util.Log
 import com.d205.data.api.UserApi
 import com.d205.data.model.user.UserEntity
+import com.d205.data.model.user.UserResponse
 import com.d205.domain.model.user.UserDto
 import com.skydoves.sandwich.ApiResponse
 import kotlinx.coroutines.flow.Flow
@@ -16,26 +17,27 @@ class UserRemoteDataSourceImpl @Inject constructor(
     private val userApi: UserApi
 ): UserRemoteDataSource {
 
-    override suspend fun addKakaoUser(user: UserDto): ApiResponse<String> =
-        userApi.addKakaoUser(user)
+    override fun joinKakaoUser(user: UserDto): Flow<Response<UserEntity>> = flow {
+        userApi.updateProfile(user)
+    }
 
-    override suspend fun addNaverUser(user: UserDto): ApiResponse<String> =
-        userApi.addNaverUser(user)
+
+    override fun joinNaverUser(user: UserDto): Flow<Response<UserEntity>> = flow {
+        Log.d(TAG, "joinNaverUser: $user")
+        emit(userApi.updateProfile(user))
+    }
+
 
     override suspend fun checkNickname(nickname: String): ApiResponse<String> =
         userApi.checkNickname(nickname)
 
-    override fun loginKakaoUser(token: String): Response<UserEntity>  {
+    override fun loginKakaoUser(token: String): Flow<Response<UserResponse>> = flow {
         Log.d(TAG, "loginKakaoUser: $TAG token : $token")
-        val response = userApi.loginKakaoUser(token)
-
-
-        Log.d(TAG, "loginKakaoUser: $TAG result : ${response.body()!!}")
-        return response
+        emit(userApi.loginKakaoUser(token))
     }
 
 
-    override fun loginNaverUser(token: String): Flow<Response<UserEntity>> = flow {
+    override fun loginNaverUser(token: String): Flow<Response<UserResponse>> = flow {
         Log.d(TAG, "loginNaverUser: $TAG token : $token")
         //Log.d(TAG, "loginNaverUser: $TAG api result : ${userApi.loginNaverUser(token).body()}")
         emit(userApi.loginNaverUser(token))

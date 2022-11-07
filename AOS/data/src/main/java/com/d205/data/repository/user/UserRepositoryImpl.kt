@@ -1,8 +1,8 @@
 package com.d205.data.repository.user
 
-import android.content.SharedPreferences
 import android.util.Log
-import com.d205.data.mapper.mapperToUser
+import com.d205.data.mapper.mapperUserEntityToUser
+import com.d205.data.mapper.mapperUserResponseToUser
 import com.d205.data.repository.user.local.UserLocalDataSource
 import com.d205.data.repository.user.local.UserMockDataSource
 import com.d205.data.repository.user.remote.UserRemoteDataSource
@@ -11,13 +11,9 @@ import com.d205.domain.model.user.UserDto
 import com.d205.domain.repository.UserRepository
 import com.d205.domain.utils.ResultState
 import com.skydoves.sandwich.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 private const val TAG = "UserRepositoryImpl"
@@ -27,30 +23,24 @@ class UserRepositoryImpl @Inject constructor(
     private val userLocalDataSource: UserLocalDataSource
     ): UserRepository {
 
-    override suspend fun addKakaoUser(user: UserDto): Boolean {
-        var successFlag = false
-        val response = userRemoteDataSource.addKakaoUser(user)
+    override fun joinKakaoUser(user: UserDto): Flow<ResultState<User>> = flow {
+        Log.d(TAG, "addKakaoUser: $TAG: Loading")
+        emit(ResultState.Loading)
 
-        response.onSuccess {
-            Log.d(TAG, "addKakaoUser: success!")
-            successFlag = true
-        }.onError {
-            Log.d(TAG, "addKakaoUser: Error! ${message()}")
+        userRemoteDataSource.joinKakaoUser(user).collect {
+            Log.d(TAG, "addKakaoUser $TAG: collect ${it.body()!!}")
+            emit(ResultState.Success(mapperUserEntityToUser(it.body()!!)))
         }
-        return successFlag
     }
 
-    override suspend fun addNaverUser(user: UserDto): Boolean {
-        var successAddedFlag = false
-        val response = userRemoteDataSource.addNaverUser(user)
+    override fun joinNaverUser(user: UserDto): Flow<ResultState<User>> = flow {
+        Log.d(TAG, "addNaverUser: $TAG: Loading : $user")
+        emit(ResultState.Loading)
 
-        response.onSuccess {
-            Log.d(TAG, "addNaverUser: success!")
-            successAddedFlag = true
-        }.onError {
-            Log.d(TAG, "addNaverUser: Error! ${message()}")
+        userRemoteDataSource.joinNaverUser(user).collect {
+            Log.d(TAG, "addNaverUser $TAG: collect ${it.body()!!}")
+            emit(ResultState.Success(mapperUserEntityToUser(it.body()!!)))
         }
-        return successAddedFlag
     }
 
     override suspend fun checkNickname(nickname: String): Boolean {
@@ -66,52 +56,30 @@ class UserRepositoryImpl @Inject constructor(
         return canUseFlag
     }
 
-    override fun loginKakaoUser(token: String): User {
-        var user = User()
+    override fun loginKakaoUser(token: String): Flow<ResultState<User>> = flow {
 
-        Log.d(TAG, "loginKakaoUser: $TAG")
-        val response = userRemoteDataSource.loginKakaoUser(token)
-
-//        response.onSuccess {
-//            Log.d(TAG, "loginKakaoUser: success!")
-//            user = mapperToUser(data)
-//        }.onError {
-//            Log.d(TAG, "loginKakaoUser: ${message()}")
-//        }
-        return user
+        Log.d(TAG, "loginKakaoUser: $TAG: Loading")
+        emit(ResultState.Loading)
+        userRemoteDataSource.loginKakaoUser(token).collect {
+            Log.d(TAG, "loginKakaoUser $TAG: collect ${it.body()!!}")
+            val accessToken = it.body()!!.jwtDto!!.accessToken
+            userLocalDataSource.saveJwt(accessToken)
+            emit(ResultState.Success(mapperUserResponseToUser(it.body()!!)))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
     }
 
     override fun loginNaverUser(token: String): Flow<ResultState<User>> = flow {
-        var user = User()
-
         Log.d(TAG, "loginNaverUser: $TAG: Loading")
         emit(ResultState.Loading)
         userRemoteDataSource.loginNaverUser(token).collect {
             Log.d(TAG, "loginNaverUser $TAG: collect ${it.body()!!}")
-            emit(ResultState.Success(mapperToUser(it.body()!!)))
+            val accessToken = it.body()!!.jwtDto!!.accessToken
+            userLocalDataSource.saveJwt(accessToken)
+            Log.d(TAG, "loginNaverUser: ${mapperUserResponseToUser(it.body()!!)}")
+            emit(ResultState.Success(mapperUserResponseToUser(it.body()!!)))
         }
-
-
-
-
-
-
-
-
-
-
-
-
-//        response.onSuccess {
-//            Log.d(TAG, "loginNaverUser: success!")
-//            CoroutineScope(Dispatchers.IO).launch {
-//                userLocalDataSource.saveJwt(data.jwtDto!!.accessToken)
-//            }
-//            user = mapperToUser(data)
-//        }.onError {
-//            Log.d(TAG, "loginNaverUser: ${message()}")
-//        }
-//        return user
     }.catch { e ->
         emit(ResultState.Error(e))
     }

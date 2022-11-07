@@ -1,6 +1,10 @@
 package com.d205.sdutyplus.di
 
+import android.app.Application
+import android.content.Context
 import com.d205.data.api.StudyApi
+import com.d205.data.common.XAccessTokenInterceptor
+import com.d205.data.dao.UserSharedPreference
 import com.d205.data.repository.study.StudyRepositoryImpl
 import com.d205.data.repository.study.local.StudyMockDataSource
 import com.d205.data.repository.study.local.StudyMockDataSourceImpl
@@ -14,9 +18,11 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
@@ -26,32 +32,41 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object StudyModule {
 
+    // HttpLoggingInterceptor DI
     @Provides
     @Singleton
-    fun provideRetrofitInstance(gson: Gson, interceptor: Interceptor): Retrofit = Retrofit.Builder()
-        .baseUrl(SERVER_URL)
-        .client(OkHttpClient.Builder().addInterceptor(interceptor).build())
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .build()
+    fun provideInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
 
+    // Gson DI
     @Provides
     @Singleton
     fun provideGson(): Gson {
         return GsonBuilder().disableHtmlEscaping().create()
     }
 
+    //OkHttpClient DI
     @Provides
     @Singleton
-    fun provideHeaderInterceptor(): Interceptor = Interceptor {
-        chain -> chain.run {
-            proceed(
-                request()
-                    .newBuilder()
-                    .addHeader("Authorization Bearer", userPrefs.getString("jwt", "")!!)
-                    .build()
-            )
-        }
+    fun provideOkHttpClient(xAccessTokenInterceptor: XAccessTokenInterceptor): OkHttpClient =
+         OkHttpClient.Builder().addNetworkInterceptor(xAccessTokenInterceptor).build()
+
+    @Provides
+    @Singleton
+    fun provide(@ApplicationContext tmp: Context): XAccessTokenInterceptor {
+        return XAccessTokenInterceptor(UserSharedPreference(tmp))
     }
+
+    // Retrofit DI
+    @Provides
+    @Singleton
+    fun provideRetrofitInstance(gson: Gson, client: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(SERVER_URL)
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .build()
+
 
     @Provides
     @Singleton

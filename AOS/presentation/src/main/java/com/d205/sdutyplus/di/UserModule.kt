@@ -48,4 +48,5 @@ object UserModule {
     @Singleton
     fun provideUserLocalDataSource(userSharedPreference: UserSharedPreference): UserLocalDataSource =
         UserLocalDataSourceImpl(userSharedPreference)
+
 }

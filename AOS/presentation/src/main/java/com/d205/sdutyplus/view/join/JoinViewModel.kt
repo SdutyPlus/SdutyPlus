@@ -1,19 +1,18 @@
 package com.d205.sdutyplus.view.join
 
 import android.util.Log
-import android.util.LogPrinter
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
-import com.d205.domain.usecase.user.AddKakaoUserUseCase
-import com.d205.domain.usecase.user.AddNaverUserUseCase
+import com.d205.domain.usecase.user.JoinKakaoUserUseCase
+import com.d205.domain.usecase.user.JoinNaverUserUseCase
+import com.d205.domain.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 import javax.inject.Inject
 
@@ -21,8 +20,8 @@ private const val TAG = "JoinViewModel"
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val addKakaoUserUseCase: AddKakaoUserUseCase,
-    private val addNaverUserUseCase: AddNaverUserUseCase
+    private val joinKakaoUserUseCase: JoinKakaoUserUseCase,
+    private val joinNaverUserUseCase: JoinNaverUserUseCase
 ): ViewModel() {
     private val _isUsedId = MutableLiveData(false)
     val isUsedId: LiveData<Boolean>
@@ -39,6 +38,10 @@ class JoinViewModel @Inject constructor(
     private val _id = MutableLiveData<String>()
     val id: LiveData<String>
         get() = _id
+
+    private val _isJoinSucceeded = MutableLiveData(false)
+    val isJoinSucceeded: LiveData<Boolean>
+        get() = _isJoinSucceeded
 
     fun checkUsedId(id : String) {
         val flag = true
@@ -63,19 +66,26 @@ class JoinViewModel @Inject constructor(
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    suspend fun addKakaoUser(userDto: UserDto): Boolean {
-        val result = viewModelScope.async {
-            addKakaoUserUseCase(userDto)
+
+    suspend fun addNaverUser(user: UserDto) {
+        withContext(Dispatchers.IO) {
+            Log.d(TAG, "addNaverUser ${TAG}: start : $user")
+            joinNaverUserUseCase.invoke(user).collect {
+                if(it is ResultState.Success) {
+                    withContext(Dispatchers.Main) {
+                        Log.d(TAG, "addNaverUser User : ${it.data}")
+                        _isJoinSucceeded.value = true
+                    }
+                }
+                else {
+                    Log.d(TAG, "addNaverUser ${TAG}: invoke Done!! $it")
+                    User()
+                }
+            }
         }
-        return result.await()
     }
 
-    suspend fun addNaverUser(userDto: UserDto): Boolean {
-        val result = viewModelScope.async {
-            addNaverUserUseCase(userDto)
-        }
-        return result.await()
-    }
+
 
 
 
@@ -100,9 +110,7 @@ class JoinViewModel @Inject constructor(
         _accessToken.value = token
     }
 
-    private val _isJoinSucceeded = MutableLiveData<Boolean>()
-    val isJoinSucceeded: LiveData<Boolean>
-        get() = _isJoinSucceeded
+
 
     private val _isWrongPW = MutableLiveData<Boolean>()
     val isWrongPW: LiveData<Boolean>
