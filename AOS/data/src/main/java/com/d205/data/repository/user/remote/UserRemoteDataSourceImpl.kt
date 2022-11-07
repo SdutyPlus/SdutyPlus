@@ -2,6 +2,7 @@ package com.d205.data.repository.user.remote
 
 import android.util.Log
 import com.d205.data.api.UserApi
+import com.d205.data.model.BaseResponse
 import com.d205.data.model.user.UserEntity
 import com.d205.data.model.user.UserResponse
 import com.d205.domain.model.user.UserDto
@@ -31,9 +32,16 @@ class UserRemoteDataSourceImpl @Inject constructor(
     }
 
 
-    override fun loginNaverUser(token: String): Flow<Response<UserResponse>> = flow {
+    override fun loginNaverUser(token: String): Flow<UserResponse> = flow {
         Log.d(TAG, "loginNaverUser: $TAG token : $token")
         //Log.d(TAG, "loginNaverUser: $TAG api result : ${userApi.loginNaverUser(token).body()}")
-        emit(userApi.loginNaverUser(token))
+
+        val response = userApi.loginNaverUser(token)
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(UserResponse())
+        }
     }
 }

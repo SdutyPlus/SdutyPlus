@@ -15,15 +15,12 @@ import com.d205.domain.model.user.UserDto
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentJoinProfileBinding
-import com.d205.sdutyplus.uitls.KAKAO_JOIN
-import com.d205.sdutyplus.uitls.NAVER_JOIN
 import com.d205.sdutyplus.uitls.PROFILE
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.MainActivity
 import com.d205.sdutyplus.view.common.CropImageActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlin.coroutines.coroutineContext
 
 private const val TAG = "JoinProfileFragment"
 
@@ -82,7 +79,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
                 UserDto(
                     imgUrl = profileImageUrl,
                     nickname = binding.etNickname.text.toString(),
-                    job = jobHashtag!!.seq)
+                    userJob = jobHashtag!!.seq)
             )
             if(isUserJoinedSucceeded()) {
                 moveToMainActivity()

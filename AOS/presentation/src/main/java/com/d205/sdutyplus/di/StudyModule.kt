@@ -44,17 +44,17 @@ object StudyModule {
         return GsonBuilder().setLenient().disableHtmlEscaping().create()
     }
 
+    @Provides
+    @Singleton
+    fun provideXAccessTokenInterceptor(@ApplicationContext context: Context): XAccessTokenInterceptor {
+        return XAccessTokenInterceptor(UserSharedPreference(context))
+    }
+
     //OkHttpClient DI
     @Provides
     @Singleton
     fun provideOkHttpClient(xAccessTokenInterceptor: XAccessTokenInterceptor): OkHttpClient =
          OkHttpClient.Builder().addNetworkInterceptor(xAccessTokenInterceptor).build()
-
-    @Provides
-    @Singleton
-    fun provide(@ApplicationContext tmp: Context): XAccessTokenInterceptor {
-        return XAccessTokenInterceptor(UserSharedPreference(tmp))
-    }
 
     // Retrofit DI
     @Provides

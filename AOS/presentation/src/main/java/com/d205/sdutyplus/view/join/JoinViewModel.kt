@@ -5,12 +5,14 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.usecase.user.JoinUserUseCase
 import com.d205.domain.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -66,7 +68,7 @@ class JoinViewModel @Inject constructor(
 
 
     suspend fun addUser(user: UserDto) {
-        withContext(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             Log.d(TAG, "addUser ${TAG}: start : $user")
             joinUserUseCase.invoke(user).collect {
                 if(it is ResultState.Success) {
@@ -77,7 +79,6 @@ class JoinViewModel @Inject constructor(
                 }
                 else {
                     Log.d(TAG, "addUser ${TAG}: invoke Done!! $it")
-                    User()
                 }
             }
         }

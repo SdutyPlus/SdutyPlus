@@ -13,5 +13,4 @@ class NaverLoginUseCase @Inject constructor(private val userRepository: UserRepo
         Log.d(TAG, "invoke: ")
         return userRepository.loginNaverUser(token)
     }
-        
 }
