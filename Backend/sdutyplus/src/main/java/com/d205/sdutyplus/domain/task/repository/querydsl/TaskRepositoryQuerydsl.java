@@ -6,5 +6,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskRepositoryQuerydsl {
-    List<TaskResponseDto> findTaskByStartTime(LocalDateTime start, LocalDateTime end);
+    List<TaskResponseDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end);
 }

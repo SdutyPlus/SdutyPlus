@@ -29,7 +29,7 @@ public class TaskController {
     @ApiOperation(value = "데일리 테스크 조회(리포트조회)")
     @GetMapping("/{date}")
     public ResponseEntity<?> getDailyTask(@PathVariable String date){
-        ReportResponseDto reportResponseDto = taskService.getTaskByDate(date);
+        ReportResponseDto reportResponseDto = taskService.getTaskByDate(new Long(1), date);
         return ResponseEntity.ok().body(ResponseDto.of(GET_DAILYTASK_SUCCESS, reportResponseDto));
     }
 
