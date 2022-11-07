@@ -26,13 +26,22 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
     private fun initView() {
 
-        setTodayAtView()
+        setTodayInfo()
         initTimer()
         initObserver()
     }
 
+    private fun setTodayInfo() {
+        setTodayAtView()
+        setTodayStudyTime()
+    }
+
     private fun setTodayAtView() {
         timerViewModel.getCurrentTime()
+    }
+
+    private fun setTodayStudyTime() {
+
     }
 
 
@@ -88,8 +97,6 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
                 binding.tvToday.text = currentTime
             }
         }
-
-
     }
 
     private fun settingTimerTime(time: Int) {
