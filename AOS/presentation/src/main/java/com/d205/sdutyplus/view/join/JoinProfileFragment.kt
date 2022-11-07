@@ -57,19 +57,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         binding.apply {
             btnJoin.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-//                    if(checkNicknameIsUsed()) {
-//                        requireContext().showToast("이미 사용중인 닉네임입니다.")
-//                    }
-//                    else {
-//                        when(getSocialType()) {
-//                            KAKAO_JOIN -> joinKakaoUser()
-//                            NAVER_JOIN -> joinNaverUser()
-//                        }
-//                    }
-                    when(getSocialType()) {
-                        KAKAO_JOIN -> joinKakaoUser()
-                        NAVER_JOIN -> joinNaverUser()
-                    }
+                    joinUser()
                 }
             }
 
@@ -88,13 +76,9 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
     private fun getSocialType(): Int = args.socialType
 
-    private fun joinKakaoUser() {
-
-    }
-
-    private fun joinNaverUser() {
+    private fun joinUser() {
         CoroutineScope(Dispatchers.Main).launch {
-            joinViewModel.addNaverUser(
+            joinViewModel.addUser(
                 UserDto(
                     imgUrl = profileImageUrl,
                     nickname = binding.etNickname.text.toString(),

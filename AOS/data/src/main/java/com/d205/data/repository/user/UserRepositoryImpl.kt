@@ -23,22 +23,12 @@ class UserRepositoryImpl @Inject constructor(
     private val userLocalDataSource: UserLocalDataSource
     ): UserRepository {
 
-    override fun joinKakaoUser(user: UserDto): Flow<ResultState<User>> = flow {
-        Log.d(TAG, "addKakaoUser: $TAG: Loading")
+    override fun joinUser(user: UserDto): Flow<ResultState<User>> = flow {
+        Log.d(TAG, "joinUser: $TAG: Loading : $user")
         emit(ResultState.Loading)
 
-        userRemoteDataSource.joinKakaoUser(user).collect {
-            Log.d(TAG, "addKakaoUser $TAG: collect ${it.body()!!}")
-            emit(ResultState.Success(mapperUserEntityToUser(it.body()!!)))
-        }
-    }
-
-    override fun joinNaverUser(user: UserDto): Flow<ResultState<User>> = flow {
-        Log.d(TAG, "addNaverUser: $TAG: Loading : $user")
-        emit(ResultState.Loading)
-
-        userRemoteDataSource.joinNaverUser(user).collect {
-            Log.d(TAG, "addNaverUser $TAG: collect ${it.body()!!}")
+        userRemoteDataSource.joinUser(user).collect {
+            Log.d(TAG, "joinUser $TAG: collect ${it.body()!!}")
             emit(ResultState.Success(mapperUserEntityToUser(it.body()!!)))
         }
     }

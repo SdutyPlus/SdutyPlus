@@ -22,8 +22,7 @@ private const val TAG ="LoginViewModel"
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase,
-    private val naverLoginUseCase: NaverLoginUseCase,
-    private val joinNaverUserUseCase: JoinNaverUserUseCase
+    private val naverLoginUseCase: NaverLoginUseCase
 ): ViewModel() {
     private val _user : MutableStateFlow<ResultState<User>> = MutableStateFlow(ResultState.Uninitialized)
     val user get() = _user.asStateFlow()
@@ -38,7 +37,7 @@ class LoginViewModel @Inject constructor(
         _token.postValue(token)
     }
 
-    private val _isLoginSucceed = MutableLiveData<Boolean>(false)
+    private val _isLoginSucceed = MutableLiveData(false)
     val isLoginSucceed: LiveData<Boolean>
         get() = _isLoginSucceed
 

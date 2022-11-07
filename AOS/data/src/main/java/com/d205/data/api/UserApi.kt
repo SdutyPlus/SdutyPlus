@@ -11,12 +11,6 @@ import retrofit2.http.POST
 
 interface UserApi {
 
-    @POST("/user/kakao/join")
-    suspend fun joinKakaoUser(user: UserDto): Response<String>
-
-    @POST("/user/naver/join")
-    suspend fun joinNaverUser(@Body user: UserDto): Response<String>
-
     @GET("/user/check/{nickname}")
     suspend fun checkNickname(nickname: String): ApiResponse<String>
 

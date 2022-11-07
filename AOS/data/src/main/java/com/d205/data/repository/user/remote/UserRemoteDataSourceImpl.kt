@@ -17,13 +17,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
     private val userApi: UserApi
 ): UserRemoteDataSource {
 
-    override fun joinKakaoUser(user: UserDto): Flow<Response<UserEntity>> = flow {
-        userApi.updateProfile(user)
-    }
-
-
-    override fun joinNaverUser(user: UserDto): Flow<Response<UserEntity>> = flow {
-        Log.d(TAG, "joinNaverUser: $user")
+    override fun joinUser(user: UserDto): Flow<Response<UserEntity>> = flow {
         emit(userApi.updateProfile(user))
     }
 

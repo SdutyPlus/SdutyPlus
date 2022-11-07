@@ -9,6 +9,7 @@ import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.usecase.user.JoinKakaoUserUseCase
 import com.d205.domain.usecase.user.JoinNaverUserUseCase
+import com.d205.domain.usecase.user.JoinUserUseCase
 import com.d205.domain.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +21,6 @@ private const val TAG = "JoinViewModel"
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val joinKakaoUserUseCase: JoinKakaoUserUseCase,
     private val joinNaverUserUseCase: JoinNaverUserUseCase
 ): ViewModel() {
     private val _isUsedId = MutableLiveData(false)
@@ -67,18 +67,18 @@ class JoinViewModel @Inject constructor(
     }
 
 
-    suspend fun addNaverUser(user: UserDto) {
+    suspend fun addUser(user: UserDto) {
         withContext(Dispatchers.IO) {
-            Log.d(TAG, "addNaverUser ${TAG}: start : $user")
+            Log.d(TAG, "addUser ${TAG}: start : $user")
             joinNaverUserUseCase.invoke(user).collect {
                 if(it is ResultState.Success) {
                     withContext(Dispatchers.Main) {
-                        Log.d(TAG, "addNaverUser User : ${it.data}")
+                        Log.d(TAG, "addUser User : ${it.data}")
                         _isJoinSucceeded.value = true
                     }
                 }
                 else {
-                    Log.d(TAG, "addNaverUser ${TAG}: invoke Done!! $it")
+                    Log.d(TAG, "addUser ${TAG}: invoke Done!! $it")
                     User()
                 }
             }

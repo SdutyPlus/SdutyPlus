@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface UserRemoteDataSource {
-    fun joinKakaoUser(user: UserDto): Flow<Response<UserEntity>>
-    fun joinNaverUser(user: UserDto): Flow<Response<UserEntity>>
+    fun joinUser(user: UserDto): Flow<Response<UserEntity>>
     suspend fun checkNickname(nickname: String): ApiResponse<String>
     fun loginKakaoUser(token: String): Flow<Response<UserResponse>>
     fun loginNaverUser(token: String): Flow<Response<UserResponse>>
