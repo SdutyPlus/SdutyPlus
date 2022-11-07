@@ -1,10 +1,8 @@
-package com.d205.sdutyplus.domain.jwt.entity;
+package com.d205.sdutyplus.domain.jwt.support;
 
+import com.d205.sdutyplus.domain.jwt.entity.Pair;
 import com.d205.sdutyplus.domain.user.entity.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwsHeader;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.extern.log4j.Log4j2;
 
 import java.security.Key;
@@ -12,6 +10,32 @@ import java.util.Date;
 
 @Log4j2
 public class JwtUtils {
+
+    public static boolean validateToken(String token) {
+
+        Jws<Claims> claimsJws = Jwts.parserBuilder()
+                .setSigningKeyResolver(SigningKeyResolver.instance) //키에 맞는 키값을 가져오는 역할
+                .build()
+                .parseClaimsJws(token); //키를 통해 검증,만료확인 부적절시 익셉션 발생
+        return true;
+    }
+
+    /**
+     * 토큰에서 seq 찾기
+     *
+     * @param token 토큰
+     * @return seq
+     */
+    public static String getUserSeq(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKeyResolver(SigningKeyResolver.instance) //키에 맞는 키값을 가져오는 역할
+                .build()
+                .parseClaimsJws(token) //키를 통해 검증,만료확인 부적절시 익셉션 발생
+                .getBody()
+                .getSubject(); // username
+    }
+
     public static String createAccessToken(User user) {
         Claims claims = Jwts.claims().setSubject(Long.toString(user.getSeq())); // subject
         Date now = new Date(); // 현재 시간

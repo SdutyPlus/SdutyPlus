@@ -1,4 +1,4 @@
-package com.d205.sdutyplus.domain.jwt.entity;
+package com.d205.sdutyplus.domain.jwt.support;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.d205.sdutyplus.domain.jwt.entity.Pair;
 import io.jsonwebtoken.security.Keys;
 
 /**

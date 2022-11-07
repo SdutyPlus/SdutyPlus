@@ -4,22 +4,23 @@ import com.d205.sdutyplus.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
+
 @Getter
 @NoArgsConstructor
-public class UserDto {
-    private Long seq;
-    private String email;
+public class UserProfileDto {
+
+    private Long userSeq;
     private String nickname;
     private Long job;
     private String imgUrl;
-    private String fcmToken;
+    private Time resetTime;
 
-    public UserDto(User user) {
-        this.seq = user.getSeq();
-        this.email = user.getEmail();
+    public UserProfileDto(User user){
+        this.userSeq = user.getSeq();
         this.nickname = user.getNickname();
         this.job = user.getJob();
         this.imgUrl = user.getImgUrl();
-        this.fcmToken = user.getFcmToken();
+        this.resetTime = user.getResetTime();
     }
 }

@@ -3,7 +3,7 @@ package com.d205.sdutyplus.domain.user.service;
 
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
-import com.d205.sdutyplus.domain.jwt.entity.JwtUtils;
+import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
@@ -20,11 +20,9 @@ import javax.transaction.Transactional;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -59,7 +57,7 @@ public class UserAuthService {
             realUser = userOp.get();
         }
         JwtDto jwtDto = new JwtDto(JwtUtils.createAccessToken(realUser), JwtUtils.createRefreshToken(realUser));
-        
+
         //token저장
         Jwt jwt = jwtRepository.findByUserSeq(realUser.getSeq()).orElseGet(()->new Jwt());
         jwt.setUserSeq(realUser.getSeq());

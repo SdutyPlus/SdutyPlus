@@ -26,16 +26,16 @@ public class User {
     @Column(name="social_type", length = 10)
     private SocialType socialType;
 
-    @Column(name="nickname", length = 20, unique = true)
+    @Column(name="nickname", length = 20, unique = true, columnDefinition = "default ' '")
     private String nickname;
 
-    @Column(name="job", columnDefinition = "INT UNSIGNED")
+    @Column(name="job", columnDefinition = "INT UNSIGNED default 0")
     private Long job;
 
     @Column(name="fcm_token", length = 250)
     private String fcmToken;
 
-    @Column(name="img_url", length = 200)
+    @Column(name="img_url", length = 200, columnDefinition = "default ' '")
     private String imgUrl;
 
     @Column(name="reset_time")
