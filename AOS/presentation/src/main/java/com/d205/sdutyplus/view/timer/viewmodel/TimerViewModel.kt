@@ -53,7 +53,7 @@ class TimerViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher){
             var result = getCurrentTimeUsecase()
             if(result != "error") {
-                val dateTime = convertTimeStringToDate(result, "yyyy-mm-dd hh:mm:ss")
+                val dateTime = convertTimeStringToDate(result, "yyyy-MM-dd HH:mm:ss")
                 Log.d(TAG, "timeconvert $result $dateTime")
                 result = convertTimeDateToString(dateTime,"yyyy년 M월 d일")
                 Log.d(TAG, "timeconvert $dateTime $result")

@@ -13,8 +13,10 @@ class TimerLocalDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getLocalCurrentTime(): String {
-        return convertTimeDateToString(getTodayDate(), "yy-MM-DD HH:MM:SS")
+        return convertTimeDateToString(getTodayDate(), "yyyy-MM-dd HH:mm:ss")
     }
+
+
 }
 
 fun convertTimeDateToString(date: Date, format: String = "yyyy년 M월 d일"): String {
@@ -25,3 +27,4 @@ fun convertTimeDateToString(date: Date, format: String = "yyyy년 M월 d일"): S
 fun getTodayDate(): Date {
     return Date(System.currentTimeMillis())
 }
+
