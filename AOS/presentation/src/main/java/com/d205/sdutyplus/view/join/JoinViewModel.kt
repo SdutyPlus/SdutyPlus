@@ -7,8 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
-import com.d205.domain.usecase.user.JoinKakaoUserUseCase
-import com.d205.domain.usecase.user.JoinNaverUserUseCase
 import com.d205.domain.usecase.user.JoinUserUseCase
 import com.d205.domain.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +19,7 @@ private const val TAG = "JoinViewModel"
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val joinNaverUserUseCase: JoinNaverUserUseCase
+    private val joinUserUseCase: JoinUserUseCase
 ): ViewModel() {
     private val _isUsedId = MutableLiveData(false)
     val isUsedId: LiveData<Boolean>
@@ -70,7 +68,7 @@ class JoinViewModel @Inject constructor(
     suspend fun addUser(user: UserDto) {
         withContext(Dispatchers.IO) {
             Log.d(TAG, "addUser ${TAG}: start : $user")
-            joinNaverUserUseCase.invoke(user).collect {
+            joinUserUseCase.invoke(user).collect {
                 if(it is ResultState.Success) {
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "addUser User : ${it.data}")

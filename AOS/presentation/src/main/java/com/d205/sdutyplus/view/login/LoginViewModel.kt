@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
-import com.d205.domain.usecase.user.JoinNaverUserUseCase
 import com.d205.domain.usecase.user.KakaoLoginUseCase
 import com.d205.domain.usecase.user.NaverLoginUseCase
 import com.d205.domain.utils.ResultState
