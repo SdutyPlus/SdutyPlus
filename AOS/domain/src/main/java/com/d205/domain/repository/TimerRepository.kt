@@ -4,4 +4,6 @@ interface TimerRepository {
     suspend fun saveStartTime(startTime: String): Boolean
 
     suspend fun getCurrentTime(): String
+
+    suspend fun updateStudyElapsedTime(studyTime: Int)
 }

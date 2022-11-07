@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.d205.domain.usecase.timer.GetCurrentTimeUsecase
 import com.d205.domain.usecase.timer.SaveStartTimeUsecase
 import com.d205.domain.usecase.timer.StartTimerUsecase
+import com.d205.domain.usecase.timer.UpdateStudyElapsedTimeUsecase
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.convertTimeStringToDate
 import com.d205.sdutyplus.uitls.getTodayDate
@@ -25,7 +26,8 @@ private const val TAG = "TimerViewModel"
 class TimerViewModel @Inject constructor(
     private val startTimerUsecase: StartTimerUsecase,
     private val saveStartTimeUsecase: SaveStartTimeUsecase,
-    private val getCurrentTimeUsecase: GetCurrentTimeUsecase
+    private val getCurrentTimeUsecase: GetCurrentTimeUsecase,
+    private val udateStudyElapsedTimeUsecase: UpdateStudyElapsedTimeUsecase
 ): ViewModel() {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -53,21 +55,22 @@ class TimerViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher){
             var result = getCurrentTimeUsecase()
             if(result != "error") {
-                val dateTime = convertTimeStringToDate(result, "yyyy-MM-dd HH:mm:ss")
-                Log.d(TAG, "timeconvert $result $dateTime")
-                result = convertTimeDateToString(dateTime,"yyyy년 M월 d일")
-                Log.d(TAG, "timeconvert $dateTime $result")
+                result = convertTime(result) // todo refactor
                 _currentTime.postValue(result)
             }
         }
     }
 
+    private fun convertTime(time: String): String {
+        val dateTime = convertTimeStringToDate(time, "yyyy-MM-dd HH:mm:ss")
+        return convertTimeDateToString(dateTime,"yyyy년 M월 d일")
+    }
 
     fun startTimer() {
         viewModelScope.launch(defaultDispatcher) {
             startTimerUsecase()
-            updateTimerRunningState()
             setTimer()
+            updateTimerRunningState()
         }
     }
 
@@ -77,11 +80,20 @@ class TimerViewModel @Inject constructor(
 
     private fun setTimer() {
         timerObj = timer(period = 1000) {
-            _timerTime.postValue(_timerTime.value!! + 1) // todo refactoring
-            Log.d("timer","isResumeCountDownStart : $isResumeCountDownStart")
+            updateTimerTime()
+            saveTimerTime()
             if(isResumeCountDownStart) {
                 updateCountDown()
             }
+        }
+    }
+
+    private fun updateTimerTime() {
+        _timerTime.postValue(_timerTime.value!! + 1) // todo refactoring
+    }
+    private fun saveTimerTime() {
+        viewModelScope.launch(defaultDispatcher) {
+            udateStudyElapsedTimeUsecase(_timerTime.value!!)
         }
     }
 

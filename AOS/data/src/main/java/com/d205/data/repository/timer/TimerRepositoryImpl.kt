@@ -1,5 +1,6 @@
 package com.d205.data.repository.timer
 
+import android.util.Log
 import com.d205.data.repository.timer.local.TimerLocalDataSource
 import com.d205.data.repository.timer.remote.TimerRemoteDataSource
 import com.d205.domain.repository.TimerRepository
@@ -19,6 +20,12 @@ class TimerRepositoryImpl @Inject constructor(
             return result
         } else {
             return timerLocalDatasource.getLocalCurrentTime()
+        }
+    }
+
+    override suspend fun updateStudyElapsedTime(studyTime: Int) {
+        if(timerLocalDatasource.updateElapsedTime(studyTime)) {
+            Log.d("ElapsedTime","$studyTime ElapsedTime")
         }
     }
 

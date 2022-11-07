@@ -16,6 +16,10 @@ class TimerLocalDataSourceImpl @Inject constructor(
         return convertTimeDateToString(getTodayDate(), "yyyy-MM-dd HH:mm:ss")
     }
 
+    override suspend fun updateElapsedTime(studyTime: Int): Boolean {
+        return timerSharedPreference.setIntFromPreference("StudyElapsedTime",studyTime)
+    }
+
 
 }
 
