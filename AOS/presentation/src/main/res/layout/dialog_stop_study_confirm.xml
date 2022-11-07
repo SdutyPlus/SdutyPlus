@@ -2,7 +2,10 @@
 <layout>
 
     <data>
-
+        <variable
+            name="timerVM"
+            type="com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel"/>
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,8 +50,7 @@
             app:layout_constraintBottom_toTopOf="@id/btn_finish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="하하하하하"
-            tools:text="측정을 이어서 하려면 \n[20]초 이내에 클릭하세요"
+            android:text="20초 이내에 이어하세요!"
             />
 
         <Button
@@ -69,10 +71,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_shape_right"
             android:textColor="@color/sduty_mix_violet"
-            android:text="이어서"
+            android:text="이어하기"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_finish"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
