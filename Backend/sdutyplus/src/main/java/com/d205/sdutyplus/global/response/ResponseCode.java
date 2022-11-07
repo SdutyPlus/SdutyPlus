@@ -14,7 +14,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ResponseCode {
-    //Task
+    // User
+
+    // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
     UPDATE_TASK_SUCCESS(200, "T002", "테스크가 수정되었습니다."),
     DELETE_TASK_SUCCESS(200, "T003", "테스크가 삭제되었습니다."),
@@ -28,8 +30,13 @@ public enum ResponseCode {
 
     //Feed
     CREATE_FEED_SUCCESS(200, "F001", "피드가 등록되었습니다."),
-    GET_ALL_FEED_SUCCESS(200, "F002", "전체 게시글 조회가 성공하였습니다.");
+    GET_ALL_FEED_SUCCESS(200, "F002", "전체 게시글 조회가 성공하였습니다."),
 
+    // Warn
+    WARN_SUCCESS(200, "W001", "신고 완료."),
+    WARN_FAIL(200, "W002", "신고 실패"),
+
+    ;
 
     private final int status;
     private final String code;
