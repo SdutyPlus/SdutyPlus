@@ -1,8 +1,10 @@
 package com.d205.sdutyplus.view.report
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.d205.domain.model.report.Task
@@ -18,8 +20,11 @@ class TaskAdapter(private val listener: TaskAdapterListener)
             }
         }
         fun bind(task: Task) {
-            binding.rvSubtask.adapter = SubTaskAdapter(task.subTaskDtos)
             binding.task = task
+            binding.rvSubtask.apply {
+                adapter = SubTaskAdapter(task.subTaskDtos)
+                layoutManager = LinearLayoutManager(binding.rvSubtask.context, LinearLayoutManager.VERTICAL, false)
+            }
         }
     }
 

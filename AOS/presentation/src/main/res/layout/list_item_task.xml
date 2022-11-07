@@ -62,6 +62,7 @@
                     >
 
                     <LinearLayout
+                        android:id="@+id/layout_content"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="4dp"
@@ -72,6 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
+                            android:singleLine="true"
                             android:text="@{Task.content}"
                             tools:text="알고리즘"
                             />
@@ -127,11 +129,6 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
-
-
-
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

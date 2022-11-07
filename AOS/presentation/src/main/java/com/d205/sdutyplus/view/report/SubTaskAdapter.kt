@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.view.report
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,11 +10,12 @@ import com.d205.domain.model.report.SubTask
 import com.d205.sdutyplus.databinding.ListItemSubtaskBinding
 
 class SubTaskAdapter(private val subtask: List<SubTask>)
-    :ListAdapter<SubTask, SubTaskAdapter.ViewHolder>(diffUtil) {
+    :RecyclerView.Adapter<SubTaskAdapter.ViewHolder>() {
 
         inner class ViewHolder(private val binding: ListItemSubtaskBinding): RecyclerView.ViewHolder(binding.root){
-            fun bind(subTask: SubTask){
-                binding.subTask = subTask
+            fun bind(pos: Int){
+                Log.d(TAG, "bind@@SubTask: ${subtask[pos]}")
+                binding.subTask = subtask[pos]
             }
         }
 
@@ -23,7 +25,11 @@ class SubTaskAdapter(private val subtask: List<SubTask>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(subtask[position])
+        holder.bind(position)
+    }
+
+    override fun getItemCount(): Int {
+        return subtask.size
     }
 
     companion object{
@@ -38,4 +44,6 @@ class SubTaskAdapter(private val subtask: List<SubTask>)
 
         }
     }
+
+
 }
