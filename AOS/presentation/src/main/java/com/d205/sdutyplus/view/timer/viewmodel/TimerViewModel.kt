@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d205.domain.usecase.timer.GetCurrentTimeUsecase
-import com.d205.domain.usecase.timer.SaveStartTimeUsecase
-import com.d205.domain.usecase.timer.StartTimerUsecase
-import com.d205.domain.usecase.timer.UpdateStudyElapsedTimeUsecase
+import com.d205.domain.usecase.timer.*
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.convertTimeStringToDate
 import com.d205.sdutyplus.uitls.getTodayDate
@@ -27,7 +24,8 @@ class TimerViewModel @Inject constructor(
     private val startTimerUsecase: StartTimerUsecase,
     private val saveStartTimeUsecase: SaveStartTimeUsecase,
     private val getCurrentTimeUsecase: GetCurrentTimeUsecase,
-    private val udateStudyElapsedTimeUsecase: UpdateStudyElapsedTimeUsecase
+    private val udateStudyElapsedTimeUsecase: UpdateStudyElapsedTimeUsecase,
+    private val getTodayTotalStudyTimeUsecase: GetTodayTotalStudyTimeUsecase
 ): ViewModel() {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -50,6 +48,14 @@ class TimerViewModel @Inject constructor(
     val currentTime: LiveData<String>
         get() = _currentTime
 
+    private val _todayTotalStudyTime = MutableLiveData<String>("00:00:00")
+    val todayTotalStudyTime: LiveData<String>
+        get() = _todayTotalStudyTime
+
+    private val _updatedTotalTime = MutableLiveData<String>("00:00:00")
+    val updatedTotalTime: LiveData<String>
+        get() = _updatedTotalTime
+
 
     fun getCurrentTime() {
         viewModelScope.launch(defaultDispatcher){
@@ -57,6 +63,15 @@ class TimerViewModel @Inject constructor(
             if(result != "error") {
                 result = convertTime(result) // todo refactor
                 _currentTime.postValue(result)
+            }
+        }
+    }
+
+    fun getTodayTotalStudyTime() {
+        viewModelScope.launch(defaultDispatcher) {
+            val result = getTodayTotalStudyTimeUsecase.getTodayTotalStudyTime()
+            if(result != "error") {
+                _todayTotalStudyTime.postValue(result)
             }
         }
     }
@@ -82,6 +97,7 @@ class TimerViewModel @Inject constructor(
         timerObj = timer(period = 1000) {
             updateTimerTime()
             saveTimerTime()
+            updateTotalStudyTime()
             if(isResumeCountDownStart) {
                 updateCountDown()
             }
@@ -95,6 +111,29 @@ class TimerViewModel @Inject constructor(
         viewModelScope.launch(defaultDispatcher) {
             udateStudyElapsedTimeUsecase(_timerTime.value!!)
         }
+    }
+    private fun updateTotalStudyTime() {
+        // 총 시간에 +1 해서 다시 넣어 준다.
+        var totalTime = _todayTotalStudyTime.value!!
+        // 00:00:00을 초로 변환
+
+        var token = totalTime.split(':')
+        Log.d("slice", "t0 ${token[0]}")
+        Log.d("slice", "t1 ${token[1]}")
+        Log.d("slice", "t2 ${token[2]}")
+
+        // 초로 변환 후 + 1
+        var seconds = token[0].toInt() * 3600 + token[1].toInt() * 60 + token[2].toInt()
+        Log.d("slice", "seconds ${seconds}")
+        seconds = seconds + _timerTime.value!!
+
+        // 다시 00:00:00으로 변환 후 입력
+        val hour = seconds / 60 / 60
+        val min = (seconds / 60) % 60
+        val sec = seconds % 60
+        totalTime = String.format("%02d:%02d:%02d", hour, min, sec)
+
+        _updatedTotalTime.postValue(totalTime)
     }
 
     private fun updateCountDown() {
@@ -141,6 +180,7 @@ class TimerViewModel @Inject constructor(
 
     fun timerTimeReset() {
         _timerTime.value = 0
+        _updatedTotalTime.postValue(_todayTotalStudyTime.value)
     }
 
 
