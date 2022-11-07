@@ -58,8 +58,9 @@ public class FeedService {
             Bucket bucket = StorageClient.getInstance().bucket(firebaseBucket);
             InputStream content = new ByteArrayInputStream(file.getBytes());
             Blob blob = bucket.create(UPLOADURL+fileName, content, file.getContentType());
-            //return blob.getMediaLink();
-            return "https://firebasestorage.googleapis.com/v0/b/"+blob.getBucket()+"/o/"+fileName+"?alt=media";
+            System.out.println(blob);
+//            return blob.getMediaLink();
+            return "https://firebasestorage.googleapis.com/v0/b/"+blob.getBucket()+"/o/"+blob.getName().replace("feed/", "feed%2F")+"?alt=media";
         }
         catch(IOException e){
             throw new NotSupportedImageTypeException();
