@@ -33,11 +33,11 @@ public class TaskService{
         return taskRepository.save(task);
     }
 
-    public ReportResponseDto getTaskByDate(String date){
+    public ReportResponseDto getTaskByDate(Long userSeq, String date){
         LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
 //        List<Task> tasks = taskRepository.findAllByStartTimeBetween(startTime, endTime);
-        List<TaskResponseDto> taskResponseDtos = taskRepositoryQuerydsl.findTaskByStartTime(startTime, endTime);
+        List<TaskResponseDto> taskResponseDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
 
         ReportResponseDto reportResponseDto = new ReportResponseDto(taskResponseDtos);
 

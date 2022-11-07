@@ -25,11 +25,11 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<TaskResponseDto> findTaskByStartTime(LocalDateTime start, LocalDateTime end) {
+    public List<TaskResponseDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end) {
         Map<Task, List<SubTaskResponseDto>> transform = queryFactory
                 .selectFrom(task)
                 .leftJoin(task.subTasks, subTask)
-                .where(task.startTime.between(start, end))
+                .where(task.startTime.between(start, end).and(task.ownerSeq.eq(userSeq)))
                 .transform(groupBy(task).as(list(new QSubTaskResponseDto(subTask.seq, subTask.content))));
 
         return transform.entrySet().stream()
