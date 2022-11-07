@@ -2,7 +2,9 @@ package com.d205.sdutyplus.view.login
 
 import android.content.Intent
 import android.util.Log
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentLoginBinding
@@ -18,11 +20,16 @@ import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import com.navercorp.nid.profile.NidProfileCallback
 import com.navercorp.nid.profile.data.NidProfileResponse
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 
 private const val TAG = "LoginFragment"
+
+@AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login) {
     private val userApiClient = UserApiClient.instance
-    private lateinit var userToken: String
+    private lateinit var userAccessToken: String
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun initOnViewCreated() {
         getKakaoKeyHash()
@@ -31,8 +38,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun getKakaoKeyHash() {
-        val keyHash = Utility.getKeyHash(context = requireContext())
-        Log.d(TAG, "v: $keyHash")
+        val kakaoKeyHash = Utility.getKeyHash(context = requireContext())
+        Log.d(TAG, "init: $kakaoKeyHash")
     }
 
     private fun initNaverLogin() {
@@ -75,7 +82,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { kakoToken, error ->
         if (kakoToken != null) {
             Log.d(TAG, "카카오계정 로그인 성공 token : ${kakoToken.accessToken}")
-            userToken = kakoToken.accessToken
+            userAccessToken = kakoToken.accessToken
 
             // 사용자 정보 가져오기
             userApiClient.me { userInfo, error ->
@@ -91,11 +98,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                                 "아이디 : ${userInfo.id}\n" +
                                 "이름 : ${userInfo.kakaoAccount?.name}"
                     )
-                    if(isJoinedUser(userToken)) {
-                        moveToMainActivity()
-                    }
-                    else {
-                        moveToJoinProfileFragment(KAKAO_JOIN)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        if(isJoinedKakaoUser(userAccessToken)) {
+                            loginViewModel.user.collect {
+                                if(it is ResultState.Success) {
+                                    mainViewModel.setUserValue(it.data)
+                                    moveToMainActivity()
+                                }
+                            }
+                            //mainViewModel.setUserValue(loginViewModel.user.data)
+
+                        }
+                        else {
+                            withContext(Dispatchers.Main) {
+                                moveToJoinProfileFragment(KAKAO_JOIN)
+                            }
+                            //moveToJoinProfileFragment(KAKAO_JOIN)
+                        }
                     }
                 }
             }
@@ -114,14 +133,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 Log.d(TAG, "onSuccess: id: ${response.profile} \n" +
                         "token: $naverToken")
 
-                userToken = naverToken!!
+                userAccessToken = naverToken!!
                 requireContext().showToast("네이버 아이디 로그인 성공!")
 
-                if(isJoinedUser(userToken)) {
-                    moveToMainActivity()
-                }
-                else {
-                    moveToJoinProfileFragment(NAVER_JOIN)
+                CoroutineScope(Dispatchers.IO).launch {
+                    if(isJoinedNaverUser(userAccessToken)) {
+//                        mainViewModel.setUserValue(loginViewModel.user.value!!)
+//                        moveToMainActivity()
+                        loginViewModel.user.collect {
+                            if(it is ResultState.Success) {
+                                mainViewModel.setUserValue(it.data)
+                                moveToMainActivity()
+                            }
+                        }
+                    }
+                    else {
+                        withContext(Dispatchers.Main) {
+                            moveToJoinProfileFragment(NAVER_JOIN)
+                        }
+                    }
                 }
             }
             override fun onFailure(httpStatus: Int, message: String) {
@@ -159,16 +189,27 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         NaverIdLoginSDK.authenticate(requireContext(), oauthLoginCallback)
     }
 
-    private fun isJoinedUser(token: String): Boolean {
-        return false
+    private suspend fun isJoinedKakaoUser(kakaoToken: String): Boolean {
+        withContext(CoroutineScope(Dispatchers.Main).coroutineContext) {
+            loginViewModel.kakaoLogin(kakaoToken)
+        }
+        return loginViewModel.isLoginSucceed.value!!
+    }
+
+
+    private suspend fun isJoinedNaverUser(naverToken: String): Boolean {
+        withContext(CoroutineScope(Dispatchers.Main).coroutineContext) {
+            loginViewModel.naverLogin(naverToken)
+        }
+        return loginViewModel.isLoginSucceed.value!!
     }
 
     fun moveToMainActivity() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
     }
 
-    fun moveToJoinProfileFragment(loginType: Int) {
-        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinProfileFragment(type = loginType, userToken))
+    fun moveToJoinProfileFragment(socialType: Int) {
+        findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToJoinProfileFragment(socialType = socialType, userAccessToken))
     }
 
     private fun moveToJoinIdFragment() {

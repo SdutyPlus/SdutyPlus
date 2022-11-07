@@ -9,9 +9,12 @@ import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentJoinIdBinding
 import com.d205.sdutyplus.uitls.showToast
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
 private const val TAG = "JoinIdFragment"
+
+@AndroidEntryPoint
 class JoinIdFragment : BaseFragment<FragmentJoinIdBinding>(R.layout.fragment_join_id) {
     private val joinViewModel : JoinViewModel by viewModels()
 

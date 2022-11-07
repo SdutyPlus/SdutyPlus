@@ -15,28 +15,34 @@ import com.d205.domain.model.user.UserDto
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentJoinProfileBinding
+import com.d205.sdutyplus.uitls.KAKAO_JOIN
+import com.d205.sdutyplus.uitls.NAVER_JOIN
 import com.d205.sdutyplus.uitls.PROFILE
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.MainActivity
 import com.d205.sdutyplus.view.common.CropImageActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 
 private const val TAG = "JoinProfileFragment"
+
+@AndroidEntryPoint
 class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fragment_join_profile) {
     private val args by navArgs<JoinProfileFragmentArgs>()
     private val profileViewModel: ProfileViewModel by viewModels()
     private val joinViewModel: JoinViewModel by viewModels()
 
-    private lateinit var imageUrl: String
+    private lateinit var profileImageUrl: String
     private var jobHashtag: JobHashtag? = null
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    private val getImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if(it.resultCode == Activity.RESULT_OK){
             val uri = it.data!!.getStringExtra("uri")
             Log.d(TAG, "uri : $uri")
 
             binding.ivProfile.setImageURI(Uri.parse(uri))
-            imageUrl = uri!!
+            profileImageUrl = uri!!
         }
         else{
             Log.d(TAG, "resultLauncher: NO DATA")
@@ -50,25 +56,8 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     private fun initView() {
         binding.apply {
             btnJoin.setOnClickListener {
-                updateNicknameUsedFlag()
-
-                if(isNicknameUsed()) {
-                    requireContext().showToast("이미 사용중인 닉네임입니다.")
-                }
-                else {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val isAddUserSucceeded = joinViewModel.addKakaoUser(
-                            UserDto(
-                                token = args.token,
-                                nickName = binding.etNickname.text.toString(),
-                                job = jobHashtag!!.seq))
-                        if(isAddUserSucceeded) {
-                            moveToMainActivity()
-                        }
-                        else {
-                            requireContext().showToast("회원가입에 실패했습니다.")
-                        }
-                    }
+                CoroutineScope(Dispatchers.IO).launch {
+                    joinUser()
                 }
             }
 
@@ -82,16 +71,34 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         }
     }
 
-    private fun isNicknameUsed() = profileViewModel.isUsedNickname.value!!
-
-    private fun updateNicknameUsedFlag() {
+    private suspend fun checkNicknameIsUsed(): Boolean =
         profileViewModel.checkNickname(binding.etNickname.text.toString())
+
+    private fun getSocialType(): Int = args.socialType
+
+    private fun joinUser() {
+        CoroutineScope(Dispatchers.Main).launch {
+            joinViewModel.addUser(
+                UserDto(
+                    imgUrl = profileImageUrl,
+                    nickname = binding.etNickname.text.toString(),
+                    job = jobHashtag!!.seq)
+            )
+            if(isUserJoinedSucceeded()) {
+                moveToMainActivity()
+            }
+            else {
+                requireContext().showToast("회원가입에 실패했습니다.")
+            }
+        }
     }
+
+    private fun isUserJoinedSucceeded() = joinViewModel.isJoinSucceeded.value!!
 
     private fun launchImageCrop() {
         val intent = Intent(requireContext(), CropImageActivity::class.java)
         intent.putExtra("flag", PROFILE)
-        resultLauncher.launch(intent)
+        getImageResultLauncher.launch(intent)
     }
 
     private fun moveToMainActivity() {
