@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     fun joinUser(user: UserDto): Flow<ResultState<User>>
-    suspend fun checkNickname(nickname: String): Boolean
+    fun checkNickname(nickname: String): Flow<ResultState<Boolean>>
     fun loginKakaoUser(token: String): Flow<ResultState<User>>
     fun loginNaverUser(token: String): Flow<ResultState<User>>
 }

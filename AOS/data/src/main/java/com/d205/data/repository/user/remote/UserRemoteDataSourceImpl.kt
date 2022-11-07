@@ -1,5 +1,6 @@
 package com.d205.data.repository.user.remote
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.api.UserApi
 import com.d205.data.model.BaseResponse
@@ -23,15 +24,27 @@ class UserRemoteDataSourceImpl @Inject constructor(
     }
 
 
-    override suspend fun checkNickname(nickname: String): ApiResponse<String> =
-        userApi.checkNickname(nickname)
+    @SuppressLint("LongLogTag")
+    override fun checkNickname(nickname: String): Flow<Boolean> = flow {
+        Log.d(TAG, "checkNickname: $nickname")
+        val response = userApi.checkNickname(nickname)
 
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(true)
+        }
+    }
+
+    @SuppressLint("LongLogTag")
     override fun loginKakaoUser(token: String): Flow<Response<UserResponse>> = flow {
         Log.d(TAG, "loginKakaoUser: $TAG token : $token")
         emit(userApi.loginKakaoUser(token))
     }
 
 
+    @SuppressLint("LongLogTag")
     override fun loginNaverUser(token: String): Flow<UserResponse> = flow {
         Log.d(TAG, "loginNaverUser: $TAG token : $token")
         //Log.d(TAG, "loginNaverUser: $TAG api result : ${userApi.loginNaverUser(token).body()}")

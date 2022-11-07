@@ -81,11 +81,15 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
                     nickname = binding.etNickname.text.toString(),
                     userJob = jobHashtag!!.seq)
             )
-            if(isUserJoinedSucceeded()) {
-                moveToMainActivity()
+            if(checkNicknameIsUsed()) {
+                requireContext().showToast("이미 존재하는 닉네임입니다!")
             }
             else {
-                requireContext().showToast("회원가입에 실패했습니다.")
+                if (isUserJoinedSucceeded()) {
+                    moveToMainActivity()
+                } else {
+                    requireContext().showToast("회원가입에 실패했습니다.")
+                }
             }
         }
     }

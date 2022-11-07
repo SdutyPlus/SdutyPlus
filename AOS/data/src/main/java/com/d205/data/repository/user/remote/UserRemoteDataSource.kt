@@ -10,7 +10,7 @@ import retrofit2.Response
 
 interface UserRemoteDataSource {
     fun joinUser(user: UserDto): Flow<Response<UserEntity>>
-    suspend fun checkNickname(nickname: String): ApiResponse<String>
+    fun checkNickname(nickname: String): Flow<Boolean>
     fun loginKakaoUser(token: String): Flow<Response<UserResponse>>
     fun loginNaverUser(token: String): Flow<UserResponse>
 }

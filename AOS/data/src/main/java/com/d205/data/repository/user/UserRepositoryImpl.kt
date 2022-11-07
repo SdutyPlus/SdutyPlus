@@ -13,6 +13,7 @@ import com.d205.domain.utils.ResultState
 import com.skydoves.sandwich.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -33,17 +34,15 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun checkNickname(nickname: String): Boolean {
-        var canUseFlag = false
-        val response = userRemoteDataSource.checkNickname(nickname)
-
-        response.onSuccess {
-            Log.d(TAG, "checkNickname: success!")
-            canUseFlag = true
-        }.onError {
-            Log.d(TAG, "checkNickname: ${message()}")
+    override fun checkNickname(nickname: String): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "checkNickname: Loading")
+        emit(ResultState.Loading)
+        userRemoteDataSource.checkNickname(nickname).collect {
+            Log.d(TAG, "checkNickname: collect : $it")
+            emit(ResultState.Success(it))
         }
-        return canUseFlag
+    }.catch { e ->
+        emit(ResultState.Error(e))
     }
 
     override fun loginKakaoUser(token: String): Flow<ResultState<User>> = flow {
@@ -51,7 +50,7 @@ class UserRepositoryImpl @Inject constructor(
         Log.d(TAG, "loginKakaoUser: $TAG: Loading")
         emit(ResultState.Loading)
         userRemoteDataSource.loginKakaoUser(token).collect {
-            Log.d(TAG, "loginKakaoUser $TAG: collect ${it.body()!!}")
+            Log.d(TAG, "loginKakaoUser $TAG: collect : ${it.body()!!}")
             val accessToken = it.body()!!.jwtDto!!.accessToken
             userLocalDataSource.saveJwt(accessToken!!)
             emit(ResultState.Success(mapperUserResponseToUser(it.body()!!)))
