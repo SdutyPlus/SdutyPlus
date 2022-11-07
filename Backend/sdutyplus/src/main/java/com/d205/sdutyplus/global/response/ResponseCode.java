@@ -14,7 +14,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ResponseCode {
-    //Task
+    // User
+
+    // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
     UPDATE_TASK_SUCCESS(200, "T002", "테스크가 수정되었습니다."),
     DELETE_TASK_SUCCESS(200, "T003", "테스크가 삭제되었습니다."),
@@ -23,8 +25,14 @@ public enum ResponseCode {
     DELETE_SUBTASK_SUCCESS(200, "T006", "서브테스크가 삭제되었습니다."),
     GET_DAILYTASK_SUCCESS(200, "T007", "데일리 테스크 조회에 성공하였습니다."),
 
-    //Timer
-    GET_LOCALDATETIME_SUCCESS(200, "TI001", "서버 날짜, 시간 조회가 성공하였습니다.");
+    // Timer
+    GET_LOCALDATETIME_SUCCESS(200, "TI001", "서버 날짜, 시간 조회가 성공하였습니다."),
+
+    // Warn
+    WARN_SUCCESS(200, "W001", "신고 완료."),
+    WARN_FAIL(200, "W002", "신고 실패"),
+
+    ;
 
     private final int status;
     private final String code;

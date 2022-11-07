@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.global.error;
 
-import com.d205.sdutyplus.domain.warn.entity.WarnUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,6 +23,7 @@ public enum ErrorCode {
 
     // Warn
     WARN_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
+    WARN_MYSELF_FAIL(400,"W002","자기 자신은 신고 할 수 없습니다."),
 
     ;
 
