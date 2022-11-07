@@ -18,9 +18,9 @@ import javax.transaction.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+
     @Transactional
     public UserDto userRegData(Long userSeq, UserRegDto userRegDto) {
-
         User user = userRepository.findBySeq(userSeq).get();
 
         user.setNickname(userRegDto.getNickname());
@@ -30,6 +30,12 @@ public class UserService {
         UserDto userDto = new UserDto(user);
 
         return userDto;
+    }
+
+    @Transactional
+    public boolean checkNicknameDuplicate(String nickname) {
+
+        return userRepository.existsByNickname(nickname);
     }
 
     @Transactional

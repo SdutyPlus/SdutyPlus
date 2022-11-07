@@ -42,6 +42,18 @@ public class UserController {
         return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "별명 중복 검사")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "true = 이미 존재하는 닉네임 입니다.\n"
+                    + "false = 사용 가능한 닉네임 입니다."),
+            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+    })
+    @GetMapping("/check/{nickname}")
+    public ResponseEntity<?> checkNicknameDuplicate(@PathVariable String nickname){
+
+        return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
+    }
+
     @ApiOperation(value = "회원 프로필 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "회원 정보를 조회합니다."),
@@ -55,17 +67,18 @@ public class UserController {
         return new ResponseEntity<UserProfileDto>(userProfileDto, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "별명 중복 검사")
+    @ApiOperation(value = "회원 프로필 수정")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "사용 가능한 닉네임 입니다."),
-            @ApiResponse(code = 400, message = "이미 존재하는 닉네임 입니다."),
+            @ApiResponse(code = 200, message = "회원 정보를 수정하였습니다."),
+            @ApiResponse(code = 400, message = "유효하지 않은 입력입니다.\n"
+                    + "입력 타입이 유효하지 않습니다."),
             @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
     })
-    @GetMapping("/check")
-    public ResponseEntity<?> checkNickname(@ApiIgnore Authentication auth, @RequestBody String nickname){
+    @PutMapping
+    public ResponseEntity<?> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
         long userSeq = (int)auth.getPrincipal();
+        UserDto userDto = userService.userRegData(userSeq, userRegDto);
 
-
-        return null;
+        return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
 }
