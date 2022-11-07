@@ -25,7 +25,8 @@ public enum ResponseCode {
 
 
     //Feed
-    CREATE_FEED_SUCCESS(200, "F001", "피드가 등록되었습니다.");
+    CREATE_FEED_SUCCESS(200, "F001", "피드가 등록되었습니다."),
+    GET_ALL_FEED_SUCCESS(200, "F002", "전체 게시글 조회가 성공하였습니다.");
 
     private final int status;
     private final String code;
