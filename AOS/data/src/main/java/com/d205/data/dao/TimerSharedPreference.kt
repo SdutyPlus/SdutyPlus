@@ -29,6 +29,18 @@ class TimerSharedPreference @Inject constructor(
         return sharedPreference.getString(key, NOT_FOUND_STRING)!!
     }
 
+     fun setIntFromPreference(key: String, value: Int): Boolean {
+        sharedPreferenceEditor.apply {
+            putInt(key, value)
+            commit()
+        }
+        return sharedPreference.getInt(key, 0)!! == value
+    }
+
+     fun getIntFromPreference(key: String): Int {
+        return sharedPreference.getInt(key, 0)!!
+    }
+
     override fun removeFromPreference(key: String): Boolean {
         sharedPreferenceEditor.apply {
             remove(key)

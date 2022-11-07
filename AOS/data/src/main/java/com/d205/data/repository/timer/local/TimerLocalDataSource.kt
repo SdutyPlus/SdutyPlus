@@ -1,5 +1,10 @@
 package com.d205.data.repository.timer.local
 
 interface TimerLocalDataSource {
-    suspend fun saveStartTimeOnTimer(startTime: String): Boolean
+    suspend fun saveStartTime(startTime: String): Boolean
+
+    suspend fun getLocalCurrentTime(): String
+
+    suspend fun updateElapsedTime(studyTime: Int): Boolean
+
 }
