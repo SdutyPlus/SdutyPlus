@@ -54,7 +54,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/javax.inject/javax.inject
 	implementation group: 'javax.inject', name: 'javax.inject', version: '1'
 
-
+	//validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 //querydsl start
