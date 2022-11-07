@@ -41,7 +41,7 @@ object StudyModule {
     @Provides
     @Singleton
     fun provideGson(): Gson {
-        return GsonBuilder().disableHtmlEscaping().create()
+        return GsonBuilder().setLenient().disableHtmlEscaping().create()
     }
 
     //OkHttpClient DI
