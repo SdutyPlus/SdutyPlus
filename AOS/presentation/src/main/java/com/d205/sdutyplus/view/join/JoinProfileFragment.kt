@@ -54,7 +54,18 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         binding.apply {
             btnJoin.setOnClickListener {
                 CoroutineScope(Dispatchers.IO).launch {
-                    joinUser()
+                    if(checkNicknameIsUsed()) {
+                        showToast("이미 존재하는 닉네임입니다!")
+                    }
+                    else {
+                        joinUser()
+
+                        if (isUserJoinedSucceeded()) {
+                            moveToMainActivity()
+                        } else {
+                            showToast("회원가입에 실패했습니다")
+                        }
+                    }
                 }
             }
 
@@ -74,23 +85,17 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     private fun getSocialType(): Int = args.socialType
 
     private fun joinUser() {
-        CoroutineScope(Dispatchers.Main).launch {
-            joinViewModel.addUser(
-                UserDto(
-                    imgUrl = profileImageUrl,
-                    nickname = binding.etNickname.text.toString(),
-                    userJob = jobHashtag!!.seq)
-            )
-            if(checkNicknameIsUsed()) {
-                requireContext().showToast("이미 존재하는 닉네임입니다!")
-            }
-            else {
-                if (isUserJoinedSucceeded()) {
-                    moveToMainActivity()
-                } else {
-                    requireContext().showToast("회원가입에 실패했습니다.")
-                }
-            }
+        joinViewModel.joinUser(
+            UserDto(
+                imgUrl = profileImageUrl,
+                nickname = binding.etNickname.text.toString(),
+                userJob = jobHashtag!!.seq)
+        )
+    }
+
+    private suspend fun showToast(msg: String) {
+        withContext(Dispatchers.Main) {
+            requireContext().showToast(msg)
         }
     }
 

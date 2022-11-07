@@ -10,7 +10,6 @@ import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.repository.UserRepository
 import com.d205.domain.utils.ResultState
-import com.skydoves.sandwich.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -64,7 +63,7 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
 
         userRemoteDataSource.loginNaverUser(token).collect {
-            Log.d(TAG, "loginNaverUser $TAG: collect it")
+            Log.d(TAG, "loginNaverUser $TAG: collect $it")
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)

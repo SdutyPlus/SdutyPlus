@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.usecase.user.JoinUserUseCase
 import com.d205.domain.utils.ResultState
@@ -67,7 +66,7 @@ class JoinViewModel @Inject constructor(
     }
 
 
-    suspend fun addUser(user: UserDto) {
+    fun joinUser(user: UserDto) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d(TAG, "addUser ${TAG}: start : $user")
             joinUserUseCase.invoke(user).collect {
