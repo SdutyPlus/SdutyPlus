@@ -24,7 +24,12 @@ public enum ResponseCode {
     GET_DAILYTASK_SUCCESS(200, "T007", "데일리 테스크 조회에 성공하였습니다."),
 
     //Timer
-    GET_LOCALDATETIME_SUCCESS(200, "TI001", "서버 날짜, 시간 조회가 성공하였습니다.");
+    GET_LOCALDATETIME_SUCCESS(200, "TI001", "서버 날짜, 시간 조회가 성공하였습니다."),
+
+    //Feed
+    CREATE_FEED_SUCCESS(200, "F001", "피드가 등록되었습니다."),
+    GET_ALL_FEED_SUCCESS(200, "F002", "전체 게시글 조회가 성공하였습니다.");
+
 
     private final int status;
     private final String code;
