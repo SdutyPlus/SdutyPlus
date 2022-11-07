@@ -25,8 +25,12 @@ public enum ResponseCode {
     DELETE_SUBTASK_SUCCESS(200, "T006", "서브테스크가 삭제되었습니다."),
     GET_DAILYTASK_SUCCESS(200, "T007", "데일리 테스크 조회에 성공하였습니다."),
 
-    // Timer
+    //Timer
     GET_LOCALDATETIME_SUCCESS(200, "TI001", "서버 날짜, 시간 조회가 성공하였습니다."),
+
+    //Feed
+    CREATE_FEED_SUCCESS(200, "F001", "피드가 등록되었습니다."),
+    GET_ALL_FEED_SUCCESS(200, "F002", "전체 게시글 조회가 성공하였습니다."),
 
     // Warn
     WARN_SUCCESS(200, "W001", "신고 완료."),
