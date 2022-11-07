@@ -10,4 +10,7 @@ interface TimerApi {
 
     @GET("timer")
     suspend fun getRealTime(): Response<RealTimeResponse>
+
+    @GET("totalTime")
+    suspend fun getTodayTotalStudyTime(): Response<RealTimeResponse>
 }

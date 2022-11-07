@@ -29,5 +29,9 @@ class TimerRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getTodayTotalStudyTime(): String {
+        return timerRemoteDataSource.getTodayTotalStudyTime()
+    }
+
 
 }

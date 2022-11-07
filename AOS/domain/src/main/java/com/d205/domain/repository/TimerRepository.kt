@@ -6,4 +6,6 @@ interface TimerRepository {
     suspend fun getCurrentTime(): String
 
     suspend fun updateStudyElapsedTime(studyTime: Int)
+
+    suspend fun getTodayTotalStudyTime(): String
 }

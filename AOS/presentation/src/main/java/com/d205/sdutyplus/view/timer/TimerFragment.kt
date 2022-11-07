@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.view.timer
 
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,7 +26,6 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun initView() {
-
         setTodayInfo()
         initTimer()
         initObserver()
@@ -33,15 +33,16 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
     private fun setTodayInfo() {
         setTodayAtView()
-        setTodayStudyTime()
+        setTodayTotalStudyTime() // todo 서버로 부터 오늘 총 공부 시간을 가져와 세팅해 준다.
     }
 
     private fun setTodayAtView() {
         timerViewModel.getCurrentTime()
     }
 
-    private fun setTodayStudyTime() {
-
+    private fun setTodayTotalStudyTime() {
+        binding.tvTotalTime.text = "00:00:00"
+        timerViewModel.getTodayTotalStudyTime()
     }
 
 
@@ -56,8 +57,6 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
                     }
                     true -> {
                         pauseTimer()
-//                        timerViewModel.delayTimer()
-//                        DelayDialog().show(requireActivity().supportFragmentManager, "DelayDialog")
                     }
                 }
             }
@@ -96,6 +95,25 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
             currentTime.observe(viewLifecycleOwner) { currentTime ->
                 binding.tvToday.text = currentTime
             }
+
+            isTimerRunning.observe(viewLifecycleOwner) { isTimerRunning ->
+                if(isTimerRunning) {
+                    binding.ivTimer.setImageResource(R.drawable.ic_stop) // todo refactor
+                    binding.tvTimer.visibility = View.VISIBLE
+                } else {
+                    binding.ivTimer.setImageResource(R.drawable.ic_play)
+                    binding.tvTimer.visibility = View.GONE
+                }
+
+            }
+
+            todayTotalStudyTime.observe(viewLifecycleOwner) { todayTotalStudyTime ->
+                binding.tvTotalTime.text = todayTotalStudyTime
+            }
+
+            updatedTotalTime.observe(viewLifecycleOwner) { updatedTotalTime ->
+                binding.tvTotalTime.text = updatedTotalTime
+            }
         }
     }
 
@@ -103,7 +121,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
         val hour = time / 60 / 60
         val min = (time / 60) % 60
         val sec = time % 60
-        binding.tvTotalTime.text = String.format("%02d:%02d:%02d", hour, min, sec)
+        binding.tvTimer.text = String.format("%02d:%02d:%02d", hour, min, sec)
     }
 
 }

@@ -3,6 +3,7 @@ package com.d205.data.repository.timer.remote
 import android.util.Log
 import com.d205.data.api.TimerApi
 import javax.inject.Inject
+import kotlin.concurrent.timer
 
 class TimerRemoteDataSourceImpl @Inject constructor(
     private val timerApi: TimerApi
@@ -18,5 +19,14 @@ class TimerRemoteDataSourceImpl @Inject constructor(
             return "error"
         }
 
+    }
+
+    override suspend fun getTodayTotalStudyTime(): String {
+        val response = timerApi.getTodayTotalStudyTime()
+        if(response.isSuccessful && response.body() != null) {
+            return response.body()!!.data
+        } else {
+            return "30:30:30"
+        }
     }
 }
