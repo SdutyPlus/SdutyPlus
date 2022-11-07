@@ -1,10 +1,8 @@
 package com.d205.sdutyplus.domain.task.repository.querydsl;
 
 import com.d205.sdutyplus.domain.task.dto.QSubTaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.QTaskResponseDto;
 import com.d205.sdutyplus.domain.task.dto.SubTaskResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
-import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -25,23 +23,6 @@ import static com.querydsl.core.group.GroupBy.list;
 public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
 
     private final JPAQueryFactory queryFactory;
-
-//    @Override
-//    public List<TaskResponseDto> findTaskByStartTime(LocalDateTime start, LocalDateTime end) {
-//        return queryFactory
-//                .select(new QTaskResponseDto(
-//                        task.seq,
-//                        task.startTime,
-//                        task.endTime,
-//                        task.content,
-//                        task.subTasks
-//                ))
-//                .from(task)
-//                .leftJoin(task.subTasks, subTask)
-//                .where(subTask.taskSeq.eq(task.seq).and(task.startTime.between(start, end)))
-////                .transform(groupBy(task).as(list(subTask)))
-//                .fetch();
-//    }
 
     @Override
     public List<TaskResponseDto> findTaskByStartTime(LocalDateTime start, LocalDateTime end) {

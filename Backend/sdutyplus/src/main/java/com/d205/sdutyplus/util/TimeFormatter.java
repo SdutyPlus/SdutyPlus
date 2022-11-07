@@ -18,4 +18,12 @@ public class TimeFormatter {
         String now = localDateTime.format(formatter);
         return now;
     }
+
+    public static String msToTime(int ms){
+        int hour = ms / 3600;
+        int minute = ms % 3600 / 60;
+        int sec = ms % 3600 % 60;
+        String totalTime = String.format("%02d:%02d:%02d", hour, minute, sec);
+        return totalTime;
+    }
 }
