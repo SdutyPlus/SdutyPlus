@@ -29,15 +29,15 @@ public class WarnUser {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "from_user_seq")
-    private User fromUser;
+    private User fromUserSeq;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "to_user_seq")
-    private User toUser;
+    private User toUserSeq;
 
     @Builder
     public WarnUser(User fromUser, User toUser) {
-        this.fromUser = fromUser;
-        this.toUser = toUser;
+        this.fromUserSeq = fromUser;
+        this.toUserSeq = toUser;
     }
 }

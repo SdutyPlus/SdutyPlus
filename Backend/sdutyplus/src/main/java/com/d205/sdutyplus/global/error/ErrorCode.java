@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.global.error;
 
+import com.d205.sdutyplus.domain.warn.entity.WarnUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,8 +15,17 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    //Task
-    TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다.");
+    // User
+    USER_NOT_FOUND(400, "U001", "존재하지 않는 유저입니다."),
+
+    // Task
+    TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다."),
+
+
+    // Warn
+    WARN_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
+
+    ;
 
     private final int status;
     private final String code;

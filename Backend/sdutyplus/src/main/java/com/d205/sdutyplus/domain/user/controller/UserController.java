@@ -81,4 +81,10 @@ public class UserController {
 
         return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "테스크 초기화 시간 설정")
+    @PutMapping("/reset")
+    public ResponseEntity<?> putResetTime(){
+        return null;
+    }
 }
