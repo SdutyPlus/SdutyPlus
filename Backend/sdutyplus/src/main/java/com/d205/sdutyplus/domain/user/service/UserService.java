@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.user.service;
 
 import com.d205.sdutyplus.domain.user.dto.UserDto;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
+import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
@@ -29,5 +30,13 @@ public class UserService {
         UserDto userDto = new UserDto(user);
 
         return userDto;
+    }
+
+    @Transactional
+    public UserProfileDto getUserProfile(Long userSeq){
+        User user = userRepository.findBySeq(userSeq).get();
+        UserProfileDto userProfileDto = new UserProfileDto(user);
+
+        return userProfileDto;
     }
 }
