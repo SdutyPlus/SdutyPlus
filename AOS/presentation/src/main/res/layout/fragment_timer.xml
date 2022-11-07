@@ -7,7 +7,7 @@
     <data>
         <variable
             name="timerVM"
-            type="com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel" />
+            type="com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel"/>
         <import type="android.view.View"/>
     </data>
 
@@ -31,7 +31,7 @@
                 android:layout_width="76dp"
                 android:layout_height="29dp"
                 android:layout_marginStart="16dp"
-                android:background="@color/yellow_100"
+                android:src="@drawable/img_logo_timer"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
@@ -75,6 +75,7 @@
             android:layout_marginTop="30dp"
             android:text="오늘 공부한 시간"
             app:layout_constraintTop_toBottomOf="@id/tv_today"
+            app:layout_constraintBottom_toTopOf="@id/tv_totalTime"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -86,13 +87,16 @@
             app:layout_constraintTop_toBottomOf="@id/tv_totalTime_info"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/const_timerImage"
+            android:layout_marginBottom="20dp"
             tools:text="00:00:00"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/const_timerImage"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:background="@drawable/btn_kakao_container_400px"
+            android:background="@drawable/gradient_circle"
             app:layout_constraintTop_toBottomOf="@id/tv_totalTime"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,10 +115,12 @@
                 android:id="@+id/iv_timer"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
+                android:src="@drawable/ic_play"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                tools:src="@drawable/ic_play"
                 />
             <TextView
                 android:id="@+id/tv_timer"
@@ -123,6 +129,7 @@
                 android:gravity="center_vertical|center"
                 android:textColor="@color/sduty_mix_violet"
                 android:textSize="50sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -149,6 +156,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginEnd="20dp"
             android:backgroundTint="@color/sduty_mix_violet"
+            android:src="@drawable/ic_report"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 

@@ -70,6 +70,7 @@ object StudyModule {
 
     @Provides
     @Singleton
+
     fun provideStudyApiService(retrofit: Retrofit): StudyApi =
         retrofit.create(StudyApi::class.java)
 
