@@ -29,7 +29,7 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
         Map<Task, List<SubTaskResponseDto>> transform = queryFactory
                 .selectFrom(task)
                 .leftJoin(task.subTasks, subTask)
-                .where(subTask.taskSeq.eq(task.seq).and(task.startTime.between(start, end)))
+                .where(task.startTime.between(start, end))
                 .transform(groupBy(task).as(list(new QSubTaskResponseDto(subTask.seq, subTask.content))));
 
         return transform.entrySet().stream()

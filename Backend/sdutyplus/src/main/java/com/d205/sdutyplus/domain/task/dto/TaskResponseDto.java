@@ -1,13 +1,11 @@
 package com.d205.sdutyplus.domain.task.dto;
 
-import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.util.TimeFormatter;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +31,11 @@ public class TaskResponseDto {
 //        this.startTime = startTime;
 //        this.endTime = endTime;
         this.content = content;
-        this.subTaskDtos = subtasks;
+        if(subtasks.get(0).getSeq()==null){
+            this.subTaskDtos = new ArrayList<>();
+        }
+        else{
+            this.subTaskDtos = subtasks;
+        }
     }
 }
