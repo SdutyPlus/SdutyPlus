@@ -2,9 +2,6 @@ package com.d205.sdutyplus.view.report
 
 import android.os.Build
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import com.d205.domain.model.report.Task
@@ -18,15 +15,16 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_report),
-    ReportAdapterListener {
+    TaskAdapterListener {
     private val reportViewModel by viewModels<ReportViewModel>()
-    private val reportAdapter = ReportAdapter(this)
+    private val taskAdapter = TaskAdapter(this)
     private val today = LocalDate.now()
 
     override fun initOnViewCreated() {
         binding.apply {
             reportVM = reportViewModel
-            rvReport.adapter = reportAdapter
+            rvReport.adapter = taskAdapter
+            tvSelectedDate.text = today.toString()
         }
         lottie()
         initView()
@@ -34,14 +32,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     }
 
     private fun initView() {
-        binding.tvSelectedDate.text = today.toString()
         reportViewModel.getReportTotalTime(binding.tvSelectedDate.text.toString())
-        reportViewModel.getReportList(binding.tvSelectedDate.text.toString())
+        reportViewModel.getTaskList(binding.tvSelectedDate.text.toString())
 
-        reportViewModel.today.observe(viewLifecycleOwner) {
-            Log.d(TAG, "initView: $it")
-            binding.tvSelectedDate.text = it
-        }
+//        reportViewModel.today.observe(viewLifecycleOwner) {
+//            Log.d(TAG, "initView: $it")
+//            binding.tvSelectedDate.text = it
+//        }
     }
 
 
@@ -49,6 +46,10 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         binding.ivCalendarCall.setOnClickListener {
             val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString())
             dialog.show(parentFragmentManager, "BottomSheet")
+            dialog.setOnClickListener {
+                binding.tvSelectedDate.text = it
+                initView()
+            }
         }
     }
 
@@ -56,8 +57,9 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         binding.lottie.playAnimation()
     }
 
-    override fun onItemClicked(task: Task) {
+    override fun onTaskClicked(task: Task) {
         context?.showToast("asdas")
+        Log.d(TAG, "onTaskClicked: toastmessage")
     }
 
 }

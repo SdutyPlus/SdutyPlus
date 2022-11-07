@@ -6,12 +6,10 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.R
@@ -19,7 +17,6 @@ import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentCalendarBottomSheetBinding
 import com.d205.sdutyplus.uitls.displayText
 import com.d205.sdutyplus.uitls.setTextColorRes
-import com.d205.sdutyplus.uitls.showToast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -40,7 +37,19 @@ class CalendarBottomSheetFragment(date: String) : BottomSheetDialogFragment() {
     private val selectedDates = mutableSetOf<LocalDate>()
     private val today = date
     private val reportViewModel by activityViewModels<ReportViewModel>()
+    private lateinit var listener: dayClickListener
 
+    interface dayClickListener {
+        fun onClick(date: String)
+    }
+
+    fun setOnClickListener(listener: (String) -> Unit) {
+        this.listener = object : dayClickListener{
+            override fun onClick(date: String) {
+                listener(date)
+            }
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -122,8 +131,7 @@ class CalendarBottomSheetFragment(date: String) : BottomSheetDialogFragment() {
     }
 
     private fun dateClicked(date: LocalDate) {
-        reportViewModel.getReportTotalTime(date.toString())
-        reportViewModel.getReportList(date.toString())
+        listener.onClick(date.toString())
         dismiss()
     }
 

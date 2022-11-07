@@ -1,13 +1,11 @@
 package com.d205.sdutyplus.binding
 
-import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.d205.domain.model.report.Report
 import com.d205.domain.model.report.Task
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.view.report.ReportAdapter
+import com.d205.sdutyplus.view.report.TaskAdapter
 
 object RecyclerBinding {
 
@@ -17,7 +15,7 @@ object RecyclerBinding {
 
         if (resultState is ResultState.Success) {
             when (view.adapter) {
-                is ReportAdapter -> {
+                is TaskAdapter -> {
                     (view.adapter as ListAdapter<Any, *>).submitList(resultState.data as List<Task>)
                 }
             }

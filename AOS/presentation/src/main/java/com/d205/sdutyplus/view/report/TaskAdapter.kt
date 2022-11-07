@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.databinding.ListItemTaskBinding
 
-class ReportAdapter(private val listener: ReportAdapterListener)
-    : ListAdapter<Task, ReportAdapter.ViewHolder>(diffUtil){
+class TaskAdapter(private val listener: TaskAdapterListener)
+    : ListAdapter<Task, TaskAdapter.ViewHolder>(diffUtil){
 
     inner class ViewHolder(private val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener{
-                listener.onItemClicked(getItem(adapterPosition))
+                listener.onTaskClicked(getItem(adapterPosition))
             }
         }
         fun bind(task: Task) {

@@ -1,6 +1,7 @@
 package com.d205.domain.repository
 
 import com.d205.domain.model.report.Report
+import com.d205.domain.model.report.SubTask
 import com.d205.domain.model.report.Task
 import com.d205.domain.utils.ResultState
 import kotlinx.coroutines.flow.Flow

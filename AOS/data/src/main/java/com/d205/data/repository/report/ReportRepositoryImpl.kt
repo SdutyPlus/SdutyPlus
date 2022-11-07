@@ -5,6 +5,7 @@ import com.d205.data.mapper.mapperToReport
 import com.d205.data.mapper.mapperToTask
 import com.d205.data.repository.report.remote.ReportRemoteDataSource
 import com.d205.domain.model.report.Report
+import com.d205.domain.model.report.SubTask
 import com.d205.domain.model.report.Task
 import com.d205.domain.repository.ReportRepository
 import com.d205.domain.utils.ResultState
