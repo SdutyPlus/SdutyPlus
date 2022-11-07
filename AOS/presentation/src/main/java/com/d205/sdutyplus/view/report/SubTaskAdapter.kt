@@ -8,15 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.d205.domain.model.report.SubTask
 import com.d205.sdutyplus.databinding.ListItemSubtaskBinding
 
-class SubTaskAdapter(private val listener: SubTaskAdapterListener)
+class SubTaskAdapter(private val subtask: List<SubTask>)
     :ListAdapter<SubTask, SubTaskAdapter.ViewHolder>(diffUtil) {
 
         inner class ViewHolder(private val binding: ListItemSubtaskBinding): RecyclerView.ViewHolder(binding.root){
-            init {
-                binding.root.setOnClickListener {
-                    listener.onSubTaskClicked(getItem(adapterPosition))
-                }
-            }
             fun bind(subTask: SubTask){
                 binding.subTask = subTask
             }
@@ -28,7 +23,7 @@ class SubTaskAdapter(private val listener: SubTaskAdapterListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(subtask[position])
     }
 
     companion object{

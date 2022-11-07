@@ -18,6 +18,7 @@ class TaskAdapter(private val listener: TaskAdapterListener)
             }
         }
         fun bind(task: Task) {
+            binding.rvSubtask.adapter = SubTaskAdapter(task.subTaskDtos)
             binding.task = task
         }
     }
