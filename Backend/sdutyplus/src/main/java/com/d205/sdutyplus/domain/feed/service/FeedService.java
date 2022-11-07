@@ -3,6 +3,7 @@ package com.d205.sdutyplus.domain.feed.service;
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
+import com.d205.sdutyplus.global.error.exception.NotSupportedImageTypeException;
 import com.d205.sdutyplus.util.MD5Generator;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
@@ -49,8 +50,7 @@ public class FeedService {
             return blob.getMediaLink();
         }
         catch(IOException e){
-
+            throw new NotSupportedImageTypeException();
         }
-        return null;
     }
 }

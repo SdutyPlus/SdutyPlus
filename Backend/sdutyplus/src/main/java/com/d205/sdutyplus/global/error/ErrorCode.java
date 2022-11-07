@@ -15,7 +15,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
     //Task
-    TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다.");
+    TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다."),
+
+    //Feed
+    IMAGE_TYPE_NOT_SUPPORT(400, "F001", "지원되지 않는 파일 형식입니다.");
 
     private final int status;
     private final String code;

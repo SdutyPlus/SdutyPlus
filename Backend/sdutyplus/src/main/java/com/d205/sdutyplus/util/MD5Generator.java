@@ -1,5 +1,7 @@
 package com.d205.sdutyplus.util;
 
+import com.d205.sdutyplus.global.error.exception.NotSupportedImageTypeException;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,10 +22,10 @@ public class MD5Generator {
             result = hexMD5hash.toString();
         }
         catch(UnsupportedEncodingException e){
-
+            throw new NotSupportedImageTypeException();
         }
         catch(NoSuchAlgorithmException e2){
-
+            throw new NotSupportedImageTypeException();
         }
     }
 
