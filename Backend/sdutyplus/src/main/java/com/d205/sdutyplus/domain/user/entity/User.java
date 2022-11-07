@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.user.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
@@ -26,7 +27,8 @@ public class User {
     @Column(name="social_type", length = 10)
     private SocialType socialType;
 
-    @Column(name="nickname", length = 20, unique = true, columnDefinition = "default ' '")
+    @Column(name="nickname", length = 20, unique = true)
+    @ColumnDefault("null")
     private String nickname;
 
     @Column(name="job", columnDefinition = "INT UNSIGNED default 0")
@@ -35,7 +37,8 @@ public class User {
     @Column(name="fcm_token", length = 250)
     private String fcmToken;
 
-    @Column(name="img_url", length = 200, columnDefinition = "default ' '")
+    @Column(name="img_url", length = 200)
+    @ColumnDefault("null")
     private String imgUrl;
 
     @Column(name="reset_time")

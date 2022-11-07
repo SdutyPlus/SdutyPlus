@@ -12,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Log4j2
 @Api(tags = "유저 API")
@@ -33,9 +35,9 @@ public class UserController {
             @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
     })
     @PostMapping("/reg")
-    public ResponseEntity<?> userRegData(@RequestBody UserRegDto userRegDto){
-
-        UserDto userDto = userService.userRegData(new Long(1), userRegDto);
+    public ResponseEntity<?> userRegData(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
+        long userSeq = (int)auth.getPrincipal();
+        UserDto userDto = userService.userRegData(userSeq, userRegDto);
 
         return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
@@ -45,9 +47,9 @@ public class UserController {
             @ApiResponse(code = 200, message = "회원 정보를 조회합니다."),
             @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
     })
-    @GetMapping("/{userSeq}")
-    public ResponseEntity<?> getUserProfile(@PathVariable Long userSeq){
-
+    @GetMapping
+    public ResponseEntity<?> getUserProfile(@ApiIgnore Authentication auth){
+        long userSeq = (int)auth.getPrincipal();
         UserProfileDto userProfileDto = userService.getUserProfile(userSeq);
 
         return new ResponseEntity<UserProfileDto>(userProfileDto, HttpStatus.OK);
@@ -60,8 +62,8 @@ public class UserController {
             @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
     })
     @GetMapping("/check")
-    public ResponseEntity<?> checkNickname(@RequestBody String nickname){
-
+    public ResponseEntity<?> checkNickname(@ApiIgnore Authentication auth, @RequestBody String nickname){
+        long userSeq = (int)auth.getPrincipal();
 
 
         return null;
