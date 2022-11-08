@@ -3,11 +3,17 @@ package com.d205.sdutyplus.domain.feed.controller;
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.service.FeedService;
+import com.d205.sdutyplus.global.response.ResponseCode;
 import com.d205.sdutyplus.global.response.ResponseDto;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -62,4 +68,37 @@ public class FeedController {
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_UNSCRAP_FEED_SUCCESS));
     }
 
+    @ApiOperation(value = "게시글 좋아요")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "F006 - 게시물 좋아요에 성공하였습니다."),
+            @ApiResponse(code = 401, message = "M003 - 로그인이 필요한 화면입니다."),
+    })
+    @PostMapping("/like")
+    public ResponseEntity<ResponseDto> likeFeed(@ApiIgnore Authentication auth, @RequestParam Long feedSeq){
+        long userSeq = (int)auth.getPrincipal();
+
+        final boolean success = feedService.likeFeed(userSeq, feedSeq);
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.UPDATE_GOOD_FEED_SUCCESS, success));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.UPDATE_GOOD_FEED_FAIL, success));
+        }
+    }
+
+    @ApiOperation(value = "게시글 좋아요 해제")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "F006 - 게시물 좋아요에 성공하였습니다."),
+            @ApiResponse(code = 401, message = "M003 - 로그인이 필요한 화면입니다."),
+    })
+    @DeleteMapping("/like")
+    public ResponseEntity<ResponseDto> unlikeFeed(@ApiIgnore Authentication auth, @RequestParam Long feedSeq){
+        long userSeq = (int)auth.getPrincipal();
+
+        final boolean success = feedService.unlikeFeed(userSeq, feedSeq);
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.UPDATE_UNGOOD_FEED_SUCCESS, success));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.UPDATE_UNGOOD_FEED_FAIL, success));
+        }
+    }
 }
