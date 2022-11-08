@@ -21,7 +21,7 @@ public class ReportResponseDto {
         for(TaskResponseDto taskResponseDto : taskDtos){
             LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(taskResponseDto.getStartTime());
             LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(taskResponseDto.getEndTime());
-            Duration duration = Duration.between(endTime, startTime);
+            Duration duration = Duration.between(startTime, endTime);
             totalSecond+=(int)duration.getSeconds();
         }
         this.totalTime = TimeFormatter.msToTime(totalSecond);
