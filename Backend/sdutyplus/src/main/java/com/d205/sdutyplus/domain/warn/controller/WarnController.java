@@ -30,10 +30,10 @@ public class WarnController {
 
     @ApiOperation(value = "유저 신고")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "회원을 신고 하였습니다."),
+            @ApiResponse(code = 200, message = "W001 - 신고 완료."),
             @ApiResponse(code = 400, message = "W001 - 이미 신고한 유저입니다.\n"
                     + "W002 - 자시 자신을 신고 할 수 없습니다." ),
-            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+            @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PostMapping("/user/{toUserSeq}")
     public ResponseEntity<ResponseDto> userWarn(@ApiIgnore Authentication auth, @PathVariable Long toUserSeq) {
