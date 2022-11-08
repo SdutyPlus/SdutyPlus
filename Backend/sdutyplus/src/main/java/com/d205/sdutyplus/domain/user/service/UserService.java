@@ -3,6 +3,7 @@ package com.d205.sdutyplus.domain.user.service;
 import com.d205.sdutyplus.domain.user.dto.UserDto;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
+import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.exception.NicknameAlreadyExistException;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
@@ -23,8 +24,9 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void userRegData(Long userSeq, UserRegDto userRegDto) {
-        final User user = userRepository.findBySeq(userSeq).get();
+    public UserRegResponseDto userRegData(Long userSeq, UserRegDto userRegDto) {
+        final User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
 
         if (userRepository.existsByNickname(userRegDto.getNickname())
             && !user.getNickname().equals(userRegDto.getNickname())) {
@@ -32,6 +34,8 @@ public class UserService {
         }
 
         updateUserData(user, userRegDto);
+
+        return new UserRegResponseDto(userRepository.findBySeq(userSeq).get());
     }
 
     @Transactional
