@@ -45,6 +45,11 @@ public class TaskService{
         return reportResponseDto;
     }
 
+    public TaskResponseDto getTaskDetail(Long taskSeq){
+        return taskRepositoryQuerydsl.findTaskBySeq(taskSeq)
+                .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
+    }
+
     @Transactional
     public void updateTask(Long taskSeq, TaskUpdateDto taskUpdateDto){
         Task task = getTask(taskSeq);
