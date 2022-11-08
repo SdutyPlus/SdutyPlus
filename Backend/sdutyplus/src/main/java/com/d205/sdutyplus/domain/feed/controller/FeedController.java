@@ -7,10 +7,7 @@ import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,5 +39,12 @@ public class FeedController {
     public ResponseEntity<?> getMyFeeds(){
         List<FeedResponseDto> feedResponseDtos = feedService.getMyFeeds(new Long(1));
         return ResponseEntity.ok().body(ResponseDto.of(GET_MY_FEED_SUCCESS, feedResponseDtos));
+    }
+
+    @ApiOperation(value = "게시글 삭제")
+    @DeleteMapping("/{feed_seq}")
+    public ResponseEntity<?> deleteFeed(@PathVariable(value = "feed_seq") Long feedSeq){
+        feedService.deleteFeed(feedSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(DELETE_FEED_SUCCESS));
     }
 }
