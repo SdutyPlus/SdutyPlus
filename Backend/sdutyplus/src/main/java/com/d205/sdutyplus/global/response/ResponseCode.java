@@ -15,6 +15,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResponseCode {
     // User
+    LOGIN_SUCCESS(200, "U001", "로그인에 성공하였습니다."),
+    GET_USERPROFILE_SUCCESS(200, "U002", "회원 프로필을 조회하였습니다."),
+    UPLOAD_USER_IMAGE_SUCCESS(200, "U003", "회원 이미지를 등록하였습니다."),
+    EDIT_PROFILE_SUCCESS(200, "U004", "회원 프로필을 수정하였습니다."),
+    CHECK_USERNAME_GOOD(200, "U005", "사용가능한 username 입니다."),
+    CHECK_USERNAME_BAD(200, "U006", "사용불가능한 username 입니다."),
 
     // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),

@@ -28,16 +28,16 @@ public class WarnUser {
     private Long seq;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "from_user_seq")
-    private User fromUserSeq;
+    @JoinColumn(name = "from_user_seq")
+    private User fromUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "to_user_seq")
-    private User toUserSeq;
+    @JoinColumn(name = "to_user_seq")
+    private User toUser;
 
     @Builder
     public WarnUser(User fromUser, User toUser) {
-        this.fromUserSeq = fromUser;
-        this.toUserSeq = toUser;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
     }
 }
