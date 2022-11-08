@@ -61,7 +61,9 @@ public class FeedService {
         feedRepository.delete(feed);
     }
 
-    public String uploadFile(MultipartFile file){
+
+    //get & set => private
+    private String uploadFile(MultipartFile file){
         String originFileName = file.getOriginalFilename();
         UUID uuid = UUID.randomUUID();
         String fileName = new MD5Generator(originFileName).toString() + "_" + uuid.toString();
@@ -77,14 +79,13 @@ public class FeedService {
         }
     }
 
-    public void removeFile(String imgUrl){
+    private void removeFile(String imgUrl){
         Bucket bucket = StorageClient.getInstance().bucket(firebaseBucket);
         String temp[] = imgUrl.split("/o/");
         String fileName = temp[1].replace("%2F", "/").replace("?alt=media", "");
         bucket.get(fileName).delete();
     }
 
-    //get & set => private
     private Feed getFeed(Long seq){
         return feedRepository.findById(seq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
