@@ -35,10 +35,6 @@ public class FeedService {
     private final FeedRepository feedRepository;
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
 
-    public List<FeedResponseDto> getAllFeeds(){
-        return feedRepositoryQuerydsl.findAllFeed();
-    }
-
     @Transactional
     public void createFeed(Long userSeq, FeedPostDto feedPostDto){
         String imgUrl = uploadFile(feedPostDto.getImg());
@@ -47,6 +43,14 @@ public class FeedService {
                 .imgUrl(imgUrl)
                 .content(feedPostDto.content).build();
         feedRepository.save(feed);
+    }
+
+    public List<FeedResponseDto> getAllFeeds(){
+        return feedRepositoryQuerydsl.findAllFeeds();
+    }
+
+    public List<FeedResponseDto> getMyFeeds(Long writerSeq){
+        return feedRepositoryQuerydsl.findMyFeeds(writerSeq);
     }
 
     public String uploadFile(MultipartFile file){
