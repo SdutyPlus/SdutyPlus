@@ -3,7 +3,6 @@ package com.d205.sdutyplus.view.report.dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,16 +10,10 @@ import android.view.Window
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.d205.domain.model.report.Task
-import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.databinding.DialogTaskBinding
 import com.d205.sdutyplus.view.report.ReportViewModel
-import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
-class TaskDialog(private val task: Task): DialogFragment() {
+class TaskDialog(private val task: Task) : DialogFragment() {
     private lateinit var binding: DialogTaskBinding
     private val reportViewModel: ReportViewModel by viewModels({ requireActivity() })
 
@@ -30,8 +23,10 @@ class TaskDialog(private val task: Task): DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogTaskBinding.inflate(inflater, container, false)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog?.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            requestFeature(Window.FEATURE_NO_TITLE)
+        }
         return binding.root
     }
 
@@ -40,8 +35,8 @@ class TaskDialog(private val task: Task): DialogFragment() {
 
         val action = arguments?.getString("Action", "Add")
 
-        when(action){
-            "CustomAdd" ->{
+        when (action) {
+            "CustomAdd" -> {
 
             }
             "Info" -> {
@@ -51,15 +46,13 @@ class TaskDialog(private val task: Task): DialogFragment() {
     }
 
 
-
     private fun InfoTask() {
         binding.apply {
             tvStartTime.text = task.startTime
             tvEndTime.text = task.endTime
             etTitle.setText(task.content)
-            // etTitle.isEnabled = false
 
-            when(task.subTaskDtos.size) {
+            when (task.subTaskDtos.size) {
                 0 -> {
                     clContent1.visibility = View.GONE
                     clContent2.visibility = View.GONE
@@ -172,21 +165,21 @@ class TaskDialog(private val task: Task): DialogFragment() {
                     clContent1.visibility == View.GONE -> {
                         clContent1.visibility = View.VISIBLE
                         ivRemoveContent1.visibility = View.VISIBLE
-                        if(clContent1.visibility == View.VISIBLE && clContent2.visibility == View.VISIBLE && clContent3.visibility == View.VISIBLE){
+                        if (clContent1.visibility == View.VISIBLE && clContent2.visibility == View.VISIBLE && clContent3.visibility == View.VISIBLE) {
                             ibAddContent.visibility = View.GONE
                         }
                     }
                     clContent2.visibility == View.GONE -> {
                         clContent2.visibility = View.VISIBLE
                         ivRemoveContent2.visibility = View.VISIBLE
-                        if(clContent1.visibility == View.VISIBLE && clContent2.visibility == View.VISIBLE && clContent3.visibility == View.VISIBLE){
+                        if (clContent1.visibility == View.VISIBLE && clContent2.visibility == View.VISIBLE && clContent3.visibility == View.VISIBLE) {
                             ibAddContent.visibility = View.GONE
                         }
                     }
                     clContent3.visibility == View.GONE -> {
                         clContent3.visibility = View.VISIBLE
                         ivRemoveContent3.visibility = View.VISIBLE
-                        if(clContent1.visibility == View.VISIBLE && clContent2.visibility == View.VISIBLE && clContent3.visibility == View.VISIBLE){
+                        if (clContent1.visibility == View.VISIBLE && clContent2.visibility == View.VISIBLE && clContent3.visibility == View.VISIBLE) {
                             ibAddContent.visibility = View.GONE
                         }
                     }
