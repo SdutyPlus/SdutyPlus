@@ -48,8 +48,8 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
     private fun InfoTask() {
         binding.apply {
-            tvStartTime.text = task.startTime
-            tvEndTime.text = task.endTime
+            tvStartTime.text = task.startTime.substring(11, 16)
+            tvEndTime.text = task.endTime.substring(11, 16)
             etTitle.setText(task.content)
 
             when (task.subTaskDtos.size) {

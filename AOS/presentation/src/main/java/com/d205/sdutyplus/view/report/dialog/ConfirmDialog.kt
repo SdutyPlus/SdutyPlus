@@ -20,8 +20,10 @@ class ConfirmDialog(private val task: Task): DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogConfirmBinding.inflate(inflater, container, false)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+        dialog?.window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            requestFeature(Window.FEATURE_NO_TITLE)
+        }
         return binding.root
     }
 
@@ -30,7 +32,7 @@ class ConfirmDialog(private val task: Task): DialogFragment() {
 
         binding.apply {
             btnRemove.setOnClickListener {
-                // 태스크 삭제 함수
+                // Task 삭제 함수
                 dismiss()
             }
             btnCancel.setOnClickListener { 
