@@ -17,7 +17,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<FeedResponseDto> findAllFeed() {
+    public List<FeedResponseDto> findAllFeeds() {
         return queryFactory.select(new QFeedResponseDto(
                     feed.seq,
                     feed.writerSeq,
@@ -27,6 +27,18 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
         ).from(feed)
                 .where(feed.banYN.eq(false))
                 .fetch();
-//        return null;
+    }
+
+    @Override
+    public List<FeedResponseDto> findMyFeeds(Long writerSeq) {
+        return queryFactory.select(new QFeedResponseDto(
+                                feed.seq,
+                                feed.writerSeq,
+                                feed.imgUrl,
+                                feed.content
+                        )
+                ).from(feed)
+                .where(feed.writerSeq.eq(writerSeq))
+                .fetch();
     }
 }

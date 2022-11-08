@@ -5,5 +5,6 @@ import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import java.util.List;
 
 public interface FeedRepositoryQuerydsl {
-    List<FeedResponseDto> findAllFeed();
+    List<FeedResponseDto> findAllFeeds();
+    List<FeedResponseDto> findMyFeeds(Long writerSeq);
 }

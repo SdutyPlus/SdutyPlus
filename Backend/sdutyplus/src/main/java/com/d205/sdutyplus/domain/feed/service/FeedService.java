@@ -35,10 +35,6 @@ public class FeedService {
     private final FeedRepository feedRepository;
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
 
-    public List<FeedResponseDto> getAllFeeds(){
-        return feedRepositoryQuerydsl.findAllFeed();
-    }
-
     @Transactional
     public void createFeed(Long userSeq, FeedPostDto feedPostDto){
         String imgUrl = uploadFile(feedPostDto.getImg());
@@ -47,6 +43,22 @@ public class FeedService {
                 .imgUrl(imgUrl)
                 .content(feedPostDto.content).build();
         feedRepository.save(feed);
+    }
+
+    public List<FeedResponseDto> getAllFeeds(){
+        return feedRepositoryQuerydsl.findAllFeeds();
+    }
+
+    public List<FeedResponseDto> getMyFeeds(Long writerSeq){
+        return feedRepositoryQuerydsl.findMyFeeds(writerSeq);
+    }
+
+    @Transactional
+    public void deleteFeed(Long seq){
+        Feed feed = getFeed(seq);
+        //TODO : firebase에 업로드된 파일 삭제
+        removeFile(feed.getImgUrl());
+        feedRepository.delete(feed);
     }
 
     public String uploadFile(MultipartFile file){
@@ -58,13 +70,18 @@ public class FeedService {
             Bucket bucket = StorageClient.getInstance().bucket(firebaseBucket);
             InputStream content = new ByteArrayInputStream(file.getBytes());
             Blob blob = bucket.create(UPLOADURL+fileName, content, file.getContentType());
-            System.out.println(blob);
-//            return blob.getMediaLink();
-            return "https://firebasestorage.googleapis.com/v0/b/"+blob.getBucket()+"/o/"+blob.getName().replace("feed/", "feed%2F")+"?alt=media";
+            return "https://firebasestorage.googleapis.com/v0/b/"+blob.getBucket()+"/o/"+blob.getName().replace(UPLOADURL, "feed%2F")+"?alt=media";
         }
         catch(IOException e){
             throw new NotSupportedImageTypeException();
         }
+    }
+
+    public void removeFile(String imgUrl){
+        Bucket bucket = StorageClient.getInstance().bucket(firebaseBucket);
+        String temp[] = imgUrl.split("/o/");
+        String fileName = temp[1].replace("%2F", "/").replace("?alt=media", "");
+        bucket.get(fileName).delete();
     }
 
     //get & set => private
