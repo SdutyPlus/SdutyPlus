@@ -1,8 +1,11 @@
 package com.d205.sdutyplus.di
 
+import android.content.Context
 import com.d205.data.api.StudyApi
 import com.d205.data.api.TimerApi
+import com.d205.data.common.XAccessTokenInterceptor
 import com.d205.data.dao.TimerSharedPreference
+import com.d205.data.dao.UserSharedPreference
 import com.d205.data.repository.study.StudyRepositoryImpl
 import com.d205.data.repository.study.local.StudyMockDataSource
 import com.d205.data.repository.study.remote.StudyRemoteDataSource
@@ -20,7 +23,10 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Timer
@@ -29,8 +35,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object TimerModule {
-
-
 
     @Provides
     @Singleton

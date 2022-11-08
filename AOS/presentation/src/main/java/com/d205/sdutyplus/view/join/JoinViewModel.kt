@@ -12,6 +12,8 @@ import com.d205.domain.usecase.user.JoinUserUseCase
 import com.d205.domain.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
@@ -43,6 +45,10 @@ class JoinViewModel @Inject constructor(
     val isJoinSucceeded: LiveData<Boolean>
         get() = _isJoinSucceeded
 
+    private val _user : MutableStateFlow<User> =
+        MutableStateFlow(User())
+    val user get() = _user.asStateFlow()
+
     fun checkUsedId(id : String) {
         val flag = true
         _isUsedId.value = false
@@ -67,13 +73,14 @@ class JoinViewModel @Inject constructor(
     }
 
 
-    suspend fun addUser(user: UserDto) {
+    fun joinUser(user: UserDto) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.d(TAG, "addUser ${TAG}: start : $user")
             joinUserUseCase.invoke(user).collect {
                 if(it is ResultState.Success) {
                     withContext(Dispatchers.Main) {
                         Log.d(TAG, "addUser User : ${it.data}")
+                        _user.value = it.data
                         _isJoinSucceeded.value = true
                     }
                 }
