@@ -3,12 +3,15 @@ package com.d205.sdutyplus.domain.feed.service;
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
+import com.d205.sdutyplus.domain.feed.entity.FeedLike;
+import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
 import com.d205.sdutyplus.domain.feed.entity.Scrap;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
+import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.global.error.exception.NotSupportedImageTypeException;
 import com.d205.sdutyplus.util.MD5Generator;
@@ -40,6 +43,7 @@ public class FeedService {
     private final UserRepository userRepository;
     private final ScrapRepository scrapRepository;
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
+    private final FeedLikeRepository feedLikeRepository;
 
     @Transactional
     public void createFeed(Long userSeq, FeedPostDto feedPostDto){
@@ -118,4 +122,30 @@ public class FeedService {
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
     }
 
+    @Transactional
+    public boolean likeFeed(Long userSeq, Long feedSeq) {
+        final Feed feed = getFeed(feedSeq);
+        final User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+
+        if (feedLikeRepository.findByUserAndFeed(user, feed).isPresent()){
+            throw new EntityAlreadyExistException(FEED_LIKE_ALREADY_EXIST);
+        }
+
+        feedLikeRepository.save(new FeedLike(user, feed));
+        return true;
+    }
+
+    @Transactional
+    public boolean unlikeFeed(Long userSeq, Long feedSeq) {
+        final Feed feed = getFeed(feedSeq);
+        final User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+
+        FeedLike feedLike = feedLikeRepository.findByUserAndFeed(user, feed)
+                .orElseThrow(() -> new EntityNotFoundException(FEED_LIKE_NOT_FOUND));
+
+        feedLikeRepository.delete(feedLike);
+        return true;
+    }
 }
