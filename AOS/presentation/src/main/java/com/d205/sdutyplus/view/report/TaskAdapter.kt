@@ -1,7 +1,7 @@
 package com.d205.sdutyplus.view.report
 
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,26 +10,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.databinding.ListItemTaskBinding
 
-class TaskAdapter(private val listener: TaskAdapterListener)
-    : ListAdapter<Task, TaskAdapter.ViewHolder>(diffUtil){
+class TaskAdapter(private val listener: TaskAdapterListener) :
+    ListAdapter<Task, TaskAdapter.ViewHolder>(diffUtil) {
 
-    inner class ViewHolder(private val binding: ListItemTaskBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ListItemTaskBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener{
+            binding.layoutTask.setOnClickListener {
                 listener.onTaskClicked(getItem(adapterPosition))
             }
         }
-        fun bind(task: Task) {
-            binding.task = task
-            binding.rvSubtask.apply {
-                adapter = SubTaskAdapter(task.subTaskDtos)
-                layoutManager = LinearLayoutManager(binding.rvSubtask.context, LinearLayoutManager.VERTICAL, false)
+
+        fun bind(taskDto: Task) {
+            if (position == 0) {
+                binding.dividerTop.visibility = View.GONE
+            }
+            binding.apply {
+                task = taskDto
+                rvSubtask.apply {
+                    adapter = SubTaskAdapter(taskDto.subTaskDtos)
+                    layoutManager = LinearLayoutManager(
+                        binding.rvSubtask.context,
+                        LinearLayoutManager.VERTICAL,
+                        false
+                    )
+                }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ListItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ListItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -37,8 +49,8 @@ class TaskAdapter(private val listener: TaskAdapterListener)
         holder.bind(getItem(position))
     }
 
-    companion object{
-        val diffUtil = object : DiffUtil.ItemCallback<Task>(){
+    companion object {
+        val diffUtil = object : DiffUtil.ItemCallback<Task>() {
             override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
                 return oldItem.content == newItem.content
             }
@@ -46,7 +58,6 @@ class TaskAdapter(private val listener: TaskAdapterListener)
             override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
-
         }
     }
 }
