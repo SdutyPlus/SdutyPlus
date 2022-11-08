@@ -42,7 +42,18 @@ class TaskRegistDialog : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initView()
+    }
 
+    private fun initView() {
+        binding.apply {
+            btnDelete.setOnClickListener {
+
+                timerViewModel.timerTimeReset()
+
+                dismiss()
+            }
+        }
     }
 
 
