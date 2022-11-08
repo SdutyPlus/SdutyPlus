@@ -51,12 +51,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     private fun initView() {
         binding.apply {
+            // 카카오 로그인 버튼
             btnKakaoLogin.setOnClickListener {
                 startKakaoLogin()
             }
+            // 네이버 로그인 버튼
             btnNaverLogin.setOnClickListener {
                 startNaverLogin()
             }
+            // 회원가입 버튼
             btnJoin.setOnClickListener {
                 moveToJoinIdFragment()
             }
@@ -64,7 +67,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun startKakaoLogin() {
-        if (userApiClient.isKakaoTalkLoginAvailable(context = requireContext())) {
+        // 카카오톡 설치 여부 체크    true : 카카오톡 설치 되어있음, false : 미설치
+        if (isKakaoTalkInstalled()) {
             Log.d(TAG, "카카오톡으로 로그인 가능")
             userApiClient.loginWithKakaoTalk(
                 requireContext(),
@@ -78,6 +82,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             )
         }
     }
+
+    private fun isKakaoTalkInstalled(): Boolean =
+        userApiClient.isKakaoTalkLoginAvailable(context = requireContext())
 
     private val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { kakoToken, error ->
         if (kakoToken != null) {
@@ -98,22 +105,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                                 "아이디 : ${userInfo.id}\n" +
                                 "이름 : ${userInfo.kakaoAccount?.name}"
                     )
-                    CoroutineScope(Dispatchers.IO).launch {
-                        if(isJoinedKakaoUser(userAccessToken)) {
-                            loginViewModel.user.collect {
-                                if(it is ResultState.Success) {
-                                    mainViewModel.setUserValue(it.data)
-                                    moveToMainActivity()
-                                }
-                            }
-                            //mainViewModel.setUserValue(loginViewModel.user.data)
 
+                    CoroutineScope(Dispatchers.Main).launch {
+                        signInKakaoUser(userAccessToken)
+
+                        // 해당 유저 회원가입 여부 체크     true : 회원가입한 유저, false : 신규 유저
+                        if(isJoinedKakaoUser()) {
+                            moveToMainActivity()
                         }
                         else {
-                            withContext(Dispatchers.Main) {
-                                moveToJoinProfileFragment(KAKAO_JOIN)
-                            }
-                            //moveToJoinProfileFragment(KAKAO_JOIN)
+                            moveToJoinProfileFragment(KAKAO_JOIN)
                         }
                     }
                 }
@@ -132,32 +133,24 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             override fun onSuccess(response: NidProfileResponse) {
                 Log.d(TAG, "onSuccess: id: ${response.profile} \n" +
                         "token: $naverToken")
-
                 userAccessToken = naverToken!!
-                requireContext().showToast("네이버 아이디 로그인 성공!")
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    if(isJoinedNaverUser(userAccessToken)) {
-//                        mainViewModel.setUserValue(loginViewModel.user.value!!)
-//                        moveToMainActivity()
-                        loginViewModel.user.collect {
-                            if(it is ResultState.Success) {
-                                mainViewModel.setUserValue(it.data)
-                                moveToMainActivity()
-                            }
-                        }
+                CoroutineScope(Dispatchers.Main).launch {
+                    signInNaverUser(userAccessToken)
+
+                    // 해당 유저 회원가입 여부 체크     true : 회원가입한 유저, false : 신규 유저
+                    if(isJoinedNaverUser()) {
+                        moveToMainActivity()
                     }
                     else {
-                        withContext(Dispatchers.Main) {
-                            moveToJoinProfileFragment(NAVER_JOIN)
-                        }
+                        moveToJoinProfileFragment(NAVER_JOIN)
                     }
                 }
             }
             override fun onFailure(httpStatus: Int, message: String) {
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
                 val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
-                requireContext().showToast("errorCode: ${errorCode}\n" +
+                Log.d(TAG,"errorCode: ${errorCode}\n" +
                         "errorDescription: $errorDescription")
             }
             override fun onError(errorCode: Int, message: String) {
@@ -165,20 +158,21 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             }
         }
 
-        /** OAuthLoginCallback을 authenticate() 메서드 호출 시 파라미터로 전달하거나 NidOAuthLoginButton 객체에 등록하면 인증이 종료되는 것을 확인할 수 있습니다. */
+        /* OAuthLoginCallback을 authenticate() 메서드 호출 시 파라미터로 전달하거나
+         * NidOAuthLoginButton 객체에 등록하면 인증이 종료되는 것을 확인할 수 있습니다. */
         val oauthLoginCallback = object : OAuthLoginCallback {
             override fun onSuccess() {
-                // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
+                // 네이버 로그인 토큰을 받아온다.
                 naverToken = NaverIdLoginSDK.getAccessToken()
 
-                //로그인 유저 정보 가져오기
+                //로그인 유저 정보를 가져온다.
                 NidOAuthLogin().callProfileApi(nidProfileCallback)
             }
             override fun onFailure(httpStatus: Int, message: String) {
                 val errorCode = NaverIdLoginSDK.getLastErrorCode().code
                 val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
 
-                requireContext().showToast("errorCode: ${errorCode}\n" +
+                Log.d(TAG,"errorCode: ${errorCode}\n" +
                         "errorDescription: $errorDescription")
             }
             override fun onError(errorCode: Int, message: String) {
@@ -189,20 +183,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         NaverIdLoginSDK.authenticate(requireContext(), oauthLoginCallback)
     }
 
-    private suspend fun isJoinedKakaoUser(kakaoToken: String): Boolean {
-        withContext(CoroutineScope(Dispatchers.Main).coroutineContext) {
-            loginViewModel.kakaoLogin(kakaoToken)
-        }
-        return loginViewModel.isLoginSucceed.value!!
+    private suspend fun signInKakaoUser(kakaoToken: String) {
+        loginViewModel.kakaoLogin(kakaoToken)
     }
 
+    private fun isJoinedKakaoUser(): Boolean = loginViewModel.isJoinedUser()
 
-    private suspend fun isJoinedNaverUser(naverToken: String): Boolean {
-        withContext(CoroutineScope(Dispatchers.Main).coroutineContext) {
-            loginViewModel.naverLogin(naverToken)
-        }
-        return loginViewModel.isLoginSucceed.value!!
+    private suspend fun signInNaverUser(naverToken: String) {
+        loginViewModel.naverLogin(naverToken)
     }
+
+    private fun isJoinedNaverUser(): Boolean = loginViewModel.isJoinedUser()
+
 
     fun moveToMainActivity() {
         startActivity(Intent(requireContext(), MainActivity::class.java))
