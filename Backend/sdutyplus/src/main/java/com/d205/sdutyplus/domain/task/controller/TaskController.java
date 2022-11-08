@@ -47,4 +47,11 @@ public class TaskController {
         taskService.deleteTask(taskSeq);
         return ResponseEntity.ok().body(ResponseDto.of(DELETE_TASK_SUCCESS));
     }
+
+    @ApiOperation(value = "데일리 테스크 총 시간 조회")
+    @GetMapping("/time/{date}")
+    public ResponseEntity<?> getDailyTaskTotalTime(@PathVariable String date){
+        return null;
+//        return ResponseEntity.ok().body(ResponseDto.of());
+    }
 }
