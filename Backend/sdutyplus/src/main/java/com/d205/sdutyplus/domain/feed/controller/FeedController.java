@@ -73,7 +73,6 @@ public class FeedController {
             @ApiResponse(code = 200, message = "F006 - 게시물 좋아요에 성공하였습니다."),
             @ApiResponse(code = 401, message = "M003 - 로그인이 필요한 화면입니다."),
     })
-    @ApiImplicitParam(name = "feedId", value = "게시물 PK", example = "1", required = true)
     @PostMapping("/like")
     public ResponseEntity<ResponseDto> likeFeed(@ApiIgnore Authentication auth, @RequestParam Long feedSeq){
         long userSeq = (int)auth.getPrincipal();
@@ -91,7 +90,6 @@ public class FeedController {
             @ApiResponse(code = 200, message = "F006 - 게시물 좋아요에 성공하였습니다."),
             @ApiResponse(code = 401, message = "M003 - 로그인이 필요한 화면입니다."),
     })
-    @ApiImplicitParam(name = "feedId", value = "게시물 PK", example = "1", required = true)
     @DeleteMapping("/like")
     public ResponseEntity<ResponseDto> unlikeFeed(@ApiIgnore Authentication auth, @RequestParam Long feedSeq){
         long userSeq = (int)auth.getPrincipal();
