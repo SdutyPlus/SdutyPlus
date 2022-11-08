@@ -3,6 +3,7 @@ package com.d205.sdutyplus.domain.user.controller;
 import com.d205.sdutyplus.domain.user.dto.UserDto;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
+import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
 import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.Api;
@@ -38,9 +39,9 @@ public class UserController {
     @PostMapping("/reg")
     public ResponseEntity<ResponseDto> userRegData(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
         long userSeq = (int)auth.getPrincipal();
-        userService.userRegData(userSeq, userRegDto);
+        UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
 
-        return ResponseEntity.ok(ResponseDto.of(SAVE_PROFILE_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(SAVE_PROFILE_SUCCESS, result));
     }
 
     @ApiOperation(value = "별명 중복 검사")
@@ -80,8 +81,8 @@ public class UserController {
     @PutMapping
     public ResponseEntity<ResponseDto> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
         long userSeq = (int)auth.getPrincipal();
-        userService.userRegData(userSeq, userRegDto);
+        UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
 
-        return ResponseEntity.ok(ResponseDto.of(EDIT_PROFILE_SUCCESS));
+        return ResponseEntity.ok(ResponseDto.of(EDIT_PROFILE_SUCCESS, result));
     }
 }

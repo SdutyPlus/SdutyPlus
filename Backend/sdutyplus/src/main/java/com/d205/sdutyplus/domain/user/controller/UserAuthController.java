@@ -74,9 +74,22 @@ public class UserAuthController {
         return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_FAIL));
     }
 
+    @ApiOperation(value = "로그아웃")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
+    })
+    @PostMapping(value = "/logout")
+    public ResponseEntity<ResponseDto> logout(){
+        return null;
+    }
+
+
     @ApiOperation(value = "회원 탈퇴")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
+    })
     @DeleteMapping
-    public ResponseEntity<?> deleteUser(){
+    public ResponseEntity<ResponseDto> deleteUser(){
         return null;
     }
 }
