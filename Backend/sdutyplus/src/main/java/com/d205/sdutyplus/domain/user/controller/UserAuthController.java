@@ -15,6 +15,8 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,7 +40,7 @@ public class UserAuthController {
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @PostMapping("/naver/login")
-    public ResponseEntity<?> naverLogin(@RequestBody String token){
+    public ResponseEntity<?> naverLogin(@RequestParam String token){
         Map<String, Object> userInfo = userAuthService.getNaverUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
@@ -58,7 +60,7 @@ public class UserAuthController {
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @PostMapping("/kakao/login")
-    public ResponseEntity<?> kakaoLogin(@RequestBody String token){
+    public ResponseEntity<?> kakaoLogin(@RequestParam String token){
         Map<String, Object> userInfo = userAuthService.getKakaoUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
