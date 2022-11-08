@@ -17,6 +17,10 @@ public enum ErrorCode {
 
     // User
     USER_NOT_FOUND(400, "U001", "존재하지 않는 유저입니다."),
+    USERNAME_ALREADY_EXIST(400, "U002", "이미 존재하는 사용자 이름입니다."),
+    AUTHENTICATION_FAIL(401, "U003", "로그인이 필요한 화면입니다."),
+    AUTHORITY_INVALID(403, "U004", "권한이 없습니다."),
+    ACCOUNT_MISMATCH(401, "U005", "계정 정보가 일치하지 않습니다."),
 
     // Task
     TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다."),
