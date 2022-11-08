@@ -4,9 +4,9 @@ import com.d205.sdutyplus.domain.task.entity.SubTask;
 import lombok.Data;
 
 @Data
-public class SubTaskRequestDto {
-    private Long taskSeq;
-    private String content;
+public class SubTaskPostDto {
+    public Long taskSeq;
+    public String content;
 
     public SubTask toEntity(){
         return SubTask.builder()

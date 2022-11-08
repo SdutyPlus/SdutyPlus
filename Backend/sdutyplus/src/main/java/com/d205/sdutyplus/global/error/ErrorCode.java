@@ -14,6 +14,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    //Global
+    INPUT_VALUE_INVALID(400, "G001", "유효하지 않은 입력입니다."),
+    INPUT_TYPE_INVALID(400, "G002", "입력 타입이 유효하지 않습니다."),
 
     // User
     USER_NOT_FOUND(400, "U001", "존재하지 않는 유저입니다."),
@@ -24,6 +27,7 @@ public enum ErrorCode {
 
     // Task
     TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다."),
+    SUBTASK_NOT_FOUND(400, "T002", "존재하지 않는 서브 테스크입니다."),
 
     // Warn
     WARN_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
