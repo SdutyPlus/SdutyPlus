@@ -41,9 +41,9 @@ public class WarnController {
 
         final boolean success = warnService.userWarn(fromUserSeq, toUserSeq);
         if (success) {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_SUCCESS));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_SUCCESS, success));
         } else {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_FAIL));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_FAIL, success));
         }
     }
 }
