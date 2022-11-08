@@ -18,6 +18,9 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
 
     private fun initView() {
         binding.apply {
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
             tvAddImg.setOnClickListener {
                 moveToFeedDecoFragment()
             }

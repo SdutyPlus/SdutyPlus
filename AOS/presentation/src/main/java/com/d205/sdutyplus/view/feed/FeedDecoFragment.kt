@@ -28,6 +28,9 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
         launchImageCrop()
 
         binding.apply {
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
             btnDecoNone.setOnClickListener {
                 setPolaroidVisiblity(View.GONE)
             }
