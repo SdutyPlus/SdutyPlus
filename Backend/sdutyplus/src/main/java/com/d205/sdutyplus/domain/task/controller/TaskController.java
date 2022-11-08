@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.task.controller;
 
 import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
+import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.service.TaskService;
 import com.d205.sdutyplus.global.response.ResponseDto;
@@ -36,8 +37,8 @@ public class TaskController {
 
     @ApiOperation(value = "테스크 수정")
     @PutMapping("/{task_seq}")
-    public ResponseEntity<?> updateTask(@PathVariable(value="task_seq") Long taskSeq, @RequestBody TaskDto taskRequestDto){
-        taskService.updateTask(taskSeq, taskRequestDto);
+    public ResponseEntity<?> updateTask(@PathVariable(value="task_seq") Long taskSeq, @RequestBody TaskUpdateDto taskUpdateDto){
+        taskService.updateTask(taskSeq, taskUpdateDto);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_TASK_SUCCESS));
     }
 

@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.domain.task.entity;
 
-import com.d205.sdutyplus.global.enums.TimeEnum;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +35,11 @@ public class Task {
 
     @Builder
     public Task(String startTime, String endTime, int durationTime, String content){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
-        LocalDateTime startLDT = LocalDateTime.parse(startTime, formatter);
-        LocalDateTime endLDT = LocalDateTime.parse(endTime, formatter);
-
+        LocalDateTime startLDT = TimeFormatter.StringToLocalDateTime(startTime);
+        LocalDateTime endLDT = TimeFormatter.StringToLocalDateTime(endTime);
         this.startTime = startLDT;
         this.endTime = endLDT;
-        this.durationTime = durationTime;
+        this.durationTime = TimeFormatter.getDurationTime(startLDT, endLDT);
         this.content = content;
     }
 

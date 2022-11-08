@@ -4,6 +4,7 @@ package com.d205.sdutyplus.domain.task.service;
 import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
+import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
@@ -45,9 +46,9 @@ public class TaskService{
     }
 
     @Transactional
-    public void updateTask(Long taskSeq, TaskDto taskRequestDto){
+    public void updateTask(Long taskSeq, TaskUpdateDto taskUpdateDto){
         Task task = getTask(taskSeq);
-        Task updatedTask = taskRequestDto.toEntity();
+        Task updatedTask = taskUpdateDto.toEntity();
         task.setStartTime(updatedTask.getStartTime());
         task.setEndTime(updatedTask.getEndTime());
         task.setDurationTime(updatedTask.getDurationTime());
