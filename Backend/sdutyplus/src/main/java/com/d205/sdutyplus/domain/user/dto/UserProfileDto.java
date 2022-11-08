@@ -14,13 +14,11 @@ public class UserProfileDto {
     private String nickname;
     private Long job;
     private String imgUrl;
-    private Time resetTime;
 
     public UserProfileDto(User user){
         this.userSeq = user.getSeq();
         this.nickname = user.getNickname();
         this.job = user.getJob();
         this.imgUrl = user.getImgUrl();
-        this.resetTime = user.getResetTime();
     }
 }
