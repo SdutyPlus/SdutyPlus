@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UserResponse(
     var seq: Int = 0,
-    var email: String = "",
+    var email: String? = "",
     var nickname: String? = "",
     var imgUrl: String? = "",
     var fcmToken: String? = "",

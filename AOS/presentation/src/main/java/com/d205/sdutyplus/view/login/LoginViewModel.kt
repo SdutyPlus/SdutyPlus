@@ -23,7 +23,8 @@ class LoginViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase,
     private val naverLoginUseCase: NaverLoginUseCase
 ): ViewModel() {
-    private val _user : MutableStateFlow<ResultState<User>> = MutableStateFlow(ResultState.Uninitialized)
+    private val _user : MutableStateFlow<ResultState<User>> =
+        MutableStateFlow(ResultState.Uninitialized)
     val user get() = _user.asStateFlow()
 
 //    val user : LiveData<User>
