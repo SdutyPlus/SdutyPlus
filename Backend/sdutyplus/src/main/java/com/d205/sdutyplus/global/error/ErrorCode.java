@@ -32,7 +32,8 @@ public enum ErrorCode {
     // Feed
     IMAGE_TYPE_NOT_SUPPORT(400, "F001", "지원되지 않는 파일 형식입니다."),
     FEED_NOT_FOUND(400, "F002", "존재하지 않는 피드입니다."),
-
+    FEED_LIKE_ALREADY_EXIST(400, "F003", "해당 게시물에 이미 좋아요를 누른 회원입니다."),
+    FEED_LIKE_NOT_FOUND(400, "F004", "좋아요 하지 않은 게시물 입니다."),
     // Warn
     WARN_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
     WARN_MYSELF_FAIL(400,"W002","자기 자신은 신고 할 수 없습니다."),

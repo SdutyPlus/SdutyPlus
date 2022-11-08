@@ -49,6 +49,8 @@ public enum ResponseCode {
     UPDATE_UNGOOD_FEED_SUCCESS(200, "F009", "해당 게시글에 좋아요 취소하였습니다."),
     UPDATE_SCRAP_FEED_SUCCESS(200, "F010", "해당 게시글을 스크랩하였습니다."),
     UPDATE_UNSCRAP_FEED_SUCCESS(200, "F011", "해당 게시글을 스크랩 취소하였습니다."),
+    UPDATE_GOOD_FEED_FAIL(200, "F008", "좋아요 실패."),
+    UPDATE_UNGOOD_FEED_FAIL(200, "F009", "좋아요 취소 실패."),
 
     // Warn
     WARN_SUCCESS(200, "W001", "신고 완료."),
