@@ -54,6 +54,10 @@ public enum ResponseCode {
     WARN_SUCCESS(200, "W001", "신고 완료."),
     WARN_FAIL(200, "W002", "신고 실패."),
 
+    // Off
+    OFF_SUCCESS(200, "O001", "차단 완료"),
+    OFF_FAIL(200, "O002", "차단 실패"),
+
     ;
 
     private final int status;

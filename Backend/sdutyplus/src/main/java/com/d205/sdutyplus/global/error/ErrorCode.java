@@ -38,7 +38,7 @@ public enum ErrorCode {
     WARN_MYSELF_FAIL(400,"W002","자기 자신은 신고 할 수 없습니다."),
 
     // Off
-    OFF_ALREADY_EXIST(400, "W001", "이미 차단한 유저입니다."),
+    OFF_ALREADY_EXIST(400, "O001", "이미 차단한 유저입니다."),
     OFF_MYSELF_FAIL(400, "O002", "자기 자신은 차단 할 수 없습니다."),
 
     ;
