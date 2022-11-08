@@ -1,15 +1,19 @@
 package com.d205.sdutyplus.view.report
 
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentReportBinding
 import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
@@ -67,8 +71,12 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     }
 
     override fun onTaskClicked(task: Task) {
-        context?.showToast("asdas")
-        Log.d(TAG, "onTaskClicked: toastmessage")
+        TaskDialog(task).apply {
+            arguments = Bundle().apply {
+                putString("Action", "Info")
+            }
+            show(this@ReportFragment.parentFragmentManager, "TaskDialog")
+        }
     }
 
 }
