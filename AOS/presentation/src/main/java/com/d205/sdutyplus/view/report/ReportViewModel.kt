@@ -29,9 +29,9 @@ class ReportViewModel @Inject constructor(
 
     private val _remoteTask: MutableStateFlow<ResultState<List<Task>>> = MutableStateFlow(ResultState.Uninitialized)
     val remoteTask get() = _remoteTask.asStateFlow()
-
-    private val _remoteSubTask: MutableStateFlow<ResultState<List<SubTask>>> = MutableStateFlow(ResultState.Uninitialized)
-    val remoteSubTask get() = _remoteSubTask.asStateFlow()
+    
+    private var _taskCheck = SingleLiveEvent<Boolean>() 
+    val taskCheck get() = _taskCheck
 
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -48,6 +48,11 @@ class ReportViewModel @Inject constructor(
             getTaskListUseCase(date).collectLatest {
                 if(it is ResultState.Success) {
                     _remoteTask.value = it
+                    if(it.data.isEmpty()) {
+                        _taskCheck.postValue(false)
+                    } else{
+                        _taskCheck.postValue(true)
+                    }
                 }
             }
         }

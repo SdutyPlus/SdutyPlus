@@ -2,6 +2,7 @@ package com.d205.sdutyplus.view.report
 
 import android.os.Build
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import com.d205.domain.model.report.Task
@@ -28,17 +29,25 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         }
         lottie()
         initView()
+        initViewModelCallback()
         initClickListener()
+    }
+
+    private fun initViewModelCallback() {
+        reportViewModel.taskCheck.observe(viewLifecycleOwner) {
+            if(it){
+                binding.lottie.visibility = View.GONE
+                binding.scrollTask.visibility = View.VISIBLE
+            } else{
+                binding.lottie.visibility = View.VISIBLE
+                binding.scrollTask.visibility = View.GONE
+            }
+        }
     }
 
     private fun initView() {
         reportViewModel.getReportTotalTime(binding.tvSelectedDate.text.toString())
         reportViewModel.getTaskList(binding.tvSelectedDate.text.toString())
-
-//        reportViewModel.today.observe(viewLifecycleOwner) {
-//            Log.d(TAG, "initView: $it")
-//            binding.tvSelectedDate.text = it
-//        }
     }
 
 
