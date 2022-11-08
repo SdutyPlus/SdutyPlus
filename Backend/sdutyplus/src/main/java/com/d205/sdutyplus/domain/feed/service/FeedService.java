@@ -3,8 +3,12 @@ package com.d205.sdutyplus.domain.feed.service;
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
+import com.d205.sdutyplus.domain.feed.entity.Scrap;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
+import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.user.entity.User;
+import com.d205.sdutyplus.domain.user.repository.UserRepository;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.global.error.exception.NotSupportedImageTypeException;
 import com.d205.sdutyplus.util.MD5Generator;
@@ -23,7 +27,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-import static com.d205.sdutyplus.global.error.ErrorCode.FEED_NOT_FOUND;
+import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +37,8 @@ public class FeedService {
     private String firebaseBucket;
     private final String UPLOADURL = "feed/";
     private final FeedRepository feedRepository;
+    private final UserRepository userRepository;
+    private final ScrapRepository scrapRepository;
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
 
     @Transactional
@@ -59,6 +65,27 @@ public class FeedService {
         //TODO : firebase에 업로드된 파일 삭제
         removeFile(feed.getImgUrl());
         feedRepository.delete(feed);
+    }
+
+    public void scrapFeed(Long userSeq, Long feedSeq){
+        Feed feed = getFeed(feedSeq);
+        User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
+
+        scrapRepository.save(Scrap.builder()
+                .user(user)
+                .feed(feed)
+                .build());
+    }
+
+    public void unscrapFeed(Long userSeq, Long feedSeq){
+        Feed feed = getFeed(feedSeq);
+        User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
+
+        Scrap scrap = scrapRepository.findByUserAndFeed(user, feed)
+                .orElseThrow(()->new EntityNotFoundException(FEED_SCRAP_NOT_FOUND));
+        scrapRepository.delete(scrap);
     }
 
 
@@ -90,4 +117,5 @@ public class FeedService {
         return feedRepository.findById(seq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
     }
+
 }

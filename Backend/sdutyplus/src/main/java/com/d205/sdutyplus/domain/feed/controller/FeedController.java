@@ -47,4 +47,19 @@ public class FeedController {
         feedService.deleteFeed(feedSeq);
         return ResponseEntity.ok().body(ResponseDto.of(DELETE_FEED_SUCCESS));
     }
+
+    @ApiOperation(value = "게시글 스크랩")
+    @PostMapping("/scrap/{feed_seq}")
+    public ResponseEntity<?> scrapFeed(@PathVariable(value = "feed_seq") Long feedSeq){
+        feedService.scrapFeed(new Long(7), feedSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(UPDATE_SCRAP_FEED_SUCCESS));
+    }
+
+    @ApiOperation(value = "게시글 스크랩 취소")
+    @DeleteMapping("/scrap/{feed_seq}")
+    public ResponseEntity<?> unscrapFeed(@PathVariable(value = "feed_seq") Long feedSeq){
+        feedService.unscrapFeed(new Long(7), feedSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(UPDATE_UNSCRAP_FEED_SUCCESS));
+    }
+
 }
