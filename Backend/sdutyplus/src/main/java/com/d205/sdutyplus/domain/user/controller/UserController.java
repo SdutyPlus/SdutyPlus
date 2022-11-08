@@ -32,11 +32,11 @@ public class UserController {
 
     @ApiOperation(value = "회원 프로필 저장")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "회원 정보를 등록하였습니다."),
-            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+            @ApiResponse(code = 200, message = "U008 - 회원 프로필을 저장하였습니다."),
+            @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PostMapping("/reg")
-    public ResponseEntity<?> userRegData(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
+    public ResponseEntity<ResponseDto> userRegData(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
         long userSeq = (int)auth.getPrincipal();
         userService.userRegData(userSeq, userRegDto);
 
@@ -46,26 +46,26 @@ public class UserController {
     @ApiOperation(value = "별명 중복 검사")
     @ApiResponses({
             @ApiResponse(code = 200, message = "U005 - 사용가능한 nickname 입니다.\n"
-                    + "U006 = 사용불가능한 nickname 입니다."),
-            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+                    + "U006 - 사용불가능한 nickname 입니다."),
+            @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @GetMapping("/check/{nickname}")
-    public ResponseEntity<?> checkNicknameDuplicate(@PathVariable String nickname) {
+    public ResponseEntity<ResponseDto> checkNicknameDuplicate(@PathVariable String nickname) {
         final boolean check = userService.checkNicknameDuplicate(nickname);
         if (check) {
-            return ResponseEntity.ok(ResponseDto.of(CHECK_NICKNAME_GOOD));
+            return ResponseEntity.ok(ResponseDto.of(CHECK_NICKNAME_GOOD, check));
         } else {
-            return ResponseEntity.ok(ResponseDto.of(CHECK_NICKNAME_BAD));
+            return ResponseEntity.ok(ResponseDto.of(CHECK_NICKNAME_BAD, check));
         }
     }
 
     @ApiOperation(value = "회원 프로필 조회")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "회원 정보를 조회합니다."),
-            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+            @ApiResponse(code = 200, message = "U002 - 회원 프로필을 조회하였습니다."),
+            @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @GetMapping
-    public ResponseEntity<?> getUserProfile(@ApiIgnore Authentication auth){
+    public ResponseEntity<ResponseDto> getUserProfile(@ApiIgnore Authentication auth){
         long userSeq = (int)auth.getPrincipal();
         final UserProfileDto userProfileDto = userService.getUserProfile(userSeq);
 
@@ -74,11 +74,11 @@ public class UserController {
 
     @ApiOperation(value = "회원 프로필 수정")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "회원 정보를 수정하였습니다."),
-            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+            @ApiResponse(code = 200, message = "U004 - 회원 프로필을 수정하였습니다."),
+            @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PutMapping
-    public ResponseEntity<?> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
+    public ResponseEntity<ResponseDto> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
         long userSeq = (int)auth.getPrincipal();
         userService.userRegData(userSeq, userRegDto);
 

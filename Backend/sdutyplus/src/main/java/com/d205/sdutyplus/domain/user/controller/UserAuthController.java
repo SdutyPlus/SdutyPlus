@@ -40,7 +40,7 @@ public class UserAuthController {
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @PostMapping("/naver/login")
-    public ResponseEntity<?> naverLogin(@RequestBody String token){
+    public ResponseEntity<ResponseDto> naverLogin(@RequestBody String token){
         Map<String, Object> userInfo = userAuthService.getNaverUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
@@ -60,7 +60,7 @@ public class UserAuthController {
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @PostMapping("/kakao/login")
-    public ResponseEntity<?> kakaoLogin(@RequestBody String token){
+    public ResponseEntity<ResponseDto> kakaoLogin(@RequestBody String token){
         Map<String, Object> userInfo = userAuthService.getKakaoUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();

@@ -19,7 +19,7 @@ public class User {
     @Column(columnDefinition = "INT UNSIGNED")
     private Long seq;
 
-    @Column(nullable = false, name="email", length = 50, unique = true)
+    @Column(nullable = false, name="email", length = 50)
     private String email;
 
     @Enumerated(EnumType.STRING)
