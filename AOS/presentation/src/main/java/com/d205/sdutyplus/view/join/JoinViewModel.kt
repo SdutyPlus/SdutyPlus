@@ -6,17 +6,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
-import com.d205.domain.usecase.user.AddKakaoUserUseCase
+import com.d205.domain.usecase.user.JoinUserUseCase
+import com.d205.domain.utils.ResultState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 private const val TAG = "JoinViewModel"
+
+@HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val addKakaoUserUseCase: AddKakaoUserUseCase
+    private val joinUserUseCase: JoinUserUseCase
 ): ViewModel() {
     private val _isUsedId = MutableLiveData(false)
     val isUsedId: LiveData<Boolean>
@@ -34,6 +39,10 @@ class JoinViewModel @Inject constructor(
     val id: LiveData<String>
         get() = _id
 
+    private val _isJoinSucceeded = MutableLiveData(false)
+    val isJoinSucceeded: LiveData<Boolean>
+        get() = _isJoinSucceeded
+
     fun checkUsedId(id : String) {
         val flag = true
         _isUsedId.value = false
@@ -50,19 +59,32 @@ class JoinViewModel @Inject constructor(
         _isSamePassword.postValue(flag)
     }
 
-    private fun isCorrectEmailPattern(name: String): Boolean {
-        if (name.isEmpty())
-            return true
+    private fun isCorrectEmailPattern(email: String): Boolean {
+        if (email.isEmpty())
+            return false
 
-        return Patterns.EMAIL_ADDRESS.matcher(name).matches()
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    suspend fun addKakaoUser(userDto: UserDto): Boolean {
-        val result = viewModelScope.async {
-            addKakaoUserUseCase.execute(userDto)
+
+    suspend fun addUser(user: UserDto) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "addUser ${TAG}: start : $user")
+            joinUserUseCase.invoke(user).collect {
+                if(it is ResultState.Success) {
+                    withContext(Dispatchers.Main) {
+                        Log.d(TAG, "addUser User : ${it.data}")
+                        _isJoinSucceeded.value = true
+                    }
+                }
+                else {
+                    Log.d(TAG, "addUser ${TAG}: invoke Done!! $it")
+                }
+            }
         }
-        return result.await()
     }
+
+
 
 
 
@@ -87,9 +109,7 @@ class JoinViewModel @Inject constructor(
         _accessToken.value = token
     }
 
-    private val _isJoinSucceeded = MutableLiveData<Boolean>()
-    val isJoinSucceeded: LiveData<Boolean>
-        get() = _isJoinSucceeded
+
 
     private val _isWrongPW = MutableLiveData<Boolean>()
     val isWrongPW: LiveData<Boolean>

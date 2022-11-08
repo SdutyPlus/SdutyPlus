@@ -1,19 +1,33 @@
 package com.d205.sdutyplus.view.login
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
-import kotlinx.coroutines.Dispatchers
+import com.d205.domain.usecase.user.KakaoLoginUseCase
+import com.d205.domain.usecase.user.NaverLoginUseCase
+import com.d205.domain.utils.ResultState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val TAG ="LoginViewModel"
-class LoginViewModel: ViewModel() {
-    private val _user = MutableLiveData<User>()
-    val user : LiveData<User>
-        get() = _user
+
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val kakaoLoginUseCase: KakaoLoginUseCase,
+    private val naverLoginUseCase: NaverLoginUseCase
+): ViewModel() {
+    private val _user : MutableStateFlow<ResultState<User>> = MutableStateFlow(ResultState.Uninitialized)
+    val user get() = _user.asStateFlow()
+
+//    val user : LiveData<User>
+//        get() = _user
 
     private val _token = MutableLiveData<String>()
     val token: LiveData<String>
@@ -22,81 +36,49 @@ class LoginViewModel: ViewModel() {
         _token.postValue(token)
     }
 
-    private val _isLoginSucceed = MutableLiveData<Boolean>()
+    private val _isLoginSucceed = MutableLiveData(false)
     val isLoginSucceed: LiveData<Boolean>
         get() = _isLoginSucceed
 
-    fun login(id: String, pw: String){
-//        viewModelScope.launch(Dispatchers.IO){
-//            val user = User(id, pw)
-//            Retrofit.userApi.login(user).let {
-//                if(it.isSuccessful && it.body() != null){
-//                    _user.postValue(it.body())
-//                    _isLoginSucceed.postValue(true)
-//                }else{
-//                    _isLoginSucceed.postValue(false)
-//                    Log.d(TAG, "login: ${it}")
-//                }
-//            }
-//        }
+
+    fun kakaoLogin(token: String) {
+//        val tmp = kakaoLoginUseCase.invoke(token)
+        //_isLoginSucceed.value = isLoginSucceeded()
+
+        viewModelScope.launch {
+            Log.d(TAG, "naverLogin $TAG: ")
+            kakaoLoginUseCase.invoke(token).collect {
+                if(it is ResultState.Success) {
+                    _user.value = it
+                    Log.d(TAG, "kakaoLogin User : ${it.data}")
+                }
+                else {
+                    Log.d(TAG, "kakaoLogin $TAG: invoke Done!! $it")
+                }
+            }
+        }
     }
 
-    private val _isExistKakaoAccount = MutableLiveData<Boolean>()
-    val isExistKakaoAccount: LiveData<Boolean>
-        get() = _isExistKakaoAccount
+    fun naverLogin(token: String) {
+        viewModelScope.launch {
+            //_user.value = naverLoginUseCase.invoke(token)
 
-    fun kakaoLogin(token: String){
-        Log.d(TAG, "kakaoLogin: $token")
-//        viewModelScope.launch(Dispatchers.IO){
-//            Retrofit.userApi.kakaoLogin(token).let {
-//                if(it.code() == 401){ // UNAUTHORIZED
-//                    _isExistKakaoAccount.postValue(false)
-//                    Log.d(TAG, "kakaoLogin: ${it.code()}")
-//
-//                }else if(it.isSuccessful && it.body() != null){
-//                    _user.postValue(it.body())
-//                    _isLoginSucceed.postValue(true)
-//                }
-//                else{
-//                    Log.d(TAG, "kakaoLogin: ${it}")
-//                }
-//            }
-//        }
+            //_isLoginSucceed.value = isLoginSucceeded()
+            Log.d(TAG, "naverLogin $TAG: ")
+            naverLoginUseCase.invoke(token).collect {
+                if(it is ResultState.Success) {
+                    _user.value = it
+                    Log.d(TAG, "naverLogin User : ${it.data}")
+                }
+                else {
+                    Log.d(TAG, "naverLogin $TAG: invoke Done!! $it")
+                }
+            }
+        }
     }
 
-    private val _isExistNaverAccount = MutableLiveData<Boolean>()
-    val isExistNaverAccount: LiveData<Boolean>
-        get() = _isExistNaverAccount
 
-    fun naverLogin(token: String){
-//        viewModelScope.launch(Dispatchers.IO){
-//            Retrofit.userApi.naverLogin(token).let {
-//                if(it.code() == 401){ // UNAUTHORIZED
-//                    _isExistNaverAccount.postValue(false)
-//                    Log.d(TAG, "naverLogin: ${it}")
-//
-//                }else if(it.isSuccessful && it.body() != null){
-//                    _user.postValue(it.body())
-//                    _isLoginSucceed.postValue(true)
-//                }
-//                else{
-//                    Log.d(TAG, "naverLogin: ${it}")
-//                }
-//            }
-//        }
-    }
 
-    fun getUserInfo(userId: String){
-//        viewModelScope.launch(Dispatchers.IO){
-//            Retrofit.userApi.getUserInfo(userId).let {
-//                if(it.isSuccessful && it.body() != null){
-//                    _user.postValue(it.body())
-//                }else{
-//                    Log.d(TAG, "getUserInfo: ${it.code()}")
-//                }
-//
-//            }
-//        }
-    }
-
+//    private fun isLoginSucceeded(): Boolean =
+//        user.value!!.seq != -1
 }

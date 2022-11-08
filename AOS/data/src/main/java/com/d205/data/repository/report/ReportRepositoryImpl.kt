@@ -34,5 +34,7 @@ class ReportRepositoryImpl @Inject constructor(
         reportRemoteDataSource.getReport(date).collect {
             emit(ResultState.Success(mapperToTask(it)))
         }
+    }.catch { e ->
+        emit(ResultState.Error(e))
     }
 }

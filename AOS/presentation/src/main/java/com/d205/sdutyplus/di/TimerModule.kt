@@ -2,7 +2,6 @@ package com.d205.sdutyplus.di
 
 import com.d205.data.api.StudyApi
 import com.d205.data.api.TimerApi
-import com.d205.data.api.UserRestApi
 import com.d205.data.dao.TimerSharedPreference
 import com.d205.data.repository.study.StudyRepositoryImpl
 import com.d205.data.repository.study.local.StudyMockDataSource
@@ -31,18 +30,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object TimerModule {
 
-    @Provides
-    @Singleton
-    fun provideRetrofitInstance(gson: Gson): Retrofit = Retrofit.Builder()
-        .baseUrl(SERVER_URL)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .build()
-
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        return GsonBuilder().setLenient().disableHtmlEscaping().create()
-    }
 
 
     @Provides
@@ -50,21 +37,21 @@ object TimerModule {
     fun provideTimerRepository(
         timerLocalDataSource: TimerLocalDataSource,
         timerRemoteDataSource: TimerRemoteDataSource
-    ) : TimerRepository =
+    ): TimerRepository =
         TimerRepositoryImpl(timerLocalDataSource, timerRemoteDataSource)
 
     @Provides
     @Singleton
     fun provideTimerLocalDataSource(
         timerSharedPreference: TimerSharedPreference
-    ) : TimerLocalDataSource =
+    ): TimerLocalDataSource =
         TimerLocalDataSourceImpl(timerSharedPreference)
 
     @Provides
     @Singleton
     fun provideTimerRemoteDataSource(
         timerApi: TimerApi
-    ) : TimerRemoteDataSource =
+    ): TimerRemoteDataSource =
         TimerRemoteDataSourceImpl(timerApi)
 
     @Provides
