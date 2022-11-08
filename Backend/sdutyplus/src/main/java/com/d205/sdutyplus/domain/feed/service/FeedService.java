@@ -5,7 +5,9 @@ import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.feed.entity.FeedLike;
 import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
+import com.d205.sdutyplus.domain.feed.entity.Scrap;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
+import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
@@ -38,9 +40,10 @@ public class FeedService {
     private String firebaseBucket;
     private final String UPLOADURL = "feed/";
     private final FeedRepository feedRepository;
+    private final UserRepository userRepository;
+    private final ScrapRepository scrapRepository;
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
     private final FeedLikeRepository feedLikeRepository;
-    private final UserRepository userRepository;
 
     @Transactional
     public void createFeed(Long userSeq, FeedPostDto feedPostDto){
@@ -68,7 +71,30 @@ public class FeedService {
         feedRepository.delete(feed);
     }
 
-    public String uploadFile(MultipartFile file){
+    public void scrapFeed(Long userSeq, Long feedSeq){
+        Feed feed = getFeed(feedSeq);
+        User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
+
+        scrapRepository.save(Scrap.builder()
+                .user(user)
+                .feed(feed)
+                .build());
+    }
+
+    public void unscrapFeed(Long userSeq, Long feedSeq){
+        Feed feed = getFeed(feedSeq);
+        User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
+
+        Scrap scrap = scrapRepository.findByUserAndFeed(user, feed)
+                .orElseThrow(()->new EntityNotFoundException(FEED_SCRAP_NOT_FOUND));
+        scrapRepository.delete(scrap);
+    }
+
+
+    //get & set => private
+    private String uploadFile(MultipartFile file){
         String originFileName = file.getOriginalFilename();
         UUID uuid = UUID.randomUUID();
         String fileName = new MD5Generator(originFileName).toString() + "_" + uuid.toString();
@@ -84,19 +110,17 @@ public class FeedService {
         }
     }
 
-    public void removeFile(String imgUrl){
+    private void removeFile(String imgUrl){
         Bucket bucket = StorageClient.getInstance().bucket(firebaseBucket);
         String temp[] = imgUrl.split("/o/");
         String fileName = temp[1].replace("%2F", "/").replace("?alt=media", "");
         bucket.get(fileName).delete();
     }
 
-    //get & set => private
     private Feed getFeed(Long seq){
         return feedRepository.findById(seq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
     }
-
 
     @Transactional
     public boolean likeFeed(Long userSeq, Long feedSeq) {
