@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.domain.task.controller;
 
-import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
@@ -26,13 +25,6 @@ public class TaskController {
     public ResponseEntity<?> createTask(@RequestBody TaskDto taskRequestDto){
         Task registedTask = taskService.createTask(new Long(1), taskRequestDto);
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, registedTask));
-    }
-
-    @ApiOperation(value = "데일리 테스크 조회(리포트조회)")
-    @GetMapping("/report/{date}")
-    public ResponseEntity<?> getDailyTask(@PathVariable String date){
-        ReportResponseDto reportResponseDto = taskService.getTaskByDate(new Long(1), date);
-        return ResponseEntity.ok().body(ResponseDto.of(GET_DAILYTASK_SUCCESS, reportResponseDto));
     }
 
     @ApiOperation(value = "테스크 상세 조회")
