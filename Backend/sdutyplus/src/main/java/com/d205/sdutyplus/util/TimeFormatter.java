@@ -2,6 +2,7 @@ package com.d205.sdutyplus.util;
 
 import com.d205.sdutyplus.global.enums.TimeEnum;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -20,10 +21,16 @@ public class TimeFormatter {
     }
 
     public static String msToTime(int ms){
+        ms/=1000;
         int hour = ms / 3600;
         int minute = ms % 3600 / 60;
         int sec = ms % 3600 % 60;
         String totalTime = String.format("%02d:%02d:%02d", hour, minute, sec);
         return totalTime;
+    }
+
+    public static int getDurationTime(LocalDateTime startTime, LocalDateTime endTime){
+        int second = (int) Duration.between(startTime, endTime).getSeconds();
+        return second*1000;
     }
 }

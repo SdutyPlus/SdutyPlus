@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,8 +20,7 @@ public class ReportResponseDto {
         for(TaskResponseDto taskResponseDto : taskDtos){
             LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(taskResponseDto.getStartTime());
             LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(taskResponseDto.getEndTime());
-            Duration duration = Duration.between(endTime, startTime);
-            totalSecond+=(int)duration.getSeconds();
+            totalSecond+=TimeFormatter.getDurationTime(startTime, endTime);
         }
         this.totalTime = TimeFormatter.msToTime(totalSecond);
         this.taskDtos = taskDtos;
