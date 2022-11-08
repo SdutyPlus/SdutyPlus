@@ -6,6 +6,8 @@ import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.service.UserAuthService;
 import com.d205.sdutyplus.domain.user.service.UserService;
+import com.d205.sdutyplus.global.response.ResponseCode;
+import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -44,10 +46,10 @@ public class UserAuthController {
 
 
             if(userLoginDto != null) {
-                return new ResponseEntity<UserLoginDto>(userLoginDto, HttpStatus.OK);
+                return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_SUCCESS, userLoginDto));
             }
         }
-        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_FAIL));
     }
 
     @ApiOperation(value="카카오 로그인")
@@ -64,10 +66,10 @@ public class UserAuthController {
 
 
             if(userLoginDto != null) {
-                return new ResponseEntity<UserLoginDto>(userLoginDto, HttpStatus.OK);
+                return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_SUCCESS, userLoginDto));
             }
         }
-        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_FAIL));
     }
 
     @ApiOperation(value = "회원 탈퇴")

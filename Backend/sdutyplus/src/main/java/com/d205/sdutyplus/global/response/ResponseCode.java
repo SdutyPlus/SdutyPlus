@@ -21,6 +21,7 @@ public enum ResponseCode {
     EDIT_PROFILE_SUCCESS(200, "U004", "회원 프로필을 수정하였습니다."),
     CHECK_USERNAME_GOOD(200, "U005", "사용가능한 username 입니다."),
     CHECK_USERNAME_BAD(200, "U006", "사용불가능한 username 입니다."),
+    LOGIN_FAIL(200, "U007", "로그인에 실패하였습니다."),
 
     // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
@@ -49,7 +50,7 @@ public enum ResponseCode {
 
     // Warn
     WARN_SUCCESS(200, "W001", "신고 완료."),
-    WARN_FAIL(200, "W002", "신고 실패"),
+    WARN_FAIL(200, "W002", "신고 실패."),
 
     ;
 

@@ -41,12 +41,6 @@ public class User {
     @ColumnDefault("null")
     private String imgUrl;
 
-    @Column(name="reset_time")
-    private Time resetTime;
-
-    @Column(name="reset_cron", length = 50)
-    private String resetCron;
-
     @Column(name = "del_YN", columnDefinition="tinyint(1) default 0")
     private boolean delYN;
 
