@@ -24,7 +24,9 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                     feed.imgUrl,
                     feed.content
                 )
-        ).from(feed).fetch();
+        ).from(feed)
+                .where(feed.banYN.eq(false))
+                .fetch();
 //        return null;
     }
 }
