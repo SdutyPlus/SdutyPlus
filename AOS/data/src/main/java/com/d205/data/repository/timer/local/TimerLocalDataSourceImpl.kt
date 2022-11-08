@@ -20,7 +20,13 @@ class TimerLocalDataSourceImpl @Inject constructor(
         return timerSharedPreference.setIntFromPreference("StudyElapsedTime",studyTime)
     }
 
+    override fun getStartTime(): String {
+        return timerSharedPreference.getStringFromPreference("StartTimeOnTimer")
+    }
 
+    override fun getStudyElapsedTime(): Int {
+        return timerSharedPreference.getIntFromPreference("StudyElapsedTime")
+    }
 
 
 }

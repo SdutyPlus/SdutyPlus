@@ -99,6 +99,42 @@ class TaskRegistDialog : DialogFragment() {
                 }
             }
 
+//            btnSave.setOnClickListener {
+//                // 등록 수행
+//                val startTime = timerViewModel.startTime
+//                val endTime = timerViewModel.endTime
+//                val title = etTitle.text.toString()
+//                val content1 = etContent1.text.toString()
+//                val content2 = etContent2.text.toString()
+//                val content3 = etContent3.text.toString()
+//
+//                val today = convertTimeDateToString(Date(System.currentTimeMillis()), "yyyy-MM-dd")
+//
+//                val newTask =
+//                    Task(-1, -1, endTime, startTime, 0, title, content1, content2, content3)
+//
+//                val report = Report(-1, mainViewModel.user.value!!.seq, today, "", listOf(newTask))
+//
+//                // title 은 필수로 입력해야한다.
+//                if (title.isNotEmpty()) {
+//                    timerViewModel.saveTask(report)
+//                    timerViewModel.getTodayReport(mainViewModel.user.value!!.seq)
+//                    dismiss()
+//                } else {
+//                    ConfirmDialog().apply {
+//                        // 경고창에 출력할 메시지를 담아 보낸다.
+//                        arguments = Bundle().apply {
+//                            putString("Action", "Error")
+//                            putString("Message", "제목을 입력해주세요!!")
+//                        }
+//                        show(
+//                            this@TaskRegistDialog.requireActivity().supportFragmentManager,
+//                            "ConfirmDialog"
+//                        )
+//                    }
+//                }
+//            }
+
         }
 
         initRemoveContextBtns()
@@ -160,58 +196,6 @@ class TaskRegistDialog : DialogFragment() {
                 }
             }
         }
-    }
-
-    private fun initRemoveContextBtns1() {
-        binding.apply {
-            ivRemoveContent1.setOnClickListener {
-                // content3의 내용이 비어있지 않으면 내용을 가져오고 content3를 없앤다.
-                when {
-                    etContent3.text.toString().isNotEmpty() -> {
-                        etContent1.setText(etContent2.text.toString())
-                        etContent2.setText(etContent3.text.toString())
-                        etContent3.setText("")
-                        clContent3.visibility = View.GONE
-                        ivAddContent.visibility = View.VISIBLE
-                    }
-                    etContent2.text.toString().isNotEmpty() -> {
-                        etContent1.setText(etContent2.text.toString())
-                        etContent2.setText("")
-                        clContent2.visibility = View.GONE
-                        ivAddContent.visibility = View.VISIBLE
-                    }
-                    else -> {
-                        etContent1.setText("")
-                        clContent1.visibility = View.GONE
-                        ivAddContent.visibility = View.VISIBLE
-                    }
-                }
-            }
-
-            clContent2.visibility = View.GONE
-            ivRemoveContent2.setOnClickListener {
-                // content3의 내용이 비어있지 않으면 내용을 가져오고 content3를 없앤다.
-                if (etContent3.text.toString().isNotEmpty()) {
-                    etContent2.setText(etContent3.text.toString())
-                    etContent3.setText("")
-                    clContent3.visibility = View.GONE
-                    ivAddContent.visibility = View.VISIBLE
-                } else {
-                    etContent2.setText("")
-                    clContent2.visibility = View.GONE
-                    ivAddContent.visibility = View.VISIBLE
-                }
-            }
-
-            clContent3.visibility = View.GONE
-            ivRemoveContent3.setOnClickListener {
-                etContent3.setText("")
-                clContent3.visibility = View.GONE
-                ivAddContent.visibility = View.VISIBLE
-            }
-        }
-
-
     }
 
 
