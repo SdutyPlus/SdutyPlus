@@ -150,8 +150,8 @@ class StopStudyConfirmDialog(context: Context) : DialogFragment() {
                 timerViewModel.timerTimeReset()
                  */
                 timerViewModel.stopTimer()
-
                 dismiss()
+
             }
 
         }
