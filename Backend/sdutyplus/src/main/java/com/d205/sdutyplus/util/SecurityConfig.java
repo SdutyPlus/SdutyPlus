@@ -42,12 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user").authenticated()
                 .antMatchers(HttpMethod.POST, "/user/reg").authenticated()
-                .antMatchers(HttpMethod.GET, "/user/**").authenticated()
+//                .antMatchers(HttpMethod.GET, "/user/**").authenticated()
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated();
 
-        // login. 해당 url로 요청할 시 로그인 과정을 거치게 된다.
-        //http.formLogin().loginPage("/user/**/login").defaultSuccessUrl("/").permitAll(); // 모두 허용
     }
 
     @Override
