@@ -63,7 +63,7 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
 
         userRemoteDataSource.loginNaverUser(token).collect {
-            Log.d(TAG, "loginNaverUser $TAG: collect $it")
+            Log.d(TAG, "loginNaverUser collect: $it")
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)

@@ -108,6 +108,8 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     }
 
     private fun moveToMainActivity() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.putExtra("userSeq", joinViewModel.user.value.seq)
         startActivity(Intent(requireContext(), MainActivity::class.java))
     }
 
