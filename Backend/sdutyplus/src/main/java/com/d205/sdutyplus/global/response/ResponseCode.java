@@ -19,9 +19,10 @@ public enum ResponseCode {
     GET_USERPROFILE_SUCCESS(200, "U002", "회원 프로필을 조회하였습니다."),
     UPLOAD_USER_IMAGE_SUCCESS(200, "U003", "회원 이미지를 등록하였습니다."),
     EDIT_PROFILE_SUCCESS(200, "U004", "회원 프로필을 수정하였습니다."),
-    CHECK_USERNAME_GOOD(200, "U005", "사용가능한 username 입니다."),
-    CHECK_USERNAME_BAD(200, "U006", "사용불가능한 username 입니다."),
+    CHECK_NICKNAME_GOOD(200, "U005", "사용가능한 nickname 입니다."),
+    CHECK_NICKNAME_BAD(200, "U006", "사용불가능한 nickname 입니다."),
     LOGIN_FAIL(200, "U007", "로그인에 실패하였습니다."),
+    SAVE_PROFILE_SUCCESS(200, "U008", "회원 프로필을 저장하였습니다."),
 
     // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
