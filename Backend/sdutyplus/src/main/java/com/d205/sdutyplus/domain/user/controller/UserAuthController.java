@@ -40,7 +40,7 @@ public class UserAuthController {
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @PostMapping("/naver/login")
-    public ResponseEntity<?> naverLogin(@RequestBody String token){
+    public ResponseEntity<ResponseDto> naverLogin(@RequestBody String token){
         Map<String, Object> userInfo = userAuthService.getNaverUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
@@ -60,7 +60,7 @@ public class UserAuthController {
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @PostMapping("/kakao/login")
-    public ResponseEntity<?> kakaoLogin(@RequestBody String token){
+    public ResponseEntity<ResponseDto> kakaoLogin(@RequestBody String token){
         Map<String, Object> userInfo = userAuthService.getKakaoUserInfo(token);
         if(userInfo!=null) {
             String email = userInfo.get("email").toString();
@@ -74,9 +74,22 @@ public class UserAuthController {
         return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_FAIL));
     }
 
+    @ApiOperation(value = "로그아웃")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
+    })
+    @PostMapping(value = "/logout")
+    public ResponseEntity<ResponseDto> logout(){
+        return null;
+    }
+
+
     @ApiOperation(value = "회원 탈퇴")
+    @ApiResponses({
+            @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
+    })
     @DeleteMapping
-    public ResponseEntity<?> deleteUser(){
+    public ResponseEntity<ResponseDto> deleteUser(){
         return null;
     }
 }
