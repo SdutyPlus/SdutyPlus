@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.domain.task.controller;
 
-import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
@@ -28,13 +27,6 @@ public class TaskController {
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, registedTask));
     }
 
-    @ApiOperation(value = "데일리 테스크 조회(리포트조회)")
-    @GetMapping("/report/{date}")
-    public ResponseEntity<?> getDailyTask(@PathVariable String date){
-        ReportResponseDto reportResponseDto = taskService.getTaskByDate(new Long(1), date);
-        return ResponseEntity.ok().body(ResponseDto.of(GET_DAILYTASK_SUCCESS, reportResponseDto));
-    }
-
     @ApiOperation(value = "테스크 상세 조회")
     @GetMapping("/{task_seq}")
     public ResponseEntity<?> getTaskDetail(@PathVariable(value = "task_seq") Long taskSeq){
@@ -54,5 +46,12 @@ public class TaskController {
     public ResponseEntity<?> deleteTask(@PathVariable(value="task_seq") Long taskSeq){
         taskService.deleteTask(taskSeq);
         return ResponseEntity.ok().body(ResponseDto.of(DELETE_TASK_SUCCESS));
+    }
+
+    @ApiOperation(value = "데일리 테스크 총 시간 조회")
+    @GetMapping("/time/{date}")
+    public ResponseEntity<?> getDailyTaskTotalTime(@PathVariable String date){
+        return null;
+//        return ResponseEntity.ok().body(ResponseDto.of());
     }
 }

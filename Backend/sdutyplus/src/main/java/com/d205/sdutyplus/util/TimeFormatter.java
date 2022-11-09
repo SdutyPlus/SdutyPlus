@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.util;
 
 import com.d205.sdutyplus.global.enums.TimeEnum;
+import com.d205.sdutyplus.global.error.exception.InvalidTimeFormatException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -9,9 +10,14 @@ import java.time.format.DateTimeFormatter;
 public class TimeFormatter {
 
     public static LocalDateTime StringToLocalDateTime(String time){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
-        LocalDateTime localDateTime = LocalDateTime.parse(time, formatter);
-        return localDateTime;
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateTimeFormat);
+            LocalDateTime localDateTime = LocalDateTime.parse(time, formatter);
+            return localDateTime;
+        }
+        catch(Exception e){
+            throw new InvalidTimeFormatException();
+        }
     }
 
     public static String LocalDateTimeToString(LocalDateTime localDateTime){

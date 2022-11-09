@@ -17,6 +17,7 @@ public enum ErrorCode {
     //Global
     INPUT_VALUE_INVALID(400, "G001", "유효하지 않은 입력입니다."),
     INPUT_TYPE_INVALID(400, "G002", "입력 타입이 유효하지 않습니다."),
+    TIME_FORMAT_INVALID(400, "G003", "날짜, 시간 타입 형식이 유효하지 않습니다."),
 
     // User
     USER_NOT_FOUND(400, "U001", "존재하지 않는 유저입니다."),

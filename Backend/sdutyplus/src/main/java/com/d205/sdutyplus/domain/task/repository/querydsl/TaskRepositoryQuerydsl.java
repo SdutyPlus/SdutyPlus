@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface TaskRepositoryQuerydsl {
     List<TaskResponseDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end);
     Optional<TaskResponseDto> findTaskBySeq(Long taskSeq);
+    public Integer getReportTotalTime(Long userSeq, LocalDateTime startTime, LocalDateTime endTime);
 }
