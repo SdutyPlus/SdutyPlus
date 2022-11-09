@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ec52d4bd-05ea-46b0-a37a-2503abf6b7da" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../AOS/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/androidTest/java/com/d205/data/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/api/ReportApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/api/StudyApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/api/TimerApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/api/UserApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/common/Constants.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/common/XAccessTokenInterceptor.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/dao/SharedPreferenceHelper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/dao/TimerSharedPreference.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/dao/UserRoomDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/dao/UserSharedPreference.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/dao/UserSharedPreferenceDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/mapper/ReportMapper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/mapper/StudyMapper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/mapper/TaskMapper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/mapper/UserMapper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/model/BaseResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/model/report/ReportResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/model/study/StudyResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/model/timer/TimerResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/model/user/UserResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/report/ReportRepositoryImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/report/remote/ReportRemoteDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/report/remote/ReportRemoteDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/study/StudyRepositoryImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/study/local/StudyMockDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/study/local/StudyMockDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/study/remote/StudyRemoteDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/study/remote/StudyRemoteDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/timer/TimerRepositoryImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/timer/local/TimerLocalDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/timer/local/TimerLocalDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/timer/remote/TimerRemoteDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/timer/remote/TimerRemoteDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/user/UserRepositoryImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/user/local/UserLocalDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/user/local/UserLocalDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/user/local/UserMockDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/user/local/UserMockDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/user/remote/UserRemoteDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/main/java/com/d205/data/repository/user/remote/UserRemoteDataSourceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/data/src/test/java/com/d205/data/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/androidTest/java/com/d205/domain/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/common/JobHashTag.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/report/Report.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/report/SubTask.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/report/Task.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/study/Study.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/timer/CurrentTaskDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/user/User.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/user/UserDomainResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/model/user/UserDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/repository/ReportRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/repository/StudyRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/repository/TimerRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/repository/UserRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/report/GetReportUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/report/GetTaskListUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/study/GetStudyListUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/timer/GetCurrentTimeUsecase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/timer/GetStudyTimeInfoUsecase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/timer/GetTodayTotalStudyTimeUsecase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/timer/SaveStartTimeUsecase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/timer/StartTimerUsecase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/timer/UpdateStudyElapsedTimeUsecase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/user/CheckNicknameUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/user/DeleteUserUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/user/GetUserUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/user/JoinUserUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/user/KakaoLoginUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/usecase/user/NaverLoginUseCase.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/main/java/com/d205/domain/utils/ResultState.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/domain/src/test/java/com/d205/domain/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/local.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/androidTest/java/com/d205/sdutyplus/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/base/BaseActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/base/BaseFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/binding/RecyclerBinding.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/di/ApplicationClass.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/di/ReportModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/di/StudyModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/di/TimerModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/di/UserModule.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/uitls/Constants.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/uitls/Extension.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/uitls/GetUriForFile.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/uitls/SingleLiveEvent.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/uitls/Utils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/MainActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/MainViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/common/CropActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/common/CropImageActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/common/CropSelectDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/feed/FeedCreateFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/feed/FeedDecoFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/feed/FeedFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/JoinIdFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/JoinProfileFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/JoinPwFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/JoinViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/ProfileViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/TagAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/TagSelectDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/join/TagViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/login/LoginActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/login/LoginFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/login/LoginViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/mypage/MyPageFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/CalendarBottomSheetFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/ReportFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/ReportViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/SubTaskAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/SubTaskAdapterListener.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/TaskAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/TaskAdapterListener.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/dialog/ConfirmDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/report/dialog/TaskDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/study/StudyViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/timer/TimerFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/timer/dialog/StopStudyConfirmDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/timer/dialog/TaskRegistDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/java/com/d205/sdutyplus/view/timer/viewmodel/TimerViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/anim/slide_down_exit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/anim/slide_up_enter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/background_textview_regular.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/baseline_add_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/bg_bottom_sheet_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/bg_calendar_selected.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/bg_calendar_today.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/box_add.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/box_task.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/btn_shape_center.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/btn_shape_left.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/btn_shape_right.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/btn_study_filter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/btn_study_regist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/button_shape_left.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/button_shape_right.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/empty_profile_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/et_selector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/gradient_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_add_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_arrow_down.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_more.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_remove_circle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_rotate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/ic_save.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/img_back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/img_bg_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/img_logo_report.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/img_sduty_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable-v24/img_sduty_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/bg_button_shape_left.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/bg_button_shape_right.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/bg_gradient.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/bottom_nav_color.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/btn_kakao_container_400px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/btn_login_container.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/btn_naver_container_400px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/dialog_shape.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/gradient_circle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_add_circle_outline_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_check_circle_outline_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_menu_library_add_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_menu_tune_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_play.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_report.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/ic_stop.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/img_logo_timer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/img_logo_white_360.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/img_sduty_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/img_timer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/drawable/kakao_login_medium_wide.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/activity_crop.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/activity_crop_image.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/dialog_confirm.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/dialog_crop_select.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/dialog_stop_study_confirm.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/dialog_tag_select.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/dialog_task.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/dialog_task_regist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/example_1_calendar_day.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_calendar_bottom_sheet.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_feed.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_feed_create.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_feed_deco.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_join_id.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_join_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_join_pw.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_login.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_my_page.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_report.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/fragment_timer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/item_tag.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/list_item_subtask.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/layout/list_item_task.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/menu/menu_bottom_nav.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/navigation/nav_login.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/navigation/nav_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/raw/lottie.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/raw/timer_animation.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/values/styles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/values/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/xml/backup_rules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/presentation/src/test/java/com/d205/sdutyplus/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../AOS/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.idea/deploymentTargetDropDown.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/Sduty_User_Release.apk" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/google-services.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/release/app-release.apk" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/release/output-metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/androidTest/java/com/d108/sduty/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/assets/PrivacyPolish.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/assets/Terms.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/ic_launcher_sduty_gradient-playstore.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/AchievementAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/AppListAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/BindingAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/CamStudyMemeberAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/ContributionAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/FollowAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/MyStudyAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/NoticeAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/ParticipantAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/ParticipantListAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/QnaAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/ReplyAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/SelectedTagAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/StudyListAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/StudyMemberAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/TagAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/TaskAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/TaskSpinnerAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/paging/StoryPagingAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/adapter/paging/TimeLinePagingAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/common/ApplicationClass.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/common/Constants.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/AppInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/FirebaseCloudMessagingService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/Retrofit.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/api/ProfileApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/api/SettingApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/api/StoryApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/api/StudyApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/api/TagApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/api/TimerApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/api/UserApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Achievement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Alarm.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/AuthInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Follow.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/InterestHashtag.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/JobHashtag.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Likes.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Member.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Notice.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Profile.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Qna.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Reply.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Report.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Scrap.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Story.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Study.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Task.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/Timeline.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/dto/User.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/paging/PagingResult.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/paging/StoryDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/model/paging/TimeLineDataSource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/MainActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/camstudy/preview/PreviewFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/camstudy/preview/PreviewViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/camstudy/room/GroupCallFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/camstudy/room/GroupCallViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/camstudy/room/ParticipantListFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/camstudy/room/RoomActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/camstudy/room/RoomInfoFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/common/CropActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/common/CropImageActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/common/CropSelectDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/common/LoadingDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/StoryDecoFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/StoryDetailFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/StoryRegisterFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/TimeLineFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/UserProfileFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/dialog/BlockDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/dialog/PushInfoDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/dialog/TagStudyFieldDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/home/viewmodel/HomeViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/AchievementFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/FollowFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/MyPageFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/dialog/AccessibilityDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/dialog/DialogAchivement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/setting/AppLockFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/setting/NoticeFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/setting/QuestionDetailDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/setting/QuestionFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/setting/QuestionListFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/setting/SettingFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/setting/viewmodel/SettingViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/viewmodel/ContributionViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/mypage/viewmodel/FollowViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/CamStudyDetailFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/MyStudyFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/StudyDetailFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/StudyListFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/StudyRegistFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/StudySearchFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/StudySettingFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/dialog/StudyCheckDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/dialog/StudyCreateDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/dialog/StudyDetailDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/dialog/StudyDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/dialog/StudyPasswordDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/dialog/StudyRadioDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/viewmodel/CamStudyDetailViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/viewmodel/MyStudyViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/viewmodel/StudyDetailViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/viewmodel/StudyListViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/viewmodel/StudyRegisteViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/viewmodel/StudySearchViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/study/viewmodel/StudySettingViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/ReportFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/TimerFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/dialog/ConfirmDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/dialog/DelayDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/dialog/ReportActionDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/dialog/TaskDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/dialog/TaskRegistDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/main/timer/viewmodel/TimerViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/JoinRegistFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/LoginFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/ProfileRegistFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/TermsFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/dialog/DialogFindInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/dialog/PermissionDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/dialog/RegisterDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/dialog/TagSelectDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/dialog/TagSelectOneFragment.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/dialog/TemrsDialog.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/viewmodel/FindInfoViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/viewmodel/JoinViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/viewmodel/LoginViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/viewmodel/ProfileViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/sign/viewmodel/TagViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/splash/SplashActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/viewmodel/MainViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/ui/viewmodel/StoryViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/AppLockAccessibilityService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/DateFormatUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/Extension.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/GetUriForFile.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/Resource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/Status.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/TextViewGradientUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/UriPathUtil.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/sharedpreference/FCMPreference.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/java/com/d108/sduty/utils/sharedpreference/SettingsPreference.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_down_enter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_down_exit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_left_enter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_left_exit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_right_enter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_right_exit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_stop.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_up_enter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/anim/slide_up_exit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/color/tab_color_selector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/app_icon_512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/app_icon_sduty_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/app_logo_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/background_gradient.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/baseline_add_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/baseline_settings_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/bg_bottom_sheet_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/bg_gradient.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/border_rectangle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/border_study.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/border_study_block.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/border_study_block_solid.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/border_study_solid.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/bottom_nav_color.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/box_add.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/box_task.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_audio_off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_audio_off_selected.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_call_end.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_daily_question.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_kakao_container_400px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_login_container.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_naver_container_400px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_study_filter.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_study_regist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_video_off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/btn_video_off_selected.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/button_app_blue.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/button_gray.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/button_shape.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/button_shape_center.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/button_shape_center_purple.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/button_shape_left.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/button_shape_right.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/check.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/daily_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/daily_click.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/dialog_black_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/dialog_gradient_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/dialog_shape.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/dialog_white_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/divider_daily_question.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/edittext_selector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/empty_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/empty_profile_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/gradient_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/gradient_circle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/gradient_color.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/gradient_study_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_accessibility.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_arrow_foward.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_bookmark_border_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_bookmark_border_blue_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_check_circle_outline_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_comment_black_24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_favorite_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_more_horiz_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_thumb_up_off_alt_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_thumb_up_off_alt_blue_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_baseline_timer_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_bookmark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_chevron_right_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_empty_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_folder_open.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_gradient_book_mark.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_gradient_thumbs_up.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_group_call.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_menu_arrow_back_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_menu_library_add_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_menu_tune_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_mic.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_nav_group_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_nav_home_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_nav_person_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_nav_timer_black_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_rotate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_save.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_settings.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_trophy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/ic_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_add_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_arrow_drop_down_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_arrow_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_audio_off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_audio_off_red.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_avatar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_bluetooth.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_bluetooth_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_call_voice_end_filled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_camera_flip_and.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_camera_off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_chart_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_check_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_chevron_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_copy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_edit_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_group_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_group_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_headset.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_headset_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_home.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_info.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_join.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_kakao_login.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_leave.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_more_horiz_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_more_vert.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_naver_login.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_play.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_radio_button_unchecked.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_remove_circle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_report.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_room_add.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_rooms.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_rooms_filled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_rooms_grey.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_schedule.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_send_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_settings.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_settings_filled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_settings_grey.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_shevron_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_speaker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_stop.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_timer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/icon_user.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_bg_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_create_camstudy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_create_study.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_follow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_logo_app_lock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_logo_group.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_logo_report.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_logo_text_gradient_100px.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_logo_timer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_logo_white_360.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_mypage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_profile_sample.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_report.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_sduty_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_stduy_lock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_study_create.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_study_detail_lock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_study_detail_unlock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_study_lock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_study_search.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_study_setting.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_study_unlock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_timer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_type_camstudy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_type_camstudy_off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_type_study.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/img_type_study_off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/menu_logo_text_24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/planner_stroke.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/search.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/square_gray.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/square_green.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/study_gray.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/study_join_block.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/study_radius.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/study_radius_blue.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/switch_thumb_off.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/switch_thumb_on.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/switch_thumb_selector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/switch_track_off.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/switch_track_on.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/switch_track_selector.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/textview_gray.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/textview_regular.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/drawable/white_border.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/activity_crop.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/activity_crop_image.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/activity_room.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/activity_splash.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_accessibility.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_achivement.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_block.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_confirm.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_crop_select.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_delay.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_find_info.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_loading.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_permission.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_push_info.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_question_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_radio_study.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_register.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_room_creation.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_study.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_study_check.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_study_create.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_study_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_study_password.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_tag_select.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_tag_select_one.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_tag_study_field.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_task.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_task_regist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/dialog_terms.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_achievement.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_app_lock.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_camstudy_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_follow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_group_call.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_join.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_join_regist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_login.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_my_page.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_my_study.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_notice.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_participant_list.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_preview.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_profile_regist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_question.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_question_list.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_report.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_report_action_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_room_info.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_setting.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_story_deco.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_story_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_story_register.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_study_detail.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_study_list.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_study_regist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_study_search.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_study_setting.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_terms.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_time_line.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_timer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/fragment_user_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_achievement.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_contribution.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_follow.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_list_notice.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_participant.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_participant_list_share_room_id.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_participant_list_user.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_qna.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_reply.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_spinner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_story.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_tag.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_tag_small.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/item_timeline.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/list_item_app_info.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/list_item_camstudy_member.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/list_item_mystudy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/list_item_study.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/list_item_study_member.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/layout/list_item_task.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/menu/bottom_nav_menu.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/menu/disclosure_menu.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/menu/menu_reply.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/menu/menu_story_own_writer.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/menu/menu_story_visiters.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-anydpi-v26/ic_launcher_sduty_gradient.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-anydpi-v26/ic_launcher_sduty_gradient_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-hdpi/ic_launcher_sduty_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-hdpi/ic_launcher_sduty_gradient_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-hdpi/ic_launcher_sduty_gradient_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-mdpi/ic_launcher_sduty_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-mdpi/ic_launcher_sduty_gradient_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-mdpi/ic_launcher_sduty_gradient_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xhdpi/ic_launcher_sduty_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xhdpi/ic_launcher_sduty_gradient_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xhdpi/ic_launcher_sduty_gradient_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxhdpi/ic_launcher_sduty_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxhdpi/ic_launcher_sduty_gradient_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxhdpi/ic_launcher_sduty_gradient_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxxhdpi/ic_launcher_sduty_gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxxhdpi/ic_launcher_sduty_gradient_foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/mipmap-xxxhdpi/ic_launcher_sduty_gradient_round.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/navigation/main_nav_graph.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/navigation/room_nav_graph.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/raw/animation.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/raw/animation_loading.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values/array_category.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values/array_people.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values/ic_launcher_sduty_gradient_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/main/res/xml/accessibility_service_config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/app/src/test/java/com/d108/sduty/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/appkey/GoogleKey.jks" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/appkey/PlayStoreKey.jks" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/debug.keystore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../SDUTY/Sduty_User/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../AOS/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../AOS/data/consumer-rules.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../../AOS/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../AOS/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../../AOS/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/d205/sdutyplus/SdutyplusApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/d205/sdutyplus/SdutyplusApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../SDUTY/Sduty_Server/.gitignore" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="sdutyplus" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GsbnMDlc4OlG2mqno9wTXOZqxR" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/multicampus/Desktop/code/sdutyplus/S07P31D205/Backend/sdutyplus/build.gradle"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="SdutyplusApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.d205.sdutyplus.SdutyplusApplication" />
+      <module name="sdutyplus.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.d205.sdutyplus.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.SdutyplusApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec52d4bd-05ea-46b0-a37a-2503abf6b7da" name="Changes" comment="" />
+      <created>1667180406898</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667180406898</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

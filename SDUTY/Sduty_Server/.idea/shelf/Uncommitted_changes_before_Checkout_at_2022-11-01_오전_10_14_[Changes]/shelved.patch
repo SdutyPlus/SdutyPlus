@@ -1,0 +1,15 @@
+Index: ../../Backend/sdutyplus/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>server.port=8090\r\n\r\n#spring.datasource.url=jdbc:mariadb://k7d205.p.ssafy.io:3309/sdutyrdb\r\n#spring.datasource.url=jdbc:mariadb://k7d205.p.ssafy.io:3309/sdutyplusrdb\r\nspring.datasource.url=jdbc:mariadb://mariadb-container:3306/sdutyplusrdb\r\nspring.datasource.username=sduty\r\nspring.datasource.password=kkbbsp885520\r\n\r\n#JPA Setting\r\nspring.datasource.driver-class-name=org.mariadb.jdbc.Driver\r\n#update the schema with the given values.\r\nspring.jpa.hibernate.ddl-auto=update\r\n#To beautify or pretty print the SQL\r\nspring.jpa.properties.hibernate.format_sql=true\r\n#show sql\r\nspring.jpa.properties.hibernate.show-sql=true\r\n#show parameter binding\r\nlogging.level.org.hibernate.type.descriptor.sql=DEBUG\r\nlogging.level.org.hibernate.SQL=DEBUG\r\n
+===================================================================
+diff --git a/../../Backend/sdutyplus/src/main/resources/application.properties b/../../Backend/sdutyplus/src/main/resources/application.properties
+--- a/../../Backend/sdutyplus/src/main/resources/application.properties	
++++ b/../../Backend/sdutyplus/src/main/resources/application.properties	
+@@ -15,5 +15,5 @@
+ #show sql
+ spring.jpa.properties.hibernate.show-sql=true
+ #show parameter binding
+-logging.level.org.hibernate.type.descriptor.sql=DEBUG
++logging.level.org.hibernate.type.descriptor.sql=DEBUGb 
+ logging.level.org.hibernate.SQL=DEBUG

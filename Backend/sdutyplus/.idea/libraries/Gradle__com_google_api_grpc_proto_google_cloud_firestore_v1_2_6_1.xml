@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.google.api.grpc:proto-google-cloud-firestore-v1:2.6.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-firestore-v1/2.6.1/dd2336241c125e9247e133eb322a49d0cd29a35d/proto-google-cloud-firestore-v1-2.6.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.api.grpc/proto-google-cloud-firestore-v1/2.6.1/9da753cd654d6a9bed2464be1f7b524dc14e02c0/proto-google-cloud-firestore-v1-2.6.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
