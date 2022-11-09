@@ -47,6 +47,14 @@ public class FeedController {
         return ResponseEntity.ok().body(ResponseDto.of(GET_MY_FEED_SUCCESS, feedResponseDtos));
     }
 
+    @ApiOperation(value = "내가 스크랩한 게시글 조회")
+    @GetMapping("/scrap")
+    public ResponseEntity<ResponseDto> getScrapFeeds(@ApiIgnore Authentication auth){
+        Long userSeq = (Long)auth.getPrincipal();
+        List<FeedResponseDto> feedResponseDtos = feedService.getScrapFeeds(userSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(GET_SCRAP_FEED_SUCCESS, feedResponseDtos));
+    }
+
     @ApiOperation(value = "게시글 삭제")
     @DeleteMapping("/{feed_seq}")
     public ResponseEntity<?> deleteFeed(@PathVariable(value = "feed_seq") Long feedSeq){

@@ -63,6 +63,13 @@ public class FeedService {
         return feedRepositoryQuerydsl.findMyFeeds(writerSeq);
     }
 
+    public List<FeedResponseDto> getScrapFeeds(Long userSeq){
+        User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
+        System.out.println("user = " + user);
+        return feedRepositoryQuerydsl.getScrapFeeds(user);
+    }
+
     @Transactional
     public void deleteFeed(Long seq){
         Feed feed = getFeed(seq);
@@ -71,6 +78,7 @@ public class FeedService {
         feedRepository.delete(feed);
     }
 
+    @Transactional
     public void scrapFeed(Long userSeq, Long feedSeq){
         Feed feed = getFeed(feedSeq);
         User user = userRepository.findBySeq(userSeq)
@@ -82,6 +90,7 @@ public class FeedService {
                 .build());
     }
 
+    @Transactional
     public void unscrapFeed(Long userSeq, Long feedSeq){
         Feed feed = getFeed(feedSeq);
         User user = userRepository.findBySeq(userSeq)
@@ -92,6 +101,32 @@ public class FeedService {
         scrapRepository.delete(scrap);
     }
 
+    @Transactional
+    public boolean likeFeed(Long userSeq, Long feedSeq) {
+        final Feed feed = getFeed(feedSeq);
+        final User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+
+        if (feedLikeRepository.findByUserAndFeed(user, feed).isPresent()){
+            throw new EntityAlreadyExistException(FEED_LIKE_ALREADY_EXIST);
+        }
+
+        feedLikeRepository.save(new FeedLike(user, feed));
+        return true;
+    }
+
+    @Transactional
+    public boolean unlikeFeed(Long userSeq, Long feedSeq) {
+        final Feed feed = getFeed(feedSeq);
+        final User user = userRepository.findBySeq(userSeq)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+
+        FeedLike feedLike = feedLikeRepository.findByUserAndFeed(user, feed)
+                .orElseThrow(() -> new EntityNotFoundException(FEED_LIKE_NOT_FOUND));
+
+        feedLikeRepository.delete(feedLike);
+        return true;
+    }
 
     //get & set => private
     private String uploadFile(MultipartFile file){
@@ -120,32 +155,5 @@ public class FeedService {
     private Feed getFeed(Long seq){
         return feedRepository.findById(seq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
-    }
-
-    @Transactional
-    public boolean likeFeed(Long userSeq, Long feedSeq) {
-        final Feed feed = getFeed(feedSeq);
-        final User user = userRepository.findBySeq(userSeq)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-
-        if (feedLikeRepository.findByUserAndFeed(user, feed).isPresent()){
-            throw new EntityAlreadyExistException(FEED_LIKE_ALREADY_EXIST);
-        }
-
-        feedLikeRepository.save(new FeedLike(user, feed));
-        return true;
-    }
-
-    @Transactional
-    public boolean unlikeFeed(Long userSeq, Long feedSeq) {
-        final Feed feed = getFeed(feedSeq);
-        final User user = userRepository.findBySeq(userSeq)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-
-        FeedLike feedLike = feedLikeRepository.findByUserAndFeed(user, feed)
-                .orElseThrow(() -> new EntityNotFoundException(FEED_LIKE_NOT_FOUND));
-
-        feedLikeRepository.delete(feedLike);
-        return true;
     }
 }
