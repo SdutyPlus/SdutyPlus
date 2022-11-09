@@ -53,6 +53,12 @@ public class UserService {
         return result;
     }
 
+    @Transactional
+    public Long getReportContinuous(Long userSeq){
+
+        return null;
+    }
+
     private void updateUserData(User user, UserRegDto userRegDto){
         user.setNickname(userRegDto.getNickname());
         user.setImgUrl(userRegDto.getImgUrl());
