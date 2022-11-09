@@ -1,5 +1,6 @@
 package com.d205.data.dao
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.d205.data.common.NOT_FOUND_STRING
