@@ -39,7 +39,7 @@ public class UserController {
     })
     @PostMapping("/reg")
     public ResponseEntity<ResponseDto> userRegData(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
-        long userSeq = (int)auth.getPrincipal();
+        Long userSeq = (Long)auth.getPrincipal();
         UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
 
         return ResponseEntity.ok(ResponseDto.of(SAVE_PROFILE_SUCCESS, result));
@@ -68,7 +68,7 @@ public class UserController {
     })
     @GetMapping
     public ResponseEntity<ResponseDto> getUserProfile(@ApiIgnore Authentication auth){
-        long userSeq = (int)auth.getPrincipal();
+        Long userSeq = (Long)auth.getPrincipal();
         final UserProfileDto userProfileDto = userService.getUserProfile(userSeq);
 
         return ResponseEntity.ok(ResponseDto.of(GET_USERPROFILE_SUCCESS, userProfileDto));
@@ -81,7 +81,7 @@ public class UserController {
     })
     @PutMapping
     public ResponseEntity<ResponseDto> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
-        long userSeq = (int)auth.getPrincipal();
+        Long userSeq = (Long)auth.getPrincipal();
         UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
 
         return ResponseEntity.ok(ResponseDto.of(EDIT_PROFILE_SUCCESS, result));

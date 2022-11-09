@@ -44,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter{
             System.out.println("인증완료");
             String userSeq = JwtUtils.getUserSeq(token);
             //뽑아낸 정보를 인증 정보에 저장
-            Authentication auth = new UsernamePasswordAuthenticationToken(Integer.parseInt(userSeq), null, null);
+            Authentication auth = new UsernamePasswordAuthenticationToken(Long.parseLong(userSeq), null, null);
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
         filterChain.doFilter(request, response);
