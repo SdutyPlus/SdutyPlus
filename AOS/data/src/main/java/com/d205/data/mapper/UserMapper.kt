@@ -6,7 +6,7 @@ import com.d205.domain.model.user.User
 
 fun mapperUserResponseToUser(UserResponse: UserResponse): User =
     User(
-        seq = UserResponse.seq,
+        seq = UserResponse.userSeq,
         id = UserResponse.email,
         nickname = UserResponse.nickname,
         imgUrl = UserResponse.imgUrl,

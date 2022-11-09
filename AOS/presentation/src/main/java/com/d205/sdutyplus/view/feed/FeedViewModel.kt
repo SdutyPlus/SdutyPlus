@@ -1,16 +1,18 @@
-package com.d205.sdutyplus.view.story
+package com.d205.sdutyplus.view.feed
 
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.cachedIn
-import androidx.paging.liveData
-import com.d205.domain.usecase.story.GetFeedUseCase
+import androidx.paging.*
+import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.user.User
+import com.d205.domain.usecase.feed.GetFeedsUseCase
 import com.d205.sdutyplus.uitls.ALL_STORY
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
@@ -19,28 +21,23 @@ import javax.inject.Inject
 
 private const val TAG ="StoryViewModel"
 
-
-class StoryViewModel @Inject constructor(
-    private val getFeedUseCase: GetFeedUseCase
+@HiltViewModel
+class FeedViewModel @Inject constructor(
+    private val getFeedsUseCase: GetFeedsUseCase
 ): ViewModel() {
 
     // 모든 스토리 전체 조회
-    private fun getStoryPost(userSeq: Int, writerSeq: Int) = Pager(
+    private fun userFeeds() = Pager(
         config = PagingConfig(pageSize = 1, maxSize = 18, enablePlaceholders = false),
-        pagingSourceFactory = {StoryDataSource(ALL_STORY, getFeedUseCase, userSeq, writerSeq)}
-    ).liveData
-    private val userStoryPosts = MutableLiveData<IntArray>()
+        pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase)}
+    ).flow
 
-    val pagingStoryList = userStoryPosts.switchMap {
-        getStoryPost(it[0], it[1]).cachedIn(viewModelScope)
-    }
+    val pagingFeedList = getUserFeeds()
+//    private val _pagingFeedList : MutableStateFlow<PagingData<Feed>> =
+//        MutableStateFlow(PagingData.empty())
+//    val pagingFeedList get() = _pagingFeedList.asStateFlow()
 
-    fun getUserStoryList(userSeq: Int, writerSeq: Int){
-        val array = IntArray(2)
-        array[0] = userSeq
-        array[1] = writerSeq
-        userStoryPosts.postValue(array)
-    }
+    fun getUserFeeds() = userFeeds().cachedIn(viewModelScope)
 
 
 //    // 스크랩 스토리 전체 조회

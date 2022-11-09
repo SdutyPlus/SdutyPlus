@@ -17,6 +17,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -108,4 +109,8 @@ dependencies {
 
     // BottomSheet
     implementation 'com.google.android.material:material:1.8.0-alpha01'
+
+    // AnyChart
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.4'
+    implementation("androidx.multidex:multidex:2.0.1")
 }
