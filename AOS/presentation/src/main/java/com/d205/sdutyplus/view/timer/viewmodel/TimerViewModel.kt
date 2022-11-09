@@ -184,7 +184,7 @@ class TimerViewModel @Inject constructor(
 
 
     fun getCurrentStudyInfo() {
-
+        
     }
 
 }
