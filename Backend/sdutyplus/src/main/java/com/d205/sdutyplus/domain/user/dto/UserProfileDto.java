@@ -23,6 +23,8 @@ public class UserProfileDto {
     private String imgUrl;
     @ApiModelProperty(value = "fcm token")
     private String fcmToken;
+    @ApiModelProperty(value = "연속 일수")
+    private Long continuous;
 
     public UserProfileDto(User user){
         this.userSeq = user.getSeq();
@@ -31,5 +33,6 @@ public class UserProfileDto {
         this.job = user.getJob();
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
+        this.continuous = user.getContinuous();
     }
 }
