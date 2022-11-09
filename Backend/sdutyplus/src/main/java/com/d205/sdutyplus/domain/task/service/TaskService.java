@@ -1,10 +1,9 @@
 package com.d205.sdutyplus.domain.task.service;
 
 
-import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
+import com.d205.sdutyplus.domain.task.dto.ReportDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
-import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
 import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
@@ -77,13 +76,12 @@ public class TaskService{
         taskRepository.deleteById(taskSeq);
     }
 
-    public ReportResponseDto getDailyReport(Long userSeq, String date){
+    public ReportDto getDailyReport(Long userSeq, String date){
         LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-//        List<Task> tasks = taskRepository.findAllByStartTimeBetween(startTime, endTime);
-        List<TaskResponseDto> taskResponseDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
+        List<TaskDto> taskDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
 
-        ReportResponseDto reportResponseDto = new ReportResponseDto(taskResponseDtos);
+        ReportDto reportResponseDto = new ReportDto(taskDtos);
 
         return reportResponseDto;
     }
