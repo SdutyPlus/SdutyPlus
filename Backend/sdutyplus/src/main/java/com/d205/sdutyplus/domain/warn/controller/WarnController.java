@@ -37,7 +37,7 @@ public class WarnController {
     })
     @PostMapping("/user/{toUserSeq}")
     public ResponseEntity<ResponseDto> userWarn(@ApiIgnore Authentication auth, @PathVariable Long toUserSeq) {
-        long fromUserSeq = (int)auth.getPrincipal();
+        Long fromUserSeq = (Long)auth.getPrincipal();
 
         final boolean success = warnService.userWarn(fromUserSeq, toUserSeq);
         if (success) {
