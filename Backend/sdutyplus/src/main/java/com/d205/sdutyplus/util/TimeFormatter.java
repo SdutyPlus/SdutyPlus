@@ -15,7 +15,7 @@ public class TimeFormatter {
             LocalDateTime localDateTime = LocalDateTime.parse(time, formatter);
             return localDateTime;
         }
-        catch(IllegalArgumentException e){
+        catch(Exception e){
             throw new InvalidTimeFormatException();
         }
     }
