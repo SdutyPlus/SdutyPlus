@@ -48,7 +48,7 @@ public class TaskService{
         return taskDto;
     }
 
-    public TaskResponseDto getTaskDetail(Long taskSeq){
+    public TaskDto getTaskDetail(Long taskSeq){
         return taskRepositoryQuerydsl.findTaskBySeq(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }

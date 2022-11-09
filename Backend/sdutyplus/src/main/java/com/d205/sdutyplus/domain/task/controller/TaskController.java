@@ -26,7 +26,7 @@ public class TaskController {
 
     @ApiOperation(value = "테스크 등록")
     @PostMapping("")
-    public ResponseEntity<?> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
+    public ResponseEntity<ResponseDto> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
         Long userSeq = (Long)auth.getPrincipal();
         TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
         //TODO : [통계] 로직 수정 필요
@@ -37,21 +37,21 @@ public class TaskController {
 
     @ApiOperation(value = "테스크 상세 조회")
     @GetMapping("/{task_seq}")
-    public ResponseEntity<?> getTaskDetail(@PathVariable(value = "task_seq") Long taskSeq){
-        TaskResponseDto taskResponseDto = taskService.getTaskDetail(taskSeq);
-        return ResponseEntity.ok().body(ResponseDto.of(GET_TASK_DETAIL_SUCCESS, taskResponseDto));
+    public ResponseEntity<ResponseDto> getTaskDetail(@PathVariable(value = "task_seq") Long taskSeq){
+        TaskDto taskDto = taskService.getTaskDetail(taskSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(GET_TASK_DETAIL_SUCCESS, taskDto));
     }
 
     @ApiOperation(value = "테스크 수정")
     @PutMapping("/{task_seq}")
-    public ResponseEntity<?> updateTask(@PathVariable(value="task_seq") Long taskSeq, @RequestBody TaskDto taskDto){
+    public ResponseEntity<ResponseDto> updateTask(@PathVariable(value="task_seq") Long taskSeq, @RequestBody TaskDto taskDto){
         taskService.updateTask(taskSeq, taskDto);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_TASK_SUCCESS));
     }
 
     @ApiOperation(value = "테스크 삭제")
     @DeleteMapping("/{task_seq}")
-    public ResponseEntity<?> deleteTask(@PathVariable(value="task_seq") Long taskSeq){
+    public ResponseEntity<ResponseDto> deleteTask(@PathVariable(value="task_seq") Long taskSeq){
         taskService.deleteTask(taskSeq);
         return ResponseEntity.ok().body(ResponseDto.of(DELETE_TASK_SUCCESS));
     }
