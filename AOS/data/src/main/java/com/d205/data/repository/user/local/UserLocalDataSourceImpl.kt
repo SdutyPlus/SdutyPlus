@@ -1,6 +1,11 @@
 package com.d205.data.repository.user.local
 
-class UserDataSourceImpl {
+import com.d205.data.dao.UserSharedPreference
+import javax.inject.Inject
 
-
+class UserLocalDataSourceImpl @Inject constructor(
+    private val userSharedPreference: UserSharedPreference
+): UserLocalDataSource {
+    override suspend fun saveJwt(token: String): Boolean =
+        userSharedPreference.setStringFromPreference("jwt", token)
 }

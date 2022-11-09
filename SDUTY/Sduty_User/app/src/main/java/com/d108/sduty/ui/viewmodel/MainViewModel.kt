@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 
 private const val TAG ="MainViewModel"
 class MainViewModel: ViewModel() {
+
+    // bottom nav show mode 설정
     private val _visibilityBottomNav = MutableLiveData<Boolean>(false)
     val visibilityBottomNav : LiveData<Boolean>
         get() = _visibilityBottomNav
@@ -21,6 +23,10 @@ class MainViewModel: ViewModel() {
         _visibilityBottomNav.postValue(show)
     }
 
+
+
+
+    // User 정보 가져와서 저장
     private val _user = MutableLiveData<User>()
     val user : LiveData<User>
         get() = _user
