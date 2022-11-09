@@ -1,15 +1,23 @@
 package com.d205.sdutyplus.util;
 
 import com.d205.sdutyplus.domain.jwt.support.JwtProperties;
+import com.fasterxml.classmate.TypeResolver;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -28,6 +36,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SwaggerConfig {
 
+    private final TypeResolver typeResolver;
+
     @Bean
     public Docket api() {
         final ApiInfo apiInfo = new ApiInfoBuilder()
@@ -43,6 +53,8 @@ public class SwaggerConfig {
         //Server testServer2 = new Server("test2", "http://k7d205.p.ssafy.io:8081", "for testing", Collections.emptyList(), Collections.emptyList());
 
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
+                .alternateTypeRules(AlternateTypeRules
+                        .newRule(typeResolver.resolve(Pageable.class), typeResolver.resolve(Page.class)))
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
                 .servers(serverLocal, testServer)
@@ -66,5 +78,17 @@ public class SwaggerConfig {
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(new SecurityReference(JwtProperties.JWT_ACCESS_NAME, authorizationScopes));
     }
+
+    @Getter
+    @Setter
+    @ApiModel
+    static class Page {
+        @ApiModelProperty(value = "페이지 번호(0..N)")
+        private Integer page;
+
+        @ApiModelProperty(value = "페이지 크기", allowableValues="range[0, 100]")
+        private Integer size;
+    }
+
 
 }

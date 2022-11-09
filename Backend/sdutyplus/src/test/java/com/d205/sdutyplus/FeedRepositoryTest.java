@@ -3,6 +3,7 @@ package com.d205.sdutyplus;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
+import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
@@ -11,6 +12,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -27,6 +32,8 @@ public class FeedRepositoryTest {
     private JPAQueryFactory queryFactory;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FeedRepositoryQuerydsl feedRepositoryQuerydsl;
 
     @Test
     public void getScrapFeed(){
@@ -34,20 +41,16 @@ public class FeedRepositoryTest {
         User user = userRepository.findBySeq(userSeq)
                 .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
 
-        List<FeedResponseDto> feeds = queryFactory
-                .select(
-                        new QFeedResponseDto(
-                                scrap.feed.seq,
-                                scrap.feed.writerSeq,
-                                scrap.feed.imgUrl,
-                                scrap.feed.content
-                        )
-                )
-                .from(scrap)
-                .where(scrap.user.eq(user))
-                .fetch();
+        Sort.Order order = Sort.Order.desc("seq");
+        Sort sort = Sort.by(order);
+        Pageable pageable = PageRequest.of(0, 5, sort);
 
+        Page<FeedResponseDto> result = feedRepositoryQuerydsl.findScrapFeedPage(user, pageable);
+
+        for(FeedResponseDto feedResponseDto : result.getContent()){
+            System.out.println("feedResponseDto.getSeq() = " + feedResponseDto.getSeq());
+        }
         //then
-        assertThat(feeds.size()).isEqualTo(1);
+        assertThat(result.getContent().size()).isEqualTo(1);
     }
 }

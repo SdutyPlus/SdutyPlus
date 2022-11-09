@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.feed.service;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
+import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.feed.entity.FeedLike;
 import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
@@ -20,6 +21,8 @@ import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -63,10 +66,12 @@ public class FeedService {
         return feedRepositoryQuerydsl.findMyFeeds(writerSeq);
     }
 
-    public List<FeedResponseDto> getScrapFeeds(Long userSeq){
+    public PagingResultDto getScrapFeeds(Long userSeq, Pageable pageable){
         User user = userRepository.findBySeq(userSeq)
                 .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
-        return feedRepositoryQuerydsl.findScrapFeeds(user);
+        Page<FeedResponseDto> feedPage = feedRepositoryQuerydsl.findScrapFeedPage(user, pageable);
+        PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
+        return pagingResultDto;
     }
 
     @Transactional

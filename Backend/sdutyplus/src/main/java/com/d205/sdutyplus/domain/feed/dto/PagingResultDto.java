@@ -11,15 +11,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class PagingResultDto<T> {
     private int page;
     private int totalPage;
     private List<T> result;
 
-    @Builder
-    public PagingResultDto (int page, int totalPage, List<T> result){
-        this.page = page;
-        this.totalPage = totalPage;
-        this.result = result;
-    }
 }

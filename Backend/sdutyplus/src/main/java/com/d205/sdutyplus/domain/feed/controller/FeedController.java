@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.feed.controller;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
+import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.service.FeedService;
 import com.d205.sdutyplus.global.response.ResponseCode;
 import com.d205.sdutyplus.global.response.ResponseDto;
@@ -10,6 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -49,10 +54,10 @@ public class FeedController {
 
     @ApiOperation(value = "내가 스크랩한 게시글 조회")
     @GetMapping("/scrap")
-    public ResponseEntity<ResponseDto> getScrapFeeds(@ApiIgnore Authentication auth){
+    public ResponseEntity<ResponseDto> getScrapFeeds(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable){
         Long userSeq = (Long)auth.getPrincipal();
-        List<FeedResponseDto> feedResponseDtos = feedService.getScrapFeeds(userSeq);
-        return ResponseEntity.ok().body(ResponseDto.of(GET_SCRAP_FEED_SUCCESS, feedResponseDtos));
+        PagingResultDto pagingResultDto = feedService.getScrapFeeds(userSeq, pageable);
+        return ResponseEntity.ok().body(ResponseDto.of(GET_SCRAP_FEED_SUCCESS, pagingResultDto));
     }
 
     @ApiOperation(value = "게시글 삭제")
