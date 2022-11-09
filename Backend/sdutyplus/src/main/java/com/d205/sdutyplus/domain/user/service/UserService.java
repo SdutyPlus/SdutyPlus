@@ -50,9 +50,11 @@ public class UserService {
     @Transactional
     public UserProfileDto getUserProfile(Long userSeq){
         final User user = authUtils.getLoginUser(userSeq);
+        if (Period.between(user.getLastReport(), LocalDate.now()).getDays() >= 2) {
+            updateContinuous(user, LocalDate.now(), 0);
+        }
 
         final UserProfileDto result = new UserProfileDto(user);
-
         return result;
     }
 
