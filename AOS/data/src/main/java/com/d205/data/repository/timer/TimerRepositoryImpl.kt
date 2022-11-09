@@ -15,6 +15,13 @@ class TimerRepositoryImpl @Inject constructor(
         return timerLocalDatasource.saveStartTime(startTime)
     }
 
+    override suspend fun updateStudyElapsedTime(studyTime: Int) {
+        if(timerLocalDatasource.updateElapsedTime(studyTime)) {
+            Log.d("ElapsedTime","$studyTime ElapsedTime")
+        }
+    }
+
+
     override suspend fun getCurrentTime(): String { // remote 통신 실패 시 local 시간 반환
         var result  = timerRemoteDataSource.getRealTime()
         if(result != "error") {
@@ -24,23 +31,30 @@ class TimerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateStudyElapsedTime(studyTime: Int) {
-        if(timerLocalDatasource.updateElapsedTime(studyTime)) {
-            Log.d("ElapsedTime","$studyTime ElapsedTime")
-        }
-    }
-
-    override suspend fun getTodayTotalStudyTime(): String {
-        return timerRemoteDataSource.getTodayTotalStudyTime()
+    override fun getStartTime(): String {
+        return timerLocalDatasource.getStartTime()
     }
 
     override fun getElapsedTime(): Int {
         return timerLocalDatasource.getStudyElapsedTime()
     }
 
+    override suspend fun getTodayTotalStudyTime(): String {
+        var result  = timerRemoteDataSource.getTodayTotalStudyTime()
+        if(result != "error") {
+            return result
+        } else {
+            return "00:00:00"
+        }
+    }
 
-    override fun getStartTime(): String {
-        return timerLocalDatasource.getStartTime()
+    override suspend fun addTask(currentTaskDto: CurrentTaskDto) {
+        val result = timerRemoteDataSource.addTask(currentTaskDto)
+        if(result != null) {
+
+        } else {
+
+        }
     }
 
 

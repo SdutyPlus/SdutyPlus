@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d205.domain.model.report.SubTask
 import com.d205.domain.usecase.timer.*
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.convertTimeStringToDate
@@ -25,7 +26,8 @@ class TimerViewModel @Inject constructor(
     private val saveStartTimeUsecase: SaveStartTimeUsecase,
     private val getCurrentTimeUsecase: GetCurrentTimeUsecase,
     private val udateStudyElapsedTimeUsecase: UpdateStudyElapsedTimeUsecase,
-    private val getTodayTotalStudyTimeUsecase: GetTodayTotalStudyTimeUsecase
+    private val getTodayTotalStudyTimeUsecase: GetTodayTotalStudyTimeUsecase,
+    private val getStudyTimeInfoUsecase: GetStudyTimeInfoUsecase
 ): ViewModel() {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -183,8 +185,14 @@ class TimerViewModel @Inject constructor(
     }
 
 
-    fun getCurrentStudyInfo() {
-        
+    fun addTask(title: String, contents: List<SubTask> = mutableListOf()) {
+        viewModelScope.launch(defaultDispatcher){
+            var currentTaskDto = getStudyTimeInfoUsecase()
+            currentTaskDto.title = title
+            currentTaskDto.contents = contents
+
+
+        }
     }
 
 }

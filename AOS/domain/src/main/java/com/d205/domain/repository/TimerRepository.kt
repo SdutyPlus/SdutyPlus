@@ -16,5 +16,7 @@ interface TimerRepository {
 
     fun getStartTime(): String
 
+    suspend fun addTask(currentTask: CurrentTaskDto)
+
 
 }

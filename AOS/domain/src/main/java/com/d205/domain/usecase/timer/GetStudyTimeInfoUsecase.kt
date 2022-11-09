@@ -2,7 +2,7 @@ package com.d205.domain.usecase.timer
 
 import com.d205.domain.common.convertTimeDateToString
 import com.d205.domain.common.convertTimeStringToDate
-import com.d205.domain.repository.TimerRepository
+import com.d205.domain.model.timer.CurrentTaskDto
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -10,10 +10,12 @@ class GetStudyTimeInfoUsecase @Inject constructor(
     private val getStartTimeUsecase: GetStartTimeUsecase,
     private val getElapsedTimeUsecase: GetElapsedTimeUsecase
 ){
-    operator fun invoke() { // todo dto return 시키기
+    operator fun invoke(): CurrentTaskDto { // todo dto return 시키기
         val startTime = getStartTimeUsecase()
-        val getElapsedTimeUsecase = getElapsedTimeUsecase()
+        val elapsedTime = getElapsedTimeUsecase()
+        val endTime = canculateEndTime(startTime, elapsedTime)
 
+        return CurrentTaskDto(0, startTime, endTime)
     }
 
     private fun canculateEndTime(startTime: String, elapsedTime: Int): String {
