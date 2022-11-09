@@ -5,11 +5,14 @@ import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.service.TaskService;
+import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import static com.d205.sdutyplus.global.response.ResponseCode.*;
 
@@ -19,11 +22,16 @@ import static com.d205.sdutyplus.global.response.ResponseCode.*;
 public class TaskController {
 
     private final TaskService taskService;
+    private final UserService userService;
 
     @ApiOperation(value = "테스크 등록")
     @PostMapping("")
-    public ResponseEntity<?> createTask(@RequestBody TaskDto taskRequestDto){
-        Task registedTask = taskService.createTask(new Long(1), taskRequestDto);
+    public ResponseEntity<?> createTask(@ApiIgnore Authentication auth, @RequestBody TaskDto taskRequestDto){
+        Long userSeq = (Long)auth.getPrincipal();
+        Task registedTask = taskService.createTask(userSeq, taskRequestDto);
+        userService.getReportContinuous(userSeq, registedTask);
+
+
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, registedTask));
     }
 
