@@ -10,6 +10,7 @@ import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class UserAuthService {
             user.setEmail(email);
             user.setSocialType(socialType);
             user.setRegTime(LocalDateTime.now());
+            user.setLastReport(LocalDate.now());
             realUser = userRepository.save(user);
             if(realUser == null) {
                 return null;
