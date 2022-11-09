@@ -34,28 +34,13 @@ class TimerRepositoryImpl @Inject constructor(
         return timerRemoteDataSource.getTodayTotalStudyTime()
     }
 
-    override fun getStudyTimeInfo(): CurrentTaskDto {
-        var startTime = getStartTime()
-        var studyElapsedTime = getStudyElapsedTime()
-
-        var endTime = calculateEndTime()
-
-        return CurrentTaskDto(0,startTime,endTime,studyElapsedTime, "title")
-
-    }
-
-
-
-    private fun getStartTime(): String {
-        return timerLocalDatasource.getStartTime()
-    }
-
-    private fun getStudyElapsedTime(): Int {
+    override fun getElapsedTime(): Int {
         return timerLocalDatasource.getStudyElapsedTime()
     }
 
-    private fun calculateEndTime(): String {
-        return ""
+
+    override fun getStartTime(): String {
+        return timerLocalDatasource.getStartTime()
     }
 
 

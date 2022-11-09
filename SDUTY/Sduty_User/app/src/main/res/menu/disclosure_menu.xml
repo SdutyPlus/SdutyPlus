@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/publicDisclosure"
-        android:title="전체 공개"/>
-    <item android:id="@+id/followerDisclosure"
-        android:title="팔로워만 공개"/>
-    <item android:id="@+id/privateDisclosure"
-        android:title="나만 보기"/>
-</menu>
