@@ -10,4 +10,5 @@ interface UserRepository {
     fun checkNickname(nickname: String): Flow<ResultState<Boolean>>
     fun loginKakaoUser(token: String): Flow<ResultState<User>>
     fun loginNaverUser(token: String): Flow<ResultState<User>>
+    fun getUser(): Flow<ResultState<User>>
 }

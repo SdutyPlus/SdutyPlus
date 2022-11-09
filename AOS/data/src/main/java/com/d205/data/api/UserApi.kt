@@ -18,7 +18,7 @@ interface UserApi {
 
     // 카카오 로그인
     @POST("user/kakao/login")
-    fun loginKakaoUser(@Body token: String): Response<UserResponse>
+    suspend fun loginKakaoUser(@Body token: String): BaseResponse<UserResponse>
 
     // 네이버 로그인
     @POST("user/naver/login")
@@ -26,9 +26,9 @@ interface UserApi {
 
     // 프로필 업데이트
     @POST("user/reg")
-    suspend fun updateProfile(@Body user: UserDto): Response<UserEntity>
+    suspend fun updateProfile(@Body user: UserDto): BaseResponse<UserEntity>
 
     // 유저 정보 조회
-    @GET("user/{userSeq}")
-    suspend fun getUser(@Path("userSeq") userSeq: Int): BaseResponse<UserResponse>
+    @GET("user")
+    suspend fun getUser(): BaseResponse<UserResponse>
 }

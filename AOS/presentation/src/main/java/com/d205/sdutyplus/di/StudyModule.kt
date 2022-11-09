@@ -59,9 +59,8 @@ object StudyModule {
     // Retrofit DI
     @Provides
     @Singleton
-    fun provideRetrofitInstance(gson: Gson/*, client: OkHttpClient*/): Retrofit = Retrofit.Builder()
+    fun provideRetrofitInstance(gson: Gson): Retrofit = Retrofit.Builder()
         .baseUrl(SERVER_URL)
-        //.client(client)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 

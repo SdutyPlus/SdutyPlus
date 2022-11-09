@@ -7,4 +7,8 @@ interface TimerLocalDataSource {
 
     suspend fun updateElapsedTime(studyTime: Int): Boolean
 
+    fun getStartTime(): String
+
+    fun getStudyElapsedTime(): Int
+
 }

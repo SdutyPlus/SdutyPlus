@@ -30,7 +30,10 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
+        </activity>
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="true">
         </activity>
         <activity
             android:name=".view.MainActivity"
