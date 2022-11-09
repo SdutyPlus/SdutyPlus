@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserLoginDto {
 
-    private Long seq;
+    private Long userSeq;
     private String email;
     private String nickname;
     private Long job;
@@ -18,7 +18,7 @@ public class UserLoginDto {
     private JwtDto jwtDto;
 
     public UserLoginDto(User user, JwtDto jwtDto) {
-        this.seq = user.getSeq();
+        this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
         this.job = user.getJob();
