@@ -28,19 +28,19 @@ public class Task {
     @Column(name = "duration_time", nullable = false)
     private int durationTime;
     @Column(nullable = false, length=200)
-    private String content;
+    private String title;
 
     @OneToMany(mappedBy = "taskSeq")
     private List<SubTask> subTasks = new ArrayList<>();
 
     @Builder
-    public Task(String startTime, String endTime, int durationTime, String content){
+    public Task(String startTime, String endTime, String title){
         LocalDateTime startLDT = TimeFormatter.StringToLocalDateTime(startTime);
         LocalDateTime endLDT = TimeFormatter.StringToLocalDateTime(endTime);
         this.startTime = startLDT;
         this.endTime = endLDT;
         this.durationTime = TimeFormatter.getDurationTime(startLDT, endLDT);
-        this.content = content;
+        this.title = title;
     }
 
     public void updateStartTime(String startTime){

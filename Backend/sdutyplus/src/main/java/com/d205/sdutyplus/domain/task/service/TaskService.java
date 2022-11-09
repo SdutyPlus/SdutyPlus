@@ -4,12 +4,13 @@ package com.d205.sdutyplus.domain.task.service;
 import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
+import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
+import com.d205.sdutyplus.global.error.exception.InvalidInputException;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,13 +52,21 @@ public class TaskService{
     }
 
     @Transactional
-    public void updateTask(Long taskSeq, TaskUpdateDto taskUpdateDto){
+    public void updateTask(Long taskSeq, TaskDto taskDto){
+        if(!taskSeq.equals(taskDto.getSeq())){
+            throw new InvalidInputException();
+        }
+        //task
         Task task = getTask(taskSeq);
-        Task updatedTask = taskUpdateDto.toEntity();
+        Task updatedTask = taskDto.toEntity();
         task.setStartTime(updatedTask.getStartTime());
         task.setEndTime(updatedTask.getEndTime());
         task.setDurationTime(updatedTask.getDurationTime());
-        task.setContent(updatedTask.getContent());
+        task.setTitle(updatedTask.getTitle());
+
+        //subtask
+        deleteSubTaskByTaskSeq(taskSeq);
+        createSubTask(taskSeq, taskDto.getContents());
     }
 
     @Transactional
@@ -73,10 +82,29 @@ public class TaskService{
         return TimeFormatter.msToTime(duration);
     }
 
-    //get & set => private
+    /**
+     * private
+     */
     private Task getTask(Long taskSeq){
         return taskRepository.findById(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }
+
+    @Transactional
+    private void createSubTask(Long taskSeq, List<String> subtasks){
+        for(String subtask : subtasks){
+            SubTask subTask = SubTask.builder()
+                    .taskSeq(taskSeq)
+                    .content(subtask)
+                    .build();
+            subTaskRepository.save(subTask);
+        }
+    }
+
+    @Transactional
+    private void deleteSubTaskByTaskSeq(Long taskSeq){
+        subTaskRepository.deleteByTaskSeq(taskSeq);
+    }
+
 
 }

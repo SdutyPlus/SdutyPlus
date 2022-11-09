@@ -2,7 +2,6 @@ package com.d205.sdutyplus.domain.task.controller;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.service.TaskService;
 import com.d205.sdutyplus.domain.user.service.UserService;
@@ -44,8 +43,8 @@ public class TaskController {
 
     @ApiOperation(value = "테스크 수정")
     @PutMapping("/{task_seq}")
-    public ResponseEntity<?> updateTask(@PathVariable(value="task_seq") Long taskSeq, @RequestBody TaskUpdateDto taskUpdateDto){
-        taskService.updateTask(taskSeq, taskUpdateDto);
+    public ResponseEntity<?> updateTask(@PathVariable(value="task_seq") Long taskSeq, @RequestBody TaskDto taskDto){
+        taskService.updateTask(taskSeq, taskDto);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_TASK_SUCCESS));
     }
 
@@ -56,10 +55,4 @@ public class TaskController {
         return ResponseEntity.ok().body(ResponseDto.of(DELETE_TASK_SUCCESS));
     }
 
-    @ApiOperation(value = "데일리 테스크 총 시간 조회")
-    @GetMapping("/time/{date}")
-    public ResponseEntity<?> getDailyTaskTotalTime(@PathVariable String date){
-        return null;
-//        return ResponseEntity.ok().body(ResponseDto.of());
-    }
 }
