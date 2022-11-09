@@ -6,6 +6,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -48,4 +49,12 @@ public class User {
 
     @Column(name = "reg_time")
     private LocalDateTime regTime;
+
+    @Column(name = "last_report")
+    @ColumnDefault("0")
+    private LocalDate lastReport;
+
+    @Column(name = "continuous")
+    @ColumnDefault("0")
+    private Long continuous;
 }
