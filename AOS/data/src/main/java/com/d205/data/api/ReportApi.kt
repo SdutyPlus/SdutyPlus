@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface ReportApi {
 
-    @GET("task/{date}")
+    @GET("task/report/{date}")
     suspend fun getReport(@Path("date") date: String): BaseResponse<ReportResponse>
 
 }
