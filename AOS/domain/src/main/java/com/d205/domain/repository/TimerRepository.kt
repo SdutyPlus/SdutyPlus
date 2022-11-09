@@ -12,6 +12,6 @@ interface TimerRepository {
 
     suspend fun getTodayTotalStudyTime(): String
 
-    fun getCurrentStudyInfo(): CurrentTaskDto
+    fun getStudyTimeInfo(): CurrentTaskDto
 
 }

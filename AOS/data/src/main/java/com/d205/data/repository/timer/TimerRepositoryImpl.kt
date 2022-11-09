@@ -3,7 +3,6 @@ package com.d205.data.repository.timer
 import android.util.Log
 import com.d205.data.repository.timer.local.TimerLocalDataSource
 import com.d205.data.repository.timer.remote.TimerRemoteDataSource
-import com.d205.domain.model.report.Task
 import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.repository.TimerRepository
 import javax.inject.Inject
@@ -35,7 +34,7 @@ class TimerRepositoryImpl @Inject constructor(
         return timerRemoteDataSource.getTodayTotalStudyTime()
     }
 
-    override fun getCurrentStudyInfo(): CurrentTaskDto {
+    override fun getStudyTimeInfo(): CurrentTaskDto {
         var startTime = getStartTime()
         var studyElapsedTime = getStudyElapsedTime()
 
@@ -45,6 +44,8 @@ class TimerRepositoryImpl @Inject constructor(
 
     }
 
+
+
     private fun getStartTime(): String {
         return timerLocalDatasource.getStartTime()
     }
@@ -53,7 +54,7 @@ class TimerRepositoryImpl @Inject constructor(
         return timerLocalDatasource.getStudyElapsedTime()
     }
 
-    private fun calculateEndTime() {
+    private fun calculateEndTime(): String {
 
     }
 
