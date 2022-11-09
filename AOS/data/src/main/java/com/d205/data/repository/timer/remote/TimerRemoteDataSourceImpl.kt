@@ -5,6 +5,7 @@ import com.d205.data.api.TimerApi
 import javax.inject.Inject
 import kotlin.concurrent.timer
 
+const val TAG = "TRemoteDS"
 class TimerRemoteDataSourceImpl @Inject constructor(
     private val timerApi: TimerApi
 ): TimerRemoteDataSource {
@@ -14,8 +15,11 @@ class TimerRemoteDataSourceImpl @Inject constructor(
         if(response.isSuccessful && response.body() != null) {
             Log.d("timerApi", "timerApi success ${response.body()!!.data}")
             return response.body()!!.data
-        } else {
+        } else if(response.body() != null){
             Log.d("timerApi", "timerApi ${response.body()!!.code}")
+            return "error"
+        } else {
+            Log.d(TAG, "통신 error")
             return "error"
         }
 
