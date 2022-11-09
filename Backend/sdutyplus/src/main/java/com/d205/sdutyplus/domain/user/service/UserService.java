@@ -66,15 +66,13 @@ public class UserService {
         LocalDate lastReport = user.getLastReport();
         int gap = Period.between(lastReport, today).getDays();
 
-        if (user.getContinuous() > 0) {
-            if (gap == 1) {
-                updateContinuous(user, today, user.getContinuous() + 1);
-            } else if (gap >= 2) {
-                updateContinuous(user, today, 1);
-            }
-        } else {
-            updateContinuous(user, today, 1);
+        long cnt = 1;
+
+        if (user.getContinuous() > 0 && gap == 1) {
+            cnt = user.getContinuous() + 1;
         }
+
+        updateContinuous(user, today, cnt);
     }
 
     private void updateUserData(User user, UserRegDto userRegDto){
