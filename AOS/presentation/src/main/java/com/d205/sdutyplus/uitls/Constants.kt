@@ -17,3 +17,7 @@ object JOB {
     const val STUDENT = 0
     const val STUDENT1 = 1
 }
+
+const val ALL_STORY = 0
+const val SCRAP_STORY = 1
+
