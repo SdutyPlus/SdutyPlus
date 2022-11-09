@@ -52,19 +52,22 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
     private fun initView() {
         binding.apply {
+            // 회원 가입 버튼 클릭
             btnJoin.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    if(checkNicknameIsUsed()) {
-                        showToast("이미 존재하는 닉네임입니다!")
-                    }
-                    else {
+                CoroutineScope(Dispatchers.Main).launch {
+                    // 닉네임 중복 체크    true : 사용 가능, false : 이미 존재
+                    if(checkNicknameCanUse()) {
                         joinUser()
 
+                        // 회원가입 성공 여부 체크    true : 성공, false : 실패
                         if (isUserJoinedSucceeded()) {
                             moveToMainActivity()
                         } else {
                             showToast("회원가입에 실패했습니다")
                         }
+                    }
+                    else {
+                        showToast("이미 존재하는 닉네임입니다!")
                     }
                 }
             }
@@ -79,12 +82,15 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         }
     }
 
-    private suspend fun checkNicknameIsUsed(): Boolean =
-        profileViewModel.checkNickname(binding.etNickname.text.toString())
+    private suspend fun checkNicknameCanUse(): Boolean {
+        Log.d(TAG, "checkNicknameIsUsed: start!")
+        return profileViewModel.checkNickname(binding.etNickname.text.toString())
+    }
+        
 
     private fun getSocialType(): Int = args.socialType
 
-    private fun joinUser() {
+    private suspend fun joinUser() {
         joinViewModel.joinUser(
             UserDto(
                 imgUrl = profileImageUrl,
@@ -109,8 +115,8 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
     private fun moveToMainActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java)
-        intent.putExtra("userSeq", joinViewModel.user.value.seq)
-        startActivity(Intent(requireContext(), MainActivity::class.java))
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
     }
 
     private fun openTagSelectDialog() {

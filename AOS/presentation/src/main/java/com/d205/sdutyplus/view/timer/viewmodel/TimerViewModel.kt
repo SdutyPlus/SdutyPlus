@@ -84,9 +84,9 @@ class TimerViewModel @Inject constructor(
     fun startTimer() {
         viewModelScope.launch(defaultDispatcher) {
             startTimerUsecase()
-            setTimer()
-            updateTimerRunningState()
         }
+        setTimer()
+        updateTimerRunningState()
     }
 
     private fun updateTimerRunningState() {
@@ -166,7 +166,6 @@ class TimerViewModel @Inject constructor(
     }
 
 
-
     fun startResumeCountDown() {
         isResumeCountDownStart = true
     }
@@ -183,5 +182,9 @@ class TimerViewModel @Inject constructor(
         _updatedTotalTime.postValue(_todayTotalStudyTime.value)
     }
 
+
+    fun getCurrentStudyInfo() {
+        
+    }
 
 }
