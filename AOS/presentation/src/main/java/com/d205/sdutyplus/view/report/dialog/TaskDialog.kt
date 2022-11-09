@@ -70,69 +70,6 @@ class TaskDialog(private val task: Task) : DialogFragment() {
     private fun InfoTask() {
         initView()
         initBtn()
-//            when (task.subTaskDtos.size) {
-//                0 -> {
-//                    clContent1.visibility = View.GONE
-//                    clContent2.visibility = View.GONE
-//                    clContent3.visibility = View.GONE
-//                }
-//                1 -> {
-//                    if (task.subTaskDtos[0].content.isNotEmpty()) {
-//                        clContent1.visibility = View.VISIBLE
-//                        etContent1.setText(task.subTaskDtos[0].content)
-//                        ivRemoveContent1.visibility = View.GONE
-//                    } else {
-//                        clContent1.visibility = View.GONE
-//                    }
-//                    clContent2.visibility = View.GONE
-//                    clContent3.visibility = View.GONE
-//                }
-//                2 -> {
-//                    if (task.subTaskDtos[0].content.isNotEmpty()) {
-//                        clContent1.visibility = View.VISIBLE
-//                        etContent1.setText(task.subTaskDtos[0].content)
-//                        ivRemoveContent1.visibility = View.GONE
-//                    } else {
-//                        clContent1.visibility = View.GONE
-//                    }
-//
-//                    if (task.subTaskDtos[1].content.isNotEmpty()) {
-//                        clContent2.visibility = View.VISIBLE
-//                        etContent2.setText(task.subTaskDtos[1].content)
-//                        ivRemoveContent2.visibility = View.GONE
-//                    } else {
-//                        clContent2.visibility = View.GONE
-//                    }
-//
-//                    clContent3.visibility = View.GONE
-//                }
-//                3 -> {
-//                    if (task.subTaskDtos[0].content.isNotEmpty()) {
-//                        clContent1.visibility = View.VISIBLE
-//                        etContent1.setText(task.subTaskDtos[0].content)
-//                        ivRemoveContent1.visibility = View.GONE
-//                    } else {
-//                        clContent1.visibility = View.GONE
-//                    }
-//
-//                    if (task.subTaskDtos[1].content.isNotEmpty()) {
-//                        clContent2.visibility = View.VISIBLE
-//                        etContent2.setText(task.subTaskDtos[1].content)
-//                        ivRemoveContent2.visibility = View.GONE
-//                    } else {
-//                        clContent2.visibility = View.GONE
-//                    }
-//
-//                    if (task.subTaskDtos[2].content.isNotEmpty()) {
-//                        clContent3.visibility = View.VISIBLE
-//                        etContent3.setText(task.subTaskDtos[2].content)
-//                        ivRemoveContent3.visibility = View.GONE
-//                    } else {
-//                        clContent3.visibility = View.GONE
-//                    }
-//                }
-//            }
-
     }
 
     private fun initView() {
@@ -145,13 +82,12 @@ class TaskDialog(private val task: Task) : DialogFragment() {
             tvEndTime.text = task.endTime.substring(11, 16)
             etTitle.setText(task.content)
             ibAddContent.visibility = View.GONE
-            //task data 넣기
+
             for(i in 0 until task.subTaskDtos.size) {
                 contentViews[i].visibility = View.VISIBLE
                 contentEditTexts[i].setText(task.subTaskDtos[i].content)
                 removeContentBtns[i].visibility = View.GONE
             }
-
         }
     }
 
@@ -176,6 +112,10 @@ class TaskDialog(private val task: Task) : DialogFragment() {
         binding.apply {
             for(i in 0 until 3){
                 removeContentBtns[i].visibility = View.VISIBLE
+            }
+
+            if(task.subTaskDtos.size < 3) {
+                ibAddContent.visibility = View.VISIBLE
             }
 
             ibAddContent.setOnClickListener {
