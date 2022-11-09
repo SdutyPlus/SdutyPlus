@@ -3,6 +3,7 @@ package com.d205.sdutyplus.domain.task.service;
 
 import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
+import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
 import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
@@ -29,21 +31,21 @@ public class TaskService{
     private final TaskRepositoryQuerydsl taskRepositoryQuerydsl;
 
     @Transactional
-    public Task createTask(Long userSeq, TaskDto taskRequestDto){
-        Task task = taskRequestDto.toEntity();
+    public TaskDto createTask(Long userSeq, TaskPostDto taskPostDto){
+        Task task = taskPostDto.toEntity();
         task.setOwnerSeq(userSeq);
-        return taskRepository.save(task);
-    }
 
-    public ReportResponseDto getDailyReport(Long userSeq, String date){
-        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
-        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-//        List<Task> tasks = taskRepository.findAllByStartTimeBetween(startTime, endTime);
-        List<TaskResponseDto> taskResponseDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
+        Task createdTask = taskRepository.save(task);
+        List<String> createdSubTasks = createSubTask(createdTask.getSeq(), taskPostDto.getContents());
 
-        ReportResponseDto reportResponseDto = new ReportResponseDto(taskResponseDtos);
-
-        return reportResponseDto;
+        TaskDto taskDto = TaskDto.builder()
+                .seq(createdTask.getSeq())
+                .startTime(createdTask.getStartTime())
+                .endTime(createdTask.getEndTime())
+                .title(createdTask.getTitle())
+                .contents(createdSubTasks)
+                .build();
+        return taskDto;
     }
 
     public TaskResponseDto getTaskDetail(Long taskSeq){
@@ -75,6 +77,17 @@ public class TaskService{
         taskRepository.deleteById(taskSeq);
     }
 
+    public ReportResponseDto getDailyReport(Long userSeq, String date){
+        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
+        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
+//        List<Task> tasks = taskRepository.findAllByStartTimeBetween(startTime, endTime);
+        List<TaskResponseDto> taskResponseDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
+
+        ReportResponseDto reportResponseDto = new ReportResponseDto(taskResponseDtos);
+
+        return reportResponseDto;
+    }
+
     public String getReportTotalTime(Long userSeq, String date){
         LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
@@ -91,14 +104,16 @@ public class TaskService{
     }
 
     @Transactional
-    private void createSubTask(Long taskSeq, List<String> subtasks){
+    private List<String> createSubTask(Long taskSeq, List<String> subtasks){
+        List<String> result = new LinkedList<>();
         for(String subtask : subtasks){
             SubTask subTask = SubTask.builder()
                     .taskSeq(taskSeq)
                     .content(subtask)
                     .build();
-            subTaskRepository.save(subTask);
+            result.add(subTaskRepository.save(subTask).getContent());
         }
+        return result;
     }
 
     @Transactional

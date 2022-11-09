@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.domain.task.controller;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
+import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.service.TaskService;
@@ -25,13 +26,13 @@ public class TaskController {
 
     @ApiOperation(value = "테스크 등록")
     @PostMapping("")
-    public ResponseEntity<?> createTask(@ApiIgnore Authentication auth, @RequestBody TaskDto taskRequestDto){
+    public ResponseEntity<?> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
         Long userSeq = (Long)auth.getPrincipal();
-        Task registedTask = taskService.createTask(userSeq, taskRequestDto);
-        userService.getReportContinuous(userSeq, registedTask);
+        TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
+        //TODO : [통계] 로직 수정 필요
+        userService.getReportContinuous(userSeq, taskDto);
 
-
-        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, registedTask));
+        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
     }
 
     @ApiOperation(value = "테스크 상세 조회")

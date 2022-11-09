@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.user.service;
 
+import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
@@ -9,6 +10,7 @@ import com.d205.sdutyplus.domain.user.exception.NicknameAlreadyExistException;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.AuthUtils;
+import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -59,10 +61,10 @@ public class UserService {
     }
 
     @Transactional
-    public void getReportContinuous(Long userSeq, Task task){
+    public void getReportContinuous(Long userSeq, TaskDto taskDto){
         final User user = authUtils.getLoginUser(userSeq);
 
-        LocalDate today = task.getStartTime().toLocalDate();
+        LocalDate today = TimeFormatter.StringToLocalDateTime(taskDto.getStartTime()).toLocalDate();
         LocalDate lastReport = user.getLastReport();
         int gap = Period.between(lastReport, today).getDays();
 
