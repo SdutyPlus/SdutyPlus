@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">Sduty</string>
+    <string name="app_package_name">com.d108.sduty</string>
+    <string name="kakao_api_key">a45be0c58ea7cd9399e1b406397a58cb</string>
+    <string name="kakao_app_key">kakaoa45be0c58ea7cd9399e1b406397a58cb</string>
+    <string name="naver_client_id">OVqfqX_vKOG4z3pNk3ZW</string>
+    <string name="naver_client_secret">_1sQ3v1NT4</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_nickname">—</string>
+    <string name="user_id_template">%1$s</string>
+
+    <!-- SignInActivity -->
+    <string name="sign_in_title">SendBird Calls</string>
+    <string name="sign_in_hint_application_id">Application ID</string>
+    <string name="sign_in_hint_user_id">User ID</string>
+    <string name="sign_in_hint_access_token">Access token (optional)</string>
+    <string name="sign_in_button">Sign in</string>
+
+    <!-- TimerFragment -->
+    <string name="durationTimeFormat">%02d:%02d:%02d</string>
+
+    <!-- DashboardFragment -->
+    <string name="dashboard_create_room_title">Create a room</string>
+    <string name="dashboard_create_room_description">Start a group call in a room and share the room ID with others.</string>
+    <string name="dashboard_create_room_button">Create</string>
+    <string name="dashboard_enter_with_room_id_title">Enter with room ID</string>
+    <string name="dashboard_enter_with_room_id_description">Enter an existing room to participate in a group call.</string>
+    <string name="dashboard_hint_room_id">Room ID</string>
+    <string name="dashboard_button_enter">Enter</string>
+    <string name="dashboard_can_not_create_room">Can\'t create room</string>
+    <string name="dashboard_can_not_enter_room">Can\'t enter room</string>
+    <string name="dashboard_incorrect_room_id">Incorrect room ID</string>
+    <string name="dashboard_can_not_enter_room_max_participants_count_exceeded">This room is full. Try again later</string>
+    <string name="dashboard_incorrect_room_id_body">Check your room ID and try again.</string>
+    <string name="dashboard_invalid_room_params">The type of the room you’re trying to create isn’t specified</string>
+
+    <!-- SettingsFragment -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_application_information">Application information</string>
+    <string name="settings_sign_out">Sign out</string>
+
+    <!-- AppInfoFragment -->
+    <string name="app_info_name">Name</string>
+    <string name="app_info_id">ID</string>
+
+    <!-- PreviewFragment -->
+    <string name="preview_title">캠 스터디 입장</string>
+    <string name="preview_mute_my_audio">마이크 끄기</string>
+    <string name="preview_turn_off_my_video">카메라 끄기</string>
+    <string name="preview_enter">입장</string>
+
+    <!-- GroupCallFragment -->
+    <string name="group_call_settings">Settings</string>
+    <string name="group_call_participants">참여자 정보</string>
+    <string name="group_call_created_room_title">Room created!</string>
+    <string name="group_call_created_room_message">Share the room ID for others to enter this room for group calls.</string>
+    <string name="group_call_room_id">Room ID</string>
+    <string name="group_call_copied">Copied</string>
+    <string name="group_call_select_audio_device_dialog_title">Audio device</string>
+
+    <!-- ParticipantListFragment -->
+    <string name="participant_list_title">참여자 (%1$s)</string>
+    <string name="participant_list_share_room_id">공유</string>
+
+    <!-- RoomInfoFragment -->
+    <string name="room_info_title">Room information</string>
+    <string name="room_info_room_id_title">Room ID</string>
+    <string name="room_info_created_by_title">Created by</string>
+
+    <!-- AppLockAccessibilityService -->
+    <string name="accessibility_service_description">Sduty의 다른 앱 잠금 기능 사용을 위해 접근성 서비스를 사용합니다. 이 서비스를 사용하면 다른 앱이 실행되는 것을 감지하여 사용자가 잠금 설정한 앱 실행 시 자동으로 종료하여 공부에 집중하는 것을 도와줍니다. Sduty는 이 정보를 외부로 전송 및 수집하지 않습니다.</string>
+
+    <!-- Fragment -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="rotation_value">화면 회전: %1$s</string>
+    <string name="permission_info">Sduty 앱은 필수 접근 권한이 없습니다\n선택적 접근 권한은 동의하지 않으셔도\n앱 이용이 가능하나, 해당 기능 이용이 제한됩니다.</string>
+</resources>
