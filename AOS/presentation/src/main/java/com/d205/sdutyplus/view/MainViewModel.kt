@@ -1,11 +1,26 @@
 package com.d205.sdutyplus.view
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
+import com.d205.domain.usecase.user.GetUserUseCase
+import com.d205.domain.usecase.user.JoinUserUseCase
+import com.d205.domain.utils.ResultState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
+private const val TAG = "MainViewModel"
+
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val getUserUseCase: GetUserUseCase
+): ViewModel() {
 
     private val _bottomNavVisibility = MutableLiveData<Boolean>(false)
     val bottomNavVisibility : LiveData<Boolean>
@@ -20,13 +35,18 @@ class MainViewModel: ViewModel() {
     }
 
 
-    // User 정보 가져와서 저장
-    private val _user = MutableLiveData<User>()
-    val user : LiveData<User>
+    private val _user = MutableLiveData<User?>()
+    val user : LiveData<User?>
         get() = _user
-    fun setUserValue(user: User){
-        _user.postValue(user)
-    }
 
+    // User 정보 가져와서 저장
+    suspend fun getUser() {
+        getUserUseCase.invoke().collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "getUser invoke Success: ${it.data}")
+                _user.postValue(it.data)
+            }
+        }
+    }
 }
 

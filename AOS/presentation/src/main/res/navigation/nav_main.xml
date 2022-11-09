@@ -35,5 +35,13 @@
     <fragment
         android:id="@+id/feedCreateFragment"
         android:name="com.d205.sdutyplus.view.feed.FeedCreateFragment"
-        android:label="FeedCreateFragment" />
+        android:label="FeedCreateFragment" >
+        <action
+            android:id="@+id/action_feedCreateFragment_to_feedDecoFragment"
+            app:destination="@id/feedDecoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedDecoFragment"
+        android:name="com.d205.sdutyplus.view.feed.FeedDecoFragment"
+        android:label="FeedDecoFragment" />
 </navigation>

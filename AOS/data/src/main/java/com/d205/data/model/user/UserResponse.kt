@@ -1,9 +1,29 @@
 package com.d205.data.model.user
 
-data class UserResponse(val id: Int)
+import com.google.gson.annotations.SerializedName
 
-data class UserResponse1(val id: Int)
+data class UserResponse(
+    var seq: Int = 0,
+    var email: String? = "",
+    var nickname: String? = "",
+    var imgUrl: String? = "",
+    var fcmToken: String? = "",
+    @SerializedName("job")
+    var userJob: Int = 0,
+    val jwtDto: JwtDto? = null
+)
 
-data class UserResponse2(val id: Int)
+data class UserEntity(
+    var seq: Int = 0,
+    var email: String? = "",
+    var nickname: String? = "",
+    var imgUrl: String? = "",
+    var fcmToken: String? = "",
+    @SerializedName("job")
+    var userJob: Int = 0
+)
 
-data class UserResponse3(val id: Int)
+data class JwtDto(
+    var accessToken: String? = "",
+    var refreshToken: String? = ""
+)
