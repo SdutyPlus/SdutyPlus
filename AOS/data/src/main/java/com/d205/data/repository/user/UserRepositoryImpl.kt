@@ -28,8 +28,8 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
 
         userRemoteDataSource.joinUser(user).collect {
-            Log.d(TAG, "joinUser $TAG: collect ${it.body()!!}")
-            emit(ResultState.Success(mapperUserEntityToUser(it.body()!!)))
+            Log.d(TAG, "joinUser $TAG: collect $it")
+            emit(ResultState.Success(mapperUserEntityToUser(it)))
         }
     }
 
@@ -46,13 +46,20 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun loginKakaoUser(token: String): Flow<ResultState<User>> = flow {
 
-        Log.d(TAG, "loginKakaoUser: $TAG: Loading")
+        Log.d(TAG, "loginKakaoUser start : $token")
         emit(ResultState.Loading)
         userRemoteDataSource.loginKakaoUser(token).collect {
-            Log.d(TAG, "loginKakaoUser $TAG: collect : ${it.body()!!}")
-            val accessToken = it.body()!!.jwtDto!!.accessToken
-            userLocalDataSource.saveJwt(accessToken!!)
-            emit(ResultState.Success(mapperUserResponseToUser(it.body()!!)))
+            Log.d(TAG, "loginKakaoUser collect: $it")
+            val accessToken = it.jwtDto!!.accessToken
+            if(accessToken != null) {
+                userLocalDataSource.saveJwt(accessToken)
+            }
+            else {
+                userLocalDataSource.saveJwt("")
+            }
+
+            Log.d(TAG, "loginKakaoUser: ${mapperUserResponseToUser(it)}")
+            emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
     }.catch { e ->
         emit(ResultState.Error(e))
@@ -73,6 +80,19 @@ class UserRepositoryImpl @Inject constructor(
             }
 
             Log.d(TAG, "loginNaverUser: ${mapperUserResponseToUser(it)}")
+            emit(ResultState.Success(mapperUserResponseToUser(it)))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
+
+    override fun getUser(): Flow<ResultState<User>> = flow {
+        Log.d(TAG, "getUser: Loading")
+        emit(ResultState.Loading)
+
+        userRemoteDataSource.getUser().collect {
+            Log.d(TAG, "getUser collect: $it")
+            Log.d(TAG, "mapper: ${mapperUserResponseToUser(it)}")
             emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
     }.catch { e ->

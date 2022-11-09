@@ -15,7 +15,7 @@ data class UserResponse(
 
 data class UserEntity(
     var seq: Int = 0,
-    var email: String = "",
+    var email: String? = "",
     var nickname: String? = "",
     var imgUrl: String? = "",
     var fcmToken: String? = "",

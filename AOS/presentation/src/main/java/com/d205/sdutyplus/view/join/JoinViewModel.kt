@@ -49,6 +49,21 @@ class JoinViewModel @Inject constructor(
         MutableStateFlow(User())
     val user get() = _user.asStateFlow()
 
+
+    // 유저 회원가입
+    suspend fun joinUser(user: UserDto) {
+        joinUserUseCase.invoke(user).collect {
+            if(it is ResultState.Success) {
+                _user.value = it.data
+                _isJoinSucceeded.value = true
+            }
+            else {
+                Log.d(TAG, "addUser ${TAG}: invoke Done!! $it")
+            }
+        }
+    }
+
+
     fun checkUsedId(id : String) {
         val flag = true
         _isUsedId.value = false
@@ -71,26 +86,6 @@ class JoinViewModel @Inject constructor(
 
         return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
-
-
-    fun joinUser(user: UserDto) {
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.d(TAG, "addUser ${TAG}: start : $user")
-            joinUserUseCase.invoke(user).collect {
-                if(it is ResultState.Success) {
-                    withContext(Dispatchers.Main) {
-                        Log.d(TAG, "addUser User : ${it.data}")
-                        _user.value = it.data
-                        _isJoinSucceeded.value = true
-                    }
-                }
-                else {
-                    Log.d(TAG, "addUser ${TAG}: invoke Done!! $it")
-                }
-            }
-        }
-    }
-
 
 
 
