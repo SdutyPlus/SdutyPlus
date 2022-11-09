@@ -34,7 +34,7 @@ public class TaskService{
         return taskRepository.save(task);
     }
 
-    public ReportResponseDto getTaskByDate(Long userSeq, String date){
+    public ReportResponseDto getDailyReport(Long userSeq, String date){
         LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
 //        List<Task> tasks = taskRepository.findAllByStartTimeBetween(startTime, endTime);
@@ -64,6 +64,13 @@ public class TaskService{
     public void deleteTask(Long taskSeq){
         subTaskRepository.deleteByTaskSeq(taskSeq);
         taskRepository.deleteById(taskSeq);
+    }
+
+    public String getReportTotalTime(Long userSeq, String date){
+        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
+        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
+        Integer duration = taskRepositoryQuerydsl.getReportTotalTime(userSeq, startTime, endTime);
+        return TimeFormatter.msToTime(duration);
     }
 
     //get & set => private

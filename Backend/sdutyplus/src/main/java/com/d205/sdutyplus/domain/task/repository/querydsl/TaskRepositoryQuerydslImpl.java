@@ -4,7 +4,6 @@ import com.d205.sdutyplus.domain.task.dto.QSubTaskResponseDto;
 import com.d205.sdutyplus.domain.task.dto.SubTaskResponseDto;
 import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
-import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -48,14 +47,21 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .where(task.seq.eq(taskSeq))
                 .transform(groupBy(task).as(list(new QSubTaskResponseDto(subTask.seq, subTask.content))));
 
-//        System.out.println(transform.entrySet().stream()
-//                .map(entry -> new TaskResponseDto(entry.getKey().getSeq(), entry.getKey().getStartTime(), entry.getKey().getEndTime(), entry.getKey().getContent(), entry.getValue()))
-//                .findFirst()
-//        );
         return (Optional<TaskResponseDto>) transform.entrySet().stream()
                 .map(entry -> new TaskResponseDto(entry.getKey().getSeq(), entry.getKey().getStartTime(), entry.getKey().getEndTime(), entry.getKey().getContent(), entry.getValue()))
                 .findFirst();
 
+    }
+
+    @Override
+    public Integer getReportTotalTime(Long userSeq, LocalDateTime startTime, LocalDateTime endTime) {
+        return queryFactory
+                .select(
+                        task.durationTime.sum()
+                )
+                .from(task)
+                .where(task.startTime.between(startTime, endTime).and(task.ownerSeq.eq(userSeq)))
+                .fetchFirst();
     }
 
 }

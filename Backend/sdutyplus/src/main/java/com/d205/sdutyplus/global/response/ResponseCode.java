@@ -31,8 +31,9 @@ public enum ResponseCode {
     CREATE_SUBTASK_SUCCESS(200, "T004", "서브테스크가 생성되었습니다."),
     UPDATE_SUBTASK_SUCCESS(200, "T005", "서브테스크가 수정되었습니다."),
     DELETE_SUBTASK_SUCCESS(200, "T006", "서브테스크가 삭제되었습니다."),
-    GET_DAILYTASK_SUCCESS(200, "T007", "데일리 테스크 조회에 성공하였습니다."),
-    GET_TASK_DETAIL_SUCCESS(200, "T008", "테스크 상세 조회에 성공하였습니다."),
+    GET_TASK_DETAIL_SUCCESS(200, "T007", "테스크 상세 조회에 성공하였습니다."),
+    GET_REPORT_SUCCESS(200, "T008", "리포트 조회에 성공하였습니다."),
+    GET_REPORT_TOTALTIME_SUCCESS(200, "T009", "리포트 총 시간 조회에 성공하였습니다."),
 
     //Timer
     GET_LOCALDATETIME_SUCCESS(200, "TI001", "서버 날짜, 시간 조회가 성공하였습니다."),
