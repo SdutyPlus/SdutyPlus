@@ -5,12 +5,15 @@ import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
 import static com.d205.sdutyplus.domain.feed.entity.QScrap.scrap;
+import static com.d205.sdutyplus.domain.user.entity.QUser.user;
 
 @Repository
 @RequiredArgsConstructor
@@ -45,7 +48,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     }
 
     @Override
-    public List<FeedResponseDto> getScrapFeeds(User user) {
+    public List<FeedResponseDto> findScrapFeeds(User userObject) {
         return queryFactory
                 .select(
                         new QFeedResponseDto(
@@ -56,7 +59,32 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 )
                 .from(scrap)
-                .where(scrap.user.eq(user))
+                .where(scrap.user.eq(userObject))
                 .fetch();
+    }
+
+    @Override
+    public Page<FeedResponseDto> findScrapFeedPage(User userObject, Pageable pageable) {
+        List<FeedResponseDto> feedResponseDtos = findScrapFeeds(userObject);
+        Long cnt = getScrapFeedCount(userObject);
+
+        //https://jddng.tistory.com/345
+        //return new PageImpl<>(content, pageable, count);
+        return null;
+    }
+
+    /**
+     * private 영역
+     * - 기능 모듈화
+     */
+
+    private Long getScrapFeedCount(User userObject){
+        return queryFactory
+                .select(
+                        scrap.count()
+                )
+                .from(scrap)
+                .where(scrap.user.eq(userObject))
+                .fetchOne();
     }
 }

@@ -66,8 +66,7 @@ public class FeedService {
     public List<FeedResponseDto> getScrapFeeds(Long userSeq){
         User user = userRepository.findBySeq(userSeq)
                 .orElseThrow(()->new EntityNotFoundException(USER_NOT_FOUND));
-        System.out.println("user = " + user);
-        return feedRepositoryQuerydsl.getScrapFeeds(user);
+        return feedRepositoryQuerydsl.findScrapFeeds(user);
     }
 
     @Transactional
