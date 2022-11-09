@@ -5,6 +5,11 @@ import com.d205.data.repository.timer.local.TimerLocalDataSource
 import com.d205.data.repository.timer.remote.TimerRemoteDataSource
 import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.repository.TimerRepository
+import com.d205.domain.utils.ResultState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class TimerRepositoryImpl @Inject constructor(
@@ -48,14 +53,16 @@ class TimerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addTask(currentTaskDto: CurrentTaskDto) {
-        val result = timerRemoteDataSource.addTask(currentTaskDto)
-        if(result != null) {
+    override suspend fun addTask(currentTaskDto: CurrentTaskDto): Flow<ResultState<Boolean>> = flow {
 
-        } else {
+        emit(ResultState.Loading) // Loading 상태처리 필요한 경우
 
+        timerRemoteDataSource.addTask(currentTaskDto).collect { isSuccessAdd ->
+                emit(ResultState.Success(isSuccessAdd))
         }
-    }
 
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
 
 }

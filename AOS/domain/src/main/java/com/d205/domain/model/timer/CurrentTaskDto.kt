@@ -9,3 +9,11 @@ data class CurrentTaskDto(
     var title: String = "",
     var contents: List<SubTask> = listOf()
 )
+
+data class CurrentTaskDto2(
+    val seq: Int,
+    val startTime: String,
+    val endTime: String,
+    var title: String = "",
+    var contents: List<String> = listOf()
+)
