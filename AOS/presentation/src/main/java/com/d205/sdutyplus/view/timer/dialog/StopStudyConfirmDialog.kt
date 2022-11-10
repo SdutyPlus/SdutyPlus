@@ -73,32 +73,6 @@ class StopStudyConfirmDialog(context: Context) : DialogFragment() {
             }
         }
 
-//        timerViewModel.timer.observe(viewLifecycleOwner) { time ->
-//            val hour = time / 60 / 60
-//            val min = (time / 60) % 60
-//            val sec = time % 60
-//            binding.tvTimer.text = String.format("%02d:%02d:%02d", hour, min, sec)
-//        }
-//
-//        timerViewModel.resumeCountDown.observe(viewLifecycleOwner) { countDown ->
-//            // 20초가 경과하면 종료
-//            if (delayTime == 20) {
-//                TaskRegistDialog().apply {
-//                    arguments = Bundle().apply {
-//                        putString("Action", "Add")
-//                    }
-//                }.show(
-//                    this@StopStudyConfirmDialog.requireActivity().supportFragmentManager,
-//                    "TaskRegistDialog"
-//                )
-//
-//                timerViewModel.resetDelayTimer()
-//                timerViewModel.stopTimer(mainViewModel.user.value!!.seq)
-//                dismiss()
-//            }
-//            setResumeStudy
-//            binding.tvCountdown.text = "측정을 이어서 하려면 \n[${20 - delayTime}]초 이내에 클릭하세요"
-//        }
     }
 
     private fun isCountDownOn(): Boolean {

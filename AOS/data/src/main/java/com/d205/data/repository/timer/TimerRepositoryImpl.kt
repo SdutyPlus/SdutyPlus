@@ -5,6 +5,11 @@ import com.d205.data.repository.timer.local.TimerLocalDataSource
 import com.d205.data.repository.timer.remote.TimerRemoteDataSource
 import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.repository.TimerRepository
+import com.d205.domain.utils.ResultState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class TimerRepositoryImpl @Inject constructor(
@@ -15,6 +20,13 @@ class TimerRepositoryImpl @Inject constructor(
         return timerLocalDatasource.saveStartTime(startTime)
     }
 
+    override suspend fun updateStudyElapsedTime(studyTime: Int) {
+        if(timerLocalDatasource.updateElapsedTime(studyTime)) {
+            Log.d("ElapsedTime","$studyTime ElapsedTime")
+        }
+    }
+
+
     override suspend fun getCurrentTime(): String { // remote 통신 실패 시 local 시간 반환
         var result  = timerRemoteDataSource.getRealTime()
         if(result != "error") {
@@ -24,24 +36,33 @@ class TimerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateStudyElapsedTime(studyTime: Int) {
-        if(timerLocalDatasource.updateElapsedTime(studyTime)) {
-            Log.d("ElapsedTime","$studyTime ElapsedTime")
-        }
-    }
-
-    override suspend fun getTodayTotalStudyTime(): String {
-        return timerRemoteDataSource.getTodayTotalStudyTime()
+    override fun getStartTime(): String {
+        return timerLocalDatasource.getStartTime()
     }
 
     override fun getElapsedTime(): Int {
         return timerLocalDatasource.getStudyElapsedTime()
     }
 
-
-    override fun getStartTime(): String {
-        return timerLocalDatasource.getStartTime()
+    override suspend fun getTodayTotalStudyTime(): String {
+        var result  = timerRemoteDataSource.getTodayTotalStudyTime()
+        if(result != "error") {
+            return result
+        } else {
+            return "00:00:00"
+        }
     }
 
+    override suspend fun addTask(currentTaskDto: CurrentTaskDto): Flow<ResultState<Boolean>> = flow {
+
+        emit(ResultState.Loading) // Loading 상태처리 필요한 경우
+
+        timerRemoteDataSource.addTask(currentTaskDto).collect { isSuccessAdd ->
+                emit(ResultState.Success(isSuccessAdd))
+        }
+
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
 
 }

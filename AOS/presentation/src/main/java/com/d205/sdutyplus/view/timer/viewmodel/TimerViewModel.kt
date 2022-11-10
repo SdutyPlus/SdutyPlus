@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.d205.domain.model.report.SubTask
+import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.usecase.timer.*
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.convertTimeStringToDate
@@ -25,7 +27,9 @@ class TimerViewModel @Inject constructor(
     private val saveStartTimeUsecase: SaveStartTimeUsecase,
     private val getCurrentTimeUsecase: GetCurrentTimeUsecase,
     private val udateStudyElapsedTimeUsecase: UpdateStudyElapsedTimeUsecase,
-    private val getTodayTotalStudyTimeUsecase: GetTodayTotalStudyTimeUsecase
+    private val getTodayTotalStudyTimeUsecase: GetTodayTotalStudyTimeUsecase,
+    private val getCurrentStudyTimeInfoUsecase: GetCurrentStudyTimeInfoUsecase,
+    private val addTaskUsecase: AddTaskUsecase
 ): ViewModel() {
 
     private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
@@ -55,6 +59,22 @@ class TimerViewModel @Inject constructor(
     private val _updatedTotalTime = MutableLiveData<String>("00:00:00")
     val updatedTotalTime: LiveData<String>
         get() = _updatedTotalTime
+
+
+
+    private val _addTaskCallBack = MutableLiveData<Int>(0)
+    val addTaskCallBack: LiveData<Int>
+        get() = _addTaskCallBack
+
+    private val _stopTaskSaveCallback = MutableLiveData<Boolean>(false)
+    val stopTaskSaveCallback: LiveData<Boolean>
+        get() = _stopTaskSaveCallback
+
+
+    fun callBackReset() {
+        _addTaskCallBack.value = 0
+        _stopTaskSaveCallback.value = false
+    }
 
 
     fun getCurrentTime() {
@@ -183,8 +203,38 @@ class TimerViewModel @Inject constructor(
     }
 
 
-    fun getCurrentStudyInfo() {
-        
+    fun addTask1(title: String, contents: List<SubTask> = mutableListOf()) {
+        viewModelScope.launch(defaultDispatcher){
+            var currentTaskDto = getCurrentStudyTimeInfoUsecase()
+            currentTaskDto.title = title
+            currentTaskDto.contents = contents
+
+
+        }
+    }
+
+    fun addTask(title: String, contents: List<String>) {
+        viewModelScope.launch(defaultDispatcher){
+
+            val subTasks: MutableList<SubTask> = mutableListOf()
+            for(content in contents) {
+                if (content != "") {
+                    subTasks.add(SubTask(0,content))
+                }
+            }
+
+            var timeInfo = getCurrentStudyTimeInfoUsecase()
+            var newTask = CurrentTaskDto(0,timeInfo.startTime, timeInfo.endTime, title, subTasks)
+
+            addTaskUsecase(newTask).collect { isSuccess ->
+                if(isSuccess) {
+                    _addTaskCallBack.postValue(200)
+                }else {
+                    _addTaskCallBack.postValue(400)
+                }
+            }
+
+        }
     }
 
 }
