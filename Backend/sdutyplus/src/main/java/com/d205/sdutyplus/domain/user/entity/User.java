@@ -33,7 +33,7 @@ public class User {
     private String nickname;
 
     @OneToOne
-    @Column(name = "job")
+    @JoinColumn(name = "job")
     private Job job;
 
     @Column(name="fcm_token", length = 250)
