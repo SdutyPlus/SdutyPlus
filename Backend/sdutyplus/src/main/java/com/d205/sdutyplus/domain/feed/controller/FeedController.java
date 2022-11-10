@@ -47,9 +47,10 @@ public class FeedController {
     
     @ApiOperation(value = "내가 작성한 게시글 조회")
     @GetMapping("/writer")
-    public ResponseEntity<?> getMyFeeds(){
-        List<FeedResponseDto> feedResponseDtos = feedService.getMyFeeds(new Long(1));
-        return ResponseEntity.ok().body(ResponseDto.of(GET_MY_FEED_SUCCESS, feedResponseDtos));
+    public ResponseEntity<ResponseDto> getMyFeeds(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable){
+        Long userSeq = (Long)auth.getPrincipal();
+        PagingResultDto pagingResultDto = feedService.getMyFeeds(userSeq, pageable);
+        return ResponseEntity.ok().body(ResponseDto.of(GET_MY_FEED_SUCCESS, pagingResultDto));
     }
 
     @ApiOperation(value = "내가 스크랩한 게시글 조회")

@@ -37,8 +37,8 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     }
 
     @Override
-    public List<FeedResponseDto> findMyFeeds(Long writerSeq) {
-        return queryFactory.select(new QFeedResponseDto(
+    public Page<FeedResponseDto> findMyFeedPage(Long writerSeq, Pageable pageable) {
+        QueryResults<FeedResponseDto> result = queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
                                 feed.writerSeq,
                                 feed.imgUrl,
@@ -46,31 +46,14 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 ).from(feed)
                 .where(feed.writerSeq.eq(writerSeq))
-                .fetch();
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
-
-    //TODO: 제거할 코드
-//    @Override
-//    public List<FeedResponseDto> findScrapFeeds(User userObject) {
-//        return queryFactory
-//                .select(
-//                        new QFeedResponseDto(
-//                                scrap.feed.seq,
-//                                scrap.feed.writerSeq,
-//                                scrap.feed.imgUrl,
-//                                scrap.feed.content
-//                        )
-//                )
-//                .from(scrap)
-//                .where(scrap.user.eq(userObject))
-//                .fetch();
-//    }
 
     @Override
     public Page<FeedResponseDto> findScrapFeedPage(User userObject, Pageable pageable) {
-        //List<FeedResponseDto> feedResponseDtos = findScrapFeeds(userObject);
-        //Long cnt = getScrapFeedCount(userObject);
-        //return new PageImpl<>(content, pageable, count);
         QueryResults<FeedResponseDto> result = queryFactory
                 .select(
                         new QFeedResponseDto(
@@ -88,18 +71,4 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
 
-    /**
-     * private 영역
-     * - 기능 모듈화
-     */
-
-//    private Long getScrapFeedCount(User userObject){
-//        return queryFactory
-//                .select(
-//                        scrap.count()
-//                )
-//                .from(scrap)
-//                .where(scrap.user.eq(userObject))
-//                .fetchOne();
-//    }
 }
