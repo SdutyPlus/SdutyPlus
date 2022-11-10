@@ -66,13 +66,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private fun startKakaoLogin() {
         // 카카오톡 설치 여부 체크    true : 카카오톡 설치 되어있음, false : 미설치
         if (isKakaoTalkInstalled()) {
-            Log.d(TAG, "카카오톡 앱이 설치 안 돼있음")
+            Log.d(TAG, "카카오톡 앱이 설치 돼있음카카오톡 앱이 설치 안 돼있음")
             userApiClient.loginWithKakaoTalk(
                 requireContext(),
                 callback = kakaoLoginCallback
             )
         } else {
-            Log.d(TAG, "카카오톡 앱이 설치 돼있음")
+            Log.d(TAG, "카카오톡 앱이 설치 안 돼있음")
             userApiClient.loginWithKakaoAccount(
                 requireContext(),
                 callback = kakaoLoginCallback
