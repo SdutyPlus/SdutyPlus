@@ -2,10 +2,7 @@ package com.d205.sdutyplus.domain.task.dto;
 
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.util.TimeFormatter;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +10,8 @@ import java.util.List;
 @Data
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TaskDto {
     private Long seq;
     private String startTime;

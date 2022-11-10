@@ -60,6 +60,7 @@ public class TaskService{
         //task
         Task task = getTask(taskSeq);
         Task updatedTask = taskDto.toEntity();
+        System.out.println("updatedTask = " + updatedTask);
         task.setStartTime(updatedTask.getStartTime());
         task.setEndTime(updatedTask.getEndTime());
         task.setDurationTime(updatedTask.getDurationTime());
