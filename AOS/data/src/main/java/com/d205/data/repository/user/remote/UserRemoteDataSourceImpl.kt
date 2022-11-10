@@ -88,4 +88,14 @@ class UserRemoteDataSourceImpl @Inject constructor(
             emit(UserResponse())
         }
     }
+
+    override fun deleteUser(): Flow<Boolean> = flow {
+        val response = userApi.deleteUser()
+        if(response.status == 200) {
+            emit(true)
+        }
+        else {
+            emit(false)
+        }
+    }
 }

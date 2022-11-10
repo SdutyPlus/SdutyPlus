@@ -11,12 +11,14 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.databinding.DialogConfirmBinding
+import com.d205.sdutyplus.view.report.ReportViewModel
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import kotlin.concurrent.timer
 
-class ConfirmDialog(private val task: Task): DialogFragment() {
+class ConfirmDialog(private val task_seq: Long): DialogFragment() {
     private lateinit var binding: DialogConfirmBinding
     private val timerViewModel: TimerViewModel by activityViewModels()
+    private val reportViewModel: ReportViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +40,13 @@ class ConfirmDialog(private val task: Task): DialogFragment() {
             btnRemove.setOnClickListener {
                 if( requireArguments().getString("Action") == "DeleteTask"){
                     timerViewModel.timerTimeReset()
+                } else{
+                    // Task 삭제 함수
+                    reportViewModel.deleteTask(task_seq)
                 }
-                // Task 삭제 함수
+
+
+
                 dismiss()
             }
             btnCancel.setOnClickListener { 

@@ -9,4 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface ReportRepository {
     fun getReport(date: String): Flow<ResultState<String>>
     fun getTaskList(date: String): Flow<ResultState<List<Task>>>
+    fun updateTask(task_seq: Long, task: Task): Flow<ResultState<Boolean>>
+    fun deleteTask(task_seq: Long): Flow<ResultState<Boolean>>
 }
