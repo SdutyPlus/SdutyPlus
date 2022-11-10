@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WarnRepository extends JpaRepository<WarnUser, Long> {
     public boolean existsByFromUserSeqAndToUserSeq(Long fromUserSeq, Long toUserSeq);
+
+    void deleteAllByFromUserSeq(Long userSeq);
+    void deleteAllByToUserSeq(Long userSeq);
 }

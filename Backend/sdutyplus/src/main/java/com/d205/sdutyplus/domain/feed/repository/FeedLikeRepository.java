@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface FeedLikeRepository extends JpaRepository<FeedLike, Long> {
     Optional<FeedLike> findByUserAndFeed(User user, Feed feed);
+
+    void deleteAllByUserSeq(Long userSeq);
 }
