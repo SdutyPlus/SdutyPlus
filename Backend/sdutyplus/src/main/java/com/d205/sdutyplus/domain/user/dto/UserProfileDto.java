@@ -18,7 +18,7 @@ public class UserProfileDto {
     @ApiModelProperty(value = "유저 별명", example = "Faker")
     private String nickname;
     @ApiModelProperty(value = "유저 직업")
-    private Long job;
+    private String job;
     @ApiModelProperty(value = "프로필사진")
     private String imgUrl;
     @ApiModelProperty(value = "fcm token")

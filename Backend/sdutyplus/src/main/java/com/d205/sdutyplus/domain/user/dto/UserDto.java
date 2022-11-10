@@ -10,7 +10,7 @@ public class UserDto {
     private Long seq;
     private String email;
     private String nickname;
-    private Long job;
+    private String job;
     private String imgUrl;
     private String fcmToken;
 
