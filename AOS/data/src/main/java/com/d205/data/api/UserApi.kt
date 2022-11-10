@@ -26,7 +26,7 @@ interface UserApi {
 
     // 프로필 업데이트
     @POST("user/reg")
-    suspend fun updateProfile(@Body user: UserDto): BaseResponse<UserEntity>
+    suspend fun updateProfile(@Body user: UserDto): BaseResponse<UserResponse>
 
     // 유저 정보 조회
     @GET("user")

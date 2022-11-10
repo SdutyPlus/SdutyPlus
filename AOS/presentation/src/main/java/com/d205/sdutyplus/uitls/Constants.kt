@@ -1,5 +1,7 @@
 package com.d205.sdutyplus.uitls
 
+import com.d205.domain.model.common.JobHashtag
+
 const val SERVER_URL = "https://d205.kro.kr/api/"
 
 const val COMMON_JOIN = 0
@@ -14,6 +16,17 @@ const val FLAG_CAMERA = 1
 const val FLAG_NO_SELECT = 2
 
 object JOB {
-    const val STUDENT = 0
-    const val STUDENT1 = 1
+    const val STUDENT = 1
+    const val STUDENT1 = 2
+
 }
+
+val jobs = mutableListOf(
+    JobHashtag(1,"팀장"),
+    JobHashtag(2,"부팀장"),
+    JobHashtag(3,"팀원")
+)
+
+const val ALL_STORY = 0
+const val SCRAP_STORY = 1
+
