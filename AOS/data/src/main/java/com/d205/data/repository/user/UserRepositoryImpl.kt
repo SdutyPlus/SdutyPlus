@@ -29,7 +29,7 @@ class UserRepositoryImpl @Inject constructor(
 
         userRemoteDataSource.joinUser(user).collect {
             Log.d(TAG, "joinUser $TAG: collect $it")
-            emit(ResultState.Success(mapperUserEntityToUser(it)))
+            emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
     }
 

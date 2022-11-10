@@ -52,6 +52,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
-    // Sandwich
-    implementation "com.github.skydoves:sandwich:1.2.4"
+    // Paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 }
