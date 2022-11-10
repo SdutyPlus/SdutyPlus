@@ -11,7 +11,9 @@ import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
+import com.d205.sdutyplus.domain.user.repository.JobRepository;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
+import com.d205.sdutyplus.global.entity.Job;
 import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.global.error.exception.NotSupportedImageTypeException;
@@ -48,6 +50,7 @@ public class FeedService {
     private final ScrapRepository scrapRepository;
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
     private final FeedLikeRepository feedLikeRepository;
+    private final JobRepository jobRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -73,6 +76,15 @@ public class FeedService {
     public PagingResultDto getScrapFeeds(Long userSeq, Pageable pageable){
         final User user = authUtils.getLoginUser(userSeq);
         final Page<FeedResponseDto> feedPage = feedRepositoryQuerydsl.findScrapFeedPage(user, pageable);
+        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
+        return pagingResultDto;
+    }
+
+    public PagingResultDto getJobFilterFeeds(Long jobSeq, Pageable pageable){
+        final Job job = jobRepository.findBySeq(jobSeq).orElseThrow(
+                ()->new EntityNotFoundException(JOB_NOT_FOUND)
+        );
+        final Page<FeedResponseDto> feedPage = feedRepositoryQuerydsl.findFilterFeedPage(job, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }
