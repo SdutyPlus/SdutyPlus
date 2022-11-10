@@ -39,7 +39,7 @@ public class ReportController {
     @GetMapping("/time")
     public ResponseEntity<ResponseDto> getReportTotalTime(@ApiIgnore Authentication auth){
         Long userSeq = (Long)auth.getPrincipal();
-        String totalTime = taskService.getReportTotalTime(userSeq, TimeFormatter.LocalDateToString(LocalDate.now()));
+        String totalTime = taskService.getReportTotalTime(userSeq, TimeFormatter.LocalDateToString(TimeFormatter.getTodayDate()));
         return ResponseEntity.ok().body(ResponseDto.of(GET_REPORT_TOTALTIME_SUCCESS, totalTime));
     }
 }
