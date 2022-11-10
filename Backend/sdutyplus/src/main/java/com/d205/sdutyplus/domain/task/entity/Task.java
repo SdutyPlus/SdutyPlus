@@ -27,7 +27,7 @@ public class Task {
     private LocalDateTime endTime;
     @Column(name = "duration_time", nullable = false)
     private int durationTime;
-    @Column(nullable = false, length=200)
+    @Column(name="title", nullable = false, length=200)
     private String title;
 
     @OneToMany(mappedBy = "taskSeq")

@@ -25,7 +25,8 @@ public class TaskController {
     @ApiOperation(value = "테스크 등록")
     @PostMapping("")
     public ResponseEntity<ResponseDto> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
-        Long userSeq = (Long)auth.getPrincipal();
+//        Long userSeq = (Long)auth.getPrincipal();
+        Long userSeq = 7L;
         TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
         //TODO : [통계] 로직 수정 필요
         userService.getReportContinuous(userSeq, taskDto);
