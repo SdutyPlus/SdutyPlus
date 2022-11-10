@@ -32,7 +32,7 @@ public class User {
     @ColumnDefault("null")
     private String nickname;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job")
     private Job job;
 
