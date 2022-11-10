@@ -85,7 +85,7 @@ public class UserAuthService {
         jwt.setRefreshToken(jwtDto.getRefreshToken());
         jwtRepository.save(jwt);
 
-        final long job = 99;
+        final long job = 0;
         UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto, job);
 
         return userLoginDto;

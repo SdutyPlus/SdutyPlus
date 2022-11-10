@@ -17,6 +17,5 @@ public class Job {
     private Long seq;
 
     @Column(name = "job_name", nullable = false, length = 20)
-    @ColumnDefault("무직맨")
     private String jobName;
 }
