@@ -88,8 +88,8 @@ class TaskDialog(private val task: Task) : DialogFragment() {
                 contentEditTexts[i].isEnabled = false
             }
 
-            tvStartTime.text = task.startTime.substring(11, 16)
-            tvEndTime.text = task.endTime.substring(11, 16)
+            tvStartTime.text = task.startTime.substring(11, 19)
+            tvEndTime.text = task.endTime.substring(11, 19)
             etTitle.setText(task.title)
             ibAddContent.visibility = View.GONE
 

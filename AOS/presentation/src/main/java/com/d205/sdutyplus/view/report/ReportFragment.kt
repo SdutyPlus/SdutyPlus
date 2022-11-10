@@ -55,19 +55,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
 
         reportViewModel.updateTaskSuccess.observe(viewLifecycleOwner) {
             if(it) {
-                Log.d(TAG, "initViewModelCallback update: task update 성공")
                 initView()
-            } else{
-                Log.d(TAG, "initViewModelCallback update: task update 실패")
             }
         }
         
         reportViewModel.deleteTaskSuccess.observe(viewLifecycleOwner) {
             if(it) {
-                Log.d(TAG, "initViewModelCallback delete: task update 성공")
                 initView()
-            } else{
-                Log.d(TAG, "initViewModelCallback delete: task update 실패")
             }
         }
     }

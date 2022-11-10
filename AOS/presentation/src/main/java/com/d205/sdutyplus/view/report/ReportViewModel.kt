@@ -45,9 +45,6 @@ class ReportViewModel @Inject constructor(
     private var _updateTaskSuccess = MutableLiveData<Boolean>(false)
     val updateTaskSuccess: LiveData<Boolean> get() = _updateTaskSuccess
 
-//    private var _updateTaskSuccess = SingleLiveEvent<Boolean>()
-//    val updateTaskSuccess get() = _updateTaskSuccess
-
     private var _deleteTaskSuccess = MutableLiveData<Boolean>(false)
     val deleteTaskSuccess: LiveData<Boolean> get() = _deleteTaskSuccess
 
@@ -81,14 +78,10 @@ class ReportViewModel @Inject constructor(
     fun updateTask(task_seq: Long, task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             updateTaskUseCase(task_seq, task).collect {
-                Log.d(TAG, "updateTask22: ${it}")
                 if(it){
                     _updateTaskSuccess.postValue(true)
-                    Log.d(TAG, "updateTask22  tt")
-                } else{
+                } else {
                     _updateTaskSuccess.postValue(false)
-                    Log.d(TAG, "updateTask22: ff")
-
                 }
             }
         }
@@ -100,10 +93,8 @@ class ReportViewModel @Inject constructor(
                 if(it is ResultState.Success){
                     if(it.data){
                         _deleteTaskSuccess.postValue(true)
-                        Log.d(TAG, "delete22  tt")
                     } else{
                         _deleteTaskSuccess.postValue(false)
-                        Log.d(TAG, "delete22: ff")
                     }
                 }
 
