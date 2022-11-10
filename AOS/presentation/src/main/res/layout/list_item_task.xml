@@ -115,7 +115,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:singleLine="true"
-                                android:text="@{Task.content}"
+                                android:text="@{Task.title}"
                                 android:textSize="16dp"
                                 android:textStyle="bold"
                                 tools:text="알고리즘" />
@@ -129,7 +129,7 @@
                                     android:id="@+id/tv_task_start_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@{Task.startTime.substring(11, 16)}"
+                                    android:text="@{Task.startTime.substring(11, 19)}"
                                     tools:text="12:00" />
 
                                 <TextView
@@ -141,7 +141,7 @@
                                     android:id="@+id/tv_task_end_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@{Task.endTime.substring(11, 16)}"
+                                    android:text="@{Task.endTime.substring(11, 19)}"
                                     tools:text="13:00" />
                             </LinearLayout>
                         </LinearLayout>
