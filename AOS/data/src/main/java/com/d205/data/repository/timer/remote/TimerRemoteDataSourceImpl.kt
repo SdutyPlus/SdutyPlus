@@ -33,6 +33,7 @@ class TimerRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getTodayTotalStudyTime(): String {
 
+
             val response = timerApi.getTodayTotalStudyTime("2022-11-04")
             if (response.isSuccessful && response.body() != null) {
                 Log.d("timerApi", "getTodayTotalStudyTime success ${response.body()!!.data}")
@@ -48,7 +49,6 @@ class TimerRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun addTask(currentTaskDto: CurrentTaskDto): Flow<Boolean> = flow {
-        Log.d("timerApi", "addTask ${currentTaskDto.title} 타이틀 start $${currentTaskDto.startTime}, end ${currentTaskDto.endTime}")
 
         val a : MutableList<String> = mutableListOf()
         for(i in currentTaskDto.contents) {
