@@ -30,6 +30,7 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .selectFrom(task)
                 .leftJoin(task.subTasks, subTask)
                 .where(task.startTime.between(start, end).and(task.ownerSeq.eq(userSeq)))
+                .orderBy(task.startTime.asc())
                 .transform(groupBy(task).as(list(subTask.content)));
 
         return transform.entrySet().stream()
