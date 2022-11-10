@@ -7,7 +7,9 @@ import com.d205.sdutyplus.domain.user.dto.UserRegDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.exception.NicknameAlreadyExistException;
+import com.d205.sdutyplus.domain.user.repository.JobRepository;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
+import com.d205.sdutyplus.global.entity.Job;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.AuthUtils;
 import com.d205.sdutyplus.util.TimeFormatter;
@@ -20,7 +22,8 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 
-import static com.d205.sdutyplus.global.error.ErrorCode.USER_NOT_FOUND;
+import static com.d205.sdutyplus.global.error.ErrorCode.*;
+
 
 @Slf4j
 @Service
@@ -28,6 +31,7 @@ import static com.d205.sdutyplus.global.error.ErrorCode.USER_NOT_FOUND;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JobRepository jobRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -39,7 +43,10 @@ public class UserService {
             throw new NicknameAlreadyExistException();
         }
 
-        updateUserData(user, userRegDto);
+        final Job job = jobRepository.findBySeq(userRegDto.getJob())
+                .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
+
+        updateUserData(user, userRegDto, job);
 
         return new UserRegResponseDto(userRepository.findBySeq(userSeq).get());
     }
@@ -77,10 +84,10 @@ public class UserService {
         updateContinuous(user, today, cnt);
     }
 
-    private void updateUserData(User user, UserRegDto userRegDto){
+    private void updateUserData(User user, UserRegDto userRegDto, Job job){
         user.setNickname(userRegDto.getNickname());
         user.setImgUrl(userRegDto.getImgUrl());
-        user.setJob(userRegDto.getJob());
+        user.setJob(job.getJobName());
     }
 
     private void updateContinuous(User user, LocalDate date, long cnt){

@@ -31,8 +31,8 @@ public class User {
     @ColumnDefault("null")
     private String nickname;
 
-    @Column(name="job", columnDefinition = "INT UNSIGNED default 0")
-    private Long job;
+    @Column(name="job", length = 20)
+    private String job;
 
     @Column(name="fcm_token", length = 250)
     private String fcmToken;
