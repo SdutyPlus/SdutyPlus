@@ -102,10 +102,11 @@ public class FeedService {
         final Feed feed = getFeed(feedSeq);
         final User user = authUtils.getLoginUser(userSeq);
 
-        scrapRepository.save(Scrap.builder()
-                .user(user)
-                .feed(feed)
-                .build());
+        if(scrapRepository.findByUserAndFeed(user, feed).isPresent()){
+            throw new EntityAlreadyExistException(FEED_SCRAP_ALREADY_EXIST);
+        }
+
+        scrapRepository.save(new Scrap(user, feed));
     }
 
     @Transactional
