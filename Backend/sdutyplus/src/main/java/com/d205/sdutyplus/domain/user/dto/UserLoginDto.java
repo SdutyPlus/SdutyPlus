@@ -12,16 +12,16 @@ public class UserLoginDto {
     private Long userSeq;
     private String email;
     private String nickname;
-    private String job;
+    private Long job;
     private String imgUrl;
     private String fcmToken;
     private JwtDto jwtDto;
 
-    public UserLoginDto(User user, JwtDto jwtDto) {
+    public UserLoginDto(User user, JwtDto jwtDto, Long job) {
         this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
-        this.job = user.getJob().getJobName();
+        this.job = job;
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
         this.jwtDto = jwtDto;
