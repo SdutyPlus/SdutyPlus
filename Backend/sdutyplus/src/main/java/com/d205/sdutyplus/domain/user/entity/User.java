@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.user.entity;
 
+import com.d205.sdutyplus.global.entity.Job;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -31,8 +32,9 @@ public class User {
     @ColumnDefault("null")
     private String nickname;
 
-    @Column(name="job", length = 20)
-    private String job;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job")
+    private Job job;
 
     @Column(name="fcm_token", length = 250)
     private String fcmToken;

@@ -87,7 +87,7 @@ public class UserService {
     private void updateUserData(User user, UserRegDto userRegDto, Job job){
         user.setNickname(userRegDto.getNickname());
         user.setImgUrl(userRegDto.getImgUrl());
-        user.setJob(job.getJobName());
+        user.setJob(job);
     }
 
     private void updateContinuous(User user, LocalDate date, long cnt){
