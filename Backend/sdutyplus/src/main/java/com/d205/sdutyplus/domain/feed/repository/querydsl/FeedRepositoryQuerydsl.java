@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface FeedRepositoryQuerydsl {
     List<FeedResponseDto> findAllFeeds();
-    List<FeedResponseDto> findMyFeeds(Long writerSeq);
-    //List<FeedResponseDto> findScrapFeeds(User userSeq);
+    public Page<FeedResponseDto> findMyFeedPage(Long writerSeq, Pageable pageable);
     public Page<FeedResponseDto> findScrapFeedPage(User user, Pageable pageable);
 }

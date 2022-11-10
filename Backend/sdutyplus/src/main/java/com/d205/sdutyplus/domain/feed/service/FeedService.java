@@ -64,8 +64,10 @@ public class FeedService {
         return feedRepositoryQuerydsl.findAllFeeds();
     }
 
-    public List<FeedResponseDto> getMyFeeds(Long writerSeq){
-        return feedRepositoryQuerydsl.findMyFeeds(writerSeq);
+    public PagingResultDto getMyFeeds(Long writerSeq, Pageable pageable){
+        final Page<FeedResponseDto> myfeeds = feedRepositoryQuerydsl.findMyFeedPage(writerSeq, pageable);
+        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), myfeeds.getTotalPages() - 1, myfeeds.getContent());
+        return pagingResultDto;
     }
 
     public PagingResultDto getScrapFeeds(Long userSeq, Pageable pageable){
