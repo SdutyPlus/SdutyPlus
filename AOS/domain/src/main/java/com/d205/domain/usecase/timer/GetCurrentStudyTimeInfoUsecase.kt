@@ -6,7 +6,7 @@ import com.d205.domain.model.timer.CurrentTaskDto
 import java.util.Calendar
 import javax.inject.Inject
 
-class GetStudyTimeInfoUsecase @Inject constructor(
+class GetCurrentStudyTimeInfoUsecase @Inject constructor(
     private val getStartTimeUsecase: GetStartTimeUsecase,
     private val getElapsedTimeUsecase: GetElapsedTimeUsecase
 ){

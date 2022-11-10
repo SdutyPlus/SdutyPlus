@@ -2,6 +2,8 @@ package com.d205.domain.repository
 
 import com.d205.domain.model.report.Task
 import com.d205.domain.model.timer.CurrentTaskDto
+import com.d205.domain.utils.ResultState
+import kotlinx.coroutines.flow.Flow
 
 interface TimerRepository {
     suspend fun saveStartTime(startTime: String): Boolean
@@ -16,7 +18,7 @@ interface TimerRepository {
 
     fun getStartTime(): String
 
-    suspend fun addTask(currentTask: CurrentTaskDto)
+    suspend fun addTask(currentTask: CurrentTaskDto): Flow<ResultState<Boolean>>
 
 
 }
