@@ -27,11 +27,14 @@ class LoginViewModel @Inject constructor(
         MutableStateFlow(User())
     val user get() = _user.asStateFlow()
 
+    var isLoginSucceeded = false
+
 
     suspend fun kakaoLogin(token: String) {
         kakaoLoginUseCase.invoke(token).collect {
             if(it is ResultState.Success) {
                 _user.value = it.data
+                isLoginSucceeded = true
                 Log.d(TAG, "kakaoLogin User : ${it.data}")
             }
             else {
@@ -44,6 +47,7 @@ class LoginViewModel @Inject constructor(
         naverLoginUseCase.invoke(token).collect {
             if(it is ResultState.Success) {
                 _user.value = it.data
+                isLoginSucceeded = true
                 Log.d(TAG, "naverLogin User : ${it.data}")
             }
             else {
