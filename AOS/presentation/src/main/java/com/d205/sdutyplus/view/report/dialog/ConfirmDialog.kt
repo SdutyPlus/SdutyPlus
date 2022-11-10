@@ -40,10 +40,12 @@ class ConfirmDialog(private val task_seq: Long): DialogFragment() {
             btnRemove.setOnClickListener {
                 if( requireArguments().getString("Action") == "DeleteTask"){
                     timerViewModel.timerTimeReset()
+                } else{
+                    // Task 삭제 함수
+                    reportViewModel.deleteTask(task_seq)
                 }
 
-                // Task 삭제 함수
-                reportViewModel.deleteTask(task_seq)
+
 
                 dismiss()
             }

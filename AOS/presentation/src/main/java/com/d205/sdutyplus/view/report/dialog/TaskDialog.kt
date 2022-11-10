@@ -16,6 +16,7 @@ import androidx.fragment.app.activityViewModels
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.databinding.DialogTaskBinding
 import com.d205.sdutyplus.view.report.ReportViewModel
+import com.d205.sdutyplus.view.report.TAG
 
 class TaskDialog(private val task: Task) : DialogFragment() {
     private lateinit var binding: DialogTaskBinding
@@ -54,6 +55,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val action = arguments?.getString("Action", "Add")
 
         when (action) {
@@ -66,9 +68,14 @@ class TaskDialog(private val task: Task) : DialogFragment() {
         }
     }
 
+    private fun initViewModelCallback() {
+
+    }
+
 
     private fun InfoTask() {
         initView()
+        initViewModelCallback()
         initBtn()
     }
 
@@ -97,7 +104,14 @@ class TaskDialog(private val task: Task) : DialogFragment() {
     private fun initBtn() {
         binding.apply {
             btnDelete.setOnClickListener {
-                ConfirmDialog(task.seq).show(this@TaskDialog.parentFragmentManager, "ConfirmDialog")
+                ConfirmDialog(task.seq).apply {
+                    arguments = Bundle().apply {
+                        putString("Action", "Delete")
+                    }
+                    show(this@TaskDialog.parentFragmentManager, "ConfirmDialog")
+                }
+
+
                 dismiss()
             }
             btnModify.setOnClickListener {

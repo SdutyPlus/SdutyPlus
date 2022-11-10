@@ -52,7 +52,7 @@ class TaskAdapter(private val listener: TaskAdapterListener) :
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Task>() {
             override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
-                return oldItem.title == newItem.title
+                return oldItem.seq == newItem.seq
             }
 
             override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
