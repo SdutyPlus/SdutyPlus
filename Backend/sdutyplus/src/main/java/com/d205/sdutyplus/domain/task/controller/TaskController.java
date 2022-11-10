@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.task.controller;
 
+import com.d205.sdutyplus.domain.statistics.service.DailyStatisticsService;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.service.TaskService;
@@ -21,14 +22,16 @@ public class TaskController {
 
     private final TaskService taskService;
     private final UserService userService;
+    private final DailyStatisticsService dailyStatisticsService;
 
     @ApiOperation(value = "테스크 등록")
     @PostMapping("")
     public ResponseEntity<ResponseDto> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
         Long userSeq = (Long)auth.getPrincipal();
         TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
-        //TODO : [통계] 로직 수정 필요
+
         userService.getReportContinuous(userSeq, taskDto);
+        dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
 
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
     }

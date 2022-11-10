@@ -1,5 +1,7 @@
 package com.d205.sdutyplus.domain.user.service;
 
+import com.d205.sdutyplus.domain.statistics.entity.DailyStatistics;
+import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
@@ -32,6 +34,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
+    private final DailyStatisticsRepository dailyStatisticsRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -47,6 +50,9 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         updateUserData(user, userRegDto, job);
+
+        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user, job);
+        dailyStatisticsRepository.save(dailyStatistics);
 
         return new UserRegResponseDto(userRepository.findBySeq(userSeq).get());
     }
@@ -93,5 +99,13 @@ public class UserService {
     private void updateContinuous(User user, LocalDate date, long cnt){
         user.setLastReport(date);
         user.setContinuous(cnt);
+    }
+
+    private DailyStatistics createUserStatisticsInfo(User user, Job job){
+        DailyStatistics result = new DailyStatistics();
+        result.setUserSeq(user.getSeq());
+        result.setJobSeq(job.getSeq());
+
+        return result;
     }
 }
