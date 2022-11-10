@@ -48,21 +48,11 @@ class TimerRemoteDataSourceImpl @Inject constructor(
 
     }
 
-    override suspend fun addTask(currentTaskDto: CurrentTaskDto): Flow<Boolean> = flow {
+    override fun addTask(currentTaskDto: CurrentTaskDto2): Flow<Boolean> = flow {
 
-        val a : MutableList<String> = mutableListOf()
-        for(i in currentTaskDto.contents) {
-            a.add(i.content)
-        }
-        val tmp = CurrentTaskDto2(0,
-            currentTaskDto.startTime,
-            currentTaskDto.endTime,
-            currentTaskDto.title,
-            a
-        )
-        Log.d("timerApi", "addTask tmp $tmp")
+        Log.d("timerApi", "addTask tmp $currentTaskDto")
 //        val response = timerApi.addTask(currentTaskDto)
-        val response = timerApi.addTask(tmp)
+        val response = timerApi.addTask(currentTaskDto)
         if(response.status == 200) {
             Log.d("timerApi", "addTask 성공 ${response.status}")
             emit(true)

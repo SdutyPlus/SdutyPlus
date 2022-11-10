@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.SubTask
 import com.d205.domain.model.timer.CurrentTaskDto
+import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.timer.*
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.convertTimeStringToDate
@@ -216,15 +217,15 @@ class TimerViewModel @Inject constructor(
     fun addTask(title: String, contents: List<String>) {
         viewModelScope.launch(defaultDispatcher){
 
-            val subTasks: MutableList<SubTask> = mutableListOf()
+            var realContents: MutableList<String> = mutableListOf()
             for(content in contents) {
                 if (content != "") {
-                    subTasks.add(SubTask(0,content))
+                    realContents.add(content)
                 }
             }
 
             var timeInfo = getCurrentStudyTimeInfoUsecase()
-            var newTask = CurrentTaskDto(0,timeInfo.startTime, timeInfo.endTime, title, subTasks)
+            var newTask = CurrentTaskDto2(0,timeInfo.startTime, timeInfo.endTime, title, realContents)
 
             addTaskUsecase(newTask).collect { isSuccess ->
                 if(isSuccess) {

@@ -4,6 +4,7 @@ import android.util.Log
 import com.d205.data.repository.timer.local.TimerLocalDataSource
 import com.d205.data.repository.timer.remote.TimerRemoteDataSource
 import com.d205.domain.model.timer.CurrentTaskDto
+import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.repository.TimerRepository
 import com.d205.domain.utils.ResultState
 import kotlinx.coroutines.flow.Flow
@@ -53,7 +54,7 @@ class TimerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addTask(currentTaskDto: CurrentTaskDto): Flow<ResultState<Boolean>> = flow {
+    override fun addTask(currentTaskDto: CurrentTaskDto2): Flow<ResultState<Boolean>> = flow {
 
         emit(ResultState.Loading) // Loading 상태처리 필요한 경우
 
