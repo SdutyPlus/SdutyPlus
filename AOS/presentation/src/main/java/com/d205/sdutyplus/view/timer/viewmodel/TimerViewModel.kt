@@ -45,7 +45,7 @@ class TimerViewModel @Inject constructor(
     val timerTime: LiveData<Int>
         get() = _timerTime
 
-    private val _resumeCountDown = MutableLiveData<Int>(5)
+    private val _resumeCountDown = MutableLiveData<Int>(20)
     val resumeCountDown: LiveData<Int>
         get() = _resumeCountDown
 
@@ -172,7 +172,7 @@ class TimerViewModel @Inject constructor(
     }
 
     fun resumeCountDownReset() {
-        _resumeCountDown.postValue(5)
+        _resumeCountDown.postValue(20)
         isResumeCountDownStart = false
     }
 

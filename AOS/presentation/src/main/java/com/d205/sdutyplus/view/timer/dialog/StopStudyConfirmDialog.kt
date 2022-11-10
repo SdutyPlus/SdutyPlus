@@ -8,6 +8,7 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogStopStudyConfirmBinding
 import com.d205.sdutyplus.uitls.getDeviceSize
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
@@ -67,6 +68,7 @@ class StopStudyConfirmDialog(context: Context) : DialogFragment() {
                 } else {
                     binding.tvCountdown.text = "이어할 수 있는 시간이 \n 지났습니다!"
                     binding.btnContinue.visibility = View.GONE // todo 종료와 같은 기능
+                    binding.btnFinish.setBackgroundResource(R.drawable.dialog_shape)
                     stopTimer()
                 }
 
