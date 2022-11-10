@@ -1,6 +1,7 @@
 package com.d205.data.repository.timer.remote
 
 import com.d205.domain.model.timer.CurrentTaskDto
+import com.d205.domain.model.timer.CurrentTaskDto2
 import kotlinx.coroutines.flow.Flow
 
 interface TimerRemoteDataSource {
@@ -8,5 +9,5 @@ interface TimerRemoteDataSource {
 
     suspend fun getTodayTotalStudyTime(): String
 
-    suspend fun addTask(currentTaskDto: CurrentTaskDto): Flow<Boolean>
+    fun addTask(currentTaskDto: CurrentTaskDto2): Flow<Boolean>
 }
