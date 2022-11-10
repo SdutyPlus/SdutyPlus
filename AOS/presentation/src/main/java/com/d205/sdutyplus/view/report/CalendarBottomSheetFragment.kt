@@ -48,6 +48,7 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
         }
     }
 
+    @SuppressLint("ResourceType", "InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.setOnShowListener { dialogInterface ->
@@ -55,6 +56,7 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
             setupRatio(bottomSheetDialog)
         }
         return dialog
+         //return BottomSheetDialog(requireContext(),R.style.NewDialog)
     }
 
     private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
@@ -148,20 +150,20 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
                 }
                 todayDate == date.toString() -> {
                     textView.apply {
-                        setTextColorRes(R.color.example_1_white)
+                        setTextColorRes(R.color.white)
                         setBackgroundResource(R.drawable.bg_calendar_today)
                     }
                 }
                 else -> {
                     textView.apply {
-                        setTextColorRes(R.color.example_1_white)
+                        setTextColorRes(R.color.black)
                         background = null
                     }
                 }
             }
         } else {
             textView.apply {
-                setTextColorRes(R.color.example_1_white_light)
+                setTextColorRes(R.color.black)
                 background = null
             }
         }
