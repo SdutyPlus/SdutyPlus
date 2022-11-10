@@ -38,6 +38,7 @@ android {
     buildFeatures {
         dataBinding true
     }
+
 }
 
 dependencies {
@@ -114,3 +115,4 @@ dependencies {
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.4'
     implementation("androidx.multidex:multidex:2.0.1")
 }
+

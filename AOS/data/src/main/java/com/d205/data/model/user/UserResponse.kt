@@ -9,7 +9,7 @@ data class UserResponse(
     var imgUrl: String? = "",
     var fcmToken: String? = "",
     @SerializedName("job")
-    var userJob: Int = 0,
+    var userJob: String = "",
     val jwtDto: JwtDto? = null,
     val continuous: Int = 0
 )
@@ -21,7 +21,7 @@ data class UserEntity(
     var imgUrl: String? = "",
     var fcmToken: String? = "",
     @SerializedName("job")
-    var userJob: Int = 0
+    var userJob: String = ""
 )
 
 data class JwtDto(
