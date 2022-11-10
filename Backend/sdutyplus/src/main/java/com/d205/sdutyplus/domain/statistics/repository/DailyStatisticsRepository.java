@@ -13,4 +13,6 @@ public interface DailyStatisticsRepository extends JpaRepository<DailyStatistics
 
     @Query(value = "UPDATE DailyStatistics SET daily_study_time=0")
     void resetTime();
+
+    void deleteByUserSeq(Long userSeq);
 }
