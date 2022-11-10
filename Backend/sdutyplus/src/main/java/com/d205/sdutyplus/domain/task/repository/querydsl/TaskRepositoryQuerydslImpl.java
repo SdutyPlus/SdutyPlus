@@ -6,7 +6,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Tuple;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -74,5 +73,19 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .where(task.startTime.between(startTime, endTime).and(task.ownerSeq.eq(userSeq)))
                 .fetchFirst();
     }
+
+    @Override
+    public int getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime) {
+        return queryFactory
+                .selectFrom(task)
+                .where(task.seq.ne(taskSeq)
+                        .and(task.ownerSeq.eq(userSeq))
+                        .and(
+                                task.startTime.before(startTime).and(task.endTime.after(startTime))
+                                        .or(task.endTime.after(endTime).and(task.startTime.before(endTime))))
+                )
+                .fetch().size();
+    }
+
 
 }
