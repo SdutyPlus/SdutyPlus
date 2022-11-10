@@ -1,21 +1,23 @@
 package com.d205.sdutyplus.domain.task.service;
 
 
-import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
+import com.d205.sdutyplus.domain.task.dto.ReportDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
-import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
+import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
+import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
+import com.d205.sdutyplus.global.error.exception.InvalidInputException;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
@@ -28,42 +30,60 @@ public class TaskService{
     private final TaskRepositoryQuerydsl taskRepositoryQuerydsl;
 
     @Transactional
-    public Task createTask(Long userSeq, TaskDto taskRequestDto){
-        Task task = taskRequestDto.toEntity();
+    public TaskDto createTask(Long userSeq, TaskPostDto taskPostDto){
+        Task task = taskPostDto.toEntity();
         task.setOwnerSeq(userSeq);
-        return taskRepository.save(task);
+
+        Task createdTask = taskRepository.save(task);
+        List<String> createdSubTasks = createSubTask(createdTask.getSeq(), taskPostDto.getContents());
+
+        TaskDto taskDto = TaskDto.builder()
+                .seq(createdTask.getSeq())
+                .startTime(createdTask.getStartTime())
+                .endTime(createdTask.getEndTime())
+                .title(createdTask.getTitle())
+                .contents(createdSubTasks)
+                .build();
+        return taskDto;
     }
 
-    public ReportResponseDto getDailyReport(Long userSeq, String date){
-        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
-        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-//        List<Task> tasks = taskRepository.findAllByStartTimeBetween(startTime, endTime);
-        List<TaskResponseDto> taskResponseDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
-
-        ReportResponseDto reportResponseDto = new ReportResponseDto(taskResponseDtos);
-
-        return reportResponseDto;
-    }
-
-    public TaskResponseDto getTaskDetail(Long taskSeq){
+    public TaskDto getTaskDetail(Long taskSeq){
         return taskRepositoryQuerydsl.findTaskBySeq(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }
 
     @Transactional
-    public void updateTask(Long taskSeq, TaskUpdateDto taskUpdateDto){
+    public void updateTask(Long taskSeq, TaskDto taskDto){
+        if(!taskSeq.equals(taskDto.getSeq())){
+            throw new InvalidInputException();
+        }
+        //task
         Task task = getTask(taskSeq);
-        Task updatedTask = taskUpdateDto.toEntity();
+        Task updatedTask = taskDto.toEntity();
         task.setStartTime(updatedTask.getStartTime());
         task.setEndTime(updatedTask.getEndTime());
         task.setDurationTime(updatedTask.getDurationTime());
-        task.setContent(updatedTask.getContent());
+        task.setTitle(updatedTask.getTitle());
+
+        //subtask
+        deleteSubTaskByTaskSeq(taskSeq);
+        createSubTask(taskSeq, taskDto.getContents());
     }
 
     @Transactional
     public void deleteTask(Long taskSeq){
         subTaskRepository.deleteByTaskSeq(taskSeq);
         taskRepository.deleteById(taskSeq);
+    }
+
+    public ReportDto getDailyReport(Long userSeq, String date){
+        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
+        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
+        List<TaskDto> taskDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
+
+        ReportDto reportResponseDto = new ReportDto(taskDtos);
+
+        return reportResponseDto;
     }
 
     public String getReportTotalTime(Long userSeq, String date){
@@ -73,10 +93,31 @@ public class TaskService{
         return TimeFormatter.msToTime(duration);
     }
 
-    //get & set => private
+    /**
+     * private
+     */
     private Task getTask(Long taskSeq){
         return taskRepository.findById(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }
+
+    @Transactional
+    private List<String> createSubTask(Long taskSeq, List<String> subtasks){
+        List<String> result = new LinkedList<>();
+        for(String subtask : subtasks){
+            SubTask subTask = SubTask.builder()
+                    .taskSeq(taskSeq)
+                    .content(subtask)
+                    .build();
+            result.add(subTaskRepository.save(subTask).getContent());
+        }
+        return result;
+    }
+
+    @Transactional
+    private void deleteSubTaskByTaskSeq(Long taskSeq){
+        subTaskRepository.deleteByTaskSeq(taskSeq);
+    }
+
 
 }
