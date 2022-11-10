@@ -19,7 +19,7 @@ public class UserRegResponseDto {
         this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
-        this.job = user.getJob();
+        this.job = user.getJob().getJobName();
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
     }

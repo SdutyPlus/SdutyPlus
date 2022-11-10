@@ -18,7 +18,7 @@ public class UserDto {
         this.seq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
-        this.job = user.getJob();
+        this.job = user.getJob().getJobName();
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
     }
