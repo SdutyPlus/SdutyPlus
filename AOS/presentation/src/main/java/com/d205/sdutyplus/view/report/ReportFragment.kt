@@ -2,8 +2,10 @@ package com.d205.sdutyplus.view.report
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
@@ -17,7 +19,7 @@ import java.time.LocalDate
 @AndroidEntryPoint
 class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_report),
     TaskAdapterListener {
-    private val reportViewModel by viewModels<ReportViewModel>()
+    private val reportViewModel: ReportViewModel by activityViewModels()
     private val taskAdapter = TaskAdapter(this)
     private val today = LocalDate.now()
 
@@ -37,6 +39,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
 
     private fun initViewModelCallback() {
         reportViewModel.taskCheck.observe(viewLifecycleOwner) {
+            Log.d(TAG, "initViewModelCallback11: $it")
             if (it) {
                 binding.apply {
                     lottie.visibility = View.GONE
@@ -47,6 +50,24 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
                     lottie.visibility = View.VISIBLE
                     scrollTask.visibility = View.GONE
                 }
+            }
+        }
+
+        reportViewModel.updateTaskSuccess.observe(viewLifecycleOwner) {
+            if(it) {
+                Log.d(TAG, "initViewModelCallback update: task update 성공")
+                initView()
+            } else{
+                Log.d(TAG, "initViewModelCallback update: task update 실패")
+            }
+        }
+        
+        reportViewModel.deleteTaskSuccess.observe(viewLifecycleOwner) {
+            if(it) {
+                Log.d(TAG, "initViewModelCallback delete: task update 성공")
+                initView()
+            } else{
+                Log.d(TAG, "initViewModelCallback delete: task update 실패")
             }
         }
     }
