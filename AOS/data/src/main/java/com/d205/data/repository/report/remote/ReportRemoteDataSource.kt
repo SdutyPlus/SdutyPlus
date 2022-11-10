@@ -9,4 +9,5 @@ import kotlinx.coroutines.flow.Flow
 interface ReportRemoteDataSource {
     fun getReport(date: String): Flow<BaseResponse<ReportResponse>>
     fun updateTask(task_seq: Long, task: Task): Flow<Boolean>
+    fun deleteTask(task_seq: Long): Flow<Boolean>
 }

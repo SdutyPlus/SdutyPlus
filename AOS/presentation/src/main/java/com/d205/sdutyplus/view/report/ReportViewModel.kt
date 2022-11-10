@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.Task
+import com.d205.domain.usecase.report.DeleteTaskUseCase
 import com.d205.domain.usecase.report.GetReportUseCase
 import com.d205.domain.usecase.report.GetTaskListUseCase
 import com.d205.domain.usecase.report.UpdateTaskUseCase
@@ -23,7 +24,8 @@ const val TAG = "ReportViewModel"
 class ReportViewModel @Inject constructor(
     private val getReportUseCase: GetReportUseCase,
     private val getTaskListUseCase: GetTaskListUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase
+    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase
 ) : ViewModel() {
 
     private val _totalTime = SingleLiveEvent<String?>()
@@ -38,6 +40,9 @@ class ReportViewModel @Inject constructor(
 
     private var _updateTaskSuccess = SingleLiveEvent<Boolean>()
     val updateTaskSuccess get() = _updateTaskSuccess
+
+    private var _deleteTaskSuccess = SingleLiveEvent<Boolean>()
+    val deleteTaskSuccess get() = _deleteTaskSuccess
 
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -72,6 +77,16 @@ class ReportViewModel @Inject constructor(
                 if(it is ResultState.Success){
                     Log.d(TAG, "updateTask22: ${it.data}")
                     _updateTaskSuccess.postValue(true)
+                }
+            }
+        }
+    }
+
+    fun deleteTask(task_seq: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteTaskUseCase(task_seq).collectLatest {
+                if(it is ResultState.Success) {
+                    _deleteTaskSuccess.postValue(true)
                 }
             }
         }

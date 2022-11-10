@@ -46,4 +46,13 @@ class ReportRepositoryImpl @Inject constructor(
     }.catch { e ->
         emit(ResultState.Error(e))
     }
+
+    override fun deleteTask(task_seq: Long): Flow<ResultState<Boolean>> = flow {
+        emit(ResultState.Loading)
+        reportRemoteDataSource.deleteTask(task_seq).collect {
+            emit(ResultState.Success(it))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
 }

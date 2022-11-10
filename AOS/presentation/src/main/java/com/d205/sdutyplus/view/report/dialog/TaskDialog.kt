@@ -97,7 +97,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
     private fun initBtn() {
         binding.apply {
             btnDelete.setOnClickListener {
-                ConfirmDialog(task).show(this@TaskDialog.parentFragmentManager, "ConfirmDialog")
+                ConfirmDialog(task.seq).show(this@TaskDialog.parentFragmentManager, "ConfirmDialog")
                 dismiss()
             }
             btnModify.setOnClickListener {

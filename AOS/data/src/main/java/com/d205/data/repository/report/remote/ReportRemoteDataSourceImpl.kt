@@ -33,5 +33,16 @@ class ReportRemoteDataSourceImpl @Inject constructor(
         emit(false)
     }
 
+    override fun deleteTask(task_seq: Long): Flow<Boolean> = flow{
+        val response = reportApi.deleteTask(task_seq)
+        if(response.status == 200) {
+            emit(true)
+        } else{
+            emit(false)
+        }
+    }.catch { e ->
+        emit(false)
+    }
+
 
 }
