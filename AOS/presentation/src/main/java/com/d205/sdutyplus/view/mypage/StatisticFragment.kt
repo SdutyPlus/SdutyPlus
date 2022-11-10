@@ -3,14 +3,10 @@ package com.d205.sdutyplus.view.mypage
 import com.anychart.AnyChart
 import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
-import com.anychart.chart.common.listener.Event
-import com.anychart.chart.common.listener.ListenersInterface
-import com.anychart.enums.Align
-import com.anychart.enums.LegendLayout
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentStatisticBinding
-import com.d205.sdutyplus.uitls.showToast
+import com.github.mikephil.charting.data.BarEntry
 
 
 class StatisticFragment : BaseFragment<FragmentStatisticBinding>(R.layout.fragment_statistic) {
@@ -47,6 +43,24 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding>(R.layout.fragme
 //            .align(Align.CENTER)
 
         binding.anyChartView.setChart(pie)
+    }
+
+    fun setting() {
+        val groupSpace = 0.08f
+        val barSpace = 0.03f // x4 DataSet
+
+        val barWidth = 0.2f
+        val startYear = 1980
+        val endYear = startYear + 10
+
+        val values1 = mutableListOf<BarEntry>()
+        val values2 = mutableListOf<BarEntry>()
+
+        for (i in startYear until endYear) {
+            values1.add(BarEntry(i.toFloat(), (Math.random() * 10).toFloat()))
+            values2.add(BarEntry(i.toFloat(), (Math.random() * 10).toFloat()))
+        }
+
     }
 
 }

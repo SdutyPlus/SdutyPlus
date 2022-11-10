@@ -15,16 +15,13 @@ const val FLAG_GALLERY = 0
 const val FLAG_CAMERA = 1
 const val FLAG_NO_SELECT = 2
 
-object JOB {
-    const val STUDENT = 1
-    const val STUDENT1 = 2
-
-}
-
 val jobs = mutableListOf(
-    JobHashtag(1,"팀장"),
-    JobHashtag(2,"부팀장"),
-    JobHashtag(3,"팀원")
+    JobHashtag(1,"신한은행"),
+    JobHashtag(2,"카카오"),
+    JobHashtag(3,"라인"),
+    JobHashtag(4,"네이버"),
+    JobHashtag(5,"싸피코치"),
+    JobHashtag(6,"포켓몬트레이너")
 )
 
 const val ALL_STORY = 0

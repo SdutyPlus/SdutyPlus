@@ -60,10 +60,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             btnNaverLogin.setOnClickListener {
                 startNaverLogin()
             }
-            // 회원가입 버튼
-            btnJoin.setOnClickListener {
-                moveToJoinIdFragment()
-            }
         }
     }
 

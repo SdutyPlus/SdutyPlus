@@ -79,7 +79,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 layoutManager = GridLayoutManager(requireContext(), 3)
             }
 
-            ivProfile.setImageURI(Uri.parse(user.imgUrl))
+            if(user.imgUrl != null) {
+                ivProfile.setImageURI(Uri.parse(user.imgUrl))
+            }
+
 
             ivSetting.setOnClickListener {
                 findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToStatisticFragment())
