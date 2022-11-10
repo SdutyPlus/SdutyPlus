@@ -1,4 +1,4 @@
-package com.d205.sdutyplus.util;
+package com.d205.sdutyplus.global.config;
 
 import com.d205.sdutyplus.domain.jwt.support.JwtProperties;
 import com.fasterxml.classmate.TypeResolver;
