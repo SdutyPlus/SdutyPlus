@@ -111,7 +111,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                             moveToMainActivity()
                         }
                         else {
-                            moveToJoinProfileFragment(KAKAO_JOIN)
+                            if(isLoginSucceeded()) {
+                                moveToJoinProfileFragment(KAKAO_JOIN)
+                            }
+                            else {
+                                showToast("소셜 로그인에 실패했습니다.")
+                            }
                         }
                     }
                 }
@@ -140,7 +145,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                         moveToMainActivity()
                     }
                     else {
-                        moveToJoinProfileFragment(NAVER_JOIN)
+                        if(isLoginSucceeded()) {
+                            moveToJoinProfileFragment(NAVER_JOIN)
+                        }
+                        else {
+                            showToast("소셜 로그인에 실패했습니다.")
+                        }
                     }
                 }
             }
@@ -184,14 +194,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         loginViewModel.kakaoLogin(kakaoToken)
     }
 
-    private fun isJoinedKakaoUser(): Boolean = loginViewModel.isJoinedUser()
+    private fun isJoinedKakaoUser(): Boolean = this@LoginFragment.loginViewModel.isJoinedUser()
 
     private suspend fun signInNaverUser(naverToken: String) {
         loginViewModel.naverLogin(naverToken)
     }
 
-    private fun isJoinedNaverUser(): Boolean = loginViewModel.isJoinedUser()
+    private fun isJoinedNaverUser(): Boolean = this@LoginFragment.loginViewModel.isJoinedUser()
+    private fun isLoginSucceeded() = this@LoginFragment.loginViewModel.isLoginSucceeded
 
+    private fun showToast(msg: String) {
+        requireContext().showToast(msg)
+    }
 
     fun moveToMainActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java)
