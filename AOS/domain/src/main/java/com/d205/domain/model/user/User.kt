@@ -6,5 +6,6 @@ data class User(
     var nickname: String? = "",
     var imgUrl: String? = "",
     var fcmToken: String? = "",
-    var userJob: Int? = 0
+    var userJob: String? = "",
+    val continuous: Int = 0
 )
