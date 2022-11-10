@@ -53,6 +53,7 @@ class UserRepositoryImpl @Inject constructor(
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("kakao")
             }
             else {
                 userLocalDataSource.saveJwt("")
@@ -74,6 +75,7 @@ class UserRepositoryImpl @Inject constructor(
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("naver")
             }
             else {
                 userLocalDataSource.saveJwt("")

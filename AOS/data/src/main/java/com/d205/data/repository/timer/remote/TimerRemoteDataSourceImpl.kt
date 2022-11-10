@@ -34,7 +34,7 @@ class TimerRemoteDataSourceImpl @Inject constructor(
     override suspend fun getTodayTotalStudyTime(): String {
 
 
-            val response = timerApi.getTodayTotalStudyTime("2022-11-04")
+            val response = timerApi.getTodayTotalStudyTime()
             if (response.isSuccessful && response.body() != null) {
                 Log.d("timerApi", "getTodayTotalStudyTime success ${response.body()!!.data}")
                 return response.body()!!.data
