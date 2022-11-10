@@ -90,7 +90,11 @@ public class TaskService{
     public String getReportTotalTime(Long userSeq, String date){
         LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
+
         Integer duration = taskRepositoryQuerydsl.getReportTotalTime(userSeq, startTime, endTime);
+        if(duration == null){
+            duration = 0;
+        }
         return TimeFormatter.msToTime(duration);
     }
 

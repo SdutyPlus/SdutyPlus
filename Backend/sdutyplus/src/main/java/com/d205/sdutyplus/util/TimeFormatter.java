@@ -4,6 +4,7 @@ import com.d205.sdutyplus.global.enums.TimeEnum;
 import com.d205.sdutyplus.global.error.exception.InvalidTimeFormatException;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -38,5 +39,11 @@ public class TimeFormatter {
     public static int getDurationTime(LocalDateTime startTime, LocalDateTime endTime){
         int second = (int) Duration.between(startTime, endTime).getSeconds();
         return second*1000;
+    }
+
+    public static String LocalDateToString(LocalDate localDate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TimeEnum.dateFormat);
+        String now = localDate.format(formatter);
+        return now;
     }
 }
