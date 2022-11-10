@@ -1,10 +1,12 @@
 package com.d205.sdutyplus.view.report
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.Task
 import com.d205.domain.usecase.report.GetReportUseCase
 import com.d205.domain.usecase.report.GetTaskListUseCase
+import com.d205.domain.usecase.report.UpdateTaskUseCase
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ const val TAG = "ReportViewModel"
 @HiltViewModel
 class ReportViewModel @Inject constructor(
     private val getReportUseCase: GetReportUseCase,
-    private val getTaskListUseCase: GetTaskListUseCase
+    private val getTaskListUseCase: GetTaskListUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase
 ) : ViewModel() {
 
     private val _totalTime = SingleLiveEvent<String?>()
@@ -32,6 +35,9 @@ class ReportViewModel @Inject constructor(
 
     private var _taskCheck = SingleLiveEvent<Boolean>()
     val taskCheck get() = _taskCheck
+
+    private var _updateTaskSuccess = SingleLiveEvent<Boolean>()
+    val updateTaskSuccess get() = _updateTaskSuccess
 
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -47,12 +53,25 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
+                    Log.d(TAG, "getTaskList: $it")
                     _remoteTask.value = it
                     if (it.data.isEmpty()) {
                         _taskCheck.postValue(false)
                     } else {
                         _taskCheck.postValue(true)
                     }
+                }
+            }
+        }
+    }
+
+    fun updateTask(task_seq: Long, task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateTaskUseCase(task_seq, task).collectLatest {
+                Log.d(TAG, "updateTask: ${it}")
+                if(it is ResultState.Success){
+                    Log.d(TAG, "updateTask22: ${it.data}")
+                    _updateTaskSuccess.postValue(true)
                 }
             }
         }

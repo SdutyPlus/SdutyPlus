@@ -37,4 +37,13 @@ class ReportRepositoryImpl @Inject constructor(
     }.catch { e ->
         emit(ResultState.Error(e))
     }
+
+    override fun updateTask(task_seq: Long, task: Task): Flow<ResultState<Boolean>> = flow {
+        emit(ResultState.Loading)
+        reportRemoteDataSource.updateTask(task_seq, task).collect {
+            emit(ResultState.Success(it))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
 }

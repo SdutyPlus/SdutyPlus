@@ -74,18 +74,21 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
     private fun initView() {
         binding.apply {
+            etTitle.isEnabled = false
+
             for(i in 0 until 3){
                 contentViews[i].visibility = View.GONE
+                contentEditTexts[i].isEnabled = false
             }
 
             tvStartTime.text = task.startTime.substring(11, 16)
             tvEndTime.text = task.endTime.substring(11, 16)
-            etTitle.setText(task.content)
+            etTitle.setText(task.title)
             ibAddContent.visibility = View.GONE
 
-            for(i in 0 until task.subTaskDtos.size) {
+            for(i in 0 until task.contents.size) {
                 contentViews[i].visibility = View.VISIBLE
-                contentEditTexts[i].setText(task.subTaskDtos[i].content)
+                contentEditTexts[i].setText(task.contents[i])
                 removeContentBtns[i].visibility = View.GONE
             }
         }
@@ -110,11 +113,14 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
     private fun modifyTask() {
         binding.apply {
+            etTitle.isEnabled = true
+
             for(i in 0 until 3){
                 removeContentBtns[i].visibility = View.VISIBLE
+                contentEditTexts[i].isEnabled = true
             }
 
-            if(task.subTaskDtos.size < 3) {
+            if(task.contents.size < 3) {
                 ibAddContent.visibility = View.VISIBLE
             }
 
@@ -134,9 +140,25 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
             btnModify.visibility = View.GONE
 
+
             btnSave.text = "저장"
             btnSave.setOnClickListener {
-                // 태스크 수정 함수
+                val content : MutableList<String> = mutableListOf()
+                for(i in 0 until 3){
+                    if(contentEditTexts[i].text.toString() != ""){
+                        content.add(contentEditTexts[i].text.toString())
+                    }
+                }
+                val updateTask = Task(
+                    task.seq,
+                    task.startTime,
+                    task.endTime,
+                    etTitle.text.toString(),
+                    content
+                )
+                Log.d("TAG", "modifyTask: $updateTask")
+                reportViewModel.updateTask(task.seq, updateTask)
+                dismiss()
             }
 
         }
