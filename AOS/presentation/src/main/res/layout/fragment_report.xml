@@ -37,15 +37,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_appbar_more"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:padding="12dp"
-                android:gravity="center_vertical|center"
-                android:src="@drawable/ic_more"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+<!--            <ImageView-->
+<!--                android:id="@+id/iv_appbar_more"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="48dp"-->
+<!--                android:padding="12dp"-->
+<!--                android:gravity="center_vertical|center"-->
+<!--                android:src="@drawable/ic_more"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent" />-->
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
