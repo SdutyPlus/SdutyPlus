@@ -114,5 +114,8 @@ dependencies {
     // AnyChart
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.4'
     implementation("androidx.multidex:multidex:2.0.1")
+
+    // MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
 
