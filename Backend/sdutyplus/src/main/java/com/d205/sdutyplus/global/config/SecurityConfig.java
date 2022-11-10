@@ -43,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/user").authenticated()
                 .antMatchers(HttpMethod.POST, "/user/reg").authenticated()
                 .antMatchers(HttpMethod.POST, "/task/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/feed/**").authenticated()
 //                .antMatchers(HttpMethod.GET, "/user/**").authenticated()
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated();
