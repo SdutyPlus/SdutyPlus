@@ -33,7 +33,8 @@ public class User {
     private String nickname;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job")
+    @JoinColumn(name = "job_seq")
+    @ColumnDefault("99")
     private Job job;
 
     @Column(name="fcm_token", length = 250)
