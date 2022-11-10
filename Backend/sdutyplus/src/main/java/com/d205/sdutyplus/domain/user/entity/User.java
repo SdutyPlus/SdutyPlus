@@ -32,7 +32,7 @@ public class User {
     @ColumnDefault("null")
     private String nickname;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "job")
     private Job job;
 
