@@ -46,6 +46,9 @@ public enum ErrorCode {
     OFF_ALREADY_EXIST(400, "O001", "이미 차단한 유저입니다."),
     OFF_MYSELF_FAIL(400, "O002", "자기 자신은 차단 할 수 없습니다."),
 
+    // DailyStatistics
+    STATISTICS_NOT_FOUND(400, "DS001", "기록이 존재하지 않습니다."),
+
     ;
 
     private final int status;

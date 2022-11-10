@@ -1,10 +1,15 @@
 package com.d205.sdutyplus.domain.user.service;
 
 
+import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
+import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
+import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
+import com.d205.sdutyplus.domain.off.repository.OffRepository;
+import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
@@ -18,6 +23,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.d205.sdutyplus.domain.warn.repository.WarnRepository;
+import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -38,6 +45,13 @@ public class UserAuthService {
 
     private final JwtRepository jwtRepository;
     private final UserRepository userRepository;
+    private final DailyStatisticsRepository dailyStatisticsRepository;
+    private final FeedRepository feedRepository;
+    private final FeedLikeRepository feedLikeRepository;
+    private final OffRepository offRepository;
+    private final ScrapRepository scrapRepository;
+    private final WarnRepository warnRepository;
+    private final AuthUtils authUtils;
 
     @Transactional
     public UserLoginDto loginUser(String email, SocialType socialType) {
@@ -136,4 +150,15 @@ public class UserAuthService {
         return userInfo;
     }
 
+    public boolean deleteUser(Long userSeq){
+        final User user = authUtils.getLoginUser(userSeq);
+
+        deleteUser(user);
+
+        return true;
+    }
+
+    private void deleteUser(User user) {
+
+    }
 }
