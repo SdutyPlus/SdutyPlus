@@ -87,9 +87,10 @@ class TaskRegistDialog : DialogFragment() {
                 timerViewModel.callBackReset()
                 timerViewModel.timerTimeReset()
                 dismiss()
-            } else if(code == 400) {
-                Toast.makeText(requireContext(),"기록 저장 실패",Toast.LENGTH_SHORT).show()
             }
+//            else if(code == 400) { // todo 이거 안뜨게 하기
+//                Toast.makeText(requireContext(),"기록 저장 실패",Toast.LENGTH_SHORT).show()
+//            }
         }
         timerViewModel.stopTaskSaveCallback.observe(viewLifecycleOwner) { isStop ->
             if(isStop) {
