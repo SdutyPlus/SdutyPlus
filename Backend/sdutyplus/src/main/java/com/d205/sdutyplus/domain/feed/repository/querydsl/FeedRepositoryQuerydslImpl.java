@@ -3,7 +3,9 @@ package com.d205.sdutyplus.domain.feed.repository.querydsl;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
 import com.d205.sdutyplus.domain.user.entity.User;
+import com.d205.sdutyplus.global.entity.Job;
 import com.querydsl.core.QueryResults;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -70,5 +72,30 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
+
+    @Override
+    public Page<FeedResponseDto> findFilterFeedPage(Job jobObject, Pageable pageable) {
+        QueryResults<FeedResponseDto> result = queryFactory
+                .select(
+                        new QFeedResponseDto(
+                                feed.seq,
+                                feed.writerSeq,
+                                feed.imgUrl,
+                                feed.content
+                        )
+                )
+                .from(feed)
+                .where(feed.writerSeq.in(
+                        JPAExpressions
+                                .select(user.seq)
+                                .from(user)
+                                .where(user.job.eq(jobObject))
+                ))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        return new PageImpl<>(result.getResults(), pageable, result.getTotal());
+    }
+
 
 }

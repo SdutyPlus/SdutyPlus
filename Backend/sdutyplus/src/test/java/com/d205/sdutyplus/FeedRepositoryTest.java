@@ -5,7 +5,9 @@ import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
+import com.d205.sdutyplus.domain.user.repository.JobRepository;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
+import com.d205.sdutyplus.global.entity.Job;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.Test;
@@ -22,6 +24,7 @@ import java.util.List;
 
 import static com.d205.sdutyplus.domain.feed.entity.QScrap.scrap;
 import static com.d205.sdutyplus.domain.task.entity.QTask.task;
+import static com.d205.sdutyplus.global.error.ErrorCode.JOB_NOT_FOUND;
 import static com.d205.sdutyplus.global.error.ErrorCode.USER_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,6 +35,8 @@ public class FeedRepositoryTest {
     private JPAQueryFactory queryFactory;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private JobRepository jobRepository;
     @Autowired
     private FeedRepositoryQuerydsl feedRepositoryQuerydsl;
 
@@ -52,5 +57,24 @@ public class FeedRepositoryTest {
         }
         //then
         assertThat(result.getContent().size()).isEqualTo(1);
+    }
+
+    @Test
+    public void filterFeedTest(){
+        Long jobSeq = 1L;
+        Job job = jobRepository.findBySeq(jobSeq)
+                .orElseThrow(()->new EntityNotFoundException(JOB_NOT_FOUND));
+        Sort.Order order = Sort.Order.desc("seq");
+        Sort sort = Sort.by(order);
+        Pageable pageable = PageRequest.of(0, 5, sort);
+
+
+        Page<FeedResponseDto> result = feedRepositoryQuerydsl.findFilterFeedPage(job, pageable);
+
+        //then
+        for(FeedResponseDto feedResponseDto : result.getContent()){
+            System.out.println("feedResponseDto.getSeq() = " + feedResponseDto.getSeq());
+        }
+
     }
 }

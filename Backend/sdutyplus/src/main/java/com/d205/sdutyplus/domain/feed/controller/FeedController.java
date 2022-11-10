@@ -56,8 +56,8 @@ public class FeedController {
     @ApiOperation(value = "내가 스크랩한 게시글 조회")
     @GetMapping("/scrap")
     public ResponseEntity<ResponseDto> getScrapFeeds(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable){
-        Long userSeq = (Long)auth.getPrincipal();
-        PagingResultDto pagingResultDto = feedService.getScrapFeeds(userSeq, pageable);
+        final Long userSeq = (Long)auth.getPrincipal();
+        final PagingResultDto pagingResultDto = feedService.getScrapFeeds(userSeq, pageable);
         return ResponseEntity.ok().body(ResponseDto.of(GET_SCRAP_FEED_SUCCESS, pagingResultDto));
     }
 
@@ -70,15 +70,17 @@ public class FeedController {
 
     @ApiOperation(value = "게시글 스크랩")
     @PostMapping("/scrap/{feed_seq}")
-    public ResponseEntity<?> scrapFeed(@PathVariable(value = "feed_seq") Long feedSeq){
-        feedService.scrapFeed(new Long(7), feedSeq);
+    public ResponseEntity<?> scrapFeed(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq){
+        Long userSeq = (Long)auth.getPrincipal();
+        feedService.scrapFeed(userSeq, feedSeq);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_SCRAP_FEED_SUCCESS));
     }
 
     @ApiOperation(value = "게시글 스크랩 취소")
     @DeleteMapping("/scrap/{feed_seq}")
-    public ResponseEntity<?> unscrapFeed(@PathVariable(value = "feed_seq") Long feedSeq){
-        feedService.unscrapFeed(new Long(7), feedSeq);
+    public ResponseEntity<?> unscrapFeed(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq){
+        Long userSeq = (Long)auth.getPrincipal();
+        feedService.unscrapFeed(userSeq, feedSeq);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_UNSCRAP_FEED_SUCCESS));
     }
 
