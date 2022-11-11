@@ -8,7 +8,7 @@ import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
-import com.d205.sdutyplus.domain.off.repository.OffRepository;
+import com.d205.sdutyplus.domain.off.repository.OffUserRepository;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
@@ -50,7 +50,7 @@ public class UserAuthService {
     private final DailyStatisticsRepository dailyStatisticsRepository;
     private final FeedRepository feedRepository;
     private final FeedLikeRepository feedLikeRepository;
-    private final OffRepository offRepository;
+    private final OffUserRepository offUserRepository;
     private final ScrapRepository scrapRepository;
     private final WarnUserRepository warnUserRepository;
     private final AuthUtils authUtils;
@@ -171,8 +171,8 @@ public class UserAuthService {
         feedRepository.deleteAllByWriterSeq(userSeq);
         feedLikeRepository.deleteAllByUserSeq(userSeq);
         jwtRepository.deleteByUserSeq(userSeq);
-        offRepository.deleteAllByFromUserSeq(userSeq);
-        offRepository.deleteAllByToUserSeq(userSeq);
+        offUserRepository.deleteAllByFromUserSeq(userSeq);
+        offUserRepository.deleteAllByToUserSeq(userSeq);
         scrapRepository.deleteAllByUserSeq(userSeq);
         warnUserRepository.deleteAllByFromUserSeq(userSeq);
         warnUserRepository.deleteAllByToUserSeq(userSeq);
