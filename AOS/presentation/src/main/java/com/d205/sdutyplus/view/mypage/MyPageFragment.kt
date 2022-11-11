@@ -32,11 +32,8 @@ import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.NidOAuthPreferencesManager
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
@@ -77,16 +74,25 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     .setMessage("탈퇴하시겠습니까?")
                     .setPositiveButton("네", object : DialogInterface.OnClickListener {
                         override fun onClick(p0: DialogInterface, p1: Int) {
-                            if(getSocialType() == "kakao") {
-                                Log.d(TAG, "카카오 회원 탈퇴 진행 socialType : ${getSocialType()}")
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    this@MyPageFragment.mainViewModel.deleteUser()
-                                    kakaoUnlink()
+                            CoroutineScope(Dispatchers.IO).launch {
+                                this@MyPageFragment.mainViewModel.deleteUser()
+                                if(mainViewModel.isDeletedSuccess) {
+                                    if(getSocialType() == "kakao") {
+                                        Log.d(TAG, "카카오 회원 탈퇴 진행 socialType : ${getSocialType()}")
+                                        kakaoUnlink()
+                                    }
+                                    else {
+                                        Log.d(TAG, "네이버 회원 탈퇴 진행 socialType : ${getSocialType()}")
+                                        naverUnlink()
+                                    }
                                 }
-                            }
-                            else {
-                                Log.d(TAG, "네이버 회원 탈퇴 진행 socialType : ${getSocialType()}")
-                                naverUnlink()
+                                else {
+                                    Log.d(TAG, "회원 탈퇴 실패")
+                                    withContext(Dispatchers.Main) {
+                                        showToast("회원 탈퇴 실패")
+                                        moveToLoginActivity()
+                                    }
+                                }
                             }
                         }
                     })
