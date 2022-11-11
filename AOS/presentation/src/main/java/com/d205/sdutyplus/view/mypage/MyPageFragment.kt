@@ -47,7 +47,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     @Inject lateinit var userSharedPreference: UserSharedPreference
 
     private val args by navArgs<MyPageFragmentArgs>()
-    private val pref = UserSharedPreference(requireContext())
     private lateinit var user: User
     private val feedViewModel : FeedViewModel by viewModels()
     private lateinit var feedAdapter: FeedAdapter
@@ -170,7 +169,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             else {
                 Log.d(TAG, "카카오 계정 삭제 성공!")
                 showToast("카카오 회원 탈퇴 성공")
-                pref.removeFromPreference("jwt")
+                userSharedPreference.removeFromPreference("jwt")
                 moveToLoginActivity()
             }
         }
@@ -181,7 +180,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             override fun onSuccess() {
                 //서버에서 토큰 삭제에 성공한 상태입니다.
                 showToast("네이버 회원 탈퇴 성공")
-                pref.removeFromPreference("jwt")
+                userSharedPreference.removeFromPreference("jwt")
                 moveToLoginActivity()
             }
             override fun onFailure(httpStatus: Int, message: String) {
