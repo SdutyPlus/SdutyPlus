@@ -56,12 +56,12 @@ public enum ResponseCode {
     UPDATE_UNGOOD_FEED_FAIL(200, "F013", "좋아요 취소 실패."),
 
     // Warn
-    WARN_SUCCESS(200, "W001", "신고 완료."),
-    WARN_FAIL(200, "W002", "신고 실패."),
+    WARN_SUCCESS(200, "W001", "신고가 완료되었습니다."),
+    WARN_FAIL(200, "W002", "신고가 실패하였습니다."),
 
     // Off
-    OFF_SUCCESS(200, "O001", "차단 완료"),
-    OFF_FAIL(200, "O002", "차단 실패"),
+    OFF_SUCCESS(200, "O001", "차단이 완료되었습니다"),
+    OFF_FAIL(200, "O002", "차단이 실패하였습니다."),
 
     ;
 

@@ -25,7 +25,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.d205.sdutyplus.domain.warn.repository.WarnRepository;
+import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
 import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -52,7 +52,7 @@ public class UserAuthService {
     private final FeedLikeRepository feedLikeRepository;
     private final OffRepository offRepository;
     private final ScrapRepository scrapRepository;
-    private final WarnRepository warnRepository;
+    private final WarnUserRepository warnUserRepository;
     private final AuthUtils authUtils;
     private final SubTaskRepository subTaskRepository;
     private final TaskRepository taskRepository;
@@ -174,8 +174,8 @@ public class UserAuthService {
         offRepository.deleteAllByFromUserSeq(userSeq);
         offRepository.deleteAllByToUserSeq(userSeq);
         scrapRepository.deleteAllByUserSeq(userSeq);
-        warnRepository.deleteAllByFromUserSeq(userSeq);
-        warnRepository.deleteAllByToUserSeq(userSeq);
+        warnUserRepository.deleteAllByFromUserSeq(userSeq);
+        warnUserRepository.deleteAllByToUserSeq(userSeq);
 
         userRepository.deleteById(userSeq);
     }

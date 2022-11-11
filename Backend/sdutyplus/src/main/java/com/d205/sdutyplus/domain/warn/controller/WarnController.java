@@ -46,4 +46,22 @@ public class WarnController {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_FAIL, success));
         }
     }
+
+    @ApiOperation(value = "피드 신고")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "신고 완료."),
+            @ApiResponse(code = 400, message = "이미 신고한 피드입니다.\n"),
+            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+    })
+    @PostMapping("/feed/{feedSeq}")
+    public ResponseEntity<ResponseDto> feedWarn(@ApiIgnore Authentication auth, @PathVariable Long feedSeq) {
+        Long userSeq = (Long)auth.getPrincipal();
+
+        final boolean success = warnService.feedWarn(userSeq, feedSeq);
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_SUCCESS, success));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_FAIL, success));
+        }
+    }
 }

@@ -41,8 +41,9 @@ public enum ErrorCode {
     FEED_LIKE_NOT_FOUND(400, "F006", "좋아요 하지 않은 게시물 입니다."),
 
     // Warn
-    WARN_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
+    WARN_USER_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
     WARN_MYSELF_FAIL(400,"W002","자기 자신은 신고 할 수 없습니다."),
+    WARN_FEED_ALREADY_EXIST(400, "W003", "이미 신고한 게시글입니다."),
 
     // Off
     OFF_ALREADY_EXIST(400, "O001", "이미 차단한 유저입니다."),
