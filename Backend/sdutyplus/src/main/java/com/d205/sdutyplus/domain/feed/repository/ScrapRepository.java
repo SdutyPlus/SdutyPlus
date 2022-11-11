@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
     public Optional<Scrap> findByUserAndFeed(User user, Feed feed);
+    void deleteAllByUserSeq(Long userSeq);
 }

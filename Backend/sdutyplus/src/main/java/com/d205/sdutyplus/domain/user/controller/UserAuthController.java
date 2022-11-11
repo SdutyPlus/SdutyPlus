@@ -19,8 +19,10 @@ import net.bytebuddy.asm.Advice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
@@ -86,10 +88,19 @@ public class UserAuthController {
 
     @ApiOperation(value = "회원 탈퇴")
     @ApiResponses({
+            @ApiResponse(code = 200, message = "U009 - 회원 탈퇴에 성공하였습니다."),
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @DeleteMapping
-    public ResponseEntity<ResponseDto> deleteUser(){
-        return null;
+    public ResponseEntity<ResponseDto> deleteUser(@ApiIgnore Authentication auth){
+        Long userSeq = (Long)auth.getPrincipal();
+
+        boolean success = userAuthService.deleteUser(userSeq);
+
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_SUCCESS));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_FAIL));
+        }
     }
 }
