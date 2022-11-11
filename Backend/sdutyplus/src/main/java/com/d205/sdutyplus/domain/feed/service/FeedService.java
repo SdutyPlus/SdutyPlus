@@ -92,7 +92,6 @@ public class FeedService {
     @Transactional
     public void deleteFeed(Long seq){
         final Feed feed = getFeed(seq);
-        //TODO : firebase에 업로드된 파일 삭제
         removeFile(feed.getImgUrl());
         feedRepository.delete(feed);
     }
@@ -102,10 +101,11 @@ public class FeedService {
         final Feed feed = getFeed(feedSeq);
         final User user = authUtils.getLoginUser(userSeq);
 
-        scrapRepository.save(Scrap.builder()
-                .user(user)
-                .feed(feed)
-                .build());
+        if(scrapRepository.findByUserSeqAndFeedSeq(userSeq, feedSeq).isPresent()){
+            throw new EntityAlreadyExistException(FEED_SCRAP_ALREADY_EXIST);
+        }
+
+        scrapRepository.save(new Scrap(user, feed));
     }
 
     @Transactional
@@ -113,7 +113,7 @@ public class FeedService {
         final Feed feed = getFeed(feedSeq);
         final User user = authUtils.getLoginUser(userSeq);
 
-        final Scrap scrap = scrapRepository.findByUserAndFeed(user, feed)
+        final Scrap scrap = scrapRepository.findByUserSeqAndFeedSeq(userSeq, feedSeq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_SCRAP_NOT_FOUND));
         scrapRepository.delete(scrap);
     }

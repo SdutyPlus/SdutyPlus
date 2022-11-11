@@ -8,7 +8,7 @@ import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
-import com.d205.sdutyplus.domain.off.repository.OffRepository;
+import com.d205.sdutyplus.domain.off.repository.OffUserRepository;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
@@ -25,7 +25,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.d205.sdutyplus.domain.warn.repository.WarnRepository;
+import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
 import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -50,9 +50,9 @@ public class UserAuthService {
     private final DailyStatisticsRepository dailyStatisticsRepository;
     private final FeedRepository feedRepository;
     private final FeedLikeRepository feedLikeRepository;
-    private final OffRepository offRepository;
+    private final OffUserRepository offUserRepository;
     private final ScrapRepository scrapRepository;
-    private final WarnRepository warnRepository;
+    private final WarnUserRepository warnUserRepository;
     private final AuthUtils authUtils;
     private final SubTaskRepository subTaskRepository;
     private final TaskRepository taskRepository;
@@ -171,11 +171,11 @@ public class UserAuthService {
         feedRepository.deleteAllByWriterSeq(userSeq);
         feedLikeRepository.deleteAllByUserSeq(userSeq);
         jwtRepository.deleteByUserSeq(userSeq);
-        offRepository.deleteAllByFromUserSeq(userSeq);
-        offRepository.deleteAllByToUserSeq(userSeq);
+        offUserRepository.deleteAllByFromUserSeq(userSeq);
+        offUserRepository.deleteAllByToUserSeq(userSeq);
         scrapRepository.deleteAllByUserSeq(userSeq);
-        warnRepository.deleteAllByFromUserSeq(userSeq);
-        warnRepository.deleteAllByToUserSeq(userSeq);
+        warnUserRepository.deleteAllByFromUserSeq(userSeq);
+        warnUserRepository.deleteAllByToUserSeq(userSeq);
 
         userRepository.deleteById(userSeq);
     }
