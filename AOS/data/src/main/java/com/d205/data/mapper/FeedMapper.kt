@@ -1,6 +1,7 @@
 package com.d205.data.mapper
 
 import com.d205.data.model.mypage.FeedResponse
+import com.d205.data.model.mypage.MyFeedResponse
 import com.d205.domain.model.mypage.Feed
 
 fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
@@ -14,5 +15,14 @@ fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
         regtime = feedResponse.regtime,
         feedPublic = feedResponse.storyPublic,
         feedWarning = feedResponse.storyWarning
+    )
+}
+
+fun mapperMyFeedResponseToFeed(myFeedResponse: MyFeedResponse): Feed {
+    return Feed(
+        seq = myFeedResponse.seq,
+        writerSeq = myFeedResponse.writerSeq,
+        imgUrl = myFeedResponse.imgUrl,
+        contents = myFeedResponse.content
     )
 }

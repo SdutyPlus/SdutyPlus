@@ -28,7 +28,7 @@ class FeedViewModel @Inject constructor(
 
     // 모든 스토리 전체 조회
     private fun userFeeds() = Pager(
-        config = PagingConfig(pageSize = 1, maxSize = 18, enablePlaceholders = false),
+        config = PagingConfig(pageSize = 1, maxSize = 5, enablePlaceholders = false),
         pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase)}
     ).flow
 

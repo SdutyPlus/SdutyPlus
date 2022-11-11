@@ -4,10 +4,10 @@ data class Feed(
     val seq: Int,
     var writerSeq: Int,
     var imgUrl: String,
-    var thumbnail: String,
-    var jobHashtag: Int?,
-    var contents: String,
-    var regtime: String?,
-    var feedPublic: Int,
-    var feedWarning: Int
+    var thumbnail: String = "",
+    var jobHashtag: Int? = 0,
+    var contents: String = "",
+    var regtime: String? = null,
+    var feedPublic: Int = 0,
+    var feedWarning: Int = 0
 )

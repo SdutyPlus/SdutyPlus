@@ -8,7 +8,7 @@ import com.d205.domain.usecase.feed.GetFeedsUseCase
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.ALL_STORY
 
-private const val TAG ="StoryDataSource"
+private const val TAG ="FeedDataSource"
 class FeedDataSource(val flag: Int, private val getFeedsUseCase: GetFeedsUseCase): PagingSource<Int, Feed>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Feed> {
         return try {
