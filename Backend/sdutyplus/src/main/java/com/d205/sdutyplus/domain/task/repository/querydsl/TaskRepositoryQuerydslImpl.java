@@ -1,8 +1,6 @@
 package com.d205.sdutyplus.domain.task.repository.querydsl;
 
-import com.d205.sdutyplus.domain.task.dto.QSubTaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.SubTaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
+import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -26,31 +24,43 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<TaskResponseDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end) {
-        Map<Task, List<SubTaskResponseDto>> transform = queryFactory
+    public List<TaskDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end) {
+        Map<Task, List<String>> transform = queryFactory
                 .selectFrom(task)
                 .leftJoin(task.subTasks, subTask)
                 .where(task.startTime.between(start, end).and(task.ownerSeq.eq(userSeq)))
-                .transform(groupBy(task).as(list(new QSubTaskResponseDto(subTask.seq, subTask.content))));
+                .orderBy(task.startTime.asc())
+                .transform(groupBy(task).as(list(subTask.content)));
 
         return transform.entrySet().stream()
-                .map(entry -> new TaskResponseDto(entry.getKey().getSeq(), entry.getKey().getStartTime(), entry.getKey().getEndTime(), entry.getKey().getContent(), entry.getValue()))
+                .map(entry -> TaskDto.builder()
+                        .seq(entry.getKey().getSeq())
+                        .startTime(entry.getKey().getStartTime())
+                        .endTime(entry.getKey().getEndTime())
+                        .title(entry.getKey().getTitle())
+                        .contents(entry.getValue())
+                        .build())
                 .collect(Collectors.toList());
 
     }
 
     @Override
-    public Optional<TaskResponseDto> findTaskBySeq(Long taskSeq) {
-        Map<Task, List<SubTaskResponseDto>> transform = queryFactory
+    public Optional<TaskDto> findTaskBySeq(Long taskSeq) {
+        Map<Task, List<String>> transform = queryFactory
                 .selectFrom(task)
                 .leftJoin(task.subTasks, subTask)
                 .where(task.seq.eq(taskSeq))
-                .transform(groupBy(task).as(list(new QSubTaskResponseDto(subTask.seq, subTask.content))));
+                .transform(groupBy(task).as(list(subTask.content)));
 
-        return (Optional<TaskResponseDto>) transform.entrySet().stream()
-                .map(entry -> new TaskResponseDto(entry.getKey().getSeq(), entry.getKey().getStartTime(), entry.getKey().getEndTime(), entry.getKey().getContent(), entry.getValue()))
+        return (Optional<TaskDto>) transform.entrySet().stream()
+                .map(entry -> TaskDto.builder()
+                        .seq(entry.getKey().getSeq())
+                        .startTime(entry.getKey().getStartTime())
+                        .endTime(entry.getKey().getEndTime())
+                        .title(entry.getKey().getTitle())
+                        .contents(entry.getValue())
+                        .build())
                 .findFirst();
-
     }
 
     @Override
@@ -63,5 +73,19 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .where(task.startTime.between(startTime, endTime).and(task.ownerSeq.eq(userSeq)))
                 .fetchFirst();
     }
+
+    @Override
+    public int getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime) {
+        return queryFactory
+                .selectFrom(task)
+                .where(task.seq.ne(taskSeq)
+                        .and(task.ownerSeq.eq(userSeq))
+                        .and(
+                                task.startTime.loe(startTime).and(task.endTime.goe(startTime))
+                                        .or(task.endTime.goe(endTime).and(task.startTime.loe(endTime))))
+                )
+                .fetch().size();
+    }
+
 
 }

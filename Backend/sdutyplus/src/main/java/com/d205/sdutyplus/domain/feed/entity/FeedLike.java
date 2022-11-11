@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Getter
 @Entity
-@Table(name = "feed_likes")
+@Table(name = "feed_like")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FeedLike {
 

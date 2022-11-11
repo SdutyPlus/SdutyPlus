@@ -1,15 +1,23 @@
 package com.d205.sdutyplus.domain.user.service;
 
 
+import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
+import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
+import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
+import com.d205.sdutyplus.domain.off.repository.OffRepository;
+import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
+import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
+import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +25,8 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.d205.sdutyplus.domain.warn.repository.WarnRepository;
+import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -37,6 +47,15 @@ public class UserAuthService {
 
     private final JwtRepository jwtRepository;
     private final UserRepository userRepository;
+    private final DailyStatisticsRepository dailyStatisticsRepository;
+    private final FeedRepository feedRepository;
+    private final FeedLikeRepository feedLikeRepository;
+    private final OffRepository offRepository;
+    private final ScrapRepository scrapRepository;
+    private final WarnRepository warnRepository;
+    private final AuthUtils authUtils;
+    private final SubTaskRepository subTaskRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public UserLoginDto loginUser(String email, SocialType socialType) {
@@ -48,6 +67,7 @@ public class UserAuthService {
             user.setEmail(email);
             user.setSocialType(socialType);
             user.setRegTime(LocalDateTime.now());
+            user.setLastReport(LocalDate.now());
             realUser = userRepository.save(user);
             if(realUser == null) {
                 return null;
@@ -65,7 +85,8 @@ public class UserAuthService {
         jwt.setRefreshToken(jwtDto.getRefreshToken());
         jwtRepository.save(jwt);
 
-        UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto);
+        final long job = 0;
+        UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto, job);
 
         return userLoginDto;
     }
@@ -133,4 +154,29 @@ public class UserAuthService {
         return userInfo;
     }
 
+    @Transactional
+    public boolean deleteUser(Long userSeq){
+        final User user = authUtils.getLoginUser(userSeq);
+
+        deleteUserCade(userSeq);
+
+        return true;
+    }
+
+//    private final TaskService taskService;
+    @Transactional
+    private void deleteUserCade(Long userSeq) {
+
+        dailyStatisticsRepository.deleteByUserSeq(userSeq);
+        feedRepository.deleteAllByWriterSeq(userSeq);
+        feedLikeRepository.deleteAllByUserSeq(userSeq);
+        jwtRepository.deleteByUserSeq(userSeq);
+        offRepository.deleteAllByFromUserSeq(userSeq);
+        offRepository.deleteAllByToUserSeq(userSeq);
+        scrapRepository.deleteAllByUserSeq(userSeq);
+        warnRepository.deleteAllByFromUserSeq(userSeq);
+        warnRepository.deleteAllByToUserSeq(userSeq);
+
+        userRepository.deleteById(userSeq);
+    }
 }

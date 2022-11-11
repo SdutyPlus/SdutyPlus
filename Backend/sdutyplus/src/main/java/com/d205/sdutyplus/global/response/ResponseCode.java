@@ -23,6 +23,8 @@ public enum ResponseCode {
     CHECK_NICKNAME_BAD(200, "U006", "사용불가능한 nickname 입니다."),
     LOGIN_FAIL(200, "U007", "로그인에 실패하였습니다."),
     SAVE_PROFILE_SUCCESS(200, "U008", "회원 프로필을 저장하였습니다."),
+    DELETE_SUCCESS(200, "U009", "회원 탈퇴에 성공하였습니다."),
+    DELETE_FAIL(200, "U010", "회원 탈퇴에 실패하였습니다."),
 
     // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
@@ -41,10 +43,10 @@ public enum ResponseCode {
     //Feed
     CREATE_FEED_SUCCESS(200, "F001", "게시글이 등록되었습니다."),
     GET_ALL_FEED_SUCCESS(200, "F002", "전체 게시글 조회가 성공하였습니다."),
-    UPDATE_FEED_SUCCESS(200, "F003", "게시글이 수정되었습니다."),
-    GET_MY_FEED_SUCCESS(200, "F004", "자신이 작성한 게시글 조회가 성공하였습니다."),
-    GET_SCRAP_FEED_SUCCESS(200, "F005", "자신이 스크랩한 게시글 조회가 성공하였습니다."),
-    GET_JOB_FILTER_FEED_SUCCESS(200, "F006", "직업으로 필터링한 게시글 조회가 성공하였습니다."),
+    GET_MY_FEED_SUCCESS(200, "F003", "자신이 작성한 게시글 조회가 성공하였습니다."),
+    GET_SCRAP_FEED_SUCCESS(200, "F004", "자신이 스크랩한 게시글 조회가 성공하였습니다."),
+    GET_JOB_FILTER_FEED_SUCCESS(200, "F005", "직업으로 필터링한 게시글 조회가 성공하였습니다."),
+    UPDATE_FEED_SUCCESS(200, "F006", "게시글이 수정되었습니다."),
     DELETE_FEED_SUCCESS(200, "F007", "게시글이 삭제되었습니다."),
     UPDATE_GOOD_FEED_SUCCESS(200, "F008", "해당 게시글에 좋아요가 등록되었습니다."),
     UPDATE_UNGOOD_FEED_SUCCESS(200, "F009", "해당 게시글에 좋아요 취소하였습니다."),

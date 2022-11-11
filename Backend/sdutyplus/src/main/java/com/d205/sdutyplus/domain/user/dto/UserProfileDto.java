@@ -18,18 +18,21 @@ public class UserProfileDto {
     @ApiModelProperty(value = "유저 별명", example = "Faker")
     private String nickname;
     @ApiModelProperty(value = "유저 직업")
-    private Long job;
+    private String job;
     @ApiModelProperty(value = "프로필사진")
     private String imgUrl;
     @ApiModelProperty(value = "fcm token")
     private String fcmToken;
+    @ApiModelProperty(value = "연속 일수")
+    private Long continuous;
 
     public UserProfileDto(User user){
         this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
-        this.job = user.getJob();
+        this.job = user.getJob().getJobName();
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
+        this.continuous = user.getContinuous();
     }
 }

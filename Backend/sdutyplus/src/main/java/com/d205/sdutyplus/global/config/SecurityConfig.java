@@ -1,4 +1,4 @@
-package com.d205.sdutyplus.util;
+package com.d205.sdutyplus.global.config;
 
 import com.d205.sdutyplus.domain.jwt.support.CustomAuthenticationEntryPoint;
 import com.d205.sdutyplus.domain.jwt.support.ExceptionHandlerFilter;
@@ -42,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user").authenticated()
                 .antMatchers(HttpMethod.POST, "/user/reg").authenticated()
+                .antMatchers(HttpMethod.POST, "/task/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/feed/**").authenticated()
 //                .antMatchers(HttpMethod.GET, "/user/**").authenticated()
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated();

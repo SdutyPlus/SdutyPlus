@@ -11,15 +11,15 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReportResponseDto {
+public class ReportDto {
     private String totalTime;
-    private List<TaskResponseDto> taskDtos;
+    private List<TaskDto> taskDtos;
 
-    public ReportResponseDto(List<TaskResponseDto> taskDtos){
+    public ReportDto(List<TaskDto> taskDtos){
         int totalSecond = 0;
-        for(TaskResponseDto taskResponseDto : taskDtos){
-            LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(taskResponseDto.getStartTime());
-            LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(taskResponseDto.getEndTime());
+        for(TaskDto taskDto : taskDtos){
+            LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(taskDto.getStartTime());
+            LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(taskDto.getEndTime());
             totalSecond+=TimeFormatter.getDurationTime(startTime, endTime);
         }
         this.totalTime = TimeFormatter.msToTime(totalSecond);
