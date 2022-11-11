@@ -34,7 +34,6 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job")
-    @ColumnDefault("99")
     private Job job;
 
     @Column(name="fcm_token", length = 250)
