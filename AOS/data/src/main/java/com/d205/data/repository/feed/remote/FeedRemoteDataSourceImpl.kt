@@ -27,7 +27,7 @@ class FeedRemoteDataSourceImpl @Inject constructor(
             emit(response.data)
         }
         else {
-            emit(PagingResult(0,0, emptyList()))
+            emit(PagingResult(-1,-1, emptyList()))
         }
     }.catch { e ->
         Log.d(TAG, "getUserFeeds: ${e.message}")
