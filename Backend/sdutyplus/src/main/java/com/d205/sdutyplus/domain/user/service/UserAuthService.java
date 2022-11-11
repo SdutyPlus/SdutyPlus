@@ -154,6 +154,7 @@ public class UserAuthService {
         return userInfo;
     }
 
+    @Transactional
     public boolean deleteUser(Long userSeq){
         final User user = authUtils.getLoginUser(userSeq);
 
@@ -163,6 +164,7 @@ public class UserAuthService {
     }
 
 //    private final TaskService taskService;
+    @Transactional
     private void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
@@ -175,6 +177,6 @@ public class UserAuthService {
         warnRepository.deleteAllByFromUserSeq(userSeq);
         warnRepository.deleteAllByToUserSeq(userSeq);
 
-        userRepository.findBySeq(userSeq);
+        userRepository.deleteById(userSeq);
     }
 }
