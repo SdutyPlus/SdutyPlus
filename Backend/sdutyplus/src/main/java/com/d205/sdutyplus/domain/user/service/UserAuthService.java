@@ -154,6 +154,7 @@ public class UserAuthService {
         return userInfo;
     }
 
+    @Transactional
     public boolean deleteUser(Long userSeq){
         final User user = authUtils.getLoginUser(userSeq);
 
