@@ -16,7 +16,7 @@ private const val TAG ="BindingAdapter"
 fun loadImage(view: ImageView, src: String?){
     Glide.with(view.context)
         .load(Uri.parse("${SERVER_URL}/image/${src}"))
-        .error(R.drawable.ic_empty_image)
+        .error(R.drawable.img_sduty_logo)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .into(view)
 }
