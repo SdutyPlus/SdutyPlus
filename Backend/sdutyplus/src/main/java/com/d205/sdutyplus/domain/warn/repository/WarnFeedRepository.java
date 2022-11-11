@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WarnFeedRepository extends JpaRepository<WarnFeed, Long> {
     boolean existsByUserAndFeed(User user, Feed feed);
-
+    void deleteAllByUserSeq(Long userSeq);
 }
