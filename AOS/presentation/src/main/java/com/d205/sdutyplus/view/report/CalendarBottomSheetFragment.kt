@@ -48,9 +48,17 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
         }
     }
 
-    @SuppressLint("ResourceType", "InflateParams")
+    @SuppressLint("RestrictedApi")
+    override fun setupDialog(dialog: Dialog, style: Int) {
+        super.setupDialog(dialog, style)
+        dialog.setCanceledOnTouchOutside(true)
+
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
+        //val dialog = super.onCreateDialog(savedInstanceState)
+
+        val dialog = BottomSheetDialog(requireContext(),R.style.NewDialog)
         dialog.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             setupRatio(bottomSheetDialog)
@@ -67,6 +75,7 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
         layoutParams.height = getBottomSheetDialogDefaultHeight()
         bottomSheet.layoutParams = layoutParams
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
     }
 
     private fun getBottomSheetDialogDefaultHeight(): Int {
