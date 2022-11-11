@@ -16,6 +16,7 @@ import androidx.fragment.app.activityViewModels
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.databinding.DialogTaskBinding
 import com.d205.sdutyplus.view.report.ReportViewModel
+import com.d205.sdutyplus.view.report.TAG
 
 class TaskDialog(private val task: Task) : DialogFragment() {
     private lateinit var binding: DialogTaskBinding
@@ -54,6 +55,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         val action = arguments?.getString("Action", "Add")
 
         when (action) {
@@ -66,99 +68,50 @@ class TaskDialog(private val task: Task) : DialogFragment() {
         }
     }
 
+    private fun initViewModelCallback() {
+
+    }
+
 
     private fun InfoTask() {
         initView()
+        initViewModelCallback()
         initBtn()
-//            when (task.subTaskDtos.size) {
-//                0 -> {
-//                    clContent1.visibility = View.GONE
-//                    clContent2.visibility = View.GONE
-//                    clContent3.visibility = View.GONE
-//                }
-//                1 -> {
-//                    if (task.subTaskDtos[0].content.isNotEmpty()) {
-//                        clContent1.visibility = View.VISIBLE
-//                        etContent1.setText(task.subTaskDtos[0].content)
-//                        ivRemoveContent1.visibility = View.GONE
-//                    } else {
-//                        clContent1.visibility = View.GONE
-//                    }
-//                    clContent2.visibility = View.GONE
-//                    clContent3.visibility = View.GONE
-//                }
-//                2 -> {
-//                    if (task.subTaskDtos[0].content.isNotEmpty()) {
-//                        clContent1.visibility = View.VISIBLE
-//                        etContent1.setText(task.subTaskDtos[0].content)
-//                        ivRemoveContent1.visibility = View.GONE
-//                    } else {
-//                        clContent1.visibility = View.GONE
-//                    }
-//
-//                    if (task.subTaskDtos[1].content.isNotEmpty()) {
-//                        clContent2.visibility = View.VISIBLE
-//                        etContent2.setText(task.subTaskDtos[1].content)
-//                        ivRemoveContent2.visibility = View.GONE
-//                    } else {
-//                        clContent2.visibility = View.GONE
-//                    }
-//
-//                    clContent3.visibility = View.GONE
-//                }
-//                3 -> {
-//                    if (task.subTaskDtos[0].content.isNotEmpty()) {
-//                        clContent1.visibility = View.VISIBLE
-//                        etContent1.setText(task.subTaskDtos[0].content)
-//                        ivRemoveContent1.visibility = View.GONE
-//                    } else {
-//                        clContent1.visibility = View.GONE
-//                    }
-//
-//                    if (task.subTaskDtos[1].content.isNotEmpty()) {
-//                        clContent2.visibility = View.VISIBLE
-//                        etContent2.setText(task.subTaskDtos[1].content)
-//                        ivRemoveContent2.visibility = View.GONE
-//                    } else {
-//                        clContent2.visibility = View.GONE
-//                    }
-//
-//                    if (task.subTaskDtos[2].content.isNotEmpty()) {
-//                        clContent3.visibility = View.VISIBLE
-//                        etContent3.setText(task.subTaskDtos[2].content)
-//                        ivRemoveContent3.visibility = View.GONE
-//                    } else {
-//                        clContent3.visibility = View.GONE
-//                    }
-//                }
-//            }
-
     }
 
     private fun initView() {
         binding.apply {
+            etTitle.isEnabled = false
+
             for(i in 0 until 3){
                 contentViews[i].visibility = View.GONE
+                contentEditTexts[i].isEnabled = false
             }
 
-            tvStartTime.text = task.startTime.substring(11, 16)
-            tvEndTime.text = task.endTime.substring(11, 16)
-            etTitle.setText(task.content)
+            tvStartTime.text = task.startTime.substring(11, 19)
+            tvEndTime.text = task.endTime.substring(11, 19)
+            etTitle.setText(task.title)
             ibAddContent.visibility = View.GONE
-            //task data 넣기
-            for(i in 0 until task.subTaskDtos.size) {
+
+            for(i in 0 until task.contents.size) {
                 contentViews[i].visibility = View.VISIBLE
-                contentEditTexts[i].setText(task.subTaskDtos[i].content)
+                contentEditTexts[i].setText(task.contents[i])
                 removeContentBtns[i].visibility = View.GONE
             }
-
         }
     }
 
     private fun initBtn() {
         binding.apply {
             btnDelete.setOnClickListener {
-                ConfirmDialog(task).show(this@TaskDialog.parentFragmentManager, "ConfirmDialog")
+                ConfirmDialog(task.seq).apply {
+                    arguments = Bundle().apply {
+                        putString("Action", "Delete")
+                    }
+                    show(this@TaskDialog.parentFragmentManager, "ConfirmDialog")
+                }
+
+
                 dismiss()
             }
             btnModify.setOnClickListener {
@@ -174,8 +127,15 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
     private fun modifyTask() {
         binding.apply {
+            etTitle.isEnabled = true
+
             for(i in 0 until 3){
                 removeContentBtns[i].visibility = View.VISIBLE
+                contentEditTexts[i].isEnabled = true
+            }
+
+            if(task.contents.size < 3) {
+                ibAddContent.visibility = View.VISIBLE
             }
 
             ibAddContent.setOnClickListener {
@@ -194,9 +154,25 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
             btnModify.visibility = View.GONE
 
+
             btnSave.text = "저장"
             btnSave.setOnClickListener {
-                // 태스크 수정 함수
+                val content : MutableList<String> = mutableListOf()
+                for(i in 0 until 3){
+                    if(contentEditTexts[i].text.toString() != ""){
+                        content.add(contentEditTexts[i].text.toString())
+                    }
+                }
+                val updateTask = Task(
+                    task.seq,
+                    task.startTime,
+                    task.endTime,
+                    etTitle.text.toString(),
+                    content
+                )
+                Log.d("TAG", "modifyTask: $updateTask")
+                reportViewModel.updateTask(task.seq, updateTask)
+                dismiss()
             }
 
         }

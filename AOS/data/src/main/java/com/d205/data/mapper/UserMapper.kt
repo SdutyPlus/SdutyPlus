@@ -6,12 +6,13 @@ import com.d205.domain.model.user.User
 
 fun mapperUserResponseToUser(UserResponse: UserResponse): User =
     User(
-        seq = UserResponse.seq,
+        seq = UserResponse.userSeq,
         id = UserResponse.email,
         nickname = UserResponse.nickname,
         imgUrl = UserResponse.imgUrl,
         userJob = UserResponse.userJob,
-        fcmToken = UserResponse.fcmToken
+        fcmToken = UserResponse.fcmToken,
+        continuous = UserResponse.continuous
     )
 
 fun mapperUserEntityToUser(userEntity: UserEntity): User =

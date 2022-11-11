@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.common.JobHashtag
+import com.d205.sdutyplus.uitls.jobs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -15,19 +16,8 @@ class TagViewModel: ViewModel() {
     val jobList: LiveData<MutableList<JobHashtag>>
         get() = _jobList
 
-    init {
-
-    }
-
     fun getJobListValue(){
-        val list = mutableListOf<JobHashtag>(
-            JobHashtag(0,"학생1"),
-            JobHashtag(1,"학생2"),
-            JobHashtag(2,"학생3"),
-            JobHashtag(3,"학생4"),
-            JobHashtag(4,"학생5")
-        )
-        _jobList.value = list
+        _jobList.value = jobs
     }
 
     private val _jobTagMap = MutableLiveData<HashMap<String, Int>>()

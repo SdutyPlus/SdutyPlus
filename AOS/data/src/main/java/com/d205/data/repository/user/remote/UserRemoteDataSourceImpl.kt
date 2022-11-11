@@ -21,7 +21,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
 ): UserRemoteDataSource {
 
     @SuppressLint("LongLogTag")
-    override fun joinUser(user: UserDto): Flow<UserEntity> = flow {
+    override fun joinUser(user: UserDto): Flow<UserResponse> = flow {
         Log.d(TAG, "joinUser: $user")
         val response = userApi.updateProfile(user)
         Log.d(TAG, "joinUser api response : $response")
@@ -30,7 +30,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
             emit(response.data)
         }
         else {
-            emit(UserEntity())
+            emit(UserResponse())
         }
     }
 
@@ -86,6 +86,18 @@ class UserRemoteDataSourceImpl @Inject constructor(
         }
         else {
             emit(UserResponse())
+        }
+    }
+
+    override fun deleteUser(): Flow<Boolean> = flow {
+        val response = userApi.deleteUser()
+        if(response.status == 200) {
+            Log.d("exit","탈퇴 성공")
+            emit(true)
+        }
+        else {
+            Log.d("exit","탈퇴 실패")
+            emit(false)
         }
     }
 }

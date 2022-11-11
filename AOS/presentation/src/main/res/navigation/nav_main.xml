@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
-    app:startDestination="@id/feedFragment">
+    app:startDestination="@id/timerFragment">
 
     <fragment
         android:id="@+id/feedFragment"
@@ -23,6 +23,9 @@
         <argument
             android:name="qwe"
             app:argType="integer"/>
+        <action
+            android:id="@+id/action_mypageFragment_to_statisticFragment"
+            app:destination="@id/statisticFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportFragment"
@@ -44,4 +47,8 @@
         android:id="@+id/feedDecoFragment"
         android:name="com.d205.sdutyplus.view.feed.FeedDecoFragment"
         android:label="FeedDecoFragment" />
+    <fragment
+        android:id="@+id/statisticFragment"
+        android:name="com.d205.sdutyplus.view.mypage.StatisticFragment"
+        android:label="StatisticFragment" />
 </navigation>
