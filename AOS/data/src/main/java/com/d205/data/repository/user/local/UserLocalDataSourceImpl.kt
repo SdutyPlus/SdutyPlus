@@ -8,4 +8,8 @@ class UserLocalDataSourceImpl @Inject constructor(
 ): UserLocalDataSource {
     override suspend fun saveJwt(token: String): Boolean =
         userSharedPreference.setStringFromPreference("jwt", token)
+
+    override suspend fun saveSocialType(type: String) {
+        userSharedPreference.setStringFromPreference("socialType", type)
+    }
 }
