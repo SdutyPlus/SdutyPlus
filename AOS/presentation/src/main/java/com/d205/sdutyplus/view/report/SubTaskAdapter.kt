@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.d205.domain.model.report.SubTask
 import com.d205.sdutyplus.databinding.ListItemSubtaskBinding
 
-class SubTaskAdapter(private val subtask: List<SubTask>) :
+class SubTaskAdapter(private val subtask: List<String>) :
     RecyclerView.Adapter<SubTaskAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ListItemSubtaskBinding) :

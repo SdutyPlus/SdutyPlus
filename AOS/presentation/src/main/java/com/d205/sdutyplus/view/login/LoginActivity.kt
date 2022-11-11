@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil.setContentView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.d205.data.dao.UserSharedPreference
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseActivity
 import com.d205.sdutyplus.databinding.ActivityLoginBinding
@@ -33,6 +34,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
     override fun init() {
         initPermission()
+        val pref = UserSharedPreference(this)
+        Log.d(TAG, "sharedPreference jwt : ${pref.getStringFromPreference("jwt")}")
     }
 
     private fun initPermission() {

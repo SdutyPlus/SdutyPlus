@@ -3,7 +3,7 @@
     <data>
         <variable
             name="SubTask"
-            type="com.d205.domain.model.report.SubTask" />
+            type="String" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,7 +30,7 @@
         app:layout_constraintStart_toEndOf="@id/tv_order"
         app:layout_constraintTop_toTopOf="@id/tv_order"
         app:layout_constraintBottom_toBottomOf="@id/tv_order"
-        android:text="@{SubTask.content}"
+        android:text="@{SubTask}"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
