@@ -30,10 +30,10 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDialogFragment() {
+class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCalendarBottomSheetBinding
     private val monthCalendarView: CalendarView get() = binding.exOneCalendar
-    private val selectedDates = mutableSetOf<LocalDate>()
+    private val todayDate = LocalDate.now()
     private lateinit var listener: dayClickListener
 
     interface dayClickListener {
@@ -52,7 +52,6 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
         dialog.setCanceledOnTouchOutside(true)
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -151,18 +150,20 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
             when {
-                selectedDates.contains(date) -> {
-                    textView.apply {
-                        setTextColorRes(R.color.example_1_bg)
-                        setBackgroundResource(R.drawable.bg_calendar_selected)
-                    }
-                }
-                todayDate == date.toString() -> {
+                todayDate == date -> {
                     textView.apply {
                         setTextColorRes(R.color.white)
                         setBackgroundResource(R.drawable.bg_calendar_today)
                     }
                 }
+
+                selectDate == date.toString() -> {
+                    textView.apply {
+                        setTextColorRes(R.color.black)
+                        setBackgroundResource(R.drawable.bg_calendar_selected)
+                    }
+                }
+
                 else -> {
                     textView.apply {
                         setTextColorRes(R.color.black)
@@ -172,7 +173,7 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
             }
         } else {
             textView.apply {
-                setTextColorRes(R.color.black)
+                setTextColorRes(R.color.sduty_action_off)
                 background = null
             }
         }
