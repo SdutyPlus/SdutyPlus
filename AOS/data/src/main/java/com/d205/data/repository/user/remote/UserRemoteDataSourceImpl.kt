@@ -92,7 +92,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override fun deleteUser(): Flow<Boolean> = flow {
         val response = userApi.deleteUser()
         if(response.status == 200) {
-            Log.d("exit","탈퇴 성공ㅂ4")
+            Log.d("exit","탈퇴 성공")
             emit(true)
         }
         else {
