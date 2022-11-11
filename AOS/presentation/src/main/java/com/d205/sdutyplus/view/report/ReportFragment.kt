@@ -30,7 +30,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
             rvReport.adapter = taskAdapter
             tvSelectedDate.text = today.toString()
         }
-        lottie()
         initView()
         initViewModelCallback()
         initClickListener()
@@ -42,11 +41,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
             Log.d(TAG, "initViewModelCallback11: $it")
             if (it) {
                 binding.apply {
+                    tvNotice.visibility = View.GONE
                     lottie.visibility = View.GONE
                     scrollTask.visibility = View.VISIBLE
                 }
             } else {
                 binding.apply {
+                    tvNotice.visibility = View.VISIBLE
                     lottie.visibility = View.VISIBLE
                     scrollTask.visibility = View.GONE
                 }
