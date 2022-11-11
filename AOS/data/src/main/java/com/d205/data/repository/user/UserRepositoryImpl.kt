@@ -100,4 +100,16 @@ class UserRepositoryImpl @Inject constructor(
     }.catch { e ->
         emit(ResultState.Error(e))
     }
+
+    override fun deleteUser(): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "deleteUser: Loading")
+        emit(ResultState.Loading)
+
+        userRemoteDataSource.deleteUser().collect {
+            Log.d(TAG, "deleteUser collect: $it")
+            emit(ResultState.Success(it))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
 }

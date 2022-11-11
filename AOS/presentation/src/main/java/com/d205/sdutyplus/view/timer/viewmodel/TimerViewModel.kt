@@ -45,7 +45,7 @@ class TimerViewModel @Inject constructor(
     val timerTime: LiveData<Int>
         get() = _timerTime
 
-    private val _resumeCountDown = MutableLiveData<Int>(5)
+    private val _resumeCountDown = MutableLiveData<Int>(20)
     val resumeCountDown: LiveData<Int>
         get() = _resumeCountDown
 
@@ -172,7 +172,7 @@ class TimerViewModel @Inject constructor(
     }
 
     fun resumeCountDownReset() {
-        _resumeCountDown.postValue(5)
+        _resumeCountDown.postValue(20)
         isResumeCountDownStart = false
     }
 
@@ -209,7 +209,7 @@ class TimerViewModel @Inject constructor(
 
     fun addTask1(title: String, contents: List<SubTask> = mutableListOf()) {
         viewModelScope.launch(defaultDispatcher){
-            var currentTaskDto = getCurrentStudyTimeInfoUsecase()
+            var currentTaskDto = getCurrentStudyTimeInfoUsecase(_timerTime.value!!)
             currentTaskDto.title = title
             currentTaskDto.contents = contents
 
@@ -227,7 +227,7 @@ class TimerViewModel @Inject constructor(
                 }
             }
 
-            var timeInfo = getCurrentStudyTimeInfoUsecase()
+            var timeInfo = getCurrentStudyTimeInfoUsecase(_timerTime.value!!)
             var newTask = CurrentTaskDto2(0,timeInfo.startTime, timeInfo.endTime, title, realContents)
 
             addTaskUsecase(newTask).collect { isSuccess ->

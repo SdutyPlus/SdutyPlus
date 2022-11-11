@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
+import com.d205.domain.usecase.user.DeleteUserUseCase
 import com.d205.domain.usecase.user.GetUserUseCase
 import com.d205.domain.usecase.user.JoinUserUseCase
 import com.d205.domain.utils.ResultState
@@ -19,12 +20,15 @@ private const val TAG = "MainViewModel"
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: GetUserUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase
 ): ViewModel() {
 
     private val _bottomNavVisibility = MutableLiveData<Boolean>(false)
     val bottomNavVisibility : LiveData<Boolean>
         get() = _bottomNavVisibility
+
+    var isDeletedSuccess = false
 
     init {
         _bottomNavVisibility.postValue(true)
@@ -45,6 +49,16 @@ class MainViewModel @Inject constructor(
             if(it is ResultState.Success) {
                 Log.d(TAG, "getUser invoke Success: ${it.data}")
                 _user.postValue(it.data)
+            }
+        }
+    }
+
+    // User 정보 삭제
+    suspend fun deleteUser() {
+        deleteUserUseCase.invoke().collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "deleteUser invoke Success: ${it.data}")
+                isDeletedSuccess = it.data
             }
         }
     }

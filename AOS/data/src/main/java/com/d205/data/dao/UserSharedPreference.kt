@@ -44,8 +44,4 @@ class UserSharedPreference @Inject constructor(
         }
         return sharedPreference.all.isEmpty()
     }
-
-    fun saveSocialType(type: String) {
-        setStringFromPreference("socialType", type)
-    }
 }
