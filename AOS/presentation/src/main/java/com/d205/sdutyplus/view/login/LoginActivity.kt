@@ -33,7 +33,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         Manifest.permission.ACCESS_NETWORK_STATE).toTypedArray()
 
     override fun init() {
-        //initPermission()
+        initPermission()
         val pref = UserSharedPreference(this)
         Log.d(TAG, "sharedPreference jwt : ${pref.getStringFromPreference("jwt")}")
     }
