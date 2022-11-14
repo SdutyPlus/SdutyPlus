@@ -24,6 +24,11 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
         initView()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        feedCreateViewModel.clearState()
+    }
+
     private fun initView() {
         limitEditTextLength()
 

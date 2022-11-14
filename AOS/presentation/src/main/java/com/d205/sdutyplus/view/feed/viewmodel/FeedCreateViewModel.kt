@@ -52,4 +52,11 @@ class FeedCreateViewModel @Inject constructor(
         _bitmap.value = bitmap
         _image.value = BitmapDrawable(bitmap)
     }
+
+    fun clearState() {
+        _bitmap.value = null
+        _image.value = null
+        _content.value = ""
+        _isFeedCreated.value = false
+    }
 }
