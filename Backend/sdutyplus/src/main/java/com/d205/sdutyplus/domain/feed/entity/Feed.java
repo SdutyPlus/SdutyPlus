@@ -1,19 +1,15 @@
 package com.d205.sdutyplus.domain.feed.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Feed {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
