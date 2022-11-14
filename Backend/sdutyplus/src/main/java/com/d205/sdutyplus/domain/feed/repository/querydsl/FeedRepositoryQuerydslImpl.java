@@ -93,7 +93,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     }
 
     @Override
-    public Page<FeedResponseDto> findFilterFeedPage(Job jobObject, Pageable pageable) {
+    public Page<FeedResponseDto> findFilterFeedPage(Long userSeq, Job jobObject, Pageable pageable) {
         QueryResults<FeedResponseDto> result = queryFactory
                 .select(
                         new QFeedResponseDto(
