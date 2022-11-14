@@ -133,5 +133,11 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .where(feedLike.feed.writerSeq.eq(userSeq));
     }
 
+    @Override
+    public void deleteMyScrapedFeed(Long userSeq) {
+        queryFactory.delete(scrap)
+                .where(scrap.feed.writerSeq.eq(userSeq));
+    }
+
 
 }

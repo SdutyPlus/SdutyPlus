@@ -4,12 +4,14 @@ package com.d205.sdutyplus.domain.user.service;
 import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
+import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
 import com.d205.sdutyplus.domain.off.repository.OffFeedRepository;
 import com.d205.sdutyplus.domain.off.repository.OffUserRepository;
+import com.d205.sdutyplus.domain.off.repository.queyrdsl.OffFeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
@@ -28,6 +30,7 @@ import javax.transaction.Transactional;
 
 import com.d205.sdutyplus.domain.warn.repository.WarnFeedRepository;
 import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
+import com.d205.sdutyplus.domain.warn.repository.querydsl.WarnFeedRepositoryQuerydsl;
 import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -52,14 +55,19 @@ public class UserAuthService {
     private final DailyStatisticsRepository dailyStatisticsRepository;
     private final FeedRepository feedRepository;
     private final FeedLikeRepository feedLikeRepository;
+    private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
     private final OffUserRepository offUserRepository;
     private final OffFeedRepository offFeedRepository;
+    private final OffFeedRepositoryQuerydsl offFeedRepositoryQuerydsl;
     private final ScrapRepository scrapRepository;
     private final WarnUserRepository warnUserRepository;
     private final WarnFeedRepository warnFeedRepository;
+    private final WarnFeedRepositoryQuerydsl warnFeedRepositoryQuerydsl;
     private final AuthUtils authUtils;
     private final SubTaskRepository subTaskRepository;
     private final TaskRepository taskRepository;
+
+
 
     @Transactional
     public UserLoginDto loginUser(String email, SocialType socialType) {
@@ -171,16 +179,22 @@ public class UserAuthService {
     private void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
+
         feedLikeRepository.deleteAllByUserSeq(userSeq);
+        feedRepositoryQuerydsl.deleteMyLikedFeed(userSeq);
+        offFeedRepository.deleteAllByUserSeq(userSeq);
+        offFeedRepositoryQuerydsl.deleteMyOffedFeedByUserSeq(userSeq);
+        scrapRepository.deleteAllByUserSeq(userSeq);
+        feedRepositoryQuerydsl.deleteMyScrapedFeed(userSeq);
+        warnFeedRepository.deleteAllByUserSeq(userSeq);
+        warnFeedRepositoryQuerydsl.deleteMyWarnedFeedByUserSeq(userSeq);
+        feedRepository.deleteAllByWriterSeq(userSeq);
+
+        warnUserRepository.deleteAllByFromUserSeq(userSeq);
+        warnUserRepository.deleteAllByToUserSeq(userSeq);
         jwtRepository.deleteByUserSeq(userSeq);
         offUserRepository.deleteAllByFromUserSeq(userSeq);
         offUserRepository.deleteAllByToUserSeq(userSeq);
-        offFeedRepository.deleteAllByUserSeq(userSeq);
-        scrapRepository.deleteAllByUserSeq(userSeq);
-        warnUserRepository.deleteAllByFromUserSeq(userSeq);
-        warnUserRepository.deleteAllByToUserSeq(userSeq);
-        warnFeedRepository.deleteAllByUserSeq(userSeq);
-//        feedRepository.deleteAllByWriterSeq(userSeq);
 
         userRepository.deleteById(userSeq);
     }
