@@ -18,6 +18,7 @@ import java.util.List;
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
 import static com.d205.sdutyplus.domain.feed.entity.QScrap.scrap;
 import static com.d205.sdutyplus.domain.user.entity.QUser.user;
+import static com.d205.sdutyplus.domain.warn.entity.QWarnFeed.warnFeed;
 
 @Repository
 @RequiredArgsConstructor
@@ -97,5 +98,21 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
 
-
+    @Override
+    public Page<FeedResponseDto> findAllWarnFeedPage(Pageable pageable) {
+        QueryResults<FeedResponseDto> result = queryFactory
+                .select(
+                        new QFeedResponseDto(
+                                warnFeed.feed.seq,
+                                warnFeed.feed.writerSeq,
+                                warnFeed.feed.imgUrl,
+                                warnFeed.feed.content
+                        )
+                )
+                .from(warnFeed)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        return new PageImpl<>(result.getResults(), pageable, result.getTotal());
+    }
 }

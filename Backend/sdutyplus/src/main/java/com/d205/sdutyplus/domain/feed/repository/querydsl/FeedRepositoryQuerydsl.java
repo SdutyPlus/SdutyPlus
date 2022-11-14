@@ -13,4 +13,6 @@ public interface FeedRepositoryQuerydsl {
     Page<FeedResponseDto> findMyFeedPage(Long writerSeq, Pageable pageable);
     Page<FeedResponseDto> findScrapFeedPage(User user, Pageable pageable);
     Page<FeedResponseDto> findFilterFeedPage(Job jobObject, Pageable pageable);
+
+    Page<FeedResponseDto> findAllWarnFeedPage(Pageable pageable);
 }

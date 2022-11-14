@@ -63,6 +63,13 @@ public enum ResponseCode {
     OFF_SUCCESS(200, "O001", "차단이 완료되었습니다"),
     OFF_FAIL(200, "O002", "차단이 실패하였습니다."),
 
+    // Admin
+
+    GET_WARN_FEED_SUCCESS(200, "A001", "신고 게시글 조회가 성공하였습니다."),
+    GET_WARN_FEED_FAIL(200, "A002", "신고 게시글 조회가 실패하였습니다."),
+    GET_WARN_USER_SUCCESS(200, "A003", "신고 유저 조회가 성공하였습니다."),
+
+
     ;
 
     private final int status;
