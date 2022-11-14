@@ -61,6 +61,7 @@ public class FeedRepositoryTest {
 
     @Test
     public void filterFeedTest(){
+        Long userSeq = 1L;
         Long jobSeq = 1L;
         Job job = jobRepository.findBySeq(jobSeq)
                 .orElseThrow(()->new EntityNotFoundException(JOB_NOT_FOUND));
@@ -69,7 +70,7 @@ public class FeedRepositoryTest {
         Pageable pageable = PageRequest.of(0, 5, sort);
 
 
-        Page<FeedResponseDto> result = feedRepositoryQuerydsl.findFilterFeedPage(job, pageable);
+        Page<FeedResponseDto> result = feedRepositoryQuerydsl.findFilterFeedPage(userSeq, job, pageable);
 
         //then
         for(FeedResponseDto feedResponseDto : result.getContent()){

@@ -1,8 +1,12 @@
 package com.d205.sdutyplus.domain.statistics.service;
 
 import com.d205.sdutyplus.domain.statistics.entity.DailyStatistics;
+import com.d205.sdutyplus.domain.statistics.entity.DailyTimeGraph;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
+import com.d205.sdutyplus.domain.statistics.repository.DailyTimeGraphRepository;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
+import com.d205.sdutyplus.domain.user.entity.User;
+import com.d205.sdutyplus.domain.user.repository.UserRepository;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +18,8 @@ import javax.transaction.Transactional;
 
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
@@ -23,6 +29,8 @@ import static com.d205.sdutyplus.global.error.ErrorCode.*;
 public class DailyStatisticsService {
 
     private final DailyStatisticsRepository dailyStatisticsRepository;
+    private final DailyTimeGraphRepository dailyTimeGraphRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void updateDailyStudy(Long userSeq, TaskDto taskDto){
@@ -38,8 +46,26 @@ public class DailyStatisticsService {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "40 26 16 * * *")
     public void resetDailyTime(){
+        List<DailyTimeGraph> dailyTimeGraphs = dailyTimeGraphRepository.findAll();
+
+        for (int time = 0; time < 3; time++) {
+            dailyTimeGraphs.get(time).counter(dailyStatisticsRepository.countByDailyStudyTime(time * 2 + 1));
+            dailyTimeGraphs.get(time).counter(dailyStatisticsRepository.countByDailyStudyTime(time * 2 + 2));
+        }
+
+        for (int time = 8; time < 25; time++)  {
+            dailyTimeGraphs.get(4).counter(dailyStatisticsRepository.countByDailyStudyTime(time));
+        }
+
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            DailyStatistics dailyStatistics = dailyStatisticsRepository.findByUserSeq(user.getSeq()).get();
+            user.setStudyTime(dailyStatistics.getDailyStudyTime());
+        }
+
         dailyStatisticsRepository.resetTime();
     }
 }

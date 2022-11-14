@@ -1,7 +1,9 @@
 package com.d205.sdutyplus.domain.user.service;
 
 import com.d205.sdutyplus.domain.statistics.entity.DailyStatistics;
+import com.d205.sdutyplus.domain.statistics.entity.DailyTimeGraph;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
+import com.d205.sdutyplus.domain.statistics.repository.DailyTimeGraphRepository;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
@@ -23,6 +25,7 @@ import javax.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
@@ -35,6 +38,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
     private final DailyStatisticsRepository dailyStatisticsRepository;
+    private final DailyTimeGraphRepository dailyTimeGraphRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -69,7 +73,9 @@ public class UserService {
             updateContinuous(user, LocalDate.now(), 0);
         }
 
-        final UserProfileDto result = new UserProfileDto(user);
+        List<DailyTimeGraph> dailyTimeGraphs = dailyTimeGraphRepository.findAll();
+
+        final UserProfileDto result = new UserProfileDto(user, dailyTimeGraphs);
         return result;
     }
 
