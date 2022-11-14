@@ -8,12 +8,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedCreateBinding
+import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.view.feed.viewmodel.FeedCreateViewModel
 
 class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.fragment_feed_create) {
+    private val feedCreateViewModel: FeedCreateViewModel by activityViewModels()
 
     override fun initOnViewCreated() {
         initView()
@@ -23,10 +28,11 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
         limitEditTextLength()
 
         binding.apply {
+            vm = feedCreateViewModel
             ivBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-            tvAddImg.setOnClickListener {
+            layoutAddImage.setOnClickListener {
                 moveToFeedDecoFragment()
             }
         }

@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.net.Uri
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.d205.sdutyplus.R
@@ -15,9 +16,10 @@ import com.d205.sdutyplus.databinding.FragmentFeedDecoBinding
 import com.d205.sdutyplus.di.ApplicationClass
 import com.d205.sdutyplus.uitls.NOT_PROFILE
 import com.d205.sdutyplus.view.common.CropImageActivity
+import com.d205.sdutyplus.view.feed.viewmodel.FeedCreateViewModel
 
 class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment_feed_deco) {
-
+    private val feedCreateViewModel: FeedCreateViewModel by activityViewModels()
     private var imageUrl: String = ""
 
     override fun initOnViewCreated() {
@@ -36,6 +38,9 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
             }
             btnDecoPolaroidWhite.setOnClickListener {
                 setPolaroidVisiblity(View.VISIBLE)
+            }
+            ivCheck.setOnClickListener {
+                imageToBitmap()
             }
         }
     }
@@ -64,5 +69,19 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
     
     private fun setPolaroidVisiblity(visiblity: Int) {
         binding.layoutPolaroid.visibility = visiblity
+    }
+
+    private fun imageToBitmap() {
+        binding.apply {
+            val bitmap = Bitmap.createBitmap(layoutPreview.width, layoutPreview.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            layoutPreview.draw(canvas)
+            saveImageBitmap(bitmap)
+        }
+    }
+
+    private fun saveImageBitmap(bitmap: Bitmap) {
+        feedCreateViewModel.setBitmapAndImage(bitmap)
+        findNavController().popBackStack()
     }
 }
