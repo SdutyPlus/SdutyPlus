@@ -13,4 +13,5 @@ interface UserRemoteDataSource {
     fun loginKakaoUser(token: String): Flow<UserResponse>
     fun loginNaverUser(token: String): Flow<UserResponse>
     fun getUser(): Flow<UserResponse>
+    fun deleteUser(): Flow<Boolean>
 }

@@ -2,7 +2,8 @@ package com.d205.data.repository.feed
 
 import android.util.Log
 import androidx.paging.PagingSource
-import com.d205.data.mapper.mapperFeedResponseToFeed
+import com.d205.data.mapper.mapperMyFeedResponseToFeed
+import com.d205.data.model.mypage.MyFeedResponse
 import com.d205.data.repository.feed.local.FeedLocalDataSource
 import com.d205.data.repository.feed.remote.FeedRemoteDataSource
 import com.d205.domain.model.mypage.Feed
@@ -24,18 +25,38 @@ class FeedRepositoryImpl @Inject constructor(
         page: Int,
         pageSize: Int
     ): Flow<ResultState<PagingSource.LoadResult<Int, Feed>>> = flow {
-        Log.d(TAG, "joinUser: Loading")
+        Log.d(TAG, "getUserFeeds: Loading")
         emit(ResultState.Loading)
 
         feedRemoteDataSource.getUserFeeds(page, pageSize).collect { it ->
-            Log.d(TAG, "getUserFeeds: $it")
-            emit(ResultState.Success(PagingSource.LoadResult.Page(
-                data = it.result.map { feedResponse ->
-                    mapperFeedResponseToFeed(feedResponse)
-                },
-                prevKey = if(page == 0) null else page - 1,
-                nextKey = if(page == it.totalPage) null else page + 1
-            )))
+
+//            Log.d(TAG, "getUserFeeds: $it")
+//            emit(ResultState.Success(PagingSource.LoadResult.Page(
+//                data = it.result.map { feedResponse ->
+//                    mapperFeedResponseToFeed(feedResponse)
+//                },
+//                prevKey = if(page == 0) null else page - 1,
+//                nextKey = if(page == it.totalPage) null else page + 1
+//            )))
+
+            Log.d(TAG, "getUserFeeds collect : ${it.result}")
+            if(it.result.isNotEmpty()) {
+                Log.d(TAG, "getUserFeeds: not empty")
+                emit(ResultState.Success(PagingSource.LoadResult.Page(
+                    data = it.result.map { feedResponse ->
+                        mapperMyFeedResponseToFeed(feedResponse)
+                    },
+                    prevKey = if(page == 0) null else page - 1,
+                    nextKey = if(page == it.totalPage) null else page + 1
+                )))
+            } else {
+                emit(ResultState.Success(PagingSource.LoadResult.Page(
+                    data = emptyList<Feed>(),
+                    prevKey = if(page == 0) null else page - 1,
+                    nextKey = null
+                )))
+            }
+
         }
     }.catch { e ->
         emit(ResultState.Error(e))

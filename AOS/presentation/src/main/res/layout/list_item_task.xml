@@ -48,7 +48,7 @@
             android:id="@+id/civ_task_color"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@color/app_blue_light"
+            android:src="@color/sduty_mix_violet"
             app:layout_constraintBottom_toBottomOf="@id/tv_start_time"
             app:layout_constraintEnd_toStartOf="@id/layout_task"
             app:layout_constraintStart_toEndOf="@id/tv_start_time"
@@ -95,7 +95,7 @@
                         android:id="@+id/cv_title"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        app:cardBackgroundColor="@color/app_blue_light"
+                        app:cardBackgroundColor="@color/sduty_light_mix_violet"
                         app:cardCornerRadius="12dp"
                         app:layout_constraintBottom_toTopOf="@id/rv_subtask"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -115,7 +115,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:singleLine="true"
-                                android:text="@{Task.content}"
+                                android:text="@{Task.title}"
                                 android:textSize="16dp"
                                 android:textStyle="bold"
                                 tools:text="알고리즘" />
@@ -129,7 +129,7 @@
                                     android:id="@+id/tv_task_start_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@{Task.startTime.substring(11, 16)}"
+                                    android:text="@{Task.startTime.substring(11, 19)}"
                                     tools:text="12:00" />
 
                                 <TextView
@@ -141,7 +141,7 @@
                                     android:id="@+id/tv_task_end_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@{Task.endTime.substring(11, 16)}"
+                                    android:text="@{Task.endTime.substring(11, 19)}"
                                     tools:text="13:00" />
                             </LinearLayout>
                         </LinearLayout>

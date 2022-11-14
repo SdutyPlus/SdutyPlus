@@ -10,6 +10,8 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.github.mikephil.charting.data.BarEntry
+
 
 
 class StatisticFragment : BaseFragment<FragmentStatisticBinding>(R.layout.fragment_statistic),
@@ -73,6 +75,24 @@ class StatisticFragment : BaseFragment<FragmentStatisticBinding>(R.layout.fragme
 
     override fun onNothingSelected() {
         //TODO("Not yet implemented")
+    }
+
+    fun setting() {
+        val groupSpace = 0.08f
+        val barSpace = 0.03f // x4 DataSet
+
+        val barWidth = 0.2f
+        val startYear = 1980
+        val endYear = startYear + 10
+
+        val values1 = mutableListOf<BarEntry>()
+        val values2 = mutableListOf<BarEntry>()
+
+        for (i in startYear until endYear) {
+            values1.add(BarEntry(i.toFloat(), (Math.random() * 10).toFloat()))
+            values2.add(BarEntry(i.toFloat(), (Math.random() * 10).toFloat()))
+        }
+
     }
 
 }

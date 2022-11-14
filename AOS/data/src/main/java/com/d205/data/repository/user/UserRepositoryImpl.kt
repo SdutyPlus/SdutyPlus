@@ -50,6 +50,7 @@ class UserRepositoryImpl @Inject constructor(
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("kakao")
             }
             else {
                 userLocalDataSource.saveJwt("")
@@ -71,6 +72,7 @@ class UserRepositoryImpl @Inject constructor(
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("naver")
             }
             else {
                 userLocalDataSource.saveJwt("")
@@ -91,6 +93,18 @@ class UserRepositoryImpl @Inject constructor(
             Log.d(TAG, "getUser collect: $it")
             Log.d(TAG, "mapper: ${mapperUserResponseToUser(it)}")
             emit(ResultState.Success(mapperUserResponseToUser(it)))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
+
+    override fun deleteUser(): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "deleteUser: Loading")
+        emit(ResultState.Loading)
+
+        userRemoteDataSource.deleteUser().collect {
+            Log.d(TAG, "deleteUser collect: $it")
+            emit(ResultState.Success(it))
         }
     }.catch { e ->
         emit(ResultState.Error(e))

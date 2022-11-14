@@ -11,8 +11,10 @@ import com.d205.domain.model.user.User
 import com.d205.domain.usecase.feed.GetFeedsUseCase
 import com.d205.sdutyplus.uitls.ALL_STORY
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.switchMap
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
@@ -27,17 +29,16 @@ class FeedViewModel @Inject constructor(
 ): ViewModel() {
 
     // 모든 스토리 전체 조회
-    private fun userFeeds() = Pager(
-        config = PagingConfig(pageSize = 1, maxSize = 18, enablePlaceholders = false),
+     val feedPage = Pager(
+        config = PagingConfig(pageSize = 1, maxSize = 5, enablePlaceholders = false),
         pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase)}
-    ).flow
+    ).flow.cachedIn(viewModelScope)
 
-    val pagingFeedList = getUserFeeds()
+
+
 //    private val _pagingFeedList : MutableStateFlow<PagingData<Feed>> =
 //        MutableStateFlow(PagingData.empty())
 //    val pagingFeedList get() = _pagingFeedList.asStateFlow()
-
-    fun getUserFeeds() = userFeeds().cachedIn(viewModelScope)
 
 
 //    // 스크랩 스토리 전체 조회

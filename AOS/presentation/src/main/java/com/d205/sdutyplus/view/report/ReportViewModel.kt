@@ -1,10 +1,16 @@
 package com.d205.sdutyplus.view.report
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.Task
+import com.d205.domain.usecase.report.DeleteTaskUseCase
 import com.d205.domain.usecase.report.GetReportUseCase
 import com.d205.domain.usecase.report.GetTaskListUseCase
+import com.d205.domain.usecase.report.UpdateTaskUseCase
+import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +26,10 @@ const val TAG = "ReportViewModel"
 @HiltViewModel
 class ReportViewModel @Inject constructor(
     private val getReportUseCase: GetReportUseCase,
-    private val getTaskListUseCase: GetTaskListUseCase
+    private val getTaskListUseCase: GetTaskListUseCase,
+    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val addTaskUseCase: AddTaskUsecase
 ) : ViewModel() {
 
     private val _totalTime = SingleLiveEvent<String?>()
@@ -32,6 +41,13 @@ class ReportViewModel @Inject constructor(
 
     private var _taskCheck = SingleLiveEvent<Boolean>()
     val taskCheck get() = _taskCheck
+
+    private var _updateTaskSuccess = MutableLiveData<Boolean>(false)
+    val updateTaskSuccess: LiveData<Boolean> get() = _updateTaskSuccess
+
+    private var _deleteTaskSuccess = MutableLiveData<Boolean>(false)
+    val deleteTaskSuccess: LiveData<Boolean> get() = _deleteTaskSuccess
+
 
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -47,6 +63,7 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
+                    Log.d(TAG, "getTaskList: $it")
                     _remoteTask.value = it
                     if (it.data.isEmpty()) {
                         _taskCheck.postValue(false)
@@ -57,6 +74,35 @@ class ReportViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateTask(task_seq: Long, task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateTaskUseCase(task_seq, task).collect {
+                if(it){
+                    _updateTaskSuccess.postValue(true)
+                } else {
+                    _updateTaskSuccess.postValue(false)
+                }
+            }
+        }
+    }
+
+    fun deleteTask(task_seq: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteTaskUseCase(task_seq).collectLatest {
+                if(it is ResultState.Success){
+                    if(it.data){
+                        _deleteTaskSuccess.postValue(true)
+                    } else{
+                        _deleteTaskSuccess.postValue(false)
+                    }
+                }
+
+            }
+        }
+    }
+
+
 
 
 }

@@ -1,9 +1,9 @@
 package com.d205.data.model.mypage
 
-data class FeedResponse(
-    val seq: Int,
-    var writerSeq: Int,
-    var imgUrl: String,
-    var thumbnail: String?,
-    var content: String?
+
+data class MyFeedResponse(
+    val seq: Int = 0,
+    var writerSeq: Int = 0,
+    var imgUrl: String = "",
+    var content: String = ""
 )

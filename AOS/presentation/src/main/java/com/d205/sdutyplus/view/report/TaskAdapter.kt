@@ -28,9 +28,9 @@ class TaskAdapter(private val listener: TaskAdapterListener) :
             binding.apply {
                 task = taskDto
                 rvSubtask.apply {
-                    adapter = SubTaskAdapter(taskDto.subTaskDtos)
+                    adapter = SubTaskAdapter(taskDto.contents)
                     layoutManager = LinearLayoutManager(
-                        binding.rvSubtask.context,
+                        context,
                         LinearLayoutManager.VERTICAL,
                         false
                     )
@@ -52,7 +52,7 @@ class TaskAdapter(private val listener: TaskAdapterListener) :
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Task>() {
             override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
-                return oldItem.content == newItem.content
+                return oldItem.seq == newItem.seq
             }
 
             override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {

@@ -9,6 +9,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.d205.domain.model.common.JobHashtag
 import com.d205.domain.model.user.UserDto
@@ -30,7 +31,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     private val profileViewModel: ProfileViewModel by viewModels()
     private val joinViewModel: JoinViewModel by viewModels()
 
-    private lateinit var profileImageUrl: String
+    private var profileImageUrl: String? = null
     private var jobHashtag: JobHashtag? = null
 
     private val getImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -55,23 +56,27 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
             // 회원 가입 버튼 클릭
             btnJoin.setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {
-                    // 닉네임 중복 체크    true : 사용 가능, false : 이미 존재
-                    if(checkNicknameCanUse()) {
-                        Log.d(TAG, "nickname can use! start joinUser!!")
-                        joinUser()
-                        Log.d(TAG, "joinUser finished")
+                    // 회원가입에 필요한 정보를 모두 입력했는지 여부 체크
+                    if(checkJoinAvailable()) {
+                        if(checkNicknameCanUse()) {
+                            joinUser()
+                            Log.d(TAG, "joinUser finished")
 
-                        // 회원가입 성공 여부 체크    true : 성공, false : 실패
-                        if (isUserJoinedSucceeded()) {
-                            Log.d(TAG, "joinUser succeed!")
-                            moveToMainActivity()
-                        } else {
-                            Log.d(TAG, "joinUser failed!")
-                            showToast("회원가입에 실패했습니다")
+                            // 회원가입 성공 여부 체크    true : 성공, false : 실패
+                            if (isUserJoinedSucceeded()) {
+                                Log.d(TAG, "joinUser succeed!")
+                                moveToMainActivity()
+                            } else {
+                                Log.d(TAG, "joinUser failed!")
+                                showToast("회원가입에 실패했습니다")
+                            }
+                        }
+                        else {
+                            showToast("이미 사용중인 닉네임입니다!")
                         }
                     }
                     else {
-                        showToast("이미 존재하는 닉네임입니다!")
+                        showToast("닉네임과 직업을 모두 기입해주세요!")
                     }
                 }
             }
@@ -83,6 +88,10 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
             btnJobSelect.setOnClickListener {
                 openTagSelectDialog()
             }
+
+            btnJob.setOnClickListener {
+                openTagSelectDialog()
+            }
         }
     }
 
@@ -90,11 +99,29 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         Log.d(TAG, "checkNicknameIsUsed: start!")
         return profileViewModel.checkNickname(binding.etNickname.text.toString())
     }
+
+    private fun checkJoinAvailable() = !isNicknameEmpty() && isJobSelected()
+
+    private fun isNicknameEmpty(): Boolean {
+        if(binding.etNickname.text.toString().isEmpty()) {
+            showToast("닉네임을 입력해주세요!")
+            return true
+        }
+        return false
+    }
+
+    private fun isJobSelected(): Boolean {
+        if(binding.btnJob.visibility == View.GONE) {
+            showToast("직업을 선택해주세요!")
+            return false
+        }
+        return true
+    }
         
 
     private fun getSocialType(): Int = args.socialType
 
-    private suspend fun joinUser() {
+    suspend fun joinUser() {
         joinViewModel.joinUser(
             UserDto(
                 imgUrl = profileImageUrl,
@@ -103,10 +130,8 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
         )
     }
 
-    private suspend fun showToast(msg: String) {
-        withContext(Dispatchers.Main) {
-            requireContext().showToast(msg)
-        }
+    private fun showToast(msg: String) {
+        requireContext().showToast(msg)
     }
 
     private fun isUserJoinedSucceeded() = joinViewModel.isJoinSucceeded.value!!
