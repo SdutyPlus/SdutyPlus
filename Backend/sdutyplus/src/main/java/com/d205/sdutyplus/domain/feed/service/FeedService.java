@@ -63,8 +63,10 @@ public class FeedService {
         feedRepository.save(feed);
     }
 
-    public List<FeedResponseDto> getAllFeeds(Long userSeq){
-        return feedRepositoryQuerydsl.findAllFeeds(userSeq);
+    public PagingResultDto getAllFeeds(Long userSeq, Pageable pageable){
+        final Page<FeedResponseDto> allFeeds = feedRepositoryQuerydsl.findAllFeeds(userSeq, pageable);
+        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
+        return pagingResultDto;
     }
 
     public PagingResultDto getMyFeeds(Long writerSeq, Pageable pageable){

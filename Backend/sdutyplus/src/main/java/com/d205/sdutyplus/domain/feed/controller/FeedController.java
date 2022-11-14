@@ -41,10 +41,10 @@ public class FeedController {
 
     @ApiOperation(value="전체 게시글 조회")
     @GetMapping("")
-    public ResponseEntity<?> getALlFeeds(@ApiIgnore Authentication auth){
+    public ResponseEntity<?> getALlFeeds(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable){
         final Long userSeq = (Long)auth.getPrincipal();
-        final List<FeedResponseDto> feedResponseDtos = feedService.getAllFeeds(userSeq);
-        return ResponseEntity.ok().body(ResponseDto.of(GET_ALL_FEED_SUCCESS, feedResponseDtos));
+        final PagingResultDto pagingResultDto = feedService.getAllFeeds(userSeq, pageable);
+        return ResponseEntity.ok().body(ResponseDto.of(GET_ALL_FEED_SUCCESS, pagingResultDto));
     }
     
     @ApiOperation(value = "내가 작성한 게시글 조회")
