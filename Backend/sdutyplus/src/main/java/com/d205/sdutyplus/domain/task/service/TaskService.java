@@ -6,6 +6,7 @@ import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
+import com.d205.sdutyplus.domain.task.exception.SubTaskCntLimitException;
 import com.d205.sdutyplus.domain.task.exception.TimeDuplicateException;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
@@ -106,6 +107,10 @@ public class TaskService{
 
     @Transactional
     public List<String> createSubTask(Long taskSeq, List<String> subtasks){
+        if(subtasks.size()>3){
+            throw new SubTaskCntLimitException();
+        }
+
         final List<String> result = new LinkedList<>();
         for(String subtask : subtasks){
             final SubTask subTask = SubTask.builder()
