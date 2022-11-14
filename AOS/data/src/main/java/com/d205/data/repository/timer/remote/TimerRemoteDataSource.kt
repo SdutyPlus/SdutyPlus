@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface TimerRemoteDataSource {
     suspend fun getRealTime(): String
 
-    suspend fun getTodayTotalStudyTime(): String
+    fun getTodayTotalStudyTime(): Flow<String>
 
     fun addTask(currentTaskDto: CurrentTaskDto2): Flow<Boolean>
 }

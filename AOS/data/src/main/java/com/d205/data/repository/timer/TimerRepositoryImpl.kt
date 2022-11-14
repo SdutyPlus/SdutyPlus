@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+const val TAG = "TimerRepositoryImpl"
 class TimerRepositoryImpl @Inject constructor(
     private val timerLocalDatasource: TimerLocalDataSource,
     private val timerRemoteDataSource: TimerRemoteDataSource
@@ -45,14 +46,23 @@ class TimerRepositoryImpl @Inject constructor(
         return timerLocalDatasource.getStudyElapsedTime()
     }
 
-    override suspend fun getTodayTotalStudyTime(): String {
-        var result  = timerRemoteDataSource.getTodayTotalStudyTime()
-        if(result != "error") {
-            return result
-        } else {
-            return "00:00:00"
+    override fun getTodayTotalStudyTime(): Flow<String> = flow{
+        timerRemoteDataSource.getTodayTotalStudyTime().collect() { totalStudyTime ->
+            emit(totalStudyTime)
         }
+    }.catch { e ->
+        Log.d(TAG, "getTodayTotalStudyTime error : $e")
     }
+
+
+//    {
+//        var result  = timerRemoteDataSource.getTodayTotalStudyTime()
+//        if(result != "error") {
+//            return result
+//        } else {
+//            return "00:00:00"
+//        }
+//    }
 
     override fun addTask(currentTaskDto: CurrentTaskDto2): Flow<ResultState<Boolean>> = flow {
 
