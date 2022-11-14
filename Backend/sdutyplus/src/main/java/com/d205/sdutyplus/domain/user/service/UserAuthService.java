@@ -172,7 +172,6 @@ public class UserAuthService {
     private void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
-        feedRepository.deleteAllByWriterSeq(userSeq);
         feedLikeRepository.deleteAllByUserSeq(userSeq);
         jwtRepository.deleteByUserSeq(userSeq);
         offUserRepository.deleteAllByFromUserSeq(userSeq);
@@ -182,6 +181,7 @@ public class UserAuthService {
         warnUserRepository.deleteAllByFromUserSeq(userSeq);
         warnUserRepository.deleteAllByToUserSeq(userSeq);
         warnFeedRepository.deleteAllByUserSeq(userSeq);
+        feedRepository.deleteAllByWriterSeq(userSeq);
 
         userRepository.deleteById(userSeq);
     }

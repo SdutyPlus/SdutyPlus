@@ -71,9 +71,6 @@ dependencies {
 	//jsp
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'javax.servlet:jstl'
-
-	// https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-starter-server
-	implementation 'de.codecentric:spring-boot-admin-starter-server:2.6.2'
 }
 
 //querydsl start
