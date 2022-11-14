@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
+import static com.d205.sdutyplus.domain.feed.entity.QFeedLike.feedLike;
 import static com.d205.sdutyplus.domain.feed.entity.QScrap.scrap;
 import static com.d205.sdutyplus.domain.off.entity.QOffFeed.offFeed;
 import static com.d205.sdutyplus.domain.user.entity.QUser.user;
@@ -124,6 +125,18 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .limit(pageable.getPageSize())
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
+    }
+
+    @Override
+    public void deleteMyLikedFeed(Long userSeq) {
+        queryFactory.delete(feedLike)
+                .where(feedLike.feed.writerSeq.eq(userSeq));
+    }
+
+    @Override
+    public void deleteMyScrapedFeed(Long userSeq) {
+        queryFactory.delete(scrap)
+                .where(scrap.feed.writerSeq.eq(userSeq));
     }
 
 
