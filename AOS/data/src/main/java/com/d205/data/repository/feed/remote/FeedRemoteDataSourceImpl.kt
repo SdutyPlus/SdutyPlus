@@ -10,9 +10,13 @@ import com.d205.domain.model.mypage.Feed
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import javax.inject.Inject
 
 private const val TAG = "FeedRemoteDataSourceImpl"
+
 class FeedRemoteDataSourceImpl @Inject constructor(
     private val feedApi: FeedApi
 ): FeedRemoteDataSource {
@@ -33,4 +37,22 @@ class FeedRemoteDataSourceImpl @Inject constructor(
         Log.d(TAG, "getUserFeeds: ${e.message}")
     }
 
+    @SuppressLint("LongLogTag")
+    override suspend fun createFeed(
+        imageFile: MultipartBody.Part,
+        content: MultipartBody.Part
+    ): Flow<Boolean> = flow {
+        Log.d(TAG, "createFeed: $imageFile & $content")
+        val response = feedApi.createFeed(imageFile, content)
+        if(response.status == 200) {
+            emit(true)
+            Log.d(TAG, "createFeed: true")
+        }
+        else {
+            emit(false)
+            Log.d(TAG, "createFeed: false")
+        }
+    }.catch { e ->
+        Log.d(TAG, "CreateFeedDataSourceError: $e")
+    }
 }
