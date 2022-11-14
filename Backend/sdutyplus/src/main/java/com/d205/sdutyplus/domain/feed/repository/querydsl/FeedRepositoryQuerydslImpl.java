@@ -29,8 +29,8 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<FeedResponseDto> findAllFeeds(Long userSeq) {
-        return queryFactory.select(new QFeedResponseDto(
+    public Page<FeedResponseDto> findAllFeeds(Long userSeq, Pageable pageable) {
+        QueryResults<FeedResponseDto> result = queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
                                 feed.writerSeq,
                                 feed.imgUrl,
@@ -52,7 +52,10 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                         )
                                 )
                 )
-                .fetch();
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
 
     @Override
