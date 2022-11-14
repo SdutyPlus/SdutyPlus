@@ -167,7 +167,6 @@ public class UserAuthService {
         return true;
     }
 
-//    private final TaskService taskService;
     @Transactional
     private void deleteUserCade(Long userSeq) {
 
@@ -181,7 +180,7 @@ public class UserAuthService {
         warnUserRepository.deleteAllByFromUserSeq(userSeq);
         warnUserRepository.deleteAllByToUserSeq(userSeq);
         warnFeedRepository.deleteAllByUserSeq(userSeq);
-        feedRepository.deleteAllByWriterSeq(userSeq);
+//        feedRepository.deleteAllByWriterSeq(userSeq);
 
         userRepository.deleteById(userSeq);
     }
