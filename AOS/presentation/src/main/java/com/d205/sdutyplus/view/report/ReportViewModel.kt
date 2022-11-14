@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.Task
+import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.report.DeleteTaskUseCase
 import com.d205.domain.usecase.report.GetReportUseCase
 import com.d205.domain.usecase.report.GetTaskListUseCase
@@ -17,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -48,6 +50,8 @@ class ReportViewModel @Inject constructor(
     private var _deleteTaskSuccess = MutableLiveData<Boolean>(false)
     val deleteTaskSuccess: LiveData<Boolean> get() = _deleteTaskSuccess
 
+    private val _addTaskCallBack = MutableLiveData<Int>(0)
+    val addTaskCallBack: LiveData<Int> get() = _addTaskCallBack
 
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -102,7 +106,17 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-
+    fun addTask(task: CurrentTaskDto2) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addTaskUseCase(task).collect { isSuccess ->
+                if(isSuccess) {
+                    _addTaskCallBack.postValue(200)
+                }else {
+                    _addTaskCallBack.postValue(400)
+                }
+            }
+        }
+    }
 
 
 }

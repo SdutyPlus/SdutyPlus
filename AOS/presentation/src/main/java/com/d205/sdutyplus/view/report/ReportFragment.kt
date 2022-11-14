@@ -17,6 +17,7 @@ import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentReportBinding
 import com.d205.sdutyplus.uitls.displayText
 import com.d205.sdutyplus.uitls.setTextColorRes
+import com.d205.sdutyplus.view.report.dialog.CustomTaskRegistDialog
 import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.ViewContainer
@@ -107,10 +108,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
             }
         }
         binding.ivAddTask.setOnClickListener {
-            TaskDialog(Task(0, "", "", "")).apply {
-                arguments = Bundle().apply {
-                    putString("Action", "CustomAdd")
-                }
+            CustomTaskRegistDialog().apply {
                 show(this@ReportFragment.parentFragmentManager, "TaskDialog")
             }
         }
