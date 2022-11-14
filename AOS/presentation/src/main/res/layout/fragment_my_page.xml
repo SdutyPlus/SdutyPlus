@@ -129,7 +129,7 @@
 
 
                         <!-- 사용자 정보 표시 영역 -->
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/const_tv_profile"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -146,6 +146,8 @@
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:text="@{mainVM.user.component3()}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
                                 tools:text="nheenhee" />
 
                             <TextView
@@ -155,17 +157,24 @@
                                 android:layout_marginTop="4dp"
                                 android:textColor="@color/app_purple_light"
                                 android:textSize="14sp"
+                                app:layout_constraintStart_toEndOf="@id/tv_nickname"
+                                app:layout_constraintTop_toTopOf="@id/tv_nickname"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+                                android:layout_marginStart="10dp"
                                 tools:text="직업 영역" />
 
                             <TextView
-                                android:id="@+id/tv_introduce"
+                                android:id="@+id/tv_email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginTop="8dp"
                                 android:textSize="14sp"
+                                android:text="@{mainVM.user.component2()}"
+                                app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+                                app:layout_constraintStart_toStartOf="parent"
                                 tools:text="자기 소개가 표시되는 공간~~" />
 
-                        </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
@@ -222,7 +231,7 @@
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
                 <androidx.constraintlayout.widget.ConstraintLayout

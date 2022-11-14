@@ -1,5 +1,6 @@
 package com.d205.domain.usecase.timer
 
+import android.util.Log
 import com.d205.domain.common.convertTimeDateToString
 import com.d205.domain.common.convertTimeStringToDate
 import com.d205.domain.model.timer.CurrentTaskDto
@@ -10,10 +11,10 @@ class GetCurrentStudyTimeInfoUsecase @Inject constructor(
     private val getStartTimeUsecase: GetStartTimeUsecase,
     private val getElapsedTimeUsecase: GetElapsedTimeUsecase
 ){
-    operator fun invoke(): CurrentTaskDto { // todo dto return 시키기
+    operator fun invoke(etime: Int): CurrentTaskDto { // todo dto return 시키기
         val startTime = getStartTimeUsecase()
         val elapsedTime = getElapsedTimeUsecase()
-        val endTime = canculateEndTime(startTime, elapsedTime)
+        val endTime = canculateEndTime(startTime, etime)
 
         return CurrentTaskDto(0, startTime, endTime)
     }
@@ -32,6 +33,8 @@ class GetCurrentStudyTimeInfoUsecase @Inject constructor(
 
         // String 종료 시간을 반환한다.
         val stringEndtime = convertTimeDateToString(dateEndTime, "yyyy-MM-dd HH:mm:ss")
+
+        Log.d("EndTime","s $startTime e $elapsedTime e $stringEndtime")
         return stringEndtime
     }
 }

@@ -32,11 +32,8 @@ import com.navercorp.nid.oauth.NidOAuthLogin
 import com.navercorp.nid.oauth.NidOAuthPreferencesManager
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 
@@ -47,7 +44,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     @Inject lateinit var userSharedPreference: UserSharedPreference
 
     private val args by navArgs<MyPageFragmentArgs>()
-    private val pref = UserSharedPreference(requireContext())
     private lateinit var user: User
     private val feedViewModel : FeedViewModel by viewModels()
     private lateinit var feedAdapter: FeedAdapter
@@ -60,8 +56,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
         lifecycleScope.launch {
             initAdapter()
-            //initViewModel()
             initView()
+            initViewModel()
         }
     }
 
@@ -78,16 +74,25 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     .setMessage("탈퇴하시겠습니까?")
                     .setPositiveButton("네", object : DialogInterface.OnClickListener {
                         override fun onClick(p0: DialogInterface, p1: Int) {
-                            if(getSocialType() == "kakao") {
-                                Log.d(TAG, "카카오 회원 탈퇴 진행 socialType : ${getSocialType()}")
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    this@MyPageFragment.mainViewModel.deleteUser()
-                                    kakaoUnlink()
+                            CoroutineScope(Dispatchers.IO).launch {
+                                this@MyPageFragment.mainViewModel.deleteUser()
+                                if(mainViewModel.isDeletedSuccess) {
+                                    if(getSocialType() == "kakao") {
+                                        Log.d(TAG, "카카오 회원 탈퇴 진행 socialType : ${getSocialType()}")
+                                        kakaoUnlink()
+                                    }
+                                    else {
+                                        Log.d(TAG, "네이버 회원 탈퇴 진행 socialType : ${getSocialType()}")
+                                        naverUnlink()
+                                    }
                                 }
-                            }
-                            else {
-                                Log.d(TAG, "네이버 회원 탈퇴 진행 socialType : ${getSocialType()}")
-                                naverUnlink()
+                                else {
+                                    Log.d(TAG, "회원 탈퇴 실패")
+                                    withContext(Dispatchers.Main) {
+                                        showToast("회원 탈퇴 실패")
+                                        moveToLoginActivity()
+                                    }
+                                }
                             }
                         }
                     })
@@ -146,7 +151,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private suspend fun initViewModel() {
-        feedViewModel.apply {
+        this@MyPageFragment.feedViewModel.apply {
             getUserFeeds()
             pagingFeedList.collectLatest {
                 feedAdapter.submitData(this@MyPageFragment.lifecycle, it)
@@ -170,7 +175,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             else {
                 Log.d(TAG, "카카오 계정 삭제 성공!")
                 showToast("카카오 회원 탈퇴 성공")
-                pref.removeFromPreference("jwt")
+                userSharedPreference.removeFromPreference("jwt")
                 moveToLoginActivity()
             }
         }
@@ -181,7 +186,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             override fun onSuccess() {
                 //서버에서 토큰 삭제에 성공한 상태입니다.
                 showToast("네이버 회원 탈퇴 성공")
-                pref.removeFromPreference("jwt")
+                userSharedPreference.removeFromPreference("jwt")
                 moveToLoginActivity()
             }
             override fun onFailure(httpStatus: Int, message: String) {

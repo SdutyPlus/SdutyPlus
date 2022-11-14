@@ -12,3 +12,10 @@ data class FeedResponse(
     var storyWarning: Int,
     var interestHashtag: MutableList<Int>?
 )
+
+data class MyFeedResponse(
+    val seq: Int = 0,
+    var writerSeq: Int = 0,
+    var imgUrl: String = "",
+    var content: String = ""
+)
