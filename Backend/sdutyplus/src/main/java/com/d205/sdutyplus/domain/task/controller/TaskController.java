@@ -33,7 +33,7 @@ public class TaskController {
         userService.getReportContinuous(userSeq, taskDto);
         dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
 
-        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
+        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS));
     }
 
     @ApiOperation(value = "테스크 상세 조회")

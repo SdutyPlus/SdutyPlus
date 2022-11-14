@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,15 +28,17 @@ import static com.d205.sdutyplus.global.response.ResponseCode.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/feed")
+@Slf4j
 public class FeedController {
 
     private final FeedService feedService;
     
     @ApiOperation(value="게시글 등록")
     @PostMapping("")
-    public ResponseEntity<?> createFeed(@ApiIgnore Authentication auth, /*@RequestBody*/ FeedPostDto feedPostDto){
+    public ResponseEntity<?> createFeed(@ApiIgnore Authentication auth, @ModelAttribute FeedPostDto feedPostDto){
         final Long userSeq = (Long)auth.getPrincipal();
         feedService.createFeed(userSeq, feedPostDto);
+        log.info("게시글 등록 return값 = " + ResponseDto.of(CREATE_FEED_SUCCESS).toString());
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_FEED_SUCCESS));
     }
 
