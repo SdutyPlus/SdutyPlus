@@ -106,6 +106,14 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
                 initView()
             }
         }
+        binding.ivAddTask.setOnClickListener {
+            TaskDialog(Task(0, "", "", "")).apply {
+                arguments = Bundle().apply {
+                    putString("Action", "CustomAdd")
+                }
+                show(this@ReportFragment.parentFragmentManager, "TaskDialog")
+            }
+        }
     }
 
     override fun onTaskClicked(task: Task) {
