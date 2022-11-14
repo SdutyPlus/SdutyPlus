@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface FeedRepositoryQuerydsl {
-    List<FeedResponseDto> findAllFeeds();
+    List<FeedResponseDto> findAllFeeds(Long userSeq);
     Page<FeedResponseDto> findMyFeedPage(Long writerSeq, Pageable pageable);
     Page<FeedResponseDto> findScrapFeedPage(User user, Pageable pageable);
     Page<FeedResponseDto> findFilterFeedPage(Job jobObject, Pageable pageable);

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "유저 신고 API")
+@Api(tags = "신고 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/warning")

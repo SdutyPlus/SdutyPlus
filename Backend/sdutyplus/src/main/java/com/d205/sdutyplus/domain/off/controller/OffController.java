@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.annotations.ApiIgnore;
 
-@Api(tags = "유저 차단 API")
+@Api(tags = "차단 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/off")
@@ -53,7 +53,7 @@ public class OffController {
             @ApiResponse(code = 400, message = "이미 차단한 피드입니다."),
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
-    @PostMapping("/user/{feed_seq}")
+    @PostMapping("/feed/{feed_seq}")
     public ResponseEntity<ResponseDto> feedOff(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq) {
         Long userSeq = (Long)auth.getPrincipal();
 

@@ -41,8 +41,9 @@ public class FeedController {
 
     @ApiOperation(value="전체 게시글 조회")
     @GetMapping("")
-    public ResponseEntity<?> getALlFeeds(){
-        final List<FeedResponseDto> feedResponseDtos = feedService.getAllFeeds();
+    public ResponseEntity<?> getALlFeeds(@ApiIgnore Authentication auth){
+        final Long userSeq = (Long)auth.getPrincipal();
+        final List<FeedResponseDto> feedResponseDtos = feedService.getAllFeeds(userSeq);
         return ResponseEntity.ok().body(ResponseDto.of(GET_ALL_FEED_SUCCESS, feedResponseDtos));
     }
     

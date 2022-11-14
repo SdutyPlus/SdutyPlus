@@ -17,7 +17,9 @@ import java.util.List;
 
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
 import static com.d205.sdutyplus.domain.feed.entity.QScrap.scrap;
+import static com.d205.sdutyplus.domain.off.entity.QOffFeed.offFeed;
 import static com.d205.sdutyplus.domain.user.entity.QUser.user;
+import static com.d205.sdutyplus.domain.warn.entity.QWarnFeed.warnFeed;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,15 +28,38 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<FeedResponseDto> findAllFeeds() {
+    public List<FeedResponseDto> findAllFeeds(Long userSeq) {
+//        return queryFactory.select(new QFeedResponseDto(
+//                    feed.seq,
+//                    feed.writerSeq,
+//                    feed.imgUrl,
+//                    feed.content
+//                )
+//        ).from(feed)
+//                .where(feed.banYN.eq(false))
+//                .fetch();
         return queryFactory.select(new QFeedResponseDto(
-                    feed.seq,
-                    feed.writerSeq,
-                    feed.imgUrl,
-                    feed.content
+                                feed.seq,
+                                feed.writerSeq,
+                                feed.imgUrl,
+                                feed.content
+                        )
+                ).from(feed)
+                .where(
+                        feed.banYN.eq(false)
+                                .and(
+                                        feed.notIn(
+                                                JPAExpressions.select(offFeed.feed)
+                                                        .where(offFeed.user.seq.eq(userSeq)).from(offFeed)
+                                        )
+                                )
+                                .and(
+                                        feed.notIn(
+                                                JPAExpressions.select(warnFeed.feed)
+                                                        .where(warnFeed.user.seq.eq(userSeq)).from(warnFeed)
+                                        )
+                                )
                 )
-        ).from(feed)
-                .where(feed.banYN.eq(false))
                 .fetch();
     }
 

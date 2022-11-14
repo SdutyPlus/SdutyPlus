@@ -63,8 +63,8 @@ public class FeedService {
         feedRepository.save(feed);
     }
 
-    public List<FeedResponseDto> getAllFeeds(){
-        return feedRepositoryQuerydsl.findAllFeeds();
+    public List<FeedResponseDto> getAllFeeds(Long userSeq){
+        return feedRepositoryQuerydsl.findAllFeeds(userSeq);
     }
 
     public PagingResultDto getMyFeeds(Long writerSeq, Pageable pageable){
