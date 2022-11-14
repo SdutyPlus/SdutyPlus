@@ -1,11 +1,13 @@
 package com.d205.sdutyplus.domain.user.dto;
 
+import com.d205.sdutyplus.domain.statistics.entity.DailyTimeGraph;
 import com.d205.sdutyplus.domain.user.entity.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -25,8 +27,12 @@ public class UserProfileDto {
     private String fcmToken;
     @ApiModelProperty(value = "연속 일수")
     private Long continuous;
+    @ApiModelProperty(value = "나의 공부 시간")
+    private Long studyTime;
+    @ApiModelProperty(value = "전체 인원의 공부 시간")
+    private List<DailyTimeGraph> dailyTimeGraphs;
 
-    public UserProfileDto(User user){
+    public UserProfileDto(User user, List<DailyTimeGraph> dailyTimeGraphs){
         this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
@@ -34,5 +40,7 @@ public class UserProfileDto {
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
         this.continuous = user.getContinuous();
+        this.studyTime = user.getStudyTime();
+        this.dailyTimeGraphs = dailyTimeGraphs;
     }
 }
