@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
-    public Optional<Scrap> findByUserAndFeed(User user, Feed feed);
+    Optional<Scrap> findByUserSeqAndFeedSeq(Long userSeq, Long feedSeq);
     void deleteAllByUserSeq(Long userSeq);
 }

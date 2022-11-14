@@ -35,13 +35,15 @@ public enum ErrorCode {
     // Feed
     IMAGE_TYPE_NOT_SUPPORT(400, "F001", "지원되지 않는 파일 형식입니다."),
     FEED_NOT_FOUND(400, "F002", "존재하지 않는 피드입니다."),
-    FEED_SCRAP_NOT_FOUND(400, "F003", "스크랩하지 않은 피드입니다."),
-    FEED_LIKE_ALREADY_EXIST(400, "F004", "해당 게시물에 이미 좋아요를 누른 회원입니다."),
-    FEED_LIKE_NOT_FOUND(400, "F005", "좋아요 하지 않은 게시물 입니다."),
+    FEED_SCRAP_ALREADY_EXIST(400, "F003", "해당 게시물을 이미 스크랩하였습니다."),
+    FEED_SCRAP_NOT_FOUND(400, "F004", "스크랩하지 않은 피드입니다."),
+    FEED_LIKE_ALREADY_EXIST(400, "F005", "해당 게시물에 이미 좋아요하였습니다."),
+    FEED_LIKE_NOT_FOUND(400, "F006", "좋아요 하지 않은 게시물 입니다."),
 
     // Warn
-    WARN_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
+    WARN_USER_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
     WARN_MYSELF_FAIL(400,"W002","자기 자신은 신고 할 수 없습니다."),
+    WARN_FEED_ALREADY_EXIST(400, "W003", "이미 신고한 게시글입니다."),
 
     // Off
     OFF_ALREADY_EXIST(400, "O001", "이미 차단한 유저입니다."),

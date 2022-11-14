@@ -81,8 +81,8 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .where(task.seq.ne(taskSeq)
                         .and(task.ownerSeq.eq(userSeq))
                         .and(
-                                task.startTime.before(startTime).and(task.endTime.after(startTime))
-                                        .or(task.endTime.after(endTime).and(task.startTime.before(endTime))))
+                                task.startTime.loe(startTime).and(task.endTime.goe(startTime))
+                                        .or(task.endTime.goe(endTime).and(task.startTime.loe(endTime))))
                 )
                 .fetch().size();
     }

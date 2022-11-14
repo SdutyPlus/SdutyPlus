@@ -1,21 +1,256 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--마이페이지 - 내 닉네임, 프로필 사진, 숫자 표시(게시물, 팔로우, 팔로워), 한줄소개, 프로필 편집, 통계, 잔디그래프,
+    탭(내 게시물/ 스크랩), 내 게시물(그리드+스크롤) , 설정, 업적-->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="feedVM"
+            type="com.d205.sdutyplus.view.feed.FeedViewModel" />
+        <variable
+            name="mainVM"
+            type="com.d205.sdutyplus.view.MainViewModel" />
     </data>
 
-    <FrameLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.mypage.MyPageFragment">
+        android:background="@color/white"
+        tools:context=".ui.main.mypage.MyPageFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/common_top"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="mypage Fragment" />
+            android:layout_height="48dp"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+<!--            <ImageView-->
+<!--                android:id="@+id/iv_setting"-->
+<!--                android:layout_width="48dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:padding="12dp"-->
+<!--                android:src="@drawable/ic_settings"-->
+<!--                android:visibility="invisible"-->
+<!--                app:layout_constraintEnd_toEndOf="parent" />-->
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:text="탈퇴"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_title_text"
+                android:layout_width="90dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/img_mypage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <LinearLayout
+                android:id="@+id/divider_1"
+                style="@style/divider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/common_top">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:collapsedTitleGravity="center|center_horizontal"
+                    app:contentScrim="@android:color/transparent"
+                    app:expandedTitleGravity="bottom|center"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/const_profile_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/white"
+                        app:layout_constraintTop_toTopOf="parent">
+
+
+                        <!-- 프로필 이미지 -->
+                        <FrameLayout
+                            android:id="@+id/frame_profile_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:layout_width="88dp"
+                                android:layout_height="88dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/img_bg_gradient" />
+
+                            <!-- 배경 투명화된 이미지가 입력됐을 때, 테두리 유지용 -->
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                android:src="@color/white" />
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/iv_profile"
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:layout_gravity="center"
+                                loadImage="@{mainVM.user.component4()}"
+                                tools:src="@drawable/ic_empty_image" />
+
+                        </FrameLayout>
+
+
+                        <!-- 사용자 정보 표시 영역 -->
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/const_tv_profile"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="12dp"
+                            android:orientation="vertical"
+                            app:layout_constraintBottom_toBottomOf="@id/frame_profile_img"
+                            app:layout_constraintStart_toEndOf="@id/frame_profile_img"
+                            app:layout_constraintTop_toTopOf="@id/frame_profile_img">
+
+                            <TextView
+                                android:id="@+id/tv_nickname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:text="@{mainVM.user.component3()}"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="nheenhee" />
+
+                            <TextView
+                                android:id="@+id/tv_job"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:textColor="@color/app_purple_light"
+                                android:textSize="14sp"
+                                app:layout_constraintStart_toEndOf="@id/tv_nickname"
+                                app:layout_constraintTop_toTopOf="@id/tv_nickname"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+                                android:layout_marginStart="10dp"
+                                tools:text="직업 영역" />
+
+                            <TextView
+                                android:id="@+id/tv_email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:textSize="14sp"
+                                android:text="@{mainVM.user.component2()}"
+                                app:layout_constraintTop_toBottomOf="@id/tv_nickname"
+                                app:layout_constraintStart_toStartOf="parent"
+                                tools:text="자기 소개가 표시되는 공간~~" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+                        <Button
+                            android:id="@+id/btn_edit_profile"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/bg_button_app_blue"
+                            android:gravity="center"
+                            android:text="프로필 편집"
+                            android:visibility="gone"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/frame_profile_img" />
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/const_tab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="10dp"
+                            app:layout_collapseMode="none"
+                            app:layout_constraintTop_toBottomOf="@id/btn_edit_profile">
+
+                            <com.google.android.material.tabs.TabLayout
+                                android:id="@+id/tab_myPage"
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:tabIconTint="@drawable/selector_tab_color"
+                                app:tabIndicatorColor="@color/onlight_04">
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:icon="@drawable/ic_empty_image" />
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:icon="@drawable/ic_baseline_bookmark_border_black_24" />
+
+                            </com.google.android.material.tabs.TabLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyler_story"
+                        android:layout_width="match_parent"
+                        android:layout_height="800dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

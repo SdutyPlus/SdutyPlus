@@ -6,7 +6,14 @@ data class CurrentTaskDto(
     val seq: Int,
     val startTime: String,
     val endTime: String,
-    val elapsedTime: Int,
-    val title: String,
-    val contents: List<SubTask> = listOf()
+    var title: String = "",
+    var contents: List<SubTask> = listOf()
+)
+
+data class CurrentTaskDto2(
+    val seq: Int,
+    val startTime: String,
+    val endTime: String,
+    var title: String = "",
+    var contents: List<String> = listOf()
 )
