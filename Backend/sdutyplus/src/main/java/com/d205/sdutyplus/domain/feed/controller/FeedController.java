@@ -65,8 +65,9 @@ public class FeedController {
 
     @ApiOperation(value = "직업 필터링 게시글 조회")
     @GetMapping("/filter/{job_seq}")
-    public ResponseEntity<ResponseDto> getJobFilterFeeds(@PathVariable(value="job_seq") Long jobSeq, @PageableDefault Pageable pageable){
-        final PagingResultDto pagingResultDto = feedService.getJobFilterFeeds(jobSeq, pageable);
+    public ResponseEntity<ResponseDto> getJobFilterFeeds(@ApiIgnore Authentication auth, @PathVariable(value="job_seq") Long jobSeq, @PageableDefault Pageable pageable){
+        final Long userSeq = (Long)auth.getPrincipal();
+        final PagingResultDto pagingResultDto = feedService.getJobFilterFeeds(userSeq, jobSeq, pageable);
         return ResponseEntity.ok().body(ResponseDto.of(GET_JOB_FILTER_FEED_SUCCESS, pagingResultDto));
     }
 

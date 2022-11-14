@@ -80,11 +80,11 @@ public class FeedService {
         return pagingResultDto;
     }
 
-    public PagingResultDto getJobFilterFeeds(Long jobSeq, Pageable pageable){
+    public PagingResultDto getJobFilterFeeds(Long userSeq, Long jobSeq, Pageable pageable){
         final Job job = jobRepository.findBySeq(jobSeq).orElseThrow(
                 ()->new EntityNotFoundException(JOB_NOT_FOUND)
         );
-        final Page<FeedResponseDto> feedPage = feedRepositoryQuerydsl.findFilterFeedPage(job, pageable);
+        final Page<FeedResponseDto> feedPage = feedRepositoryQuerydsl.findFilterFeedPage(userSeq, job, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }

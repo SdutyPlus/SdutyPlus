@@ -29,15 +29,6 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
 
     @Override
     public List<FeedResponseDto> findAllFeeds(Long userSeq) {
-//        return queryFactory.select(new QFeedResponseDto(
-//                    feed.seq,
-//                    feed.writerSeq,
-//                    feed.imgUrl,
-//                    feed.content
-//                )
-//        ).from(feed)
-//                .where(feed.banYN.eq(false))
-//                .fetch();
         return queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
                                 feed.writerSeq,
@@ -99,7 +90,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     }
 
     @Override
-    public Page<FeedResponseDto> findFilterFeedPage(Job jobObject, Pageable pageable) {
+    public Page<FeedResponseDto> findFilterFeedPage(Long userSeq, Job jobObject, Pageable pageable) {
         QueryResults<FeedResponseDto> result = queryFactory
                 .select(
                         new QFeedResponseDto(
@@ -115,7 +106,20 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 .select(user.seq)
                                 .from(user)
                                 .where(user.job.eq(jobObject))
-                ))
+                )
+                        .and(
+                                feed.notIn(
+                                        JPAExpressions.select(offFeed.feed)
+                                                .where(offFeed.user.seq.eq(userSeq)).from(offFeed)
+                                )
+                        )
+                        .and(
+                                feed.notIn(
+                                        JPAExpressions.select(warnFeed.feed)
+                                                .where(warnFeed.user.seq.eq(userSeq)).from(warnFeed)
+                                )
+                        )
+                )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();

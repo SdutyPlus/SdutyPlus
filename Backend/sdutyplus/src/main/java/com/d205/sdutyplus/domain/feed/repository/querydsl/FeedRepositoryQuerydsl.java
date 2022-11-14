@@ -12,5 +12,5 @@ public interface FeedRepositoryQuerydsl {
     List<FeedResponseDto> findAllFeeds(Long userSeq);
     Page<FeedResponseDto> findMyFeedPage(Long writerSeq, Pageable pageable);
     Page<FeedResponseDto> findScrapFeedPage(User user, Pageable pageable);
-    Page<FeedResponseDto> findFilterFeedPage(Job jobObject, Pageable pageable);
+    Page<FeedResponseDto> findFilterFeedPage(Long userSeq, Job jobObject, Pageable pageable);
 }
