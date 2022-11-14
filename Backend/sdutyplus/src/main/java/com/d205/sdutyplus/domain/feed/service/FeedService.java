@@ -23,6 +23,7 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,7 @@ import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FeedService {
 
     @Value("${app.firebase-bucket}")
@@ -147,6 +149,7 @@ public class FeedService {
 
     //get & set => private
     private String uploadFile(MultipartFile file){
+        log.debug("업로드할 파일 : "+file);
         final String originFileName = file.getOriginalFilename();
         final UUID uuid = UUID.randomUUID();
         final String fileName = new MD5Generator(originFileName).toString() + "_" + uuid.toString();
