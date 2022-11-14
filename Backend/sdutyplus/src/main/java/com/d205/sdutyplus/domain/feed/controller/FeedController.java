@@ -41,8 +41,9 @@ public class FeedController {
 
     @ApiOperation(value="전체 게시글 조회")
     @GetMapping("")
-    public ResponseEntity<?> getALlFeeds(){
-        final List<FeedResponseDto> feedResponseDtos = feedService.getAllFeeds();
+    public ResponseEntity<?> getALlFeeds(@ApiIgnore Authentication auth){
+        final Long userSeq = (Long)auth.getPrincipal();
+        final List<FeedResponseDto> feedResponseDtos = feedService.getAllFeeds(userSeq);
         return ResponseEntity.ok().body(ResponseDto.of(GET_ALL_FEED_SUCCESS, feedResponseDtos));
     }
     
@@ -64,8 +65,9 @@ public class FeedController {
 
     @ApiOperation(value = "직업 필터링 게시글 조회")
     @GetMapping("/filter/{job_seq}")
-    public ResponseEntity<ResponseDto> getJobFilterFeeds(@PathVariable(value="job_seq") Long jobSeq, @PageableDefault Pageable pageable){
-        final PagingResultDto pagingResultDto = feedService.getJobFilterFeeds(jobSeq, pageable);
+    public ResponseEntity<ResponseDto> getJobFilterFeeds(@ApiIgnore Authentication auth, @PathVariable(value="job_seq") Long jobSeq, @PageableDefault Pageable pageable){
+        final Long userSeq = (Long)auth.getPrincipal();
+        final PagingResultDto pagingResultDto = feedService.getJobFilterFeeds(userSeq, jobSeq, pageable);
         return ResponseEntity.ok().body(ResponseDto.of(GET_JOB_FILTER_FEED_SUCCESS, pagingResultDto));
     }
 
