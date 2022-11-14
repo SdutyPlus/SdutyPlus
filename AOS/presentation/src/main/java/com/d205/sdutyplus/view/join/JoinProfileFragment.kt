@@ -57,12 +57,16 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
                 CoroutineScope(Dispatchers.Main).launch {
                     // 닉네임 중복 체크    true : 사용 가능, false : 이미 존재
                     if(checkNicknameCanUse()) {
+                        Log.d(TAG, "nickname can use! start joinUser!!")
                         joinUser()
+                        Log.d(TAG, "joinUser finished")
 
                         // 회원가입 성공 여부 체크    true : 성공, false : 실패
                         if (isUserJoinedSucceeded()) {
+                            Log.d(TAG, "joinUser succeed!")
                             moveToMainActivity()
                         } else {
+                            Log.d(TAG, "joinUser failed!")
                             showToast("회원가입에 실패했습니다")
                         }
                     }

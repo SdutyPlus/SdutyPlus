@@ -5,9 +5,5 @@ data class Feed(
     var writerSeq: Int,
     var imgUrl: String,
     var thumbnail: String,
-    var jobHashtag: Int?,
-    var contents: String,
-    var regtime: String?,
-    var feedPublic: Int,
-    var feedWarning: Int
+    var content: String
 )

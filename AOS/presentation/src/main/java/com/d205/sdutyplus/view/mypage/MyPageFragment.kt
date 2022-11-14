@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.d205.domain.model.mypage.Feed
 import com.d205.domain.model.user.User
 import com.d205.sdutyplus.R
@@ -36,7 +37,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
         lifecycleScope.launch {
             initAdapter()
-            //initViewModel()
+            initViewModel()
             initView()
         }
     }
@@ -78,8 +79,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 adapter = feedAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
             }
-
-            ivProfile.setImageURI(Uri.parse(user.imgUrl))
 
             ivSetting.setOnClickListener {
                 findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToStatisticFragment())

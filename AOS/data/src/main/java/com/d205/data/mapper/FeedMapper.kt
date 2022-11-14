@@ -7,12 +7,8 @@ fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
     return Feed(
         seq = feedResponse.seq,
         writerSeq = feedResponse.writerSeq,
-        imgUrl = feedResponse.imageSource,
-        thumbnail = feedResponse.thumbnail,
-        jobHashtag = feedResponse.jobHashtag,
-        contents = feedResponse.contents,
-        regtime = feedResponse.regtime,
-        feedPublic = feedResponse.storyPublic,
-        feedWarning = feedResponse.storyWarning
+        imgUrl = feedResponse.imgUrl,
+        thumbnail = feedResponse.thumbnail.toString(),
+        content = feedResponse.content.toString()
     )
 }

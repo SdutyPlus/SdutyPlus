@@ -46,6 +46,9 @@ class MainViewModel @Inject constructor(
                 Log.d(TAG, "getUser invoke Success: ${it.data}")
                 _user.postValue(it.data)
             }
+            else {
+                Log.d(TAG, "getUser invoke Failed!")
+            }
         }
     }
 }

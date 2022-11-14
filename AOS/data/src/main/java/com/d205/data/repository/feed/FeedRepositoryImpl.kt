@@ -28,7 +28,7 @@ class FeedRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
 
         feedRemoteDataSource.getUserFeeds(page, pageSize).collect { it ->
-            Log.d(TAG, "getUserStoryList: $it")
+            Log.d(TAG, "getUserFeeds: $it")
             emit(ResultState.Success(PagingSource.LoadResult.Page(
                 data = it.result.map { feedResponse ->
                     mapperFeedResponseToFeed(feedResponse)

@@ -38,6 +38,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         CoroutineScope(Dispatchers.Main).launch {
             getUser()
+            Log.d(TAG, "getUser Done! : ${mainViewModel.user.value}")
         }
     }
 
