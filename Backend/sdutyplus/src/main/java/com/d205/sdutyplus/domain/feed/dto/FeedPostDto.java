@@ -5,6 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class FeedPostDto {
-    public MultipartFile img;
-    public String content;
+    private MultipartFile img;
+    private String content;
 }
