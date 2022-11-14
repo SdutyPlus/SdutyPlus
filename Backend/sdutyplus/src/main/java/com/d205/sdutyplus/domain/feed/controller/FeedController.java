@@ -33,7 +33,7 @@ public class FeedController {
     
     @ApiOperation(value="게시글 등록")
     @PostMapping("")
-    public ResponseEntity<?> createFeed(@ApiIgnore Authentication auth, /*@RequestBody*/ FeedPostDto feedPostDto){
+    public ResponseEntity<?> createFeed(@ApiIgnore Authentication auth, @RequestBody FeedPostDto feedPostDto){
         final Long userSeq = (Long)auth.getPrincipal();
         feedService.createFeed(userSeq, feedPostDto);
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_FEED_SUCCESS));
