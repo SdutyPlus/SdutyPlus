@@ -13,8 +13,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
 import static com.d205.sdutyplus.domain.feed.entity.QFeedLike.feedLike;
 import static com.d205.sdutyplus.domain.feed.entity.QScrap.scrap;
@@ -57,6 +55,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
+
 
     @Override
     public Page<FeedResponseDto> findMyFeedPage(Long writerSeq, Pageable pageable) {
@@ -110,25 +109,31 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 .select(user.seq)
                                 .from(user)
                                 .where(user.job.eq(jobObject))
-                )
-                        .and(
-                                feed.notIn(
-                                        JPAExpressions.select(offFeed.feed)
-                                                .where(offFeed.user.seq.eq(userSeq)).from(offFeed)
-                                )
-                        )
-                        .and(
-                                feed.notIn(
-                                        JPAExpressions.select(warnFeed.feed)
-                                                .where(warnFeed.user.seq.eq(userSeq)).from(warnFeed)
-                                )
-                        )
-                )
+                ))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
+
+    @Override
+    public Page<FeedResponseDto> findAllWarnFeedPage(Pageable pageable) {
+        QueryResults<FeedResponseDto> result = queryFactory
+                .select(
+                        new QFeedResponseDto(
+                                warnFeed.feed.seq,
+                                warnFeed.feed.writerSeq,
+                                warnFeed.feed.imgUrl,
+                                warnFeed.feed.content
+                        )
+                )
+                .from(warnFeed)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+        return new PageImpl<>(result.getResults(), pageable, result.getTotal());
+    }
+
 
     @Override
     public void deleteMyLikedFeed(Long userSeq) {
@@ -141,6 +146,4 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
         queryFactory.delete(scrap)
                 .where(scrap.feed.writerSeq.eq(userSeq));
     }
-
-
 }
