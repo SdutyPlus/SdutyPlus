@@ -28,20 +28,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.UUID;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Transactional(readOnly = true)
 public class FeedService {
 
     @Value("${app.firebase-bucket}")
@@ -61,7 +61,7 @@ public class FeedService {
         final Feed feed = Feed.builder()
                 .writerSeq(userSeq)
                 .imgUrl(imgUrl)
-                .content(feedPostDto.content).build();
+                .content(feedPostDto.getContent()).build();
         feedRepository.save(feed);
     }
 
