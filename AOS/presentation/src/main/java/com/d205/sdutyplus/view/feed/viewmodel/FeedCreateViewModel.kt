@@ -25,6 +25,7 @@ class FeedCreateViewModel @Inject constructor(
     private val createFeedUseCase: CreateFeedUseCase
 ): ViewModel() {
 
+    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
     // FeedCreateFragment의 Image와 Content 내용을 가지고 있어야 하며,
     // 이를 FeedCreateUseCase에서 서버에 저장할 수 있도록 해주어야 한다.
     private val _bitmap = MutableLiveData<Bitmap?>()
@@ -51,6 +52,28 @@ class FeedCreateViewModel @Inject constructor(
     fun setBitmapAndImage(bitmap: Bitmap) {
         _bitmap.value = bitmap
         _image.value = BitmapDrawable(bitmap)
+    }
+    // Feed를 생성할 때, 값이 다 채워져 있는지 확인하고 UseCase를 실행시켜야 한다. (-> 맞나?)
+        // -> 분기 후, UI 피드백이 바로 필요하다고 느껴서 Fragment에서 확인하고 이를 실행시키기로 함.
+    // UseCase를 거쳐 최종적으로 FeedRemoteDataSource에서 api(POST('feed'))로 보내줘야 하며,
+    fun createFeed() {
+        viewModelScope.launch(defaultDispatcher) {
+            createFeedUseCase(_bitmap.value!!, _content.value!!).collect() {
+                if (it is ResultState.Success) {
+                    Log.d(TAG, "createFeed: Success")
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _isFeedCreated.value = true
+                    }
+                }
+                else if (it is ResultState.Loading) {
+                    Log.d(TAG, "createFeed: Loading")
+                }
+                else {
+                    Log.d(TAG, "createFeed: not Success!!")
+                    _isFeedCreated.postValue(false)
+                }
+            }
+        }
     }
 
     fun clearState() {

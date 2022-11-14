@@ -30,6 +30,7 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
     }
 
     private fun initView() {
+        initObserver()
         limitEditTextLength()
 
         binding.apply {
@@ -40,7 +41,42 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
             layoutAddImage.setOnClickListener {
                 moveToFeedDecoFragment()
             }
+            ivCreateFeed.setOnClickListener {
+                if (isNotImageEmpty()) {
+                    feedCreateViewModel.setContent(etWrite.text.toString())
+                    feedCreateViewModel.createFeed()
+                }
+                else {
+                    showToast("이미지를 추가해주세요!")
+                }
+            }
         }
+    }
+
+    private fun initObserver() {
+        feedCreateViewModel.apply {
+            isFeedCreated.observe(viewLifecycleOwner) { isFeedCreated ->
+                if (isFeedCreated == true){
+                    showToast("피드 생성을 성공했습니다!")
+                    findNavController().popBackStack()
+                }
+                else {
+                    showToast("피드 생성을 실패했어요")
+                }
+            }
+        }
+    }
+
+    private fun isNotImageEmpty(): Boolean {
+        if (feedCreateViewModel.image.value == null) {
+            showToast("이미지를 추가해주세요!")
+            return false
+        }
+        return true
+    }
+
+    private fun showToast(msg: String) {
+        requireContext().showToast(msg)
     }
 
     private fun limitEditTextLength() {
