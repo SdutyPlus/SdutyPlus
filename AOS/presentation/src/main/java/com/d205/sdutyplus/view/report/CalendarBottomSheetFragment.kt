@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -133,6 +134,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
                 bindDate(data.date, container.textView, data.position == DayPosition.MonthDate)
             }
         }
+
         monthCalendarView.apply {
             monthScrollListener = { updateTitle() }
             setup(startMonth, endMonth, daysOfWeek.first())
