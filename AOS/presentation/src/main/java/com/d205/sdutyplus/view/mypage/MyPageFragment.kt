@@ -109,6 +109,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                         0 -> {
                             lifecycleScope.launch {
                                 this@MyPageFragment.feedViewModel.feedPage.collectLatest {
+                                    Log.d(TAG, "onTabSelected: collect $it")
                                     feedAdapter.submitData(it)
                                 }
                             }
@@ -125,6 +126,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                         0 -> {
                             lifecycleScope.launch {
                                 this@MyPageFragment.feedViewModel.feedPage.collectLatest {
+                                    Log.d(TAG, "onTabReselected: collect $it")
                                     feedAdapter.submitData(it)
                                 }
                             }
@@ -149,6 +151,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             onClickStoryListener = object : FeedAdapter.OnClickStoryListener{
                 override fun onClick(feed: Feed) {
                     // Feed Detail Fragment로 이동
+                    Log.d(TAG, "Feed Clicked! : $feed")
                 }
             }
         }
