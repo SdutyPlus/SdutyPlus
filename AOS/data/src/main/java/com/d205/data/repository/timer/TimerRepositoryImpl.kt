@@ -3,16 +3,15 @@ package com.d205.data.repository.timer
 import android.util.Log
 import com.d205.data.repository.timer.local.TimerLocalDataSource
 import com.d205.data.repository.timer.remote.TimerRemoteDataSource
-import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.repository.TimerRepository
 import com.d205.domain.utils.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+const val TAG = "TimerRepositoryImpl"
 class TimerRepositoryImpl @Inject constructor(
     private val timerLocalDatasource: TimerLocalDataSource,
     private val timerRemoteDataSource: TimerRemoteDataSource
@@ -45,14 +44,30 @@ class TimerRepositoryImpl @Inject constructor(
         return timerLocalDatasource.getStudyElapsedTime()
     }
 
-    override suspend fun getTodayTotalStudyTime(): String {
-        var result  = timerRemoteDataSource.getTodayTotalStudyTime()
-        if(result != "error") {
-            return result
-        } else {
-            return "00:00:00"
+
+    override fun getTodayTotalStudyTime(): Flow<ResultState<String>> = flow{
+        timerRemoteDataSource.getTodayTotalStudyTime().collect { totalStudyTime ->
+            if(totalStudyTime != "error") {
+                emit(ResultState.Success(totalStudyTime))
+            } else {
+                Log.d(TAG, "getTodayTotalStudyTime repo error")
+                emit(ResultState.Error(Exception("timer repo 통신 error")))
+            }
         }
+    }.catch { e ->
+        Log.d(TAG, "getTodayTotalStudyTime error : $e")
+        emit(ResultState.Error(e))
     }
+
+
+//    {
+//        var result  = timerRemoteDataSource.getTodayTotalStudyTime()
+//        if(result != "error") {
+//            return result
+//        } else {
+//            return "00:00:00"
+//        }
+//    }
 
     override fun addTask(currentTaskDto: CurrentTaskDto2): Flow<ResultState<Boolean>> = flow {
 

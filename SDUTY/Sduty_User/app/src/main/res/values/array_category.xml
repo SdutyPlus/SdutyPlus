@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_category">
+        <item>전체</item>
+        <item>대학생</item>
+        <item>예비 고1</item>
+        <item>수능</item>
+        <item>예체능</item>
+        <item>전공</item>
+        <item>편입</item>
+        <item>어학</item>
+        <item>자격증</item>
+        <item>국가고시</item>
+        <item>공무원</item>
+        <item>면접</item>
+        <item>IT</item>
+        <item>독서</item>
+        <item>기타</item>
+    </string-array>
+</resources>

@@ -13,7 +13,7 @@ interface TimerRepository {
 
     suspend fun updateStudyElapsedTime(studyTime: Int)
 
-    suspend fun getTodayTotalStudyTime(): String
+    fun getTodayTotalStudyTime(): Flow<ResultState<String>>
 
     fun getElapsedTime(): Int
 
