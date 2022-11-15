@@ -3,9 +3,8 @@ package com.d205.data.repository.feed
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.paging.PagingSource
-import com.d205.data.mapper.mapperHomeFeedsResponseToHomeFeeds
-import com.d205.data.mapper.mapperMyFeedResponseToFeed
-import com.d205.data.model.mypage.MyFeedResponse
+import com.d205.data.mapper.mapperFeedResponseToHomeFeeds
+import com.d205.data.mapper.mapperFeedResponseToFeed
 import com.d205.data.repository.feed.local.FeedLocalDataSource
 import com.d205.data.repository.feed.remote.FeedRemoteDataSource
 import com.d205.domain.model.feed.HomeFeed
@@ -51,7 +50,7 @@ class FeedRepositoryImpl @Inject constructor(
                 Log.d(TAG, "getUserFeeds: not empty")
                 emit(ResultState.Success(PagingSource.LoadResult.Page(
                     data = it.result.map { feedResponse ->
-                        mapperMyFeedResponseToFeed(feedResponse)
+                        mapperFeedResponseToFeed(feedResponse)
                     },
                     prevKey = if(page == 0) null else page - 1,
                     nextKey = if(page == it.totalPage) null else page + 1
@@ -83,7 +82,7 @@ class FeedRepositoryImpl @Inject constructor(
                 Log.d(TAG, "getHomeFeeds: not empty")
                 emit(ResultState.Success(PagingSource.LoadResult.Page(
                     data = it.result.map { homeFeedResponse ->
-                        mapperHomeFeedsResponseToHomeFeeds(homeFeedResponse)// todo
+                        mapperFeedResponseToHomeFeeds(homeFeedResponse)// todo
                     },
                     prevKey = if(page == 0) null else page - 1,
                     nextKey = if(page == it.totalPage) null else page + 1
