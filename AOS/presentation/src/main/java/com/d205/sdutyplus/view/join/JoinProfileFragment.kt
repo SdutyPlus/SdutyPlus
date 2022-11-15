@@ -126,7 +126,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
             UserDto(
                 imgUrl = profileImageUrl,
                 nickname = binding.etNickname.text.toString(),
-                userJob = jobHashtag!!.seq)
+                userJob = jobHashtag!!.name)
         )
     }
 

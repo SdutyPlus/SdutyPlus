@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_mypageFragment_to_feedDetailFragment"
             app:destination="@id/feedDetailFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportFragment"
@@ -62,4 +65,8 @@
             android:name="feed"
             app:argType="com.d205.domain.model.mypage.Feed" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.d205.sdutyplus.view.mypage.EditProfileFragment"
+        android:label="EditProfileFragment" />
 </navigation>

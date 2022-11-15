@@ -1,0 +1,180 @@
+package com.d205.sdutyplus.view.mypage
+
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
+import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.d205.domain.model.common.JobHashtag
+import com.d205.domain.model.user.UserDto
+import com.d205.sdutyplus.R
+import com.d205.sdutyplus.base.BaseFragment
+import com.d205.sdutyplus.databinding.FragmentEditProfileBinding
+import com.d205.sdutyplus.uitls.PROFILE
+import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.view.common.CropImageActivity
+import com.d205.sdutyplus.view.join.JoinViewModel
+import com.d205.sdutyplus.view.join.ProfileViewModel
+import com.d205.sdutyplus.view.join.TagSelectDialog
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+private const val TAG = "EditProfileFragment"
+
+@AndroidEntryPoint
+class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
+    private val profileViewModel: ProfileViewModel by viewModels()
+    private val joinViewModel: JoinViewModel by viewModels()
+
+    private var profileImageUrl: String? = null
+    private var userJob: String = ""
+
+    private val getImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if(it.resultCode == Activity.RESULT_OK){
+            val uri = it.data!!.getStringExtra("uri")
+            Log.d(TAG, "uri : $uri")
+
+            binding.ivProfile.setImageURI(Uri.parse(uri))
+            profileImageUrl = uri
+            Log.d(TAG, "image crop profileImageUrl: $profileImageUrl")
+        }
+        else{
+            Log.d(TAG, "resultLauncher: NO DATA")
+        }
+    }
+
+    override fun initOnViewCreated() {
+        profileImageUrl = this@EditProfileFragment.mainViewModel.user.value!!.imgUrl
+        userJob = this@EditProfileFragment.mainViewModel.user.value!!.userJob!!
+        Log.d(TAG, "initOnViewCreated profileImageUrl : $profileImageUrl")
+        initView()
+    }
+
+    private fun initView() {
+        binding.apply {
+            mainViewModel = this@EditProfileFragment.mainViewModel
+            profileViewModel = this@EditProfileFragment.profileViewModel
+
+
+            btnJob.apply {
+                visibility = View.VISIBLE
+                text = this@EditProfileFragment.mainViewModel.user.value!!.userJob
+            }
+
+            // 프로필 수정 버튼 클릭
+            btnUpdate.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    // 프로필 수정에 필요한 정보를 모두 입력했는지 여부 체크
+                    if(checkJoinAvailable()) {
+                        if(checkNicknameCanUse()) {
+                            updateUser()
+                            Log.d(TAG, "updateUser finished")
+
+                            // 프로필 수정 성공 여부 체크    true : 성공, false : 실패
+                            if (isUserUpdatedSucceeded()) {
+                                Log.d(TAG, "updateUser succeed!")
+                                this@EditProfileFragment.mainViewModel.getUser()
+                            } else {
+                                Log.d(TAG, "updateUser failed!")
+                                showToast("프로필 수정에 실패했습니다")
+                            }
+                        }
+                        else {
+                            showToast("이미 사용중인 닉네임입니다!")
+                        }
+                    }
+                    else {
+                        showToast("닉네임과 직업을 모두 기입해주세요!")
+                    }
+                }
+            }
+
+//            Glide.with(requireContext())
+//                .load(this@EditProfileFragment.mainViewModel.user.value!!.imgUrl)
+//                .error(R.drawable.empty_profile_image)
+//                .into(ivProfile)
+
+            ivProfile.setOnClickListener {
+                launchImageCrop()
+            }
+
+            btnJobSelect.setOnClickListener {
+                openTagSelectDialog()
+            }
+
+            btnJob.setOnClickListener {
+                openTagSelectDialog()
+            }
+        }
+    }
+
+    private suspend fun checkNicknameCanUse(): Boolean {
+        Log.d(TAG, "checkNicknameIsUsed: start!")
+        return this@EditProfileFragment.profileViewModel.checkNickname(
+            this@EditProfileFragment.mainViewModel.user.value!!.nickname!!,
+            binding.etNickname.text.toString())
+    }
+
+    private fun checkJoinAvailable() = !isNicknameEmpty() && isJobSelected()
+
+    private fun isNicknameEmpty(): Boolean {
+        if(binding.etNickname.text.toString().isEmpty()) {
+            showToast("닉네임을 입력해주세요!")
+            return true
+        }
+        return false
+    }
+
+    private fun isJobSelected(): Boolean {
+        if(binding.btnJob.visibility == View.GONE) {
+            showToast("직업을 선택해주세요!")
+            return false
+        }
+        return true
+    }
+
+    private fun showToast(msg: String) {
+        requireContext().showToast(msg)
+    }
+
+    private fun isUserUpdatedSucceeded() = joinViewModel.isJoinSucceeded.value!!
+
+    private suspend fun updateUser() {
+        Log.d(TAG, "updateUser profileImageUrl : $profileImageUrl")
+        joinViewModel.updateUser(
+            UserDto(
+                imgUrl = profileImageUrl,
+                nickname = binding.etNickname.text.toString(),
+                userJob = userJob)
+        )
+    }
+
+    private fun launchImageCrop() {
+        val intent = Intent(requireContext(), CropImageActivity::class.java)
+        intent.putExtra("flag", PROFILE)
+        getImageResultLauncher.launch(intent)
+    }
+
+    private fun openTagSelectDialog() {
+        TagSelectDialog(requireContext()).let {
+            it.arguments = bundleOf("flag" to PROFILE)
+            it.onClickConfirm = object : TagSelectDialog.OnClickConfirm {
+                override fun onClick(selectedJob: JobHashtag?) {
+                    binding.apply {
+                        this@EditProfileFragment.userJob = selectedJob!!.name
+                        btnJob.text = selectedJob.name
+                        btnJob.visibility = View.VISIBLE
+                        btnJobSelect.visibility = View.GONE
+                    }
+                }
+            }
+            it.show(parentFragmentManager, null)
+        }
+    }
+}

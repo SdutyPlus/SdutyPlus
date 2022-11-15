@@ -14,4 +14,5 @@ interface UserRemoteDataSource {
     fun loginNaverUser(token: String): Flow<UserResponse>
     fun getUser(): Flow<UserResponse>
     fun deleteUser(): Flow<Boolean>
+    fun updateUser(user:UserDto): Flow<UserResponse>
 }

@@ -1,22 +1,13 @@
 package com.d205.data.repository.user.remote
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.util.Log
 import com.d205.data.api.UserApi
 import com.d205.data.dao.FirebaseDao
-import com.d205.data.model.user.UserEntity
 import com.d205.data.model.user.UserResponse
 import com.d205.domain.model.user.UserDto
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 import javax.inject.Inject
 
 
@@ -35,7 +26,7 @@ class UserRemoteDataSourceImpl @Inject constructor(
             result = firebaseDao.uploadProfileImage(user.imgUrl!!, user.nickname)
         }
         user.imgUrl = result
-        val response = userApi.updateProfile(user)
+        val response = userApi.joinUser(user)
         if(response.status == 200 && response.data != null) {
             emit(response.data)
         }
@@ -108,6 +99,24 @@ class UserRemoteDataSourceImpl @Inject constructor(
         else {
             Log.d("exit","탈퇴 실패")
             emit(false)
+        }
+    }
+
+    override fun updateUser(user: UserDto): Flow<UserResponse> = flow {
+
+        var result : String? = null
+
+        if(user.imgUrl != null) {
+            result = firebaseDao.uploadProfileImage(user.imgUrl!!, user.nickname)
+        }
+        user.imgUrl = result
+        Log.d(TAG, "updateUser: $user")
+        val response = userApi.updateUser(user)
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(UserResponse())
         }
     }
 }

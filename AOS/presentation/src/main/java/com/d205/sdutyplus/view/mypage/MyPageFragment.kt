@@ -142,6 +142,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 adapter = feedAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
             }
+
+            btnEditProfile.setOnClickListener {
+                moveToEditProfileFragment()
+            }
         }
     }
 
@@ -152,7 +156,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 override fun onClick(feed: Feed) {
                     // Feed Detail Fragment로 이동
                     Log.d(TAG, "Feed Clicked! : $feed")
-                    findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToFeedDetailFragment(feed))
+                    moveToFeedDetailFragment(feed)
                 }
             }
         }
@@ -174,7 +178,15 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private fun getSocialType() = userSharedPreference.getStringFromPreference("socialType")
 
-    fun moveToLoginActivity() {
+    private fun moveToEditProfileFragment() {
+        findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToEditProfileFragment())
+    }
+
+    private fun moveToFeedDetailFragment(feed: Feed) {
+        findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToFeedDetailFragment(feed))
+    }
+
+    private fun moveToLoginActivity() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
