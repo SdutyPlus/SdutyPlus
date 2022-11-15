@@ -13,7 +13,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/background</item>
-
+        <item name="android:textColor">@color/black</item>
 
 <!--        &lt;!&ndash;custom font-family 적용&ndash;&gt;-->
 <!--        <item name="android:textViewStyle">@style/customTextViewFontStyle</item>-->
