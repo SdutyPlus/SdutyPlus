@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.admin.service;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
+import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.querydsl.UserRepositoryQuerydsl;
@@ -19,13 +20,13 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
-    private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
+    private final FeedRepository feedRepository;
     private final UserRepositoryQuerydsl userRepositoryQuerydsl;
     private final AuthUtils authUtils;
 
     @Transactional
     public PagingResultDto getWarnFeed(Pageable pageable){
-        final Page<FeedResponseDto> warnFeeds = feedRepositoryQuerydsl.findAllWarnFeedPage(pageable);
+        final Page<FeedResponseDto> warnFeeds = feedRepository.findAllWarnFeedPage(pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), warnFeeds.getTotalPages() - 1, warnFeeds.getContent());
 
         return pagingResultDto;
