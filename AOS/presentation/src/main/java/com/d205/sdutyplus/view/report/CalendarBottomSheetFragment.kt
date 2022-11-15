@@ -152,17 +152,17 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
             when {
-                todayDate == date -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        setBackgroundResource(R.drawable.bg_calendar_today)
-                    }
-                }
-
                 selectDate == date.toString() -> {
                     textView.apply {
                         setTextColorRes(R.color.white)
                         setBackgroundResource(R.drawable.bg_calendar_selected)
+                    }
+                }
+
+                todayDate == date -> {
+                    textView.apply {
+                        setTextColorRes(R.color.black)
+                        setBackgroundResource(R.drawable.bg_calendar_today)
                     }
                 }
 

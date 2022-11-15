@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.view.report.dialog
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -30,7 +31,7 @@ class CustomTaskRegistDialog : DialogFragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private val todayDate = LocalDate.now()
-    private val todayTime = System.currentTimeMillis()
+    private var todayTime = System.currentTimeMillis()
 
     private val contentViews: List<ConstraintLayout> by lazy {
         listOf(binding.clContent1, binding.clContent2, binding.clContent3)
@@ -71,24 +72,16 @@ class CustomTaskRegistDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initClickListener()
-        initViewModelCallBack()
     }
 
-    private fun initViewModelCallBack() {
-        reportViewModel.addTaskCallBack.observe(viewLifecycleOwner) { code ->
-            if (code == 200) {
-                Toast.makeText(requireContext(), "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
+    @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
         val dateFormat = SimpleDateFormat("hh:mm")
         binding.apply {
             tvToday.text = todayDate.toString()
             tvStartTime.text = dateFormat.format(todayTime).toString()
-            tvEndTime.text = dateFormat.format(todayTime).toString()
+            tvEndTime.text = dateFormat.format(todayTime.plus(60000)).toString()
         }
     }
 
@@ -112,7 +105,7 @@ class CustomTaskRegistDialog : DialogFragment() {
                 val content3 = etContent3.text.toString()
                 val contents: List<String> = listOf(content1, content2, content3)
 
-                var realContents: MutableList<String> = mutableListOf()
+                val realContents: MutableList<String> = mutableListOf()
                 for(content in contents) {
                     if (content != "") {
                         realContents.add(content)
@@ -129,6 +122,7 @@ class CustomTaskRegistDialog : DialogFragment() {
                             realContents
                         )
                     )
+                    dismiss()
                 } else {
                     Toast.makeText(requireContext(), "제목을 입력하세요!", Toast.LENGTH_SHORT).show()
                 }

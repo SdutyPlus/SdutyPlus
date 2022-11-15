@@ -23,6 +23,7 @@ import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.ViewContainer
 import com.kizitonwose.calendar.view.WeekCalendarView
 import com.kizitonwose.calendar.view.WeekDayBinder
+import com.navercorp.nid.oauth.NidOAuthPreferencesManager.code
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -77,6 +78,15 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         reportViewModel.deleteTaskSuccess.observe(viewLifecycleOwner) {
             if(it) {
                 initView()
+            }
+        }
+
+        reportViewModel.addTaskCallBack.observe(viewLifecycleOwner) { code ->
+            if (code == 200) {
+                Toast.makeText(requireContext(), "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                initView()
+            } else if (code == 400){
+                Toast.makeText(requireContext(), "이미 중복된 시간입니다.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -204,17 +214,17 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
             when {
-                todayDate == date -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        setBackgroundResource(R.drawable.bg_calendar_today)
-                    }
-                }
-
                 binding.tvSelectedDate.text.toString() == date.toString() -> {
                     textView.apply {
                         setTextColorRes(R.color.white)
                         setBackgroundResource(R.drawable.bg_calendar_selected)
+                    }
+                }
+
+                todayDate == date -> {
+                    textView.apply {
+                        setTextColorRes(R.color.black)
+                        setBackgroundResource(R.drawable.bg_calendar_today)
                     }
                 }
 

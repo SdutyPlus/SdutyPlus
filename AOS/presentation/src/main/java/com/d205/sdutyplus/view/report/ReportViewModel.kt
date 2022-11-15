@@ -1,6 +1,8 @@
 package com.d205.sdutyplus.view.report
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +23,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 const val TAG = "ReportViewModel"
@@ -36,6 +40,9 @@ class ReportViewModel @Inject constructor(
 
     private val _totalTime = SingleLiveEvent<String?>()
     val totalTime get() = _totalTime
+
+    private val _percentage = SingleLiveEvent<String?>()
+    val percentage get() = _percentage
 
     private val _remoteTask: MutableStateFlow<ResultState<List<Task>>> =
         MutableStateFlow(ResultState.Uninitialized)
@@ -53,11 +60,15 @@ class ReportViewModel @Inject constructor(
     private val _addTaskCallBack = MutableLiveData<Int>(0)
     val addTaskCallBack: LiveData<Int> get() = _addTaskCallBack
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getReportUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
                     _totalTime.postValue(it.data)
+                    //Log.d(TAG, "getReportTotalTime: ${it.data}")
+                    //Log.d(TAG, "getReportTotalTime: ${LocalDateTime.parse(it.data, DateTimeFormatter.ofPattern("HH:mm:ss"))}")
+                    //Log.d(TAG, "getReportTotalTime: ${LocalDateTime.parse("02:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"))}")
                 }
             }
         }
