@@ -1,11 +1,13 @@
 package com.d205.sdutyplus.view.feed
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -47,6 +49,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
     private fun initView() {
 
+        binding.apply {
+            layoutSwipeRefresh.setOnRefreshListener {
+                Toast.makeText(requireContext(), "REFRESH", Toast.LENGTH_SHORT).show()
+                layoutSwipeRefresh.isRefreshing = false
+            }
+        }
         displayBottomNav(true)
         binding.ivCreateFeed.setOnClickListener {
             moveToFeedCreateFragment()
