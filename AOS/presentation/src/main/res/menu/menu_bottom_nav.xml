@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<!--    <item android:id="@+id/feedFragment"-->
-<!--        android:title="@string/test"/>-->
+    <item android:id="@+id/feedFragment"
+        android:icon="@drawable/ic_nav_feed_black_48"/>
     <item android:id="@+id/timerFragment"
         android:icon="@drawable/ic_nav_timer_black_24"/>
     <item android:id="@+id/reportFragment"
