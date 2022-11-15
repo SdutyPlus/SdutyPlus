@@ -51,7 +51,7 @@ public class UserService {
             throw new NicknameAlreadyExistException();
         }
 
-        final Job job = jobRepository.findBySeq(userRegDto.getJob())
+        final Job job = jobRepository.findByJobName(userRegDto.getJobName())
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         regUserData(user, userRegDto, job);
