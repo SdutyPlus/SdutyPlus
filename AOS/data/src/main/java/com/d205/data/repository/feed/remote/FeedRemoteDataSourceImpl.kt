@@ -3,7 +3,6 @@ package com.d205.data.repository.feed.remote
 import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.api.FeedApi
-import com.d205.data.model.mypage.FeedResponse
 import com.d205.data.model.mypage.MyFeedResponse
 import com.d205.domain.model.common.PagingResult
 import com.d205.domain.model.mypage.Feed

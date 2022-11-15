@@ -1,7 +1,6 @@
 package com.d205.data.api
 
 import com.d205.data.model.BaseResponse
-import com.d205.data.model.mypage.FeedResponse
 import com.d205.data.model.mypage.MyFeedResponse
 import com.d205.domain.model.common.PagingResult
 import com.d205.domain.model.mypage.Feed
