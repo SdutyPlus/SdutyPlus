@@ -29,9 +29,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
     private val feedViewModel: FeedViewModel by activityViewModels()
 
     override fun initOnViewCreated() {
-
-        user = mainViewModel.user.value!!
-
         initAdapter()
         initView()
         initViewModel()
@@ -62,6 +59,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
     }
 
     private fun initViewModel() {
+//        mainViewModel.user.observe(viewLifecycleOwner) {
+//            if(it != null) {
+//                user = mainViewModel.user.value!!
+//            }
+//        }
+
         lifecycleScope.launch {
             this@FeedFragment.feedViewModel.homeFeeds.collectLatest {
                 Log.d(TAG, "onTabSelected: collect $it")
