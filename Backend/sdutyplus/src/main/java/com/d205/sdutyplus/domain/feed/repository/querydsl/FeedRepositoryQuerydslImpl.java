@@ -24,7 +24,6 @@ import static com.d205.sdutyplus.domain.off.entity.QOffFeed.offFeed;
 import static com.d205.sdutyplus.domain.user.entity.QUser.user;
 import static com.d205.sdutyplus.domain.warn.entity.QWarnFeed.warnFeed;
 
-@Repository
 @RequiredArgsConstructor
 public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
 
