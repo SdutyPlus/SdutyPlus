@@ -14,8 +14,8 @@ interface TimerApi {
     suspend fun getRealTime(): Response<TimerResponseDto>
 
     @GET("task/report/time")
-    suspend fun getTodayTotalStudyTime(): Response<TimerResponseDto>
+    suspend fun getTodayTotalStudyTime(): BaseResponse<String>
 
     @POST("task")
-    suspend fun addTask(@Body currentTaskDto: CurrentTaskDto2): BaseResponse<Void>
+    suspend fun addTask(@Body currentTaskDto: CurrentTaskDto2): BaseResponse<Boolean>
 }
