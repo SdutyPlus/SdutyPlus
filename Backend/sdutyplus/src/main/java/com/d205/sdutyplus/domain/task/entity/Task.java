@@ -1,10 +1,7 @@
 package com.d205.sdutyplus.domain.task.entity;
 
 import com.d205.sdutyplus.util.TimeFormatter;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,8 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")

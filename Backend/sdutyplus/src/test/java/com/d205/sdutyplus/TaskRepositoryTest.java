@@ -1,6 +1,7 @@
 package com.d205.sdutyplus;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
+import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.TimeFormatter;
@@ -26,13 +27,13 @@ public class TaskRepositoryTest {
     private JPAQueryFactory queryFactory;
 
     @Autowired
-    private TaskRepositoryQuerydsl taskRepositoryQuerydsl;
+    private TaskRepository taskRepository;
 
     @Test
     public void findTaskBySeq() {
         //given
         Long taskSeq = 4L;
-        Optional<TaskDto> taskDto = taskRepositoryQuerydsl.findTaskBySeq(taskSeq);
+        Optional<TaskDto> taskDto = taskRepository.findTaskBySeq(taskSeq);
 
         //then
         assertThat(taskDto

@@ -63,10 +63,6 @@ public class UserAuthService {
     private final WarnFeedRepository warnFeedRepository;
     private final WarnFeedRepositoryQuerydsl warnFeedRepositoryQuerydsl;
     private final AuthUtils authUtils;
-    private final SubTaskRepository subTaskRepository;
-    private final TaskRepository taskRepository;
-
-
 
     @Transactional
     public UserLoginDto loginUser(String email, SocialType socialType) {
@@ -175,7 +171,7 @@ public class UserAuthService {
     }
 
     @Transactional
-    private void deleteUserCade(Long userSeq) {
+    public void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
 

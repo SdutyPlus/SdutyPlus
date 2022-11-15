@@ -16,8 +16,8 @@ import com.d205.sdutyplus.global.error.exception.InvalidInputException;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,10 +26,10 @@ import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TaskService{
     private final TaskRepository taskRepository;
     private final SubTaskRepository subTaskRepository;
-    private final TaskRepositoryQuerydsl taskRepositoryQuerydsl;
 
     @Transactional
     public TaskDto createTask(Long userSeq, TaskPostDto taskPostDto){
@@ -52,7 +52,7 @@ public class TaskService{
     }
 
     public TaskDto getTaskDetail(Long taskSeq){
-        return taskRepositoryQuerydsl.findTaskBySeq(taskSeq)
+        return taskRepository.findTaskBySeq(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }
 
@@ -87,7 +87,7 @@ public class TaskService{
     public ReportDto getDailyReport(Long userSeq, String date){
         final LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         final LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-        final List<TaskDto> taskDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
+        final List<TaskDto> taskDtos = taskRepository.findTaskByStartTime(userSeq, startTime, endTime);
 
         final ReportDto reportResponseDto = new ReportDto(taskDtos);
 
@@ -98,7 +98,7 @@ public class TaskService{
         final LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         final LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
 
-        Integer duration = taskRepositoryQuerydsl.getReportTotalTime(userSeq, startTime, endTime);
+        Integer duration = taskRepository.getReportTotalTime(userSeq, startTime, endTime);
         if(duration == null){
             duration = 0;
         }
@@ -138,7 +138,7 @@ public class TaskService{
 
 
     private void timeDuplicateCheck(Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime){
-        final int duplicatedCnt = taskRepositoryQuerydsl.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);
+        final int duplicatedCnt = taskRepository.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);
         if(duplicatedCnt > 0){
             throw new TimeDuplicateException();
         }

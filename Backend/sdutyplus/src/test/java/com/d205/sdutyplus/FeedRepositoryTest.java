@@ -3,6 +3,7 @@ package com.d205.sdutyplus;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
+import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.JobRepository;
@@ -38,7 +39,7 @@ public class FeedRepositoryTest {
     @Autowired
     private JobRepository jobRepository;
     @Autowired
-    private FeedRepositoryQuerydsl feedRepositoryQuerydsl;
+    private FeedRepository feedRepository;
 
     @Test
     public void getScrapFeed(){
@@ -50,7 +51,7 @@ public class FeedRepositoryTest {
         Sort sort = Sort.by(order);
         Pageable pageable = PageRequest.of(0, 5, sort);
 
-        Page<FeedResponseDto> result = feedRepositoryQuerydsl.findScrapFeedPage(user, pageable);
+        Page<FeedResponseDto> result = feedRepository.findScrapFeedPage(user, pageable);
 
         for(FeedResponseDto feedResponseDto : result.getContent()){
             System.out.println("feedResponseDto.getSeq() = " + feedResponseDto.getSeq());
@@ -70,7 +71,7 @@ public class FeedRepositoryTest {
         Pageable pageable = PageRequest.of(0, 5, sort);
 
 
-        Page<FeedResponseDto> result = feedRepositoryQuerydsl.findFilterFeedPage(userSeq, job, pageable);
+        Page<FeedResponseDto> result = feedRepository.findFilterFeedPage(userSeq, job, pageable);
 
         //then
         for(FeedResponseDto feedResponseDto : result.getContent()){
