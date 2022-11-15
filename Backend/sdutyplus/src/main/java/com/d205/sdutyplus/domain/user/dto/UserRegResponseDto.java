@@ -11,7 +11,7 @@ public class UserRegResponseDto {
     private Long userSeq;
     private String email;
     private String nickname;
-    private String job;
+    private String jobName;
     private String imgUrl;
     private String fcmToken;
 
@@ -19,7 +19,7 @@ public class UserRegResponseDto {
         this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
-        this.job = user.getJob().getJobName();
+        this.jobName = user.getJob().getJobName();
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
     }
