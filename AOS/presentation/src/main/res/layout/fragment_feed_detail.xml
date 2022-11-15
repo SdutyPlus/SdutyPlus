@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/common_top_back"
+                    android:id="@+id/iv_top_back"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +46,7 @@
                     android:src="@drawable/img_sduty_logo"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/common_top_back"
+                    app:layout_constraintStart_toEndOf="@id/iv_top_back"
                     android:layout_marginStart="8dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -80,7 +80,7 @@
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/iv_profile"
-                                android:src="@drawable/ic_empty_image"
+                                loadImage="@{feed.profileImgUrl}"
                                 tools:src="@drawable/ic_empty_image"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
@@ -94,7 +94,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="15dp"
-                                android:text="닉네임"
+                                android:text="@{feed.nickname}"
                                 tools:text="닉네임"
                                 android:textSize="16sp"
                                 app:layout_constraintBottom_toBottomOf="@id/iv_profile"
@@ -121,7 +121,7 @@
 
                     <ImageView
                         android:id="@+id/iv_timeline_content"
-                        loadImage="@{feed.imgUrl}"
+                        loadImage="@{feed.feedImgUrl}"
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
                         android:layout_marginVertical="10dp"

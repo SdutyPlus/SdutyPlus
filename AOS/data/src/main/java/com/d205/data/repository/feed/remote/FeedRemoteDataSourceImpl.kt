@@ -3,8 +3,7 @@ package com.d205.data.repository.feed.remote
 import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.api.FeedApi
-import com.d205.data.model.feed.HomeFeedResponse
-import com.d205.data.model.mypage.MyFeedResponse
+import com.d205.data.model.feed.FeedResponse
 import com.d205.domain.model.common.PagingResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -22,7 +21,7 @@ class FeedRemoteDataSourceImpl @Inject constructor(
     override suspend fun getUserFeeds(
         page: Int,
         pageSize: Int
-    ): Flow<PagingResult<MyFeedResponse>> = flow {
+    ): Flow<PagingResult<FeedResponse>> = flow {
         Log.d(TAG, "getUserFeeds page: $page")
         val response = feedApi.getUserStoryList(page, pageSize)
         if(response.status == 200 && response.data != null) {
@@ -39,7 +38,7 @@ class FeedRemoteDataSourceImpl @Inject constructor(
     override suspend fun getHomeFeeds(
         page: Int,
         pageSize: Int
-    ): Flow<PagingResult<HomeFeedResponse>> = flow {
+    ): Flow<PagingResult<FeedResponse>> = flow {
         Log.d(TAG, "getHomeFeeds page: $page")
         val response = feedApi.getHomeFeeds(page, pageSize)
         if(response.status == 200 && response.data != null) {

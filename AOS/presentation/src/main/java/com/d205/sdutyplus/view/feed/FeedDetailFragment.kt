@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.d205.domain.model.mypage.Feed
 import com.d205.sdutyplus.R
@@ -19,5 +20,16 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
 
     override fun initOnViewCreated() {
         feed = args.feed
+        initView()
+    }
+
+    private fun initView() {
+        binding.apply {
+            feed = this@FeedDetailFragment.feed
+
+            ivTopBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 }
