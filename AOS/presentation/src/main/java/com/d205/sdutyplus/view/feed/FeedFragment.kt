@@ -18,6 +18,7 @@ import com.d205.domain.model.user.User
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedBinding
+import com.d205.sdutyplus.uitls.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
     private val feedViewModel: FeedViewModel by activityViewModels()
 
     override fun initOnViewCreated() {
+        requireContext().showToast("OnCreateview")
         initAdapter()
         initView()
         initViewModel()
@@ -84,4 +86,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
     private fun moveToFeedCreateFragment() {
         findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToFeedCreateFragment())
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        feedAdapter.refresh()
+    }
+
+
 }
