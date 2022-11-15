@@ -32,7 +32,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
     private val feedViewModel: FeedViewModel by activityViewModels()
 
     override fun initOnViewCreated() {
-        requireContext().showToast("OnCreateview")
         initAdapter()
         initView()
         initViewModel()
