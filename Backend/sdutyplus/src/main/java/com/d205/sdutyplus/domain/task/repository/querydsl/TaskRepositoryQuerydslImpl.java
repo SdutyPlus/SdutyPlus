@@ -4,7 +4,6 @@ import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +16,6 @@ import static com.d205.sdutyplus.domain.task.entity.QTask.task;
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 
-@Repository
 @RequiredArgsConstructor
 public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
 
