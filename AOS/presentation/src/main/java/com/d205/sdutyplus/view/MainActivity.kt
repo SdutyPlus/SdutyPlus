@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
@@ -31,6 +32,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val mainViewModel : MainViewModel by viewModels()
 
     override fun init() {
+        initObserver()
+
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
                 as NavHostFragment
         navController = navHostFragment.navController
@@ -39,6 +42,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         CoroutineScope(Dispatchers.Main).launch {
             getUser()
             Log.d(TAG, "getUser Done! : ${mainViewModel.user.value}")
+        }
+    }
+
+    private fun initObserver() {
+        mainViewModel.bottomNavVisibility.observe(this){
+            if(it){
+                binding.bottomNav.visibility = View.VISIBLE
+            } else{
+                binding.bottomNav.visibility = View.GONE
+            }
         }
     }
 

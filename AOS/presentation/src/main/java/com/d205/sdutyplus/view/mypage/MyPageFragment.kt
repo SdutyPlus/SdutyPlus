@@ -64,6 +64,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private fun getUser() = mainViewModel.user.value!!
 
     private fun initView() {
+        mainViewModel.displayBottomNav(true)
+
         binding.apply {
             lifecycleOwner = this@MyPageFragment
             feedVM = this@MyPageFragment.feedViewModel
