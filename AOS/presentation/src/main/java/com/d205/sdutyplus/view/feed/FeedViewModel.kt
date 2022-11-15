@@ -36,7 +36,7 @@ class FeedViewModel @Inject constructor(
 
     // Feed 전체 조회
     val homeFeeds = Pager(
-        config = PagingConfig(pageSize = 1, maxSize = 6, enablePlaceholders = false),
+        config = PagingConfig(pageSize = 5, maxSize = 15, enablePlaceholders = false),
         pagingSourceFactory = {HomeFeedDataSource(HOME_ALL_STORY, getHomeFeedsUseCase)}
     ).flow.cachedIn(viewModelScope)
 

@@ -187,11 +187,12 @@ class TimerViewModel @Inject constructor(
         val startTime = convertTimeDateToString(getTodayDate(), "yyyy-MM-dd HH:mm:ss")
 
         viewModelScope.launch(defaultDispatcher) {
-            val saveStartTimeResult = saveStartTimeUsecase(startTime)
-            if(saveStartTimeResult) {
-                Log.d(TAG, "saveStartTime 성공")
-            } else {
-                Log.d(TAG, "saveStartTime 실패")
+            saveStartTimeUsecase(startTime).collect() {
+                if(it is ResultState.Success) {
+                    Log.d(TAG, "saveStartTime 성공")
+                } else {
+                    Log.d(TAG, "saveStartTime 실패")
+                }
             }
         }
     }
