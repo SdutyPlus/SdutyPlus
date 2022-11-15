@@ -18,6 +18,7 @@ import com.d205.sdutyplus.databinding.FragmentReportBinding
 import com.d205.sdutyplus.uitls.displayText
 import com.d205.sdutyplus.uitls.setTextColorRes
 import com.d205.sdutyplus.view.report.dialog.CustomTaskRegistDialog
+import com.d205.sdutyplus.view.MainViewModel
 import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.ViewContainer
@@ -38,7 +39,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     private val weekCalendarView: WeekCalendarView get() = binding.WeekCalendar
     private val taskAdapter = TaskAdapter(this)
     private val todayDate = LocalDate.now()
-
 
     override fun initOnViewCreated() {
         binding.apply {
@@ -99,6 +99,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         val endMonth = currentMonth.plusMonths(100)
 
         setupWeekCalendar(startMonth, endMonth, currentMonth, daysOfWeek)
+        mainViewModel.displayBottomNav(true)
 
         reportViewModel.apply {
             getReportTotalTime(binding.tvSelectedDate.text.toString())

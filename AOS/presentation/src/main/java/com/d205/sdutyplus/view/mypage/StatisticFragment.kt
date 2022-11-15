@@ -1,48 +1,80 @@
 package com.d205.sdutyplus.view.mypage
 
-import com.anychart.AnyChart
-import com.anychart.chart.common.dataentry.DataEntry
-import com.anychart.chart.common.dataentry.ValueDataEntry
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentStatisticBinding
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.MarkerView
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.formatter.LargeValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.github.mikephil.charting.data.BarEntry
 
 
-class StatisticFragment : BaseFragment<FragmentStatisticBinding>(R.layout.fragment_statistic) {
+
+class StatisticFragment : BaseFragment<FragmentStatisticBinding>(R.layout.fragment_statistic),
+    OnChartValueSelectedListener {
 
     override fun initOnViewCreated() {
+        binding.chart1.apply {
+            setOnChartValueSelectedListener(this@StatisticFragment)
+            description.isEnabled = false
+            setPinchZoom(false)
+            setDrawBarShadow(false)
+            //setDrawGridBackground(false)
+            val mv = MarkerView(this@StatisticFragment.requireContext(), R.layout.view_bar_marker)
+            mv.chartView = this
+            marker = mv
+        }
+        val l = binding.chart1.legend
+        l.apply {
+            verticalAlignment = Legend.LegendVerticalAlignment.TOP
+            horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+            orientation = Legend.LegendOrientation.VERTICAL
+            setDrawInside(true)
+            //l.typeface = tfLight
+            l.yOffset = 0f
+            l.xOffset = 10f
+            l.yEntrySpace = 0f
+            l.textSize = 8f
+        }
+        val xAxis = binding.chart1.xAxis
+        xAxis.apply {
+            //typeface = tfLight
+            granularity = 1f
+            setCenterAxisLabels(true)
+            valueFormatter = object : ValueFormatter() {
+                //                override fun getFormattedValue(value: Float, axis: AxisBase?): String {
+//                    return value.toString()
+//                }
+                override fun getFormattedValue(value: Float): String {
+                    return value.toString()
+                }
 
-        val pie = AnyChart.pie()
+            }
+        }
 
-//        pie.setOnClickListener(object : ListenersInterface.OnClickListener(arrayOf("x", "value")) {
-//            override fun onClick(event: Event?) {
-//                requireContext().showToast(event!!.data["x"] + ":" + event.data["value"])
-//            }
-//        })
-        val data = mutableListOf<DataEntry>()
-        data.add(ValueDataEntry("Apples", 6371664))
-        data.add(ValueDataEntry("Pears", 789622))
-        data.add(ValueDataEntry("Bananas", 7216301))
-        data.add(ValueDataEntry("Grapes", 1486621))
-        data.add(ValueDataEntry("Oranges", 1200000))
+        val leftAxis = binding.chart1.axisLeft
+        leftAxis.apply {
+            //typeface = tfLight
+            valueFormatter = LargeValueFormatter()
+            setDrawGridLines(false)
+            spaceTop = 35f
+            axisMinimum = 0f // this replaces setStartAtZero(true)
 
-        pie.data(data)
-        pie.title("Fruits imported in 2015 (in kg)")
+        }
 
-        //pie.labels().position("outside")
+        binding.chart1.axisRight.isEnabled = false
+    }
 
-//        pie.legend().title().enabled(true)
-//        pie.legend().title()
-//            .text("Retail channels")
-//            .padding(0.0, 0.0, 10.0, 0.0)
-//
-//        pie.legend()
-//            .position("center-bottom")
-//            .itemsLayout(LegendLayout.HORIZONTAL)
-//            .align(Align.CENTER)
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+        //TODO("Not yet implemented")
+    }
 
-        binding.anyChartView.setChart(pie)
+    override fun onNothingSelected() {
+        //TODO("Not yet implemented")
     }
 
     fun setting() {

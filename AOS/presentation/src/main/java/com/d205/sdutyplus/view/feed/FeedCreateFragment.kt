@@ -60,8 +60,11 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
                     showToast("피드 생성을 성공했습니다!")
                     findNavController().popBackStack()
                 }
-                else {
-                    showToast("피드 생성을 실패했어요")
+            }
+            isFeedCreateFailed.observe(viewLifecycleOwner) {
+                if (it == true) {
+                    showToast("피드 생성에 실패했습니다.")
+                    setIsFeedCreateFailed(false)
                 }
             }
         }

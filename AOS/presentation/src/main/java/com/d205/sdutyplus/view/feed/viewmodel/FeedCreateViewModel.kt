@@ -47,6 +47,13 @@ class FeedCreateViewModel @Inject constructor(
     val isFeedCreated: LiveData<Boolean?>
         get() = _isFeedCreated
 
+    private val _isFeedCreateFailed = MutableLiveData<Boolean?>()
+    val isFeedCreateFailed: LiveData<Boolean?>
+        get() = _isFeedCreateFailed
+    fun setIsFeedCreateFailed(isFeedCreateFailed: Boolean) {
+        _isFeedCreateFailed.value = isFeedCreateFailed
+    }
+
     // Deco에서 꾸민 Image를 여기서 Update해줘야 하며,
     // Image값에 따라 vm을 이용한, src 표기값이 달라진다.
     fun setBitmapAndImage(bitmap: Bitmap) {
@@ -70,7 +77,7 @@ class FeedCreateViewModel @Inject constructor(
                 }
                 else {
                     Log.d(TAG, "createFeed: not Success!!")
-                    _isFeedCreated.postValue(false)
+                    _isFeedCreateFailed.postValue(true)
                 }
             }
         }
@@ -81,5 +88,6 @@ class FeedCreateViewModel @Inject constructor(
         _image.value = null
         _content.value = ""
         _isFeedCreated.value = false
+        _isFeedCreateFailed.value = false
     }
 }

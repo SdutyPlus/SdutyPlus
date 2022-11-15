@@ -9,10 +9,11 @@ import androidx.paging.*
 import com.d205.domain.model.mypage.Feed
 import com.d205.domain.model.user.User
 import com.d205.domain.usecase.feed.GetFeedsUseCase
+import com.d205.domain.usecase.feed.GetHomeFeedsUseCase
 import com.d205.sdutyplus.uitls.ALL_STORY
+import com.d205.sdutyplus.uitls.HOME_ALL_STORY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
@@ -23,21 +24,29 @@ private const val TAG ="StoryViewModel"
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val getFeedsUseCase: GetFeedsUseCase
+    private val getFeedsUseCase: GetFeedsUseCase,
+    private val getHomeFeedsUseCase: GetHomeFeedsUseCase
 ): ViewModel() {
 
     // 모든 스토리 전체 조회
-    private fun userFeeds() = Pager(
-        config = PagingConfig(pageSize = 1, maxSize = 5, enablePlaceholders = false),
+     val feedPage = Pager(
+        config = PagingConfig(pageSize = 1, maxSize = 6, enablePlaceholders = false),
         pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase)}
-    ).flow
+    ).flow.cachedIn(viewModelScope)
 
-    val pagingFeedList = getUserFeeds()
+    // Feed 전체 조회
+    val homeFeeds = Pager(
+        config = PagingConfig(pageSize = 5, maxSize = 15, enablePlaceholders = false),
+        pagingSourceFactory = {HomeFeedDataSource(HOME_ALL_STORY, getHomeFeedsUseCase)}
+    ).flow.cachedIn(viewModelScope)
+
+
+
+
+
 //    private val _pagingFeedList : MutableStateFlow<PagingData<Feed>> =
 //        MutableStateFlow(PagingData.empty())
 //    val pagingFeedList get() = _pagingFeedList.asStateFlow()
-
-    fun getUserFeeds() = userFeeds().cachedIn(viewModelScope)
 
 
 //    // 스크랩 스토리 전체 조회

@@ -3,29 +3,30 @@ package com.d205.data.repository.user.remote
 import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.api.UserApi
-import com.d205.data.model.user.UserEntity
+import com.d205.data.dao.FirebaseDao
 import com.d205.data.model.user.UserResponse
 import com.d205.domain.model.user.UserDto
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
-import retrofit2.Response
 import javax.inject.Inject
 
 
 private const val TAG = "UserRemoteDataSourceImpl"
 class UserRemoteDataSourceImpl @Inject constructor(
-    private val userApi: UserApi
+    private val userApi: UserApi,
+    private val firebaseDao: FirebaseDao
 ): UserRemoteDataSource {
 
     @SuppressLint("LongLogTag")
     override fun joinUser(user: UserDto): Flow<UserResponse> = flow {
         Log.d(TAG, "joinUser: $user")
-        val response = userApi.updateProfile(user)
-        Log.d(TAG, "joinUser api response : $response")
+        var result : String? = null
 
+        if(user.imgUrl != null) {
+            result = firebaseDao.uploadProfileImage(user.imgUrl!!, user.nickname)
+        }
+        user.imgUrl = result
+        val response = userApi.joinUser(user)
         if(response.status == 200 && response.data != null) {
             emit(response.data)
         }
@@ -98,6 +99,25 @@ class UserRemoteDataSourceImpl @Inject constructor(
         else {
             Log.d("exit","탈퇴 실패")
             emit(false)
+        }
+    }
+
+    override fun updateUser(user: UserDto, prevProfileImageUrl: String?): Flow<UserResponse> = flow {
+
+        var result : String? = null
+
+        if(user.imgUrl != null && prevProfileImageUrl != null && prevProfileImageUrl != user.imgUrl) {
+            result = firebaseDao.uploadProfileImage(user.imgUrl!!, user.nickname)
+            user.imgUrl = result
+        }
+
+        Log.d(TAG, "updateUser: $user")
+        val response = userApi.updateUser(user)
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(UserResponse())
         }
     }
 }
