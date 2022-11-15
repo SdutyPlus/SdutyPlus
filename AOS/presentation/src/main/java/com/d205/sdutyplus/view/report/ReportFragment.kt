@@ -11,6 +11,7 @@ import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentReportBinding
+import com.d205.sdutyplus.view.MainViewModel
 import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -22,7 +23,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     private val reportViewModel: ReportViewModel by activityViewModels()
     private val taskAdapter = TaskAdapter(this)
     private val today = LocalDate.now()
-
 
     override fun initOnViewCreated() {
         binding.apply {
@@ -68,6 +68,8 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     }
 
     private fun initView() {
+        mainViewModel.displayBottomNav(true)
+
         reportViewModel.apply {
             getReportTotalTime(binding.tvSelectedDate.text.toString())
             getTaskList(binding.tvSelectedDate.text.toString())
