@@ -15,12 +15,10 @@ private const val TAG ="BindingAdapter"
 @BindingAdapter("loadImage")
 fun loadImage(view: ImageView, src: String?){
 
-    if(src != null) {
-        view.setImageURI(Uri.parse(src))
-    }
-    else {
-        view.setImageResource(R.drawable.empty_profile_image)
-    }
+    Glide.with(view.context)
+        .load(src)
+        .error(R.drawable.ic_empty_image)
+        .into(view)
 }
 
 

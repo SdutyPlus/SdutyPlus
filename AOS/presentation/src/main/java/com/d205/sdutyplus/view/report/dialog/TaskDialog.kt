@@ -17,6 +17,7 @@ import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.databinding.DialogTaskBinding
 import com.d205.sdutyplus.view.report.ReportViewModel
 import com.d205.sdutyplus.view.report.TAG
+import javax.annotation.Nullable
 
 class TaskDialog(private val task: Task) : DialogFragment() {
     private lateinit var binding: DialogTaskBinding
@@ -60,7 +61,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
         when (action) {
             "CustomAdd" -> {
-                // 임의로 Task 추가
+                AddTask()
             }
             "Info" -> {
                 InfoTask()
@@ -68,18 +69,16 @@ class TaskDialog(private val task: Task) : DialogFragment() {
         }
     }
 
-    private fun initViewModelCallback() {
+    private fun AddTask() {
 
     }
-
 
     private fun InfoTask() {
-        initView()
-        initViewModelCallback()
-        initBtn()
+        initInfoView()
+        initInfoBtn()
     }
 
-    private fun initView() {
+    private fun initInfoView() {
         binding.apply {
             etTitle.isEnabled = false
 
@@ -101,7 +100,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
         }
     }
 
-    private fun initBtn() {
+    private fun initInfoBtn() {
         binding.apply {
             btnDelete.setOnClickListener {
                 ConfirmDialog(task.seq).apply {

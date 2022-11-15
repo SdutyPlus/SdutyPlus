@@ -1,6 +1,8 @@
 package com.d205.data.repository.timer.local
 
 import com.d205.data.dao.TimerSharedPreference
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -8,8 +10,8 @@ import javax.inject.Inject
 class TimerLocalDataSourceImpl @Inject constructor(
     private val timerSharedPreference: TimerSharedPreference
 ): TimerLocalDataSource {
-    override suspend fun saveStartTime(startTime: String): Boolean {
-        return timerSharedPreference.setStringFromPreference("StartTimeOnTimer", startTime)
+    override fun saveStartTime(startTime: String): Flow<Boolean> = flow {
+        emit(timerSharedPreference.setStringFromPreference("StartTimeOnTimer", startTime))
     }
 
     override suspend fun getLocalCurrentTime(): String {
