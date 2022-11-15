@@ -111,11 +111,11 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Error(e))
     }
 
-    override fun updateUser(user: UserDto): Flow<ResultState<User>> = flow {
+    override fun updateUser(user: UserDto, prevProfileImageUrl: String?): Flow<ResultState<User>> = flow {
         Log.d(TAG, "updateUser: $TAG: Loading : $user")
         emit(ResultState.Loading)
 
-        userRemoteDataSource.updateUser(user).collect {
+        userRemoteDataSource.updateUser(user, prevProfileImageUrl).collect {
             Log.d(TAG, "updateUser $TAG: collect $it")
             emit(ResultState.Success(mapperUserResponseToUser(it)))
         }

@@ -75,8 +75,8 @@ class JoinViewModel @Inject constructor(
     }
 
     // 유저 프로필 수정
-    suspend fun updateUser(user: UserDto) {
-        updateUserUseCase.invoke(user).collect {
+    suspend fun updateUser(user: UserDto, prevProfileImageUrl: String?) {
+        updateUserUseCase.invoke(user, prevProfileImageUrl).collect {
             if(it is ResultState.Success) {
                 _user.value = it.data
                 _isUpdateSucceeded.value = true

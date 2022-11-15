@@ -102,14 +102,15 @@ class UserRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override fun updateUser(user: UserDto): Flow<UserResponse> = flow {
+    override fun updateUser(user: UserDto, prevProfileImageUrl: String?): Flow<UserResponse> = flow {
 
         var result : String? = null
 
-        if(user.imgUrl != null) {
+        if(user.imgUrl != null && prevProfileImageUrl != null && prevProfileImageUrl != user.imgUrl) {
             result = firebaseDao.uploadProfileImage(user.imgUrl!!, user.nickname)
+            user.imgUrl = result
         }
-        user.imgUrl = result
+
         Log.d(TAG, "updateUser: $user")
         val response = userApi.updateUser(user)
         if(response.status == 200 && response.data != null) {

@@ -8,6 +8,6 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UpdateUserUseCase @Inject constructor(private val userRepository: UserRepository) {
-    operator fun invoke(userDto: UserDto): Flow<ResultState<User>> =
-        userRepository.updateUser(user = userDto)
+    operator fun invoke(userDto: UserDto, prevProfileImageUrl: String?): Flow<ResultState<User>> =
+        userRepository.updateUser(user = userDto, prevProfileImageUrl)
 }
