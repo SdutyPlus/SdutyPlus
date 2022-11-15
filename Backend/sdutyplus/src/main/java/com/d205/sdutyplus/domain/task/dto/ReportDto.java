@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ReportDto {
     private String totalTime;
+    private int percentage;
     private List<TaskDto> taskDtos;
 
     public ReportDto(List<TaskDto> taskDtos){
@@ -21,6 +22,7 @@ public class ReportDto {
             LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(taskDto.getEndTime());
             totalSecond+=TimeFormatter.getDurationTime(startTime, endTime);
         }
+        this.percentage = Math.min(totalSecond*100/7200000, 100);
         this.totalTime = TimeFormatter.msToTime(totalSecond);
         this.taskDtos = taskDtos;
     }
