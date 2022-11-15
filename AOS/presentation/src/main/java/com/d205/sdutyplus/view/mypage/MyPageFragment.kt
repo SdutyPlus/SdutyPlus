@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.d205.data.dao.UserSharedPreference
 import com.d205.domain.model.mypage.Feed
 import com.d205.domain.model.user.User
@@ -144,6 +145,19 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 adapter = feedAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
             }
+
+            btnEditProfile.setOnClickListener {
+                moveToEditProfileFragment()
+            }
+
+            if(this@MyPageFragment.mainViewModel.user.value!!.imgUrl != null) {
+                Log.d(TAG, "initView imgUrl: ${this@MyPageFragment.mainViewModel.user.value!!.imgUrl}")
+                //ivProfile.setImageURI(Uri.parse(this@MyPageFragment.mainViewModel.user.value!!.imgUrl))
+                Glide.with(requireContext())
+                    .load(this@MyPageFragment.mainViewModel.user.value!!.imgUrl)
+                    .error(R.drawable.empty_profile_image)
+                    .into(ivProfile)
+            }
         }
     }
 
@@ -154,7 +168,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 override fun onClick(feed: Feed) {
                     // Feed Detail Fragment로 이동
                     Log.d(TAG, "Feed Clicked! : $feed")
-                    findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToFeedDetailFragment(feed))
+                    moveToFeedDetailFragment(feed)
                 }
             }
         }
@@ -176,7 +190,15 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private fun getSocialType() = userSharedPreference.getStringFromPreference("socialType")
 
-    fun moveToLoginActivity() {
+    private fun moveToEditProfileFragment() {
+        findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToEditProfileFragment())
+    }
+
+    private fun moveToFeedDetailFragment(feed: Feed) {
+        findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToFeedDetailFragment(feed))
+    }
+
+    private fun moveToLoginActivity() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)

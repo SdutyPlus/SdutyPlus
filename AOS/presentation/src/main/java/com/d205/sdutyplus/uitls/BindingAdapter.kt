@@ -14,11 +14,13 @@ private const val TAG ="BindingAdapter"
 
 @BindingAdapter("loadImage")
 fun loadImage(view: ImageView, src: String?){
-    Glide.with(view.context)
-        .load(Uri.parse("$src"))
-        .error(R.drawable.empty_profile_image)
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .into(view)
+
+    if(src != null) {
+        view.setImageURI(Uri.parse(src))
+    }
+    else {
+        view.setImageResource(R.drawable.empty_profile_image)
+    }
 }
 
 

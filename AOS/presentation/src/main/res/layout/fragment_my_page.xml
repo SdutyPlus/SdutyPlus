@@ -122,8 +122,8 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_gravity="center"
-                                loadImage="@{mainVM.user.component4()}"
-                                tools:src="@drawable/ic_empty_image" />
+                                android:src="@drawable/empty_profile_image"
+                                tools:src="@drawable/empty_profile_image" />
 
                         </FrameLayout>
 
@@ -180,18 +180,17 @@
 
                         <Button
                             android:id="@+id/btn_edit_profile"
-                            android:layout_width="0dp"
-                            android:layout_height="32dp"
-                            android:layout_marginTop="20dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             android:background="@drawable/bg_button_app_blue"
                             android:gravity="center"
                             android:text="프로필 편집"
-                            android:visibility="gone"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/frame_profile_img" />
+                            app:layout_constraintTop_toTopOf="@id/const_tv_profile"
+                            app:layout_constraintBottom_toBottomOf="@id/const_tv_profile"
+                            android:layout_marginEnd="10dp"/>
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout

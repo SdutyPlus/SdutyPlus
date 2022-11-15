@@ -97,7 +97,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
     private suspend fun checkNicknameCanUse(): Boolean {
         Log.d(TAG, "checkNicknameIsUsed: start!")
-        return profileViewModel.checkNickname(binding.etNickname.text.toString())
+        return profileViewModel.checkNickname("",binding.etNickname.text.toString())
     }
 
     private fun checkJoinAvailable() = !isNicknameEmpty() && isJobSelected()
@@ -126,7 +126,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
             UserDto(
                 imgUrl = profileImageUrl,
                 nickname = binding.etNickname.text.toString(),
-                userJob = jobHashtag!!.seq)
+                userJob = jobHashtag!!.name)
         )
     }
 
