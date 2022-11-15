@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 import javax.inject.Inject
+import kotlin.math.log
 
 private const val TAG = "JoinViewModel"
 
@@ -56,9 +57,13 @@ class JoinViewModel @Inject constructor(
             if(it is ResultState.Success) {
                 _user.value = it.data
                 _isJoinSucceeded.value = true
+                Log.d(TAG, "addUser ${TAG}: invoke Success!! $it")
             }
-            else {
-                Log.d(TAG, "addUser ${TAG}: invoke Done!! $it")
+            else if (it is ResultState.Error) {
+                Log.d(TAG, "addUser ${TAG}: invoke Fail!! $it")
+            }
+            else if(it is ResultState.Loading){
+                    Log.d(TAG, "addUser ${TAG}: invoke Loading~")
             }
         }
     }

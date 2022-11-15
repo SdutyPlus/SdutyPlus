@@ -1,13 +1,12 @@
 package com.d205.domain.model.mypage
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Feed(
     val seq: Int,
     var writerSeq: Int,
     var imgUrl: String,
-    var thumbnail: String = "",
-    var jobHashtag: Int? = 0,
-    var contents: String = "",
-    var regtime: String? = null,
-    var feedPublic: Int = 0,
-    var feedWarning: Int = 0
-)
+    var content: String
+) : Parcelable

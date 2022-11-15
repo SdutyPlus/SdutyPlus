@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -32,10 +33,22 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_NETWORK_STATE).toTypedArray()
 
+    private val sha1 = arrayListOf<Byte>(
+        0xB5.toByte(), 0x54.toByte(), 0xD7.toByte(), 0x62.toByte(), 0x77.toByte(), 0xE6.toByte(),
+        0x72.toByte(), 0x1C.toByte(), 0x4F.toByte(), 0xFF.toByte(),
+        0xBA.toByte(), 0xCA.toByte(), 0x34.toByte(), 0xF8.toByte(), 0x50.toByte(), 0x3A.toByte(), 0x3F.toByte(),
+        0x8A.toByte(), 0x58.toByte(), 0x0D.toByte())
+
+    private val tmp1 = ByteArray(20)
+
     override fun init() {
         initPermission()
         val pref = UserSharedPreference(this)
         Log.d(TAG, "sharedPreference jwt : ${pref.getStringFromPreference("jwt")}")
+        for(i in 0..19) {
+            tmp1[i] = sha1[i]
+        }
+        Log.d("encode keyhash : ", Base64.encodeToString(tmp1, Base64.NO_WRAP));
     }
 
     private fun initPermission() {
