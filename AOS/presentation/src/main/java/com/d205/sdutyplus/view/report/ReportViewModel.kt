@@ -16,6 +16,7 @@ import com.d205.domain.usecase.report.UpdateTaskUseCase
 import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.SingleLiveEvent
+import com.d205.sdutyplus.uitls.convertTimeStringToDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 const val TAG = "ReportViewModel"
@@ -41,7 +43,7 @@ class ReportViewModel @Inject constructor(
     private val _totalTime = SingleLiveEvent<String?>()
     val totalTime get() = _totalTime
 
-    private val _percentage = SingleLiveEvent<String?>()
+    private val _percentage = SingleLiveEvent<Int>()
     val percentage get() = _percentage
 
     private val _remoteTask: MutableStateFlow<ResultState<List<Task>>> =
@@ -65,15 +67,12 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getReportUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
-                    _totalTime.postValue(it.data)
-                    //Log.d(TAG, "getReportTotalTime: ${it.data}")
-                    //Log.d(TAG, "getReportTotalTime: ${LocalDateTime.parse(it.data, DateTimeFormatter.ofPattern("HH:mm:ss"))}")
-                    //Log.d(TAG, "getReportTotalTime: ${LocalDateTime.parse("02:00:00", DateTimeFormatter.ofPattern("HH:mm:ss"))}")
+                    _totalTime.postValue(it.data.totalTime)
+                    _percentage.postValue(it.data.percentage)
                 }
             }
         }
     }
-
     fun getTaskList(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date).collectLatest {

@@ -20,7 +20,7 @@ const val TAG = "ReportRepositoryImpl"
 class ReportRepositoryImpl @Inject constructor(
     private val reportRemoteDataSource: ReportRemoteDataSource
 ): ReportRepository {
-    override fun getReport(date: String): Flow<ResultState<String>> = flow {
+    override fun getReport(date: String): Flow<ResultState<Report>> = flow {
         emit(ResultState.Loading)
         reportRemoteDataSource.getReport(date).collect {
             emit(ResultState.Success(mapperToReport(it)))
