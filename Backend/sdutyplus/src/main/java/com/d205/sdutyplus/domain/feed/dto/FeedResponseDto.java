@@ -7,12 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class FeedResponseDto {
     private Long seq;
     private UserWriterProfileDto writer;
     private String imgUrl;
     private String content;
+    private int feedLikesCount;
+    private int scrapCount;
 
     @QueryProjection
     public FeedResponseDto(Long seq, UserWriterProfileDto writer, String imgUrl, String content){
@@ -23,7 +24,7 @@ public class FeedResponseDto {
     }
 
     @QueryProjection
-    public FeedResponseDto(Long seq, User writer, String imgUrl, String content){
+    public FeedResponseDto(Long seq, User writer, String imgUrl, String content, int feedLikesCount, int scrapCount){
         this.seq = seq;
         this.writer = UserWriterProfileDto.builder()
                 .userSeq(writer.getSeq())
@@ -34,5 +35,7 @@ public class FeedResponseDto {
                 .build();
         this.imgUrl = imgUrl;
         this.content = content;
+        this.feedLikesCount = feedLikesCount;
+        this.scrapCount = scrapCount;
     }
 }

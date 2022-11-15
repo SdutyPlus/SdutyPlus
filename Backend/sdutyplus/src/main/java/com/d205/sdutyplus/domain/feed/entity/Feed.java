@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -28,6 +30,12 @@ public class Feed {
     @Column(name = "reg_time", nullable = false)
     @CreationTimestamp
     private LocalDateTime regTime;
+
+    @OneToMany(mappedBy ="feed")
+    private List<FeedLike> feedLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "feed")
+    private List<Scrap> scraps = new ArrayList<>();
 
     @Builder
     public Feed(User writer, String imgUrl, String content){

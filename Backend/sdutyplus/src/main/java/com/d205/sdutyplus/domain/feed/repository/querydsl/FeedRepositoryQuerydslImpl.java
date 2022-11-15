@@ -43,7 +43,9 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
 //                                        feed.writer.imgUrl
 //                                ),
                                 feed.imgUrl,
-                                feed.content
+                                feed.content,
+                                feed.feedLikes.size(),
+                                feed.scraps.size()
                         )
                 ).from(feed)
                 .where(
@@ -72,7 +74,9 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 feed.seq,
                                 feed.writer,
                                 feed.imgUrl,
-                                feed.content
+                                feed.content,
+                                feed.feedLikes.size(),
+                                feed.scraps.size()
                         )
                 ).from(feed)
                 .where(feed.seq.eq(feedSeq))
@@ -86,7 +90,9 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 feed.seq,
                                 feed.writer,
                                 feed.imgUrl,
-                                feed.content
+                                feed.content,
+                                feed.feedLikes.size(),
+                                feed.scraps.size()
                         )
                 ).from(feed)
                 .where(feed.writer.seq.eq(writerSeq))
@@ -104,7 +110,9 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 scrap.feed.seq,
                                 scrap.feed.writer,
                                 scrap.feed.imgUrl,
-                                scrap.feed.content
+                                scrap.feed.content,
+                                scrap.feed.feedLikes.size(),
+                                scrap.feed.scraps.size()
                         )
                 )
                 .from(scrap)
@@ -123,7 +131,9 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 feed.seq,
                                 feed.writer,
                                 feed.imgUrl,
-                                feed.content
+                                feed.content,
+                                feed.feedLikes.size(),
+                                feed.scraps.size()
                         )
                 )
                 .from(feed)
@@ -147,7 +157,9 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 warnFeed.feed.seq,
                                 warnFeed.feed.writer,
                                 warnFeed.feed.imgUrl,
-                                warnFeed.feed.content
+                                warnFeed.feed.content,
+                                warnFeed.feed.feedLikes.size(),
+                                warnFeed.feed.scraps.size()
                         )
                 )
                 .from(warnFeed)
