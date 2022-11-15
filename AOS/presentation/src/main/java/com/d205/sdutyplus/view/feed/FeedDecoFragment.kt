@@ -8,6 +8,9 @@ import android.net.Uri
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.d205.sdutyplus.R
@@ -15,15 +18,22 @@ import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedDecoBinding
 import com.d205.sdutyplus.di.ApplicationClass
 import com.d205.sdutyplus.uitls.NOT_PROFILE
+import com.d205.sdutyplus.uitls.convertTimeDateToString
+import com.d205.sdutyplus.uitls.getTodayDateString
 import com.d205.sdutyplus.view.common.CropImageActivity
 import com.d205.sdutyplus.view.feed.viewmodel.FeedCreateViewModel
+import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
+import java.time.LocalDate
 
 class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment_feed_deco) {
     private val feedCreateViewModel: FeedCreateViewModel by activityViewModels()
+    private val timerViewModel: TimerViewModel by activityViewModels()
     private var imageUrl: String = ""
 
     override fun initOnViewCreated() {
         initView()
+
+        initViewModel()
     }
 
     private fun initView() {
@@ -42,6 +52,17 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
             ivCheck.setOnClickListener {
                 imageToBitmap()
             }
+            setTextTotalStudyTime()
+        }
+    }
+
+    private fun setTextTotalStudyTime() {
+        timerViewModel.getTodayTotalStudyTime()
+    }
+
+    private fun initViewModel() {
+        timerViewModel.todayTotalStudyTime.observe(viewLifecycleOwner) {
+            binding.tvTotalStudyTime.text = getTodayDateString() + " " + it
         }
     }
 
