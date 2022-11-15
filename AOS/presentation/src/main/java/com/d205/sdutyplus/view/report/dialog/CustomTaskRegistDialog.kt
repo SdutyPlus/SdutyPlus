@@ -93,6 +93,7 @@ class CustomTaskRegistDialog : DialogFragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initClickListener() {
         binding.apply {
             ivStartTime.setOnClickListener {
@@ -109,16 +110,23 @@ class CustomTaskRegistDialog : DialogFragment() {
                 val content1 = etContent1.text.toString()
                 val content2 = etContent2.text.toString()
                 val content3 = etContent3.text.toString()
-                var contents: List<String> = listOf(content1, content2, content3)
+                val contents: List<String> = listOf(content1, content2, content3)
+
+                var realContents: MutableList<String> = mutableListOf()
+                for(content in contents) {
+                    if (content != "") {
+                        realContents.add(content)
+                    }
+                }
 
                 if (title.isNotEmpty()) {
                     reportViewModel.addTask(
                         CurrentTaskDto2(
                             0,
-                            "$tvStartTime:00",
-                            "$tvEndTime:00",
+                            "${todayDate} ${tvStartTime.text}:00",
+                            "${todayDate} ${tvEndTime.text}:00",
                             title,
-                            contents
+                            realContents
                         )
                     )
                 } else {

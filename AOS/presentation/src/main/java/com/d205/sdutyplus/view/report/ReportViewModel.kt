@@ -108,7 +108,9 @@ class ReportViewModel @Inject constructor(
 
     fun addTask(task: CurrentTaskDto2) {
         viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "addTask: ${task}")
             addTaskUseCase(task).collect { isSuccess ->
+                Log.d(TAG, "addTask: ${isSuccess}")
                 if(isSuccess) {
                     _addTaskCallBack.postValue(200)
                 }else {

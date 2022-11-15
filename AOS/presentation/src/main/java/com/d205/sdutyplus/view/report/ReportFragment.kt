@@ -206,14 +206,14 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
             when {
                 todayDate == date -> {
                     textView.apply {
-                        setTextColorRes(R.color.white)
+                        setTextColorRes(R.color.black)
                         setBackgroundResource(R.drawable.bg_calendar_today)
                     }
                 }
 
                 binding.tvSelectedDate.text.toString() == date.toString() -> {
                     textView.apply {
-                        setTextColorRes(R.color.black)
+                        setTextColorRes(R.color.white)
                         setBackgroundResource(R.drawable.bg_calendar_selected)
                     }
                 }
