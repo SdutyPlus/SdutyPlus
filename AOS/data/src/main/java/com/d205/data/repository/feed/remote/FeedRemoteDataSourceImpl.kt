@@ -3,15 +3,13 @@ package com.d205.data.repository.feed.remote
 import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.api.FeedApi
+import com.d205.data.model.feed.HomeFeedResponse
 import com.d205.data.model.mypage.MyFeedResponse
 import com.d205.domain.model.common.PagingResult
-import com.d205.domain.model.mypage.Feed
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import java.io.File
 import javax.inject.Inject
 
 private const val TAG = "FeedRemoteDataSourceImpl"
@@ -19,6 +17,7 @@ private const val TAG = "FeedRemoteDataSourceImpl"
 class FeedRemoteDataSourceImpl @Inject constructor(
     private val feedApi: FeedApi
 ): FeedRemoteDataSource {
+
     @SuppressLint("LongLogTag")
     override suspend fun getUserFeeds(
         page: Int,
@@ -34,6 +33,23 @@ class FeedRemoteDataSourceImpl @Inject constructor(
         }
     }.catch { e ->
         Log.d(TAG, "getUserFeeds: ${e.message}")
+    }
+
+    @SuppressLint("LongLogTag")
+    override suspend fun getHomeFeeds(
+        page: Int,
+        pageSize: Int
+    ): Flow<PagingResult<HomeFeedResponse>> = flow {
+        Log.d(TAG, "getHomeFeeds page: $page")
+        val response = feedApi.getHomeFeeds(page, pageSize)
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(PagingResult(-1,-1, emptyList()))
+        }
+    }.catch { e ->
+        Log.d(TAG, "getHomeFeeds: ${e.message}")
     }
 
     @SuppressLint("LongLogTag")
