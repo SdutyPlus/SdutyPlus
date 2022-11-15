@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.domain.user.controller;
 
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
+import com.d205.sdutyplus.domain.user.dto.UserProfileEditDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
 import com.d205.sdutyplus.domain.user.service.UserService;
@@ -80,9 +81,9 @@ public class UserController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PutMapping
-    public ResponseEntity<ResponseDto> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
+    public ResponseEntity<ResponseDto> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserProfileEditDto userProfileEditDto){
         Long userSeq = (Long)auth.getPrincipal();
-        UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
+        UserRegResponseDto result = userService.userProfileEdit(userSeq, userProfileEditDto);
 
         return ResponseEntity.ok(ResponseDto.of(EDIT_PROFILE_SUCCESS, result));
     }

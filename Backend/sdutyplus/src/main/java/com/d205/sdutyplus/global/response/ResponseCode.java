@@ -68,6 +68,8 @@ public enum ResponseCode {
     GET_WARN_FEED_SUCCESS(200, "A001", "신고 게시글 조회가 성공하였습니다."),
     GET_WARN_FEED_FAIL(200, "A002", "신고 게시글 조회가 실패하였습니다."),
     GET_WARN_USER_SUCCESS(200, "A003", "신고 유저 조회가 성공하였습니다."),
+    BAN_WARN_USER_SUCCESS(200, "A004", "신고 유저 제재가 성공하였습니다."),
+    BAN_WARN_USER_FAIL(200, "A005", "신고 유저 제재가 실패하였습니다."),
 
 
     ;

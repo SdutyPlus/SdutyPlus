@@ -3,8 +3,12 @@ package com.d205.sdutyplus.domain.admin.service;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.querydsl.UserRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.warn.dto.WarnUserDto;
+import com.d205.sdutyplus.global.error.ErrorCode;
+import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
+import com.d205.sdutyplus.util.AuthUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +21,7 @@ import javax.transaction.Transactional;
 public class AdminService {
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
     private final UserRepositoryQuerydsl userRepositoryQuerydsl;
+    private final AuthUtils authUtils;
 
     @Transactional
     public PagingResultDto getWarnFeed(Pageable pageable){
@@ -32,5 +37,17 @@ public class AdminService {
         final PagingResultDto pagingResultDto = new PagingResultDto<WarnUserDto>(pageable.getPageNumber(), warnUsers.getTotalPages() - 1, warnUsers.getContent());
 
         return pagingResultDto;
+    }
+
+    @Transactional
+    public boolean banWarnUser(Long warnUserSeq){
+        final User warnUser = authUtils.getLoginUser(warnUserSeq);
+
+        if (warnUser.isBanYN()) {
+            throw new EntityAlreadyExistException(ErrorCode.BAN_USER_ALREADY_EXIST);
+        }
+
+        warnUser.setBanYN(true);
+        return true;
     }
 }

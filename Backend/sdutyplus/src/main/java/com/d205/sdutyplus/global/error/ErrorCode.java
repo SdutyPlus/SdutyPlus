@@ -53,6 +53,9 @@ public enum ErrorCode {
     // DailyStatistics
     STATISTICS_NOT_FOUND(400, "DS001", "기록이 존재하지 않습니다."),
 
+    // Admin
+    BAN_USER_ALREADY_EXIST(400, "A001", "이미 제재한 유저입니다"),
+
     ;
 
     private final int status;
