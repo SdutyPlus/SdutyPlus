@@ -45,9 +45,15 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
             }
             btnDecoNone.setOnClickListener {
                 setPolaroidVisiblity(View.GONE)
+                setModernFrameVisibility(View.GONE)
             }
             btnDecoPolaroidWhite.setOnClickListener {
                 setPolaroidVisiblity(View.VISIBLE)
+                setModernFrameVisibility(View.GONE)
+            }
+            btnDecoFrameModern.setOnClickListener {
+                setPolaroidVisiblity(View.GONE)
+                setModernFrameVisibility(View.VISIBLE)
             }
             ivCheck.setOnClickListener {
                 imageToBitmap()
@@ -62,7 +68,8 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
 
     private fun initViewModel() {
         timerViewModel.todayTotalStudyTime.observe(viewLifecycleOwner) {
-            binding.tvTotalStudyTime.text = getTodayDateString() + " " + it
+            binding.tvPolaroidTotalStudyTime.text = getTodayDateString() + " " + it
+            binding.tvModernTotalStudyTime.text = getTodayDateString() + " " + it
         }
     }
 
@@ -90,6 +97,10 @@ class FeedDecoFragment : BaseFragment<FragmentFeedDecoBinding>(R.layout.fragment
     
     private fun setPolaroidVisiblity(visiblity: Int) {
         binding.layoutPolaroid.visibility = visiblity
+    }
+
+    private fun setModernFrameVisibility(visibility: Int) {
+        binding.layoutFrameModern.visibility = visibility
     }
 
     private fun imageToBitmap() {
