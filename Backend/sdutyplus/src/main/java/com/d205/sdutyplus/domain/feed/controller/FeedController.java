@@ -35,21 +35,27 @@ public class FeedController {
     
     @ApiOperation(value="게시글 등록")
     @PostMapping("")
-    public ResponseEntity<?> createFeed(@ApiIgnore Authentication auth, @ModelAttribute FeedPostDto feedPostDto){
+    public ResponseEntity<ResponseDto> createFeed(@ApiIgnore Authentication auth, @ModelAttribute FeedPostDto feedPostDto){
         final Long userSeq = (Long)auth.getPrincipal();
         feedService.createFeed(userSeq, feedPostDto);
-        log.info("게시글 등록 return값 = " + ResponseDto.of(CREATE_FEED_SUCCESS).toString());
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_FEED_SUCCESS));
     }
 
     @ApiOperation(value="전체 게시글 조회")
     @GetMapping("")
-    public ResponseEntity<?> getALlFeeds(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable){
+    public ResponseEntity<ResponseDto> getALlFeeds(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable){
         final Long userSeq = (Long)auth.getPrincipal();
         final PagingResultDto pagingResultDto = feedService.getAllFeeds(userSeq, pageable);
         return ResponseEntity.ok().body(ResponseDto.of(GET_ALL_FEED_SUCCESS, pagingResultDto));
     }
-    
+
+    @ApiOperation(value="게시글 상세 조회")
+    @GetMapping("/{feed_seq}")
+    public ResponseEntity<ResponseDto> getOneFeed(@PathVariable(value = "feed_seq") Long feedSeq){
+        final FeedResponseDto feedResponseDto = feedService.getOneFeed(feedSeq);
+        return ResponseEntity.ok().body(ResponseDto.of(GET_ONE_FEED_SUCCESS, feedResponseDto));
+    }
+
     @ApiOperation(value = "내가 작성한 게시글 조회")
     @GetMapping("/writer")
     public ResponseEntity<ResponseDto> getMyFeeds(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable){
@@ -76,14 +82,14 @@ public class FeedController {
 
     @ApiOperation(value = "게시글 삭제")
     @DeleteMapping("/{feed_seq}")
-    public ResponseEntity<?> deleteFeed(@PathVariable(value = "feed_seq") Long feedSeq){
+    public ResponseEntity<ResponseDto> deleteFeed(@PathVariable(value = "feed_seq") Long feedSeq){
         feedService.deleteFeed(feedSeq);
         return ResponseEntity.ok().body(ResponseDto.of(DELETE_FEED_SUCCESS));
     }
 
     @ApiOperation(value = "게시글 스크랩")
     @PostMapping("/scrap/{feed_seq}")
-    public ResponseEntity<?> scrapFeed(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq){
+    public ResponseEntity<ResponseDto> scrapFeed(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq){
         final Long userSeq = (Long)auth.getPrincipal();
         feedService.scrapFeed(userSeq, feedSeq);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_SCRAP_FEED_SUCCESS));
@@ -91,7 +97,7 @@ public class FeedController {
 
     @ApiOperation(value = "게시글 스크랩 취소")
     @DeleteMapping("/scrap/{feed_seq}")
-    public ResponseEntity<?> unscrapFeed(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq){
+    public ResponseEntity<ResponseDto> unscrapFeed(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq){
         final Long userSeq = (Long)auth.getPrincipal();
         feedService.unscrapFeed(userSeq, feedSeq);
         return ResponseEntity.ok().body(ResponseDto.of(UPDATE_UNSCRAP_FEED_SUCCESS));

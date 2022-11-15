@@ -1,7 +1,8 @@
 package com.d205.sdutyplus.domain.feed.dto;
 
+import com.d205.sdutyplus.domain.user.dto.UserWriterProfileDto;
+import com.d205.sdutyplus.domain.user.entity.User;
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,14 +10,28 @@ import lombok.Data;
 @Builder
 public class FeedResponseDto {
     private Long seq;
-    private Long writerSeq;
+    private UserWriterProfileDto writer;
     private String imgUrl;
     private String content;
 
     @QueryProjection
-    public FeedResponseDto(Long seq, Long writerSeq, String imgUrl, String content){
+    public FeedResponseDto(Long seq, UserWriterProfileDto writer, String imgUrl, String content){
         this.seq = seq;
-        this.writerSeq = writerSeq;
+        this.writer = writer;
+        this.imgUrl = imgUrl;
+        this.content = content;
+    }
+
+    @QueryProjection
+    public FeedResponseDto(Long seq, User writer, String imgUrl, String content){
+        this.seq = seq;
+        this.writer = UserWriterProfileDto.builder()
+                .userSeq(writer.getSeq())
+                .email(writer.getEmail())
+                .nickname(writer.getNickname())
+                .job(writer.getJob().getJobName())
+                .imgUrl(writer.getImgUrl())
+                .build();
         this.imgUrl = imgUrl;
         this.content = content;
     }

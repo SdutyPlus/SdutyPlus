@@ -2,6 +2,8 @@ package com.d205.sdutyplus.domain.feed.repository.querydsl;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
+import com.d205.sdutyplus.domain.user.dto.QUserWriterProfileDto;
+import com.d205.sdutyplus.domain.user.entity.QUser;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.global.entity.Job;
 import com.querydsl.core.QueryResults;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
 import static com.d205.sdutyplus.domain.feed.entity.QFeedLike.feedLike;
@@ -30,7 +34,14 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     public Page<FeedResponseDto> findAllFeeds(Long userSeq, Pageable pageable) {
         QueryResults<FeedResponseDto> result = queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
-                                feed.writerSeq,
+                                feed.writer,
+//                                new QUserWriterProfileDto(
+//                                        feed.writer.seq,
+//                                        feed.writer.email,
+//                                        feed.writer.nickname,
+//                                        feed.writer.job.jobName,
+//                                        feed.writer.imgUrl
+//                                ),
                                 feed.imgUrl,
                                 feed.content
                         )
@@ -56,17 +67,29 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
     }
 
+    public Optional<FeedResponseDto> findFeedBySeq(Long feedSeq){
+        return Optional.ofNullable(queryFactory.select(new QFeedResponseDto(
+                                feed.seq,
+                                feed.writer,
+                                feed.imgUrl,
+                                feed.content
+                        )
+                ).from(feed)
+                .where(feed.seq.eq(feedSeq))
+                .fetchOne());
+    }
+
 
     @Override
     public Page<FeedResponseDto> findMyFeedPage(Long writerSeq, Pageable pageable) {
         QueryResults<FeedResponseDto> result = queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
-                                feed.writerSeq,
+                                feed.writer,
                                 feed.imgUrl,
                                 feed.content
                         )
                 ).from(feed)
-                .where(feed.writerSeq.eq(writerSeq))
+                .where(feed.writer.seq.eq(writerSeq))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -79,7 +102,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .select(
                         new QFeedResponseDto(
                                 scrap.feed.seq,
-                                scrap.feed.writerSeq,
+                                scrap.feed.writer,
                                 scrap.feed.imgUrl,
                                 scrap.feed.content
                         )
@@ -98,13 +121,13 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .select(
                         new QFeedResponseDto(
                                 feed.seq,
-                                feed.writerSeq,
+                                feed.writer,
                                 feed.imgUrl,
                                 feed.content
                         )
                 )
                 .from(feed)
-                .where(feed.writerSeq.in(
+                .where(feed.writer.seq.in(
                         JPAExpressions
                                 .select(user.seq)
                                 .from(user)
@@ -122,7 +145,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .select(
                         new QFeedResponseDto(
                                 warnFeed.feed.seq,
-                                warnFeed.feed.writerSeq,
+                                warnFeed.feed.writer,
                                 warnFeed.feed.imgUrl,
                                 warnFeed.feed.content
                         )
@@ -138,12 +161,12 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     @Override
     public void deleteMyLikedFeed(Long userSeq) {
         queryFactory.delete(feedLike)
-                .where(feedLike.feed.writerSeq.eq(userSeq));
+                .where(feedLike.feed.writer.seq.eq(userSeq));
     }
 
     @Override
     public void deleteMyScrapedFeed(Long userSeq) {
         queryFactory.delete(scrap)
-                .where(scrap.feed.writerSeq.eq(userSeq));
+                .where(scrap.feed.writer.seq.eq(userSeq));
     }
 }

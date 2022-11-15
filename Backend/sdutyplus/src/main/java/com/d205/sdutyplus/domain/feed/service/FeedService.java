@@ -48,7 +48,6 @@ public class FeedService {
     private String firebaseBucket;
     private final String UPLOADURL = "feed/";
     private final FeedRepository feedRepository;
-    private final UserRepository userRepository;
     private final ScrapRepository scrapRepository;
     private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
     private final FeedLikeRepository feedLikeRepository;
@@ -57,9 +56,10 @@ public class FeedService {
 
     @Transactional
     public void createFeed(Long userSeq, FeedPostDto feedPostDto){
+        final User user = authUtils.getLoginUser(userSeq);
         final String imgUrl = uploadFile(feedPostDto.getImg());
         final Feed feed = Feed.builder()
-                .writerSeq(userSeq)
+                .writer(user)
                 .imgUrl(imgUrl)
                 .content(feedPostDto.getContent()).build();
         feedRepository.save(feed);
@@ -69,6 +69,12 @@ public class FeedService {
         final Page<FeedResponseDto> allFeeds = feedRepositoryQuerydsl.findAllFeeds(userSeq, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
         return pagingResultDto;
+    }
+
+    public FeedResponseDto getOneFeed(Long feedSeq){
+        final FeedResponseDto feedResponseDto = feedRepositoryQuerydsl.findFeedBySeq(feedSeq)
+                .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
+        return feedResponseDto;
     }
 
     public PagingResultDto getMyFeeds(Long writerSeq, Pageable pageable){
