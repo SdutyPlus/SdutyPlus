@@ -76,8 +76,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
         lifecycleScope.launch {
             this@FeedFragment.feedViewModel.homeFeeds.collectLatest {
-                Log.d(TAG, "onTabSelected: collect $it")
-                feedAdapter.refresh()
+                feedAdapter.submitData(it)
             }
         }
     }

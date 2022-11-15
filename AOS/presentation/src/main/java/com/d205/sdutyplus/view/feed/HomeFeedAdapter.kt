@@ -23,7 +23,7 @@ class HomeFeedAdapter(val activity: Activity): PagingDataAdapter<HomeFeed, HomeF
             binding.apply {
                 Log.d(TAG, "bind: $homeFeed")
                 data = homeFeed
-                ivStory.setOnClickListener {
+                ivFeed.setOnClickListener {
                     onClickStoryListener.onClick(homeFeed)
                 }
             }
@@ -44,8 +44,8 @@ class HomeFeedAdapter(val activity: Activity): PagingDataAdapter<HomeFeed, HomeF
         val deviceWidth = displaymetrics.widthPixels / 3
         val deviceHeight = deviceWidth * 4 / 3
         holder.binding.apply {
-            ivStory.layoutParams.width = deviceWidth
-            ivStory.layoutParams.height = deviceHeight
+            ivFeed.layoutParams.width = deviceWidth
+            ivFeed.layoutParams.height = deviceHeight
         }
     }
 
