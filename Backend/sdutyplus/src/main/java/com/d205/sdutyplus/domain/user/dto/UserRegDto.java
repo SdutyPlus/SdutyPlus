@@ -17,5 +17,5 @@ public class UserRegDto {
     private String imgUrl;
 
     @NotBlank(message = "직업을 설정해주세요.")
-    private Long job;
+    private String jobName;
 }
