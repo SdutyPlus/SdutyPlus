@@ -152,6 +152,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 override fun onClick(feed: Feed) {
                     // Feed Detail Fragment로 이동
                     Log.d(TAG, "Feed Clicked! : $feed")
+                    findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToFeedDetailFragment(feed))
                 }
             }
         }

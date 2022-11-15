@@ -90,6 +90,7 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
 
         userRemoteDataSource.getUser().collect {
+
             Log.d(TAG, "getUser collect: $it")
             Log.d(TAG, "mapper: ${mapperUserResponseToUser(it)}")
             emit(ResultState.Success(mapperUserResponseToUser(it)))

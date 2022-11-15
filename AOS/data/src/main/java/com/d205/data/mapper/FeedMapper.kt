@@ -18,7 +18,7 @@ fun mapperMyFeedResponseToFeed(myFeedResponse: MyFeedResponse): Feed {
     return Feed(
         seq = myFeedResponse.seq,
         writerSeq = myFeedResponse.writerSeq,
-        imgUrl = myFeedResponse.imgUrl,
+        imgUrl = myFeedResponse.feedImgUrl,
         content = myFeedResponse.content
     )
 }

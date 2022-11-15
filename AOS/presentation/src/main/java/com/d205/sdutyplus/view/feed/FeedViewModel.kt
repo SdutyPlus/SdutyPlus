@@ -11,10 +11,7 @@ import com.d205.domain.model.user.User
 import com.d205.domain.usecase.feed.GetFeedsUseCase
 import com.d205.sdutyplus.uitls.ALL_STORY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.switchMap
+import kotlinx.coroutines.flow.*
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
@@ -33,6 +30,8 @@ class FeedViewModel @Inject constructor(
         config = PagingConfig(pageSize = 1, maxSize = 6, enablePlaceholders = false),
         pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase)}
     ).flow.cachedIn(viewModelScope)
+
+
 
 
 
