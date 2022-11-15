@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.user.dto;
 
 import com.d205.sdutyplus.domain.statistics.entity.DailyTimeGraph;
 import com.d205.sdutyplus.domain.user.entity.User;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
