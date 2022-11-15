@@ -56,8 +56,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
         lifecycleScope.launch {
             initAdapter()
-            //initViewModel()
             initView()
+            initViewModel()
         }
     }
 
@@ -151,7 +151,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private suspend fun initViewModel() {
-        feedViewModel.apply {
+        this@MyPageFragment.feedViewModel.apply {
             getUserFeeds()
             pagingFeedList.collectLatest {
                 feedAdapter.submitData(this@MyPageFragment.lifecycle, it)
