@@ -7,6 +7,7 @@ import com.d205.sdutyplus.domain.statistics.repository.DailyTimeGraphRepository;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
+import com.d205.sdutyplus.domain.user.dto.UserProfileEditDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
 import com.d205.sdutyplus.domain.user.entity.User;
@@ -46,14 +47,35 @@ public class UserService {
         final User user = authUtils.getLoginUser(userSeq);
 
         if (userRepository.existsByNickname(userRegDto.getNickname())
-            && !user.getNickname().equals(userRegDto.getNickname())) {
+                && !user.getNickname().equals(userRegDto.getNickname())) {
             throw new NicknameAlreadyExistException();
         }
 
         final Job job = jobRepository.findBySeq(userRegDto.getJob())
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
-        updateUserData(user, userRegDto, job);
+        regUserData(user, userRegDto, job);
+
+        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user, job);
+        dailyStatisticsRepository.save(dailyStatistics);
+
+        return new UserRegResponseDto(userRepository.findBySeq(userSeq).get());
+    }
+
+
+    @Transactional
+    public UserRegResponseDto userProfileEdit(Long userSeq, UserProfileEditDto userProfileEditDto) {
+        final User user = authUtils.getLoginUser(userSeq);
+
+        if (userRepository.existsByNickname(userProfileEditDto.getNickname())
+                && !user.getNickname().equals(userProfileEditDto.getNickname())) {
+            throw new NicknameAlreadyExistException();
+        }
+
+        final Job job = jobRepository.findByJobName(userProfileEditDto.getJobName())
+                .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
+
+        updateUserData(user, userProfileEditDto, job);
 
         final DailyStatistics dailyStatistics = createUserStatisticsInfo(user, job);
         dailyStatisticsRepository.save(dailyStatistics);
@@ -96,9 +118,16 @@ public class UserService {
         updateContinuous(user, today, cnt);
     }
 
-    private void updateUserData(User user, UserRegDto userRegDto, Job job){
+    private void regUserData(User user, UserRegDto userRegDto, Job job){
         user.setNickname(userRegDto.getNickname());
         user.setImgUrl(userRegDto.getImgUrl());
+        user.setJob(job);
+    }
+
+
+    private void updateUserData(User user, UserProfileEditDto userProfileEditDto, Job job){
+        user.setNickname(userProfileEditDto.getNickname());
+        user.setImgUrl(userProfileEditDto.getImgUrl());
         user.setJob(job);
     }
 
