@@ -10,11 +10,9 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class PagingResultDto<T> {
     private int page;
     private int totalPage;
     private List<T> result;
-
 }

@@ -1,16 +1,17 @@
 package com.d205.sdutyplus.domain.feed.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
-@Getter
-@NoArgsConstructor
+@Data
+@Builder
 public class FeedResponseDto {
-    public Long seq;
-    public Long writerSeq;
-    public String imgUrl;
-    public String content;
+    private Long seq;
+    private Long writerSeq;
+    private String imgUrl;
+    private String content;
 
     @QueryProjection
     public FeedResponseDto(Long seq, Long writerSeq, String imgUrl, String content){
