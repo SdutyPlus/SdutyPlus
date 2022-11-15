@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.warn.entity;
 
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.user.entity.User;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "warn_feed")
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WarnFeed {
     @Id
     @Column(columnDefinition = "INT UNSIGNED")

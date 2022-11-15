@@ -7,8 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "off_feed")
 public class OffFeed {
     @Id
