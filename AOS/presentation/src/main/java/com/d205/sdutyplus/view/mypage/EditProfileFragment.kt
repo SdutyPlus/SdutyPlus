@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.d205.domain.model.common.JobHashtag
 import com.d205.domain.model.user.UserDto
@@ -33,6 +34,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     private val joinViewModel: JoinViewModel by viewModels()
 
     private var profileImageUrl: String? = null
+    private var prevProfileImageUrl: String? = null
     private var userJob: String = ""
 
     private val getImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -51,6 +53,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     override fun initOnViewCreated() {
         profileImageUrl = this@EditProfileFragment.mainViewModel.user.value!!.imgUrl
+        prevProfileImageUrl = profileImageUrl
         userJob = this@EditProfileFragment.mainViewModel.user.value!!.userJob!!
         Log.d(TAG, "initOnViewCreated profileImageUrl : $profileImageUrl")
         initView()
@@ -80,6 +83,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                             if (isUserUpdatedSucceeded()) {
                                 Log.d(TAG, "updateUser succeed!")
                                 this@EditProfileFragment.mainViewModel.getUser()
+                                findNavController().popBackStack()
                             } else {
                                 Log.d(TAG, "updateUser failed!")
                                 showToast("프로필 수정에 실패했습니다")
@@ -99,6 +103,14 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 //                .load(this@EditProfileFragment.mainViewModel.user.value!!.imgUrl)
 //                .error(R.drawable.empty_profile_image)
 //                .into(ivProfile)
+            if(this@EditProfileFragment.mainViewModel.user.value!!.imgUrl != null) {
+                Log.d(TAG, "initView imgUrl: ${this@EditProfileFragment.mainViewModel.user.value!!.imgUrl}")
+                //ivProfile.setImageURI(Uri.parse(this@MyPageFragment.mainViewModel.user.value!!.imgUrl))
+                Glide.with(requireContext())
+                    .load(this@EditProfileFragment.mainViewModel.user.value!!.imgUrl)
+                    .error(R.drawable.empty_profile_image)
+                    .into(ivProfile)
+            }
 
             ivProfile.setOnClickListener {
                 launchImageCrop()
@@ -143,7 +155,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         requireContext().showToast(msg)
     }
 
-    private fun isUserUpdatedSucceeded() = joinViewModel.isJoinSucceeded.value!!
+    private fun isUserUpdatedSucceeded() = joinViewModel.isUpdateSucceeded.value!!
 
     private suspend fun updateUser() {
         Log.d(TAG, "updateUser profileImageUrl : $profileImageUrl")
@@ -151,7 +163,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             UserDto(
                 imgUrl = profileImageUrl,
                 nickname = binding.etNickname.text.toString(),
-                userJob = userJob)
+                userJob = userJob), prevProfileImageUrl
         )
     }
 

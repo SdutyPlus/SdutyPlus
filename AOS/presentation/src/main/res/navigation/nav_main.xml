@@ -31,7 +31,8 @@
             app:destination="@id/feedDetailFragment" />
         <action
             android:id="@+id/action_mypageFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
+            app:destination="@id/editProfileFragment"
+            app:popUpTo="@id/mypageFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportFragment"

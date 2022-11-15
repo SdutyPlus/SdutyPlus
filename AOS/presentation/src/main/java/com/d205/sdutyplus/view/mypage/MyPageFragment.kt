@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.d205.data.dao.UserSharedPreference
 import com.d205.domain.model.mypage.Feed
 import com.d205.domain.model.user.User
@@ -145,6 +146,15 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
             btnEditProfile.setOnClickListener {
                 moveToEditProfileFragment()
+            }
+
+            if(this@MyPageFragment.mainViewModel.user.value!!.imgUrl != null) {
+                Log.d(TAG, "initView imgUrl: ${this@MyPageFragment.mainViewModel.user.value!!.imgUrl}")
+                //ivProfile.setImageURI(Uri.parse(this@MyPageFragment.mainViewModel.user.value!!.imgUrl))
+                Glide.with(requireContext())
+                    .load(this@MyPageFragment.mainViewModel.user.value!!.imgUrl)
+                    .error(R.drawable.empty_profile_image)
+                    .into(ivProfile)
             }
         }
     }

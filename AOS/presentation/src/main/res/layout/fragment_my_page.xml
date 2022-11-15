@@ -122,8 +122,8 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_gravity="center"
-                                loadImage="@{mainVM.user.component4()}"
-                                tools:src="@drawable/ic_empty_image" />
+                                android:src="@drawable/empty_profile_image"
+                                tools:src="@drawable/empty_profile_image" />
 
                         </FrameLayout>
 

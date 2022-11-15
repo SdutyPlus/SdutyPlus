@@ -94,7 +94,7 @@
                         android:id="@+id/iv_profile"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        loadImage="@{mainViewModel.user.imgUrl}"
+                        android:src="@drawable/empty_profile_image"
                         android:layout_gravity="center"/>
 
                 </FrameLayout>
