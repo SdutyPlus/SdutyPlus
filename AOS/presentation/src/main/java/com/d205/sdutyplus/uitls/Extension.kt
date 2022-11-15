@@ -12,7 +12,10 @@ import android.graphics.Point
 import android.view.WindowInsets
 import android.view.WindowManager
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.Month
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
 
@@ -23,6 +26,13 @@ fun getTodayDate(): Date {
 fun convertTimeDateToString(date: Date, format: String = "yyyy년 M월 d일"): String {
     val simpleDateFormat = SimpleDateFormat(format, Locale("ko", "KR"))
     return simpleDateFormat.format(date)
+}
+
+fun getTodayDateString(): String {
+    val simpleDateFormat = SimpleDateFormat("yy.M.dd", Locale("ko", "KR"))
+    val currentDate = simpleDateFormat.format(Date())
+
+    return currentDate
 }
 
 
