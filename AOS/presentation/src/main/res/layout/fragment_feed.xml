@@ -11,12 +11,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/navy_80">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_appbar"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

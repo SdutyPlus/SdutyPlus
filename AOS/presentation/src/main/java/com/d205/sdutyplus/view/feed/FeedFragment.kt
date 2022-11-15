@@ -63,7 +63,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
         binding.rvFeedList.apply {
             adapter = feedAdapter
-            layoutManager = GridLayoutManager(requireContext(), 3)
+            layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }
 
@@ -76,7 +76,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
         lifecycleScope.launch {
             this@FeedFragment.feedViewModel.homeFeeds.collectLatest {
-                Log.d(TAG, "onTabSelected: collect $it")
                 feedAdapter.submitData(it)
             }
         }
