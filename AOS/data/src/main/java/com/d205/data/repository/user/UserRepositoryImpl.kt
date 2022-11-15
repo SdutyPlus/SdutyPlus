@@ -10,10 +10,7 @@ import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.repository.UserRepository
 import com.d205.domain.utils.ResultState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 private const val TAG = "UserRepositoryImpl"
@@ -93,6 +90,7 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
 
         userRemoteDataSource.getUser().collect {
+
             Log.d(TAG, "getUser collect: $it")
             Log.d(TAG, "mapper: ${mapperUserResponseToUser(it)}")
             emit(ResultState.Success(mapperUserResponseToUser(it)))

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
-    app:startDestination="@id/timerFragment">
+    app:startDestination="@id/feedFragment">
 
     <fragment
         android:id="@+id/feedFragment"
@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_mypageFragment_to_statisticFragment"
             app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportFragment"
@@ -51,4 +54,12 @@
         android:id="@+id/statisticFragment"
         android:name="com.d205.sdutyplus.view.mypage.StatisticFragment"
         android:label="StatisticFragment" />
+    <fragment
+        android:id="@+id/feedDetailFragment"
+        android:name="com.d205.sdutyplus.view.feed.FeedDetailFragment"
+        android:label="FeedDetailFragment" >
+        <argument
+            android:name="feed"
+            app:argType="com.d205.domain.model.mypage.Feed" />
+    </fragment>
 </navigation>

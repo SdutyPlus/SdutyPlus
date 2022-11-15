@@ -83,7 +83,8 @@ class TimerRepositoryImpl @Inject constructor(
         emit(ResultState.Loading) // Loading 상태처리 필요한 경우
 
         timerRemoteDataSource.addTask(currentTaskDto).collect { isSuccessAdd ->
-                emit(ResultState.Success(isSuccessAdd))
+
+            emit(ResultState.Success(isSuccessAdd))
         }
 
     }.catch { e ->

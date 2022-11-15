@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "899063949159",
+    "project_id": "sdutyplus",
+    "storage_bucket": "sdutyplus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899063949159:android:95f456f4a6f970e1d0b1c2",
+        "android_client_info": {
+          "package_name": "com.d205.data"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "899063949159-ph34afdp4n86e4plsl8640j504jv1goo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfmHbStwoYF_rkCzspM-hcwZhReZwv_5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "899063949159-ph34afdp4n86e4plsl8640j504jv1goo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

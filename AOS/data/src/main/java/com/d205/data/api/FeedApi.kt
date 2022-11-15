@@ -1,13 +1,10 @@
 package com.d205.data.api
 
 import com.d205.data.model.BaseResponse
-import com.d205.data.model.mypage.FeedResponse
+import com.d205.data.model.feed.HomeFeedResponse
 import com.d205.data.model.mypage.MyFeedResponse
 import com.d205.domain.model.common.PagingResult
-import com.d205.domain.model.mypage.Feed
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.Response
 import retrofit2.http.*
 
 interface FeedApi {
@@ -15,6 +12,11 @@ interface FeedApi {
     suspend fun getUserStoryList(
         @Query("page")page: Int,
         @Query("size")pageSize: Int): BaseResponse<PagingResult<MyFeedResponse>>
+
+    @GET("feed")
+    suspend fun getHomeFeeds(
+        @Query("page")page: Int,
+        @Query("size")pageSize: Int): BaseResponse<PagingResult<HomeFeedResponse>>
 
     @Multipart
     @POST("feed")

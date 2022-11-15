@@ -64,6 +64,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private fun getUser() = mainViewModel.user.value!!
 
     private fun initView() {
+        mainViewModel.displayBottomNav(true)
+
         binding.apply {
             lifecycleOwner = this@MyPageFragment
             feedVM = this@MyPageFragment.feedViewModel
@@ -107,7 +109,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     when (tab!!.position) {
                         0 -> {
-                            //feedViewModel.getUserFeeds()
+                            lifecycleScope.launch {
+                                this@MyPageFragment.feedViewModel.feedPage.collectLatest {
+                                    Log.d(TAG, "onTabSelected: collect $it")
+                                    feedAdapter.submitData(it)
+                                }
+                            }
                         }
                         1 -> {
                             //feedViewModel.getScrapStoryList(mainViewModel.user.value!!.seq)
@@ -119,7 +126,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 override fun onTabReselected(tab: TabLayout.Tab?) {
                     when (tab!!.position) {
                         0 -> {
-                            //feedViewModel.getUserFeeds()
+                            lifecycleScope.launch {
+                                this@MyPageFragment.feedViewModel.feedPage.collectLatest {
+                                    Log.d(TAG, "onTabReselected: collect $it")
+                                    feedAdapter.submitData(it)
+                                }
+                            }
                         }
                         1 -> {
                             //feedViewModel.getScrapStoryList(mainViewModel.user.value!!.seq)
@@ -132,10 +144,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 adapter = feedAdapter
                 layoutManager = GridLayoutManager(requireContext(), 3)
             }
-
-            if(user.imgUrl != null) {
-                ivProfile.setImageURI(Uri.parse(user.imgUrl))
-            }
         }
     }
 
@@ -145,6 +153,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
             onClickStoryListener = object : FeedAdapter.OnClickStoryListener{
                 override fun onClick(feed: Feed) {
                     // Feed Detail Fragment로 이동
+                    Log.d(TAG, "Feed Clicked! : $feed")
+                    findNavController().navigate(MyPageFragmentDirections.actionMypageFragmentToFeedDetailFragment(feed))
                 }
             }
         }
@@ -152,10 +162,15 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private suspend fun initViewModel() {
         this@MyPageFragment.feedViewModel.apply {
-            getUserFeeds()
-            pagingFeedList.collectLatest {
-                feedAdapter.submitData(this@MyPageFragment.lifecycle, it)
-            }
+//            getUserFeeds()
+//            pagingFeedList.collect {
+//                feedAdapter.submitData(this@MyPageFragment.lifecycle, it)
+//            }
+//            lifecycleScope.launch {
+//                feedPage.collectLatest {
+//                    feedAdapter.submitData(it)
+//                }
+//            }
         }
     }
 
