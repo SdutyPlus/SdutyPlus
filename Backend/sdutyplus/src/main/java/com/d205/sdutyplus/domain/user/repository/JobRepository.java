@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface JobRepository extends JpaRepository<Job, Long> {
     Optional<Job> findBySeq(Long seq);
+
+    Optional<Job> findByJobName(String jobName);
 }
