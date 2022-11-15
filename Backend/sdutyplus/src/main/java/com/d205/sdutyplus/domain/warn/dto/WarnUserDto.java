@@ -2,11 +2,12 @@ package com.d205.sdutyplus.domain.warn.dto;
 
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WarnUserDto {
     private Long seq;
     private String email;

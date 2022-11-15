@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import static com.d205.sdutyplus.domain.off.entity.QOffFeed.offFeed;
 
-@Repository
 @RequiredArgsConstructor
 public class OffFeedRepositoryQuerydlImpl implements OffFeedRepositoryQuerydsl{
 
