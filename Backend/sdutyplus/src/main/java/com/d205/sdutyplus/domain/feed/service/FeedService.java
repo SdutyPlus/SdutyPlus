@@ -48,38 +48,43 @@ public class FeedService {
     private String firebaseBucket;
     private final String UPLOADURL = "feed/";
     private final FeedRepository feedRepository;
-    private final UserRepository userRepository;
     private final ScrapRepository scrapRepository;
-    private final FeedRepositoryQuerydsl feedRepositoryQuerydsl;
     private final FeedLikeRepository feedLikeRepository;
     private final JobRepository jobRepository;
     private final AuthUtils authUtils;
 
     @Transactional
     public void createFeed(Long userSeq, FeedPostDto feedPostDto){
+        final User user = authUtils.getLoginUser(userSeq);
         final String imgUrl = uploadFile(feedPostDto.getImg());
         final Feed feed = Feed.builder()
-                .writerSeq(userSeq)
+                .writer(user)
                 .imgUrl(imgUrl)
                 .content(feedPostDto.getContent()).build();
         feedRepository.save(feed);
     }
 
     public PagingResultDto getAllFeeds(Long userSeq, Pageable pageable){
-        final Page<FeedResponseDto> allFeeds = feedRepositoryQuerydsl.findAllFeeds(userSeq, pageable);
+        final Page<FeedResponseDto> allFeeds = feedRepository.findAllFeeds(userSeq, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
         return pagingResultDto;
     }
 
+    public FeedResponseDto getOneFeed(Long feedSeq){
+        final FeedResponseDto feedResponseDto = feedRepository.findFeedBySeq(feedSeq)
+                .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
+        return feedResponseDto;
+    }
+
     public PagingResultDto getMyFeeds(Long writerSeq, Pageable pageable){
-        final Page<FeedResponseDto> myfeeds = feedRepositoryQuerydsl.findMyFeedPage(writerSeq, pageable);
+        final Page<FeedResponseDto> myfeeds = feedRepository.findMyFeedPage(writerSeq, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), myfeeds.getTotalPages() - 1, myfeeds.getContent());
         return pagingResultDto;
     }
 
     public PagingResultDto getScrapFeeds(Long userSeq, Pageable pageable){
         final User user = authUtils.getLoginUser(userSeq);
-        final Page<FeedResponseDto> feedPage = feedRepositoryQuerydsl.findScrapFeedPage(user, pageable);
+        final Page<FeedResponseDto> feedPage = feedRepository.findScrapFeedPage(user, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }
@@ -88,7 +93,7 @@ public class FeedService {
         final Job job = jobRepository.findBySeq(jobSeq).orElseThrow(
                 ()->new EntityNotFoundException(JOB_NOT_FOUND)
         );
-        final Page<FeedResponseDto> feedPage = feedRepositoryQuerydsl.findFilterFeedPage(userSeq, job, pageable);
+        final Page<FeedResponseDto> feedPage = feedRepository.findFilterFeedPage(userSeq, job, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }

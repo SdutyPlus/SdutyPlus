@@ -1,16 +1,12 @@
 package com.d205.sdutyplus.domain.task.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SubTask {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

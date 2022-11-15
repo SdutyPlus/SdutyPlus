@@ -14,6 +14,6 @@ public class WarnFeedRepositoryQuerydslImpl implements WarnFeedRepositoryQueryds
     @Override
     public void deleteMyWarnedFeedByUserSeq(Long userSeq) {
         queryFactory.delete(warnFeed)
-                .where(warnFeed.feed.writerSeq.eq(userSeq));
+                .where(warnFeed.feed.writer.seq.eq(userSeq));
     }
 }

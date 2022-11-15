@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public class ReportDto {
     private String totalTime;
     private List<TaskDto> taskDtos;

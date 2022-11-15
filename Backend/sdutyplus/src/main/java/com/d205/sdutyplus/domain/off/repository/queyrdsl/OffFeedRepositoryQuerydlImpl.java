@@ -15,6 +15,6 @@ public class OffFeedRepositoryQuerydlImpl implements OffFeedRepositoryQuerydsl{
     @Override
     public void deleteMyOffedFeedByUserSeq(Long userSeq) {
         queryFactory.delete(offFeed)
-                .where(offFeed.feed.writerSeq.eq(userSeq));
+                .where(offFeed.feed.writer.seq.eq(userSeq));
     }
 }
