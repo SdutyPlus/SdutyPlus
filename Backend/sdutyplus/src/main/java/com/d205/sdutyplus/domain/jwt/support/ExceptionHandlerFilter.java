@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -31,6 +32,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
             log.error("JWT exception handler filter");
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setHeader("NOT_TOKEN","잘못된 token 입니다");
         }
     }
 
