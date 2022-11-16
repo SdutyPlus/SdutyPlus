@@ -30,6 +30,7 @@ import javax.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
@@ -100,8 +101,12 @@ public class UserService {
         }
 
         List<DailyTimeGraph> dailyTimeGraphs = dailyTimeGraphRepository.findAll();
-
-        final UserProfileDto result = new UserProfileDto(user, dailyTimeGraphs);
+        List<Long> timeList = new ArrayList<>();
+        for (DailyTimeGraph dailyTimeGraph : dailyTimeGraphs) {
+            timeList.add(dailyTimeGraph.getCount());
+        }
+        
+        final UserProfileDto result = new UserProfileDto(user, timeList);
         return result;
     }
 

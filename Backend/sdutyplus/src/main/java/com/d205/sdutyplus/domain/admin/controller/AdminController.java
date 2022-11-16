@@ -74,7 +74,7 @@ public class AdminController {
         if (auth == null) {
             throw new UserNotLoginException();
         }
-        
+
         Long userSeq = (Long) auth.getPrincipal();
 
         final boolean success = adminService.banWarnUser(warnUserSeq);
