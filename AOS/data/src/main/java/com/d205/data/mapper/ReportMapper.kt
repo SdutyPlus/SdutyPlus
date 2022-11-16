@@ -1,7 +1,9 @@
 package com.d205.data.mapper
 
 import com.d205.data.model.BaseResponse
+import com.d205.data.model.report.GraphResponse
 import com.d205.data.model.report.ReportResponse
+import com.d205.domain.model.report.Graph
 import com.d205.domain.model.report.Report
 import com.d205.domain.model.report.Task
 
@@ -14,4 +16,12 @@ fun mapperToReport(reportResponse: BaseResponse<ReportResponse>): Report {
 
 fun mapperToTask(reportResponse: BaseResponse<ReportResponse>): List<Task> {
     return reportResponse.data!!.taskDtos
+}
+
+fun mapperToGraph(graphResponse: BaseResponse<GraphResponse>): Graph{
+    return Graph(
+        graphResponse.data!!.continuous,
+        graphResponse.data.studyTime,
+        graphResponse.data.dailyTimeGraphs
+    )
 }

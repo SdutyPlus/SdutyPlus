@@ -1,9 +1,11 @@
 package com.d205.data.repository.report
 
 import android.util.Log
+import com.d205.data.mapper.mapperToGraph
 import com.d205.data.mapper.mapperToReport
 import com.d205.data.mapper.mapperToTask
 import com.d205.data.repository.report.remote.ReportRemoteDataSource
+import com.d205.domain.model.report.Graph
 import com.d205.domain.model.report.Report
 import com.d205.domain.model.report.SubTask
 import com.d205.domain.model.report.Task
@@ -51,6 +53,15 @@ class ReportRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
         reportRemoteDataSource.deleteTask(task_seq).collect {
             emit(ResultState.Success(it))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
+
+    override fun getGraph(): Flow<ResultState<Graph>> = flow {
+        emit(ResultState.Loading)
+        reportRemoteDataSource.getGraph().collect {
+            emit(ResultState.Success(mapperToGraph(it)))
         }
     }.catch { e ->
         emit(ResultState.Error(e))

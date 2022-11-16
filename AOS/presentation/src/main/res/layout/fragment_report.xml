@@ -38,6 +38,16 @@
                 app:layout_constraintBottom_toBottomOf="parent" />
 
             <ImageView
+                android:id="@+id/iv_graph"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_graph"
+                android:padding="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/iv_add_task"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <ImageView
                 android:id="@+id/iv_add_task"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
