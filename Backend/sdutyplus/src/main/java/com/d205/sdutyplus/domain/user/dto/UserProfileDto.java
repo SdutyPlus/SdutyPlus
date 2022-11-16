@@ -31,9 +31,9 @@ public class UserProfileDto {
     @ApiModelProperty(value = "나의 공부 시간")
     private Long studyTime;
     @ApiModelProperty(value = "전체 인원의 공부 시간")
-    private List<DailyTimeGraph> dailyTimeGraphs;
+    private List<Long> dailyTimeGraphs;
 
-    public UserProfileDto(User user, List<DailyTimeGraph> dailyTimeGraphs){
+    public UserProfileDto(User user, List<Long> dailyTimeGraphs){
         this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
