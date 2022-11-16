@@ -87,44 +87,12 @@ public class UserService {
     }
 
     @Transactional
-    public UserProfileDto getUserProfile(Authentication auth){
-
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
-
-        Long userSeq = (Long)auth.getPrincipal();
-
+    public UserProfileDto getUserProfile(){
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
-        if (Period.between(user.getLastReport(), LocalDate.now()).getDays() >= 2) {
-            updateContinuous(user, LocalDate.now(), 0);
-        }
 
-        List<DailyTimeGraph> dailyTimeGraphs = dailyTimeGraphRepository.findAll();
-        List<Long> timeList = new ArrayList<>();
-        for (DailyTimeGraph dailyTimeGraph : dailyTimeGraphs) {
-            timeList.add(dailyTimeGraph.getCount());
-        }
-        
-        final UserProfileDto result = new UserProfileDto(user, timeList);
+        final UserProfileDto result = new UserProfileDto(user);
         return result;
-    }
-
-    @Transactional
-    public void getReportContinuous(Long userSeq, TaskDto taskDto){
-        final User user = authUtils.getLoginUser(userSeq);
-
-        LocalDate today = TimeFormatter.StringToLocalDateTime(taskDto.getStartTime()).toLocalDate();
-        LocalDate lastReport = user.getLastReport();
-        int gap = Period.between(lastReport, today).getDays();
-
-        long cnt = 1;
-
-        if (user.getContinuous() > 0 && gap == 1) {
-            cnt = user.getContinuous() + 1;
-        }
-
-        updateContinuous(user, today, cnt);
     }
 
     private void regUserData(User user, UserRegDto userRegDto, Job job){
@@ -138,10 +106,5 @@ public class UserService {
         user.setNickname(userProfileEditDto.getNickname());
         user.setImgUrl(userProfileEditDto.getImgUrl());
         user.setJob(job);
-    }
-
-    private void updateContinuous(User user, LocalDate date, long cnt){
-        user.setLastReport(date);
-        user.setContinuous(cnt);
     }
 }
