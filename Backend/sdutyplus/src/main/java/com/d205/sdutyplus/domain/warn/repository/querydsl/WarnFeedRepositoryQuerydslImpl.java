@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import static com.d205.sdutyplus.domain.warn.entity.QWarnFeed.warnFeed;
 
-@Repository
 @RequiredArgsConstructor
 public class WarnFeedRepositoryQuerydslImpl implements WarnFeedRepositoryQuerydsl {
     private final JPAQueryFactory queryFactory;

@@ -58,11 +58,9 @@ public class UserAuthService {
     private final FeedLikeRepository feedLikeRepository;
     private final OffUserRepository offUserRepository;
     private final OffFeedRepository offFeedRepository;
-    private final OffFeedRepositoryQuerydsl offFeedRepositoryQuerydsl;
     private final ScrapRepository scrapRepository;
     private final WarnUserRepository warnUserRepository;
     private final WarnFeedRepository warnFeedRepository;
-    private final WarnFeedRepositoryQuerydsl warnFeedRepositoryQuerydsl;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -183,11 +181,11 @@ public class UserAuthService {
         feedLikeRepository.deleteAllByUserSeq(userSeq);
         feedRepository.deleteMyLikedFeed(userSeq);
         offFeedRepository.deleteAllByUserSeq(userSeq);
-        offFeedRepositoryQuerydsl.deleteMyOffedFeedByUserSeq(userSeq);
+        offFeedRepository.deleteMyOffedFeedByUserSeq(userSeq);
         scrapRepository.deleteAllByUserSeq(userSeq);
         feedRepository.deleteMyScrapedFeed(userSeq);
         warnFeedRepository.deleteAllByUserSeq(userSeq);
-        warnFeedRepositoryQuerydsl.deleteMyWarnedFeedByUserSeq(userSeq);
+        warnFeedRepository.deleteMyWarnedFeedByUserSeq(userSeq);
         feedRepository.deleteAllByWriterSeq(userSeq);
 
         warnUserRepository.deleteAllByFromUserSeq(userSeq);

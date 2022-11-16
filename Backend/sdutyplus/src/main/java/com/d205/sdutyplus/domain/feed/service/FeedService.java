@@ -9,10 +9,10 @@ import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
 import com.d205.sdutyplus.domain.feed.entity.Scrap;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
-import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.off.repository.OffFeedRepository;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.JobRepository;
-import com.d205.sdutyplus.domain.user.repository.UserRepository;
+import com.d205.sdutyplus.domain.warn.repository.WarnFeedRepository;
 import com.d205.sdutyplus.global.entity.Job;
 import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
@@ -47,11 +47,14 @@ public class FeedService {
     @Value("${app.firebase-bucket}")
     private String firebaseBucket;
     private final String UPLOADURL = "feed/";
+    private final AuthUtils authUtils;
     private final FeedRepository feedRepository;
     private final ScrapRepository scrapRepository;
     private final FeedLikeRepository feedLikeRepository;
     private final JobRepository jobRepository;
-    private final AuthUtils authUtils;
+    private final WarnFeedRepository warnFeedRepository;
+    private final OffFeedRepository offFeedRepository;
+
 
     @Transactional
     public void createFeed(Long userSeq, FeedPostDto feedPostDto){
@@ -101,6 +104,12 @@ public class FeedService {
     @Transactional
     public void deleteFeed(Long seq){
         final Feed feed = getFeed(seq);
+
+        scrapRepository.deleteAllByFeedSeq(seq);
+        feedLikeRepository.deleteAllByFeedSeq(seq);
+        warnFeedRepository.deleteAllByFeedSeq(seq);
+        offFeedRepository.deleteAllByFeedSeq(seq);
+        
         removeFile(feed.getImgUrl());
         feedRepository.delete(feed);
     }

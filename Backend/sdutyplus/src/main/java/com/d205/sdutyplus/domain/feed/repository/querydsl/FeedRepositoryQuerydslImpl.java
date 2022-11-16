@@ -62,6 +62,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                         )
                                 )
                 )
+                .orderBy(feed.regTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -95,6 +96,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 ).from(feed)
                 .where(feed.writer.seq.eq(writerSeq))
+                .orderBy(feed.regTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -116,6 +118,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 )
                 .from(scrap)
                 .where(scrap.user.eq(userObject))
+                .orderBy(scrap.feed.regTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -142,6 +145,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                                 .from(user)
                                 .where(user.job.eq(jobObject))
                 ))
+                .orderBy(feed.regTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -162,6 +166,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 )
                 .from(warnFeed)
+                .orderBy(warnFeed.feed.regTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
