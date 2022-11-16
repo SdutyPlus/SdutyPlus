@@ -12,6 +12,7 @@ import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
 import com.d205.sdutyplus.domain.off.repository.OffFeedRepository;
 import com.d205.sdutyplus.domain.off.repository.OffUserRepository;
 import com.d205.sdutyplus.domain.off.repository.queyrdsl.OffFeedRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.statistics.entity.DailyStatistics;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
@@ -74,6 +75,10 @@ public class UserAuthService {
             user.setRegTime(LocalDateTime.now());
             user.setLastReport(LocalDate.now());
             realUser = userRepository.save(user);
+
+            final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
+            dailyStatisticsRepository.save(dailyStatistics);
+
             if(realUser == null) {
                 return null;
             }
@@ -191,4 +196,12 @@ public class UserAuthService {
 
         userRepository.deleteById(userSeq);
     }
+
+    private DailyStatistics createUserStatisticsInfo(User user){
+        DailyStatistics result = new DailyStatistics();
+        result.setUserSeq(user.getSeq());
+
+        return result;
+    }
+
 }

@@ -46,9 +46,15 @@ public class DailyStatisticsService {
     }
 
     @Transactional
-    @Scheduled(cron = "40 26 16 * * *")
+    @Scheduled(cron = "0 5 11 * * *")
     public void resetDailyTime(){
         List<DailyTimeGraph> dailyTimeGraphs = dailyTimeGraphRepository.findAll();
+
+        long reset = 0;
+
+        for (int time = 0; time < 5; time++) {
+            dailyTimeGraphs.get(time).setCount(reset);
+        }
 
         for (int time = 0; time < 3; time++) {
             dailyTimeGraphs.get(time).counter(dailyStatisticsRepository.countByDailyStudyTime(time * 2 + 1));
