@@ -4,6 +4,7 @@ package com.d205.sdutyplus.domain.user.controller;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.user.service.UserAuthService;
 import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseCode;
@@ -93,6 +94,10 @@ public class UserAuthController {
     })
     @DeleteMapping
     public ResponseEntity<ResponseDto> deleteUser(@ApiIgnore Authentication auth){
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
         Long userSeq = (Long)auth.getPrincipal();
 
         boolean success = userAuthService.deleteUser(userSeq);

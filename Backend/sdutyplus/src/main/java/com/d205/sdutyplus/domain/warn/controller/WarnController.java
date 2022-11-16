@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.warn.controller;
 
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
 
 import com.d205.sdutyplus.global.response.ResponseCode;
@@ -37,6 +38,10 @@ public class WarnController {
     })
     @PostMapping("/user/{to_user_seq}")
     public ResponseEntity<ResponseDto> userWarn(@ApiIgnore Authentication auth, @PathVariable(value = "to_user_seq") Long toUserSeq) {
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
         Long fromUserSeq = (Long)auth.getPrincipal();
 
         final boolean success = warnService.userWarn(fromUserSeq, toUserSeq);
@@ -55,6 +60,10 @@ public class WarnController {
     })
     @PostMapping("/feed/{feed_seq}")
     public ResponseEntity<ResponseDto> feedWarn(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq) {
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
         Long userSeq = (Long)auth.getPrincipal();
 
         final boolean success = warnService.feedWarn(userSeq, feedSeq);
