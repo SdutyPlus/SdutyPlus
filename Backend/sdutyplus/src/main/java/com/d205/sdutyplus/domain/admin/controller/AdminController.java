@@ -2,6 +2,7 @@ package com.d205.sdutyplus.domain.admin.controller;
 
 import com.d205.sdutyplus.domain.admin.service.AdminService;
 import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.global.response.ResponseCode;
 import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.Api;
@@ -37,6 +38,10 @@ public class AdminController {
     })
     @GetMapping("/warn/feed")
     public ResponseEntity<ResponseDto> getWarnFeed(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable) {
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
         Long userSeq = (Long) auth.getPrincipal();
         final PagingResultDto pagingResultDto = adminService.getWarnFeed(pageable);
 
@@ -50,6 +55,9 @@ public class AdminController {
     })
     @GetMapping("/warn/user")
     public ResponseEntity<ResponseDto> getWarnUser(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable) {
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
         Long userSeq = (Long) auth.getPrincipal();
         final PagingResultDto pagingResultDto = adminService.getWarnUser(pageable);
 
@@ -63,6 +71,10 @@ public class AdminController {
     })
     @PutMapping("/warn/user/{warnUserSeq}")
     public ResponseEntity<ResponseDto> banWarnUser(@ApiIgnore Authentication auth, @PathVariable Long warnUserSeq) {
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+        
         Long userSeq = (Long) auth.getPrincipal();
 
         final boolean success = adminService.banWarnUser(warnUserSeq);

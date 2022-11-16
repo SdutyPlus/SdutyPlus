@@ -12,14 +12,18 @@ import com.d205.sdutyplus.domain.user.dto.UserRegDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.exception.NicknameAlreadyExistException;
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.user.repository.JobRepository;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
 import com.d205.sdutyplus.global.entity.Job;
+import com.d205.sdutyplus.global.error.ErrorResponseDto;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.AuthUtils;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,7 +42,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
-    private final DailyStatisticsRepository dailyStatisticsRepository;
     private final DailyTimeGraphRepository dailyTimeGraphRepository;
     private final AuthUtils authUtils;
 
@@ -55,9 +58,6 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         regUserData(user, userRegDto, job);
-//
-//        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
-//        dailyStatisticsRepository.save(dailyStatistics);
 
         return new UserRegResponseDto(userRepository.findBySeq(userSeq).get());
     }
@@ -86,7 +86,14 @@ public class UserService {
     }
 
     @Transactional
-    public UserProfileDto getUserProfile(Long userSeq){
+    public UserProfileDto getUserProfile(Authentication auth){
+
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
+        Long userSeq = (Long)auth.getPrincipal();
+
         final User user = authUtils.getLoginUser(userSeq);
         if (Period.between(user.getLastReport(), LocalDate.now()).getDays() >= 2) {
             updateContinuous(user, LocalDate.now(), 0);
@@ -132,13 +139,4 @@ public class UserService {
         user.setLastReport(date);
         user.setContinuous(cnt);
     }
-
-//    private DailyStatistics createUserStatisticsInfo(User user){
-//        DailyStatistics result = new DailyStatistics();
-//        result.setUserSeq(user.getSeq());
-//
-//        return result;
-//    }
-
-
 }

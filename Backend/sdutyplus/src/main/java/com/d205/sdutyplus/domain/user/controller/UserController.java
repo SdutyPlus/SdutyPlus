@@ -4,7 +4,9 @@ import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
 import com.d205.sdutyplus.domain.user.dto.UserProfileEditDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.user.service.UserService;
+import com.d205.sdutyplus.global.error.ErrorResponseDto;
 import com.d205.sdutyplus.global.response.ResponseDto;
 
 import io.swagger.annotations.Api;
@@ -21,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import static com.d205.sdutyplus.global.error.ErrorCode.AUTHENTICATION_FAIL;
 import static com.d205.sdutyplus.global.response.ResponseCode.*;
 
 @Log4j2
@@ -40,6 +43,10 @@ public class UserController {
     })
     @PostMapping("/reg")
     public ResponseEntity<ResponseDto> userRegData(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
         Long userSeq = (Long)auth.getPrincipal();
         UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
 
@@ -69,8 +76,11 @@ public class UserController {
     })
     @GetMapping
     public ResponseEntity<ResponseDto> getUserProfile(@ApiIgnore Authentication auth){
-        Long userSeq = (Long)auth.getPrincipal();
-        final UserProfileDto userProfileDto = userService.getUserProfile(userSeq);
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
+        final UserProfileDto userProfileDto = userService.getUserProfile(auth);
 
         return ResponseEntity.ok(ResponseDto.of(GET_USERPROFILE_SUCCESS, userProfileDto));
     }
@@ -82,6 +92,10 @@ public class UserController {
     })
     @PutMapping
     public ResponseEntity<ResponseDto> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserProfileEditDto userProfileEditDto){
+        if (auth == null) {
+            throw new UserNotLoginException();
+        }
+
         Long userSeq = (Long)auth.getPrincipal();
         UserRegResponseDto result = userService.userProfileEdit(userSeq, userProfileEditDto);
 
