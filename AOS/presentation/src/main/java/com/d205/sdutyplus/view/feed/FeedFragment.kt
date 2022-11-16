@@ -18,6 +18,7 @@ import com.d205.domain.model.user.User
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedBinding
+import com.d205.sdutyplus.uitls.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -62,7 +63,7 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
         binding.rvFeedList.apply {
             adapter = feedAdapter
-            layoutManager = GridLayoutManager(requireContext(), 3)
+            layoutManager = GridLayoutManager(requireContext(), 2)
         }
     }
 
@@ -75,7 +76,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
         lifecycleScope.launch {
             this@FeedFragment.feedViewModel.homeFeeds.collectLatest {
-                Log.d(TAG, "onTabSelected: collect $it")
                 feedAdapter.submitData(it)
             }
         }
@@ -84,4 +84,12 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
     private fun moveToFeedCreateFragment() {
         findNavController().navigate(FeedFragmentDirections.actionFeedFragmentToFeedCreateFragment())
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        feedAdapter.refresh()
+    }
+
+
 }

@@ -123,6 +123,10 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             btnJob.setOnClickListener {
                 openTagSelectDialog()
             }
+
+            ivBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 

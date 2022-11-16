@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.d205.domain.model.mypage.Feed
 import com.d205.sdutyplus.databinding.ItemFeedBinding
 
+
 private const val TAG ="FeedPagingAdapter"
 class FeedAdapter(val activity: Activity): PagingDataAdapter<Feed, FeedAdapter.ViewHolder>(
     IMAGE_COMPARATOR

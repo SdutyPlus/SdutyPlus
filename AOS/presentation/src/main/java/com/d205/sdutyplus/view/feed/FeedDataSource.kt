@@ -36,6 +36,9 @@ class FeedDataSource(val flag: Int, private val getFeedsUseCase: GetFeedsUseCase
     }
 
     override fun getRefreshKey(state: PagingState<Int, Feed>): Int? {
-        TODO("Not yet implemented")
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
     }
 }

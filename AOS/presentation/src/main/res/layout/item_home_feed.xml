@@ -9,19 +9,65 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/iv_story"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="2dp"
-            android:layout_marginHorizontal="1dp"
-            loadImage="@{data.imgUrl}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_margin="8dp"
+            app:cardCornerRadius="16dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/iv_profile"
+                        loadImage="@{data.component2().component5()}"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        tools:src="@drawable/img_bg_gradient"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_margin="16dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.component2().component3()}"
+                        android:textStyle="bold"
+                        android:textSize="24sp"
+                        tools:text="nick_name"
+                        android:layout_marginLeft="16dp"
+                        app:layout_constraintTop_toTopOf="@id/iv_profile"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_profile"
+                        app:layout_constraintStart_toEndOf="@id/iv_profile"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/iv_feed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="2dp"
+                    android:layout_marginHorizontal="1dp"
+                    loadImage="@{data.imgUrl}"
+                    tools:src="@drawable/img_frame_light_mix_violet"
+                    android:adjustViewBounds="true"
+                    android:layout_margin="16dp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
