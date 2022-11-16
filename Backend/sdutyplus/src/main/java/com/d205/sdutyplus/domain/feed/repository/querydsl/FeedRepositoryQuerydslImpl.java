@@ -3,7 +3,6 @@ package com.d205.sdutyplus.domain.feed.repository.querydsl;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
 import com.d205.sdutyplus.domain.user.dto.QUserWriterProfileDto;
-import com.d205.sdutyplus.domain.user.entity.QUser;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.global.entity.Job;
 import com.querydsl.core.QueryResults;
@@ -33,14 +32,14 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     public Page<FeedResponseDto> findAllFeeds(Long userSeq, Pageable pageable) {
         QueryResults<FeedResponseDto> result = queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
-                                feed.writer,
-//                                new QUserWriterProfileDto(
-//                                        feed.writer.seq,
-//                                        feed.writer.email,
-//                                        feed.writer.nickname,
-//                                        feed.writer.job.jobName,
-//                                        feed.writer.imgUrl
-//                                ),
+//                                feed.writer,
+                                new QUserWriterProfileDto(
+                                        feed.writer.seq,
+                                        feed.writer.email,
+                                        feed.writer.nickname,
+                                        feed.writer.job.jobName,
+                                        feed.writer.imgUrl
+                                ),
                                 feed.imgUrl,
                                 feed.content,
                                 feed.feedLikes.size(),
