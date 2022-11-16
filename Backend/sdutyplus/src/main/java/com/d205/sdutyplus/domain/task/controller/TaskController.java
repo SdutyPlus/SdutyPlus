@@ -21,7 +21,6 @@ import static com.d205.sdutyplus.global.response.ResponseCode.*;
 public class TaskController {
 
     private final TaskService taskService;
-    private final UserService userService;
     private final DailyStatisticsService dailyStatisticsService;
 
     @ApiOperation(value = "테스크 등록")
@@ -30,7 +29,7 @@ public class TaskController {
         Long userSeq = (Long)auth.getPrincipal();
         TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
 
-        userService.getReportContinuous(userSeq, taskDto);
+        dailyStatisticsService.getReportContinuous(userSeq, taskDto);
         dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
 
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS));

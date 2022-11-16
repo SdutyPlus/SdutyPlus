@@ -26,22 +26,13 @@ public class UserProfileDto {
     private String imgUrl;
     @ApiModelProperty(value = "fcm token")
     private String fcmToken;
-    @ApiModelProperty(value = "연속 일수")
-    private Long continuous;
-    @ApiModelProperty(value = "나의 공부 시간")
-    private Long studyTime;
-    @ApiModelProperty(value = "전체 인원의 공부 시간")
-    private List<Long> dailyTimeGraphs;
 
-    public UserProfileDto(User user, List<Long> dailyTimeGraphs){
+    public UserProfileDto(User user){
         this.userSeq = user.getSeq();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
         this.jobName = user.getJob().getJobName();
         this.imgUrl = user.getImgUrl();
         this.fcmToken = user.getFcmToken();
-        this.continuous = user.getContinuous();
-        this.studyTime = user.getStudyTime();
-        this.dailyTimeGraphs = dailyTimeGraphs;
     }
 }

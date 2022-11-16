@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.user.controller;
 
+import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
 import com.d205.sdutyplus.domain.user.dto.UserProfileEditDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
@@ -46,7 +47,6 @@ public class UserController {
         if (auth == null) {
             throw new UserNotLoginException();
         }
-
         Long userSeq = (Long)auth.getPrincipal();
         UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
 
@@ -75,12 +75,9 @@ public class UserController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @GetMapping
-    public ResponseEntity<ResponseDto> getUserProfile(@ApiIgnore Authentication auth){
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
+    public ResponseEntity<ResponseDto> getUserProfile(){
 
-        final UserProfileDto userProfileDto = userService.getUserProfile(auth);
+        final UserProfileDto userProfileDto = userService.getUserProfile();
 
         return ResponseEntity.ok(ResponseDto.of(GET_USERPROFILE_SUCCESS, userProfileDto));
     }

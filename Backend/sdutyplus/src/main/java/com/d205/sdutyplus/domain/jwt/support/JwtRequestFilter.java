@@ -24,14 +24,6 @@ public class JwtRequestFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String jwt = request.getHeader(JwtProperties.JWT_ACCESS_NAME);
-        //request Header 내용 출력
-//		Enumeration<?> headerNames = request.getHeaderNames();
-//		while(headerNames.hasMoreElements()) {
-//			String name = (String)headerNames.nextElement();
-//			String value = request.getHeader(name);
-//			System.out.println(name+" : "+value);
-//			}
-//		System.out.println("here1"+jwt);
         //prefix확인
         if(jwt == null){//|| !jwt.startsWith(JwtProperties.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
