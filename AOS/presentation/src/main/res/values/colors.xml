@@ -106,4 +106,6 @@
     <color name="example_2_black">#D9000000</color>
     <color name="example_1_selection_color">#FCCA3E</color>
 
+    <color name="transparent">#00000000</color>
+
 </resources>
