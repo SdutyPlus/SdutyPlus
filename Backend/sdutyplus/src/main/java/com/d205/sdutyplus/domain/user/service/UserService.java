@@ -55,9 +55,9 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         regUserData(user, userRegDto, job);
-
-        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user, job);
-        dailyStatisticsRepository.save(dailyStatistics);
+//
+//        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
+//        dailyStatisticsRepository.save(dailyStatistics);
 
         return new UserRegResponseDto(userRepository.findBySeq(userSeq).get());
     }
@@ -76,9 +76,6 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         updateUserData(user, userProfileEditDto, job);
-
-        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user, job);
-        dailyStatisticsRepository.save(dailyStatistics);
 
         return new UserRegResponseDto(userRepository.findBySeq(userSeq).get());
     }
@@ -136,13 +133,12 @@ public class UserService {
         user.setContinuous(cnt);
     }
 
-    private DailyStatistics createUserStatisticsInfo(User user, Job job){
-        DailyStatistics result = new DailyStatistics();
-        result.setUserSeq(user.getSeq());
-        result.setJobSeq(job.getSeq());
-
-        return result;
-    }
+//    private DailyStatistics createUserStatisticsInfo(User user){
+//        DailyStatistics result = new DailyStatistics();
+//        result.setUserSeq(user.getSeq());
+//
+//        return result;
+//    }
 
 
 }
