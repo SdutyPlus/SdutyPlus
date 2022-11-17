@@ -36,10 +36,9 @@ public class OffController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PostMapping("/user/{to_user_seq}")
-    public ResponseEntity<ResponseDto> userOff(@ApiIgnore Authentication auth, @PathVariable(value = "to_user_seq") Long toUserSeq) {
-        Long fromUserSeq = (Long)auth.getPrincipal();
+    public ResponseEntity<ResponseDto> userOff(@PathVariable(value = "to_user_seq") Long toUserSeq) {
+        final boolean success = offService.userOff(toUserSeq);
 
-        final boolean success = offService.userOff(fromUserSeq, toUserSeq);
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.OFF_SUCCESS, success));
         } else {
@@ -54,10 +53,9 @@ public class OffController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PostMapping("/feed/{feed_seq}")
-    public ResponseEntity<ResponseDto> feedOff(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq) {
-        Long userSeq = (Long)auth.getPrincipal();
+    public ResponseEntity<ResponseDto> feedOff(@PathVariable(value = "feed_seq") Long feedSeq) {
+        final boolean success = offService.feedOff(feedSeq);
 
-        final boolean success = offService.feedOff(userSeq, feedSeq);
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.OFF_SUCCESS, success));
         } else {

@@ -30,10 +30,10 @@ public class OffService {
     private final OffFeedRepository offFeedRepository;
     private final AuthUtils authUtils;
 
-    public boolean userOff(Long fromUserSeq, Long toUserSeq) {
+    public boolean userOff(Long toUserSeq) {
+        final Long fromUserSeq = authUtils.getLoginUserSeq();
         final User fromUser = authUtils.getLoginUser(fromUserSeq);
-        final User toUser = userRepository.findBySeq(toUserSeq)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+        final User toUser = authUtils.getLoginUser(toUserSeq);
 
         if (fromUserSeq.equals(toUserSeq)){
             throw new OffMyselfFailException();
@@ -49,7 +49,8 @@ public class OffService {
         return true;
     }
 
-    public boolean feedOff(Long userSeq, Long feedSeq) {
+    public boolean feedOff(Long feedSeq) {
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
         final Feed feed = feedRepository.findById(feedSeq)
                 .orElseThrow(() -> new EntityNotFoundException(FEED_NOT_FOUND));
