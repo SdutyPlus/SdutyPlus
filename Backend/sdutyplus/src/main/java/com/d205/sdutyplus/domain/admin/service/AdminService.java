@@ -26,7 +26,8 @@ public class AdminService {
 
     @Transactional
     public PagingResultDto getWarnFeed(Pageable pageable){
-        final Page<FeedResponseDto> warnFeeds = feedRepository.findAllWarnFeedPage(pageable);
+        final Long userSeq = authUtils.getLoginUserSeq();
+        final Page<FeedResponseDto> warnFeeds = feedRepository.findAllWarnFeedPage(userSeq, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), warnFeeds.getTotalPages() - 1, warnFeeds.getContent());
 
         return pagingResultDto;

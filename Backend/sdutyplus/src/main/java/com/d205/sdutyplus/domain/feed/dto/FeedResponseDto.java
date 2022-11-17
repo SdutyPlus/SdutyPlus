@@ -14,14 +14,19 @@ public class FeedResponseDto {
     private String content;
     private int feedLikesCount;
     private int scrapCount;
+    private boolean feedLikeFlag;
+    private boolean feedScrapFlag;
 
     @QueryProjection
-    public FeedResponseDto(Long seq, User writer, String imgUrl, String content, int feedLikesCount, int scrapCount){
+    public FeedResponseDto(Long seq, User writer, String imgUrl, String content, int feedLikesCount,
+                           int scrapCount, boolean feedLikeFlag, boolean feedScrapFlag){
         this.seq = seq;
         this.writer = new UserWriterProfileDto(writer);
         this.imgUrl = imgUrl;
         this.content = content;
         this.feedLikesCount = feedLikesCount;
         this.scrapCount = scrapCount;
+        this.feedLikeFlag = feedLikeFlag;
+        this.feedScrapFlag = feedScrapFlag;
     }
 }

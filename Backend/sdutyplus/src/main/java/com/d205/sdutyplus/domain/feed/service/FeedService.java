@@ -77,7 +77,9 @@ public class FeedService {
     }
 
     public FeedResponseDto getOneFeed(Long feedSeq){
-        final FeedResponseDto feedResponseDto = feedRepository.findFeedBySeq(feedSeq)
+        final Long userSeq = authUtils.getLoginUserSeq();
+
+        final FeedResponseDto feedResponseDto = feedRepository.findFeedBySeq(userSeq, feedSeq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
         return feedResponseDto;
     }
