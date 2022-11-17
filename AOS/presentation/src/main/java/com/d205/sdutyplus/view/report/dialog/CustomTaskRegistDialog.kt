@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.domain.model.timer.CurrentTaskDto2
@@ -77,7 +78,7 @@ class CustomTaskRegistDialog : DialogFragment() {
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initView() {
-        val dateFormat = SimpleDateFormat("hh:mm")
+        val dateFormat = SimpleDateFormat("HH:mm")
         binding.apply {
             tvToday.text = todayDate.toString()
             tvStartTime.text = dateFormat.format(todayTime).toString()
@@ -150,19 +151,9 @@ class CustomTaskRegistDialog : DialogFragment() {
             object : CustomTimePickerDialogClickListener {
                 override fun onPositiveClick(hour: String, minute: String) {
                     if (hour != "" && minute != "") {
-                        if (hour.toInt() <= binding.tvEndTime.text.substring(0, 2).toInt() &&
-                            (minute.toInt() < binding.tvEndTime.text.substring(3, 5).toInt() ||
-                                    hour.toInt() < binding.tvEndTime.text.substring(0, 2).toInt())
-                        ) {
-                            binding.tvStartTime.setText("${hour}:${minute}")
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "끝나는 시간보다 늦은 시간으로 설정할 수 없습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        binding.tvStartTime.setText("${hour}:${minute}")
                     }
+
                 }
             })
         timePickerDialog.show(parentFragmentManager, "TimePicker")
@@ -173,6 +164,7 @@ class CustomTaskRegistDialog : DialogFragment() {
             requireContext(),
             binding.tvEndTime.text.toString(),
             object : CustomTimePickerDialogClickListener {
+                @SuppressLint("SetTextI18n")
                 override fun onPositiveClick(hour: String, minute: String) {
                     if (hour != "" && minute != "") {
                         if (hour.toInt() >= binding.tvStartTime.text.substring(0, 2).toInt() &&
