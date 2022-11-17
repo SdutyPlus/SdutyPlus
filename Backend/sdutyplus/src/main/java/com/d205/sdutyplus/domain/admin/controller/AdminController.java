@@ -37,12 +37,7 @@ public class AdminController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @GetMapping("/warn/feed")
-    public ResponseEntity<ResponseDto> getWarnFeed(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable) {
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
-
-        Long userSeq = (Long) auth.getPrincipal();
+    public ResponseEntity<ResponseDto> getWarnFeed(@PageableDefault Pageable pageable) {
         final PagingResultDto pagingResultDto = adminService.getWarnFeed(pageable);
 
         return ResponseEntity.ok().body(ResponseDto.of(ResponseCode.GET_WARN_FEED_SUCCESS, pagingResultDto));
@@ -54,11 +49,7 @@ public class AdminController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @GetMapping("/warn/user")
-    public ResponseEntity<ResponseDto> getWarnUser(@ApiIgnore Authentication auth, @PageableDefault Pageable pageable) {
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
-        Long userSeq = (Long) auth.getPrincipal();
+    public ResponseEntity<ResponseDto> getWarnUser(@PageableDefault Pageable pageable) {
         final PagingResultDto pagingResultDto = adminService.getWarnUser(pageable);
 
         return ResponseEntity.ok().body(ResponseDto.of(ResponseCode.GET_WARN_USER_SUCCESS, pagingResultDto));
@@ -70,13 +61,7 @@ public class AdminController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PutMapping("/warn/user/{warnUserSeq}")
-    public ResponseEntity<ResponseDto> banWarnUser(@ApiIgnore Authentication auth, @PathVariable Long warnUserSeq) {
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
-
-        Long userSeq = (Long) auth.getPrincipal();
-
+    public ResponseEntity<ResponseDto> banWarnUser(@PathVariable Long warnUserSeq) {
         final boolean success = adminService.banWarnUser(warnUserSeq);
 
         if (success) {

@@ -57,7 +57,8 @@ public class FeedService {
 
 
     @Transactional
-    public void createFeed(Long userSeq, FeedPostDto feedPostDto){
+    public void createFeed(FeedPostDto feedPostDto){
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
         final String imgUrl = uploadFile(feedPostDto.getImg());
         final Feed feed = Feed.builder()
@@ -67,7 +68,9 @@ public class FeedService {
         feedRepository.save(feed);
     }
 
-    public PagingResultDto getAllFeeds(Long userSeq, Pageable pageable){
+    public PagingResultDto getAllFeeds(Pageable pageable){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final Page<FeedResponseDto> allFeeds = feedRepository.findAllFeeds(userSeq, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
         return pagingResultDto;
@@ -79,20 +82,26 @@ public class FeedService {
         return feedResponseDto;
     }
 
-    public PagingResultDto getMyFeeds(Long writerSeq, Pageable pageable){
+    public PagingResultDto getMyFeeds(Pageable pageable){
+        final Long writerSeq = authUtils.getLoginUserSeq();
+
         final Page<FeedResponseDto> myfeeds = feedRepository.findMyFeedPage(writerSeq, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), myfeeds.getTotalPages() - 1, myfeeds.getContent());
         return pagingResultDto;
     }
 
-    public PagingResultDto getScrapFeeds(Long userSeq, Pageable pageable){
+    public PagingResultDto getScrapFeeds(Pageable pageable){
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
+
         final Page<FeedResponseDto> feedPage = feedRepository.findScrapFeedPage(user, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }
 
-    public PagingResultDto getJobFilterFeeds(Long userSeq, Long jobSeq, Pageable pageable){
+    public PagingResultDto getJobFilterFeeds(Long jobSeq, Pageable pageable){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final Job job = jobRepository.findBySeq(jobSeq).orElseThrow(
                 ()->new EntityNotFoundException(JOB_NOT_FOUND)
         );
@@ -115,7 +124,9 @@ public class FeedService {
     }
 
     @Transactional
-    public void scrapFeed(Long userSeq, Long feedSeq){
+    public void scrapFeed(Long feedSeq){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final Feed feed = getFeed(feedSeq);
         final User user = authUtils.getLoginUser(userSeq);
 
@@ -127,7 +138,9 @@ public class FeedService {
     }
 
     @Transactional
-    public void unscrapFeed(Long userSeq, Long feedSeq){
+    public void unscrapFeed(Long feedSeq){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final Feed feed = getFeed(feedSeq);
         final User user = authUtils.getLoginUser(userSeq);
 
@@ -137,7 +150,9 @@ public class FeedService {
     }
 
     @Transactional
-    public boolean likeFeed(Long userSeq, Long feedSeq) {
+    public boolean likeFeed(Long feedSeq) {
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final Feed feed = getFeed(feedSeq);
         final User user = authUtils.getLoginUser(userSeq);
 
@@ -150,7 +165,9 @@ public class FeedService {
     }
 
     @Transactional
-    public boolean unlikeFeed(Long userSeq, Long feedSeq) {
+    public boolean unlikeFeed(Long feedSeq) {
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final Feed feed = getFeed(feedSeq);
         final User user = authUtils.getLoginUser(userSeq);
 
