@@ -57,7 +57,8 @@ public class DailyStatisticsService {
     }
 
     @Transactional
-    public void getReportContinuous(Long userSeq, TaskDto taskDto){
+    public void getReportContinuous(TaskDto taskDto){
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
 
         LocalDate today = TimeFormatter.StringToLocalDateTime(taskDto.getStartTime()).toLocalDate();
@@ -74,7 +75,9 @@ public class DailyStatisticsService {
     }
 
     @Transactional
-    public void updateDailyStudy(Long userSeq, TaskDto taskDto){
+    public void updateDailyStudy(TaskDto taskDto){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         DailyStatistics dailyStatistics = dailyStatisticsRepository.findByUserSeq(userSeq)
                 .orElseThrow(() -> new EntityNotFoundException(STATISTICS_NOT_FOUND));
 

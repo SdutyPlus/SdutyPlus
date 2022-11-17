@@ -27,11 +27,10 @@ public class TaskController {
 
     @ApiOperation(value = "테스크 등록")
     @PostMapping("")
-    public ResponseEntity<ResponseDto> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
-        Long userSeq = (Long)auth.getPrincipal();
-        TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
-        dailyStatisticsService.getReportContinuous(userSeq, taskDto);
-        dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
+    public ResponseEntity<ResponseDto> createTask(@RequestBody TaskPostDto taskPostDto){
+        TaskDto taskDto = taskService.createTask(taskPostDto);
+        dailyStatisticsService.getReportContinuous(taskDto);
+        dailyStatisticsService.updateDailyStudy(taskDto);
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
     }
 
