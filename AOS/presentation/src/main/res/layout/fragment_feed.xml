@@ -12,7 +12,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/navy_80">
+            android:background="@color/sduty_lightest_mix_violet">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_appbar"
@@ -76,7 +76,6 @@
                     android:id="@+id/rv_feed_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="12dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>

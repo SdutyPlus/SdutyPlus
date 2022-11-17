@@ -52,6 +52,22 @@ class FeedRemoteDataSourceImpl @Inject constructor(
     }
 
     @SuppressLint("LongLogTag")
+    override suspend fun getScrapFeeds(
+        page: Int,
+        pageSize: Int): Flow<PagingResult<FeedResponse>>  = flow {
+        Log.d(TAG, "getScrapFeeds page: $page")
+        val response = feedApi.getScrapFeeds(page, pageSize)
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(PagingResult(-1,-1, emptyList()))
+        }
+    }.catch { e ->
+        Log.d(TAG, "getScrapFeeds: ${e.message}")
+    }
+
+    @SuppressLint("LongLogTag")
     override suspend fun createFeed(
         imageFile: MultipartBody.Part,
         content: MultipartBody.Part
@@ -68,5 +84,53 @@ class FeedRemoteDataSourceImpl @Inject constructor(
         }
     }.catch { e ->
         Log.d(TAG, "CreateFeedDataSourceError: $e")
+    }
+
+    @SuppressLint("LongLogTag")
+    override suspend fun deleteFeed(feedSeq: Int): Flow<Boolean> = flow {
+        Log.d(TAG, "deleteFeed: start!")
+        val response = feedApi.deleteFeed(feedSeq)
+        if(response.status == 200) {
+            emit(true)
+            Log.d(TAG, "deleteFeed: true")
+        }
+        else {
+            emit(false)
+            Log.d(TAG, "deleteFeed: false")
+        }
+    }.catch { e ->
+        Log.d(TAG, "deleteFeed Error : $e")
+    }
+
+    @SuppressLint("LongLogTag")
+    override suspend fun scrapFeed(feedSeq: Int): Flow<Boolean> = flow{
+        Log.d(TAG, "scrapFeed: start!")
+        val response = feedApi.scrapFeed(feedSeq)
+        if(response.status == 200) {
+            emit(true)
+            Log.d(TAG, "scrapFeed: true")
+        }
+        else {
+            emit(false)
+            Log.d(TAG, "scrapFeed: false")
+        }
+    }.catch { e ->
+        Log.d(TAG, "scrapFeed Error : $e")
+    }
+
+    @SuppressLint("LongLogTag")
+    override suspend fun deleteScrapFeed(feedSeq: Int): Flow<Boolean> = flow {
+        Log.d(TAG, "deleteScrapFeed: start!")
+        val response = feedApi.deleteScrapFeed(feedSeq)
+        if(response.status == 200) {
+            emit(true)
+            Log.d(TAG, "deleteScrapFeed: true")
+        }
+        else {
+            emit(false)
+            Log.d(TAG, "deleteScrapFeed: false")
+        }
+    }.catch { e ->
+        Log.d(TAG, "deleteScrapFeed Error : $e")
     }
 }

@@ -24,7 +24,8 @@ fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
         profileImgUrl = feedResponse.writer.imgUrl,
         feedLikesCount = feedResponse.feedLikesCount,
         scrapCount = feedResponse.scrapCount,
-        nickname = feedResponse.writer.nickname
+        nickname = feedResponse.writer.nickname,
+        feedScrapFlag = feedResponse.feedScrapFlag
     )
 }
 

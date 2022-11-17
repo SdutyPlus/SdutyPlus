@@ -8,5 +8,6 @@ data class FeedResponse(
     var imgUrl: String = "",
     var content: String = "",
     var feedLikesCount: Int = 0,
-    var scrapCount: Int = 0
+    var scrapCount: Int = 0,
+    var feedScrapFlag: Boolean = false
 )
