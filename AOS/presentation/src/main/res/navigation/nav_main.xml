@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
-    app:startDestination="@id/feedFragment">
+    app:startDestination="@id/pomodoroFragment">
 
     <fragment
         android:id="@+id/feedFragment"
@@ -74,6 +74,10 @@
         android:id="@+id/editProfileFragment"
         android:name="com.d205.sdutyplus.view.mypage.EditProfileFragment"
         android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/pomodoroFragment"
+        android:name="com.d205.sdutyplus.view.pomodoro.PomodoroFragment"
+        android:label="PomodoroFragment" />
     <fragment
         android:id="@+id/graphFragment"
         android:name="com.d205.sdutyplus.view.report.graph.graphFragment"

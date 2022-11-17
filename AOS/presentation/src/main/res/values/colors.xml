@@ -107,6 +107,8 @@
     <color name="example_2_black">#D9000000</color>
     <color name="example_1_selection_color">#FCCA3E</color>
 
+    <color name="transparent">#00000000</color>
+
     <!-- graph color  -->
     <color name="sduty_graph_sky_blue">#C6E7FF</color>
     <color name="sduty_graph_blue">#C6D4FF</color>

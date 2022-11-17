@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_pomodoro"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_pomodoro_work"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/tv_minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00'"
+            android:textColor="@color/app_blue"
+            android:textSize="120sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_seconds"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_seconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textColor="@color/app_blue_light"
+            android:textSize="80sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_minute"
+            app:layout_constraintLeft_toRightOf="@id/tv_minute"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:max="60"
+            android:progressDrawable="@color/transparent"
+            android:thumb="@drawable/ic_thumb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_minute"
+            app:tickMark="@drawable/bg_tick_mark" />
+
+        <Button
+            android:id="@+id/btn_pomodoro_start"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:text="Start"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/app_blue"
+            app:layout_constraintTop_toBottomOf="@id/seekBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="17dp"/>
+
+        <Button
+            android:id="@+id/btn_pomodoro_pause"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:text="pause"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/app_purple"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/seekBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="17dp"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
