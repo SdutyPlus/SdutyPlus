@@ -39,14 +39,6 @@ class HomeFeedAdapter(val activity: Activity): PagingDataAdapter<HomeFeed, HomeF
         if(getItem(position) !=null) {
             holder.bind(getItem(position)!!)
         }
-        val displaymetrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(displaymetrics)
-        val deviceWidth = displaymetrics.widthPixels / 3
-        val deviceHeight = deviceWidth * 4 / 3
-        holder.binding.apply {
-            ivFeed.layoutParams.width = deviceWidth
-            ivFeed.layoutParams.height = deviceHeight
-        }
     }
 
     lateinit var onClickStoryListener: OnClickStoryListener
