@@ -39,11 +39,9 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
     @SuppressLint("SetTextI18n")
     private fun initViewModelCallBack() {
         reportViewModel.continuous.observe(viewLifecycleOwner) {
-            Log.d("TAG", "initViewModelCallBack1: ${it}")
             continuous = it
         }
         reportViewModel.studyTime.observe(viewLifecycleOwner) {
-            Log.d("TAG", "initViewModelCallBack2: ${it}")
             studyTime = it
         }
 
