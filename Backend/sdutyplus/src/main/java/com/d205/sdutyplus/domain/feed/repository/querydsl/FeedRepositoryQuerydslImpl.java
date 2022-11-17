@@ -2,7 +2,6 @@ package com.d205.sdutyplus.domain.feed.repository.querydsl;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
-import com.d205.sdutyplus.domain.user.dto.QUserWriterProfileDto;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.global.entity.Job;
 import com.querydsl.core.QueryResults;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -32,14 +30,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     public Page<FeedResponseDto> findAllFeeds(Long userSeq, Pageable pageable) {
         QueryResults<FeedResponseDto> result = queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
-//                                feed.writer,
-                                new QUserWriterProfileDto(
-                                        feed.writer.seq,
-                                        feed.writer.email,
-                                        feed.writer.nickname,
-                                        feed.writer.job.jobName,
-                                        feed.writer.imgUrl
-                                ),
+                                feed.writer,
                                 feed.imgUrl,
                                 feed.content,
                                 feed.feedLikes.size(),
@@ -138,12 +129,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 )
                 .from(feed)
-                .where(feed.writer.seq.in(
-                        JPAExpressions
-                                .select(user.seq)
-                                .from(user)
-                                .where(user.job.eq(jobObject))
-                ))
+                .where(feed.writer.job.eq(jobObject))
                 .orderBy(feed.regTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

@@ -17,7 +17,7 @@ import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 
 @RequiredArgsConstructor
-public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
+public class 1` TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
 
     private final JPAQueryFactory queryFactory;
 
