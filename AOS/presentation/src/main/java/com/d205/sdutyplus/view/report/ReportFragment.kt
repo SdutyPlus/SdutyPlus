@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
@@ -110,19 +111,28 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     }
 
     private fun initClickListener() {
-        binding.ivCalendarCall.setOnClickListener {
-            val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString())
-            dialog.show(parentFragmentManager, "BottomSheet")
-            dialog.setOnClickListener {
-                binding.tvSelectedDate.text = it
-                initView()
+        binding.apply {
+            ivCalendarCall.setOnClickListener {
+                val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString())
+                dialog.show(parentFragmentManager, "BottomSheet")
+                dialog.setOnClickListener {
+                    binding.tvSelectedDate.text = it
+                    initView()
+                }
+            }
+
+            ivAddTask.setOnClickListener {
+                CustomTaskRegistDialog().apply {
+                    show(this@ReportFragment.parentFragmentManager, "TaskDialog")
+                }
+            }
+
+            ivGraph.setOnClickListener {
+                findNavController().navigate(ReportFragmentDirections.actionReportFragmentToGraphFragment())
             }
         }
-        binding.ivAddTask.setOnClickListener {
-            CustomTaskRegistDialog().apply {
-                show(this@ReportFragment.parentFragmentManager, "TaskDialog")
-            }
-        }
+
+
     }
 
     override fun onTaskClicked(task: Task) {
