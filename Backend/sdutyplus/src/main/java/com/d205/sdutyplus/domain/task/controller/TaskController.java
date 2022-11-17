@@ -36,7 +36,7 @@ public class TaskController {
         dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
         log.info("테스크 등록(데일리 학습 통계 완료)");
         log.info("반환값 : "+ResponseDto.of(CREATE_TASK_SUCCESS));
-        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS));
+        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
     }
 
     @ApiOperation(value = "테스크 상세 조회")
