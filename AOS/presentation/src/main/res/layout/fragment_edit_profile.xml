@@ -16,14 +16,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/sduty_lightest_mix_violet"
         tools:context=".view.join.JoinProfileFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/common_top"
+            android:id="@+id/layout_appbar"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/iv_back"
@@ -58,166 +59,154 @@
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/common_top"/>
+            app:layout_constraintTop_toBottomOf="@id/layout_appbar"/>
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintTop_toBottomOf="@id/common_top"
-            app:layout_constraintBottom_toTopOf="@id/common_bottom"
-            >
-
+            app:layout_constraintBottom_toTopOf="@id/layout_bottom"
+            app:layout_constraintTop_toBottomOf="@id/layout_appbar"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="16dp">
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="32dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_edit_job"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <Button
+                        android:id="@+id/btn_job_select"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@drawable/btn_study_filter"
+                        android:paddingHorizontal="16dp"
+                        android:text="직업 선택"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btn_job"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:background="@drawable/btn_study_regist"
+                        android:paddingHorizontal="16dp"
+                        android:text="@{mainViewModel.user.userJob}"
+                        android:textColor="@color/sduty_mix_violet"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
 
                 <!-- 프로필 이미지 -->
                 <FrameLayout
-                    android:id="@+id/frame_profile_img"
+                    android:id="@+id/layout_profile_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_edit_job">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="126dp"
-                        android:layout_height="126dp"
-                        android:src="@drawable/img_bg_gradient"
-                        android:layout_gravity="center"/>
+                        android:layout_width="136dp"
+                        android:layout_height="136dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/img_bg_gradient" />
+
+                    <!-- 배경 투명화된 이미지가 입력됐을 때, 테두리 유지용 -->
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
+                        android:layout_gravity="center"
+                        android:src="@color/white" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_profile"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:src="@drawable/empty_profile_image"
-                        android:layout_gravity="center"/>
-
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/img_camera_gradient_in_circle_128" />
                 </FrameLayout>
 
-                <!-- 프로필 등록 레이아웃 : 별명 / 직업 / 관심 분야 / 생년월일 -->
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/const_field_edit_profile"
+                    android:id="@+id/layout_edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="48dp"
-                    app:layout_constraintTop_toBottomOf="@id/frame_profile_img">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_profile_img">
 
-                    <!-- 직업 & 관심 분야 입력 레이아웃 -->
-                    <LinearLayout
-                        android:id="@+id/layout_edit_job_interest"
-                        android:layout_width="match_parent"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:cardCornerRadius="10dp"
+                        app:cardUseCompatPadding="true"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:id="@+id/btn_job_select"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:background="@drawable/btn_study_filter"
-                            android:textColor="@color/white"
-                            android:paddingHorizontal="16dp"
-                            android:text="직업 선택"
-                            android:textSize="16sp"
-                            android:visibility="gone"/>
-
-                        <Button
-                            android:id="@+id/btn_job"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:background="@drawable/btn_study_regist"
-                            android:textColor="@color/sduty_mix_violet"
-                            android:text="@{mainViewModel.user.userJob}"
-                            android:paddingHorizontal="16dp"
-                            android:textSize="16sp"/>
-
-                        <TextView
-                            android:id="@+id/tv_job_interest"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:textSize="16sp"
-                            android:textColor="@color/sduty_mix_violet"
-                            android:visibility="gone"/>
-
-                    </LinearLayout>
-
-                    <!-- 이름 입력 레이아웃 -->
-                    <LinearLayout
-                        android:id="@+id/layout_edit_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:layout_marginTop="24dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/layout_edit_job_interest">
+                        app:layout_constraintEnd_toEndOf="parent">
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:cardCornerRadius="10dp">
+                        <EditText
+                            android:id="@+id/et_nickname"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:background="@null"
+                            android:hint="닉네임을 입력해주세요."
+                            android:singleLine="true"
+                            android:text="@{mainViewModel.user.nickname}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/const_error" />
 
-                            <EditText
-                                android:id="@+id/et_nickname"
-                                android:layout_width="match_parent"
-                                android:layout_height="48dp"
-                                android:layout_marginHorizontal="10dp"
-                                android:text="@{mainViewModel.user.nickname}"
-                                android:hint="닉네임을 입력해주세요."
-                                app:layout_constraintTop_toBottomOf="@id/const_error"
-                                app:layout_constraintStart_toStartOf="parent"
-                                android:background="@null"
-                                android:singleLine="true"/>
+                    </androidx.cardview.widget.CardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </androidx.cardview.widget.CardView>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/const_error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:visibility="@{profileViewModel.canUseNickname? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_edit_name">
 
-                    </LinearLayout>
-
-                    <!-- 이름 중복 경고 메시지 레이아웃 -->
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/const_error"
+                    <TextView
+                        android:id="@+id/tv_title_id_error"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintTop_toBottomOf="@id/layout_edit_name"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="중복되는 닉네임입니다!"
+                        android:textColor="@color/red_300"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@id/iv_id_error"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_id_error"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/stat_notify_error"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:visibility="@{profileViewModel.canUseNickname? View.GONE : View.VISIBLE}">
-                        <TextView
-                            android:id="@+id/tv_title_id_error"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="5dp"
-                            android:layout_marginEnd="4dp"
-                            android:text="중복되는 닉네임입니다!"
-                            android:textColor="@color/red_300"
-                            android:textSize="16sp"
-                            app:layout_constraintEnd_toStartOf="@id/iv_id_error"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="@id/tv_title_id_error"
+                        app:tint="@color/red_300" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <ImageView
-                            android:id="@+id/iv_id_error"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@android:drawable/stat_notify_error"
-                            app:layout_constraintTop_toTopOf="@id/tv_title_id_error"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:tint="@color/red_300" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout> <!-- 이미지 제외 영역 -->
-
-            </androidx.constraintlayout.widget.ConstraintLayout> <!-- 이미지 + 입력 영역 -->
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/common_bottom"
+            android:id="@+id/layout_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent">
