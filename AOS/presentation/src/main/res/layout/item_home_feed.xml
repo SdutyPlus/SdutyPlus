@@ -11,13 +11,14 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp">
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,16 +31,36 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/iv_profile"
-                        loadImage="@{data.component2().component5()}"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        tools:src="@drawable/img_bg_gradient"
+                    <FrameLayout
+                        android:id="@+id/frame_profile_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_margin="16dp"/>
+                        android:layout_margin="8dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/img_bg_gradient" />
+
+                        <!-- 배경 투명화된 이미지가 입력됐을 때, 테두리 유지용 -->
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            android:src="@color/white" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/iv_profile"
+                            loadImage="@{data.component2().component5()}"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center"
+                            tools:src="@drawable/empty_profile_image" />
+
+                    </FrameLayout>
 
                     <TextView
                         android:id="@+id/tv_nickname"
@@ -47,26 +68,34 @@
                         android:layout_height="wrap_content"
                         android:text="@{data.component2().component3()}"
                         android:textStyle="bold"
-                        android:textSize="24sp"
+                        android:textSize="12sp"
                         tools:text="nick_name"
-                        android:layout_marginLeft="16dp"
-                        app:layout_constraintTop_toTopOf="@id/iv_profile"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_profile"
-                        app:layout_constraintStart_toEndOf="@id/iv_profile"/>
+                        android:layout_marginLeft="8dp"
+                        app:layout_constraintTop_toTopOf="@id/frame_profile_img"
+                        app:layout_constraintBottom_toBottomOf="@id/frame_profile_img"
+                        app:layout_constraintStart_toEndOf="@id/frame_profile_img"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/iv_feed"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_feed"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="2dp"
-                    android:layout_marginHorizontal="1dp"
-                    loadImage="@{data.imgUrl}"
-                    tools:src="@drawable/img_frame_light_mix_violet"
-                    android:adjustViewBounds="true"
-                    android:layout_margin="16dp"/>
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="8dp"
+                    android:paddingBottom="8dp">
 
+                    <ImageView
+                        android:id="@+id/iv_feed"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        loadImage="@{data.imgUrl}"
+                        tools:src="@drawable/img_frame_light_mix_violet"
+                        android:background="@drawable/home_feed_image_border"
+                        app:layout_constraintDimensionRatio="3:4"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
