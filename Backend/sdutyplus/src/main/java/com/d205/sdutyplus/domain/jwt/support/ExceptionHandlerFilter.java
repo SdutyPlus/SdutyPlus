@@ -30,9 +30,12 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }catch (JwtException e2){
             log.error("JWT exception handler filter");
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setHeader("NOT_TOKEN","잘못된 token 입니다");
+
+            response.setHeader("Error_Status","401");
+            response.setHeader("Error_Code","U003");
+            response.setHeader("Error_Message","AUTHENTICATION_FAIL");
         }
     }
 

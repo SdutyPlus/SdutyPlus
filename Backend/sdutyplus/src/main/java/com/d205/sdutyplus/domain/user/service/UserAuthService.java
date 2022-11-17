@@ -165,7 +165,8 @@ public class UserAuthService {
     }
 
     @Transactional
-    public boolean deleteUser(Long userSeq){
+    public boolean deleteUser(){
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
 
         deleteUserCade(userSeq);

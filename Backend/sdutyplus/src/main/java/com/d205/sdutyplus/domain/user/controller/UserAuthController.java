@@ -93,14 +93,9 @@ public class UserAuthController {
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @DeleteMapping
-    public ResponseEntity<ResponseDto> deleteUser(@ApiIgnore Authentication auth){
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
+    public ResponseEntity<ResponseDto> deleteUser(){
 
-        Long userSeq = (Long)auth.getPrincipal();
-
-        boolean success = userAuthService.deleteUser(userSeq);
+        boolean success = userAuthService.deleteUser();
 
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_SUCCESS));
