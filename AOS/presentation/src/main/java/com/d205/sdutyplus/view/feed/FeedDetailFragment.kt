@@ -3,7 +3,7 @@ package com.d205.sdutyplus.view.feed
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedDetailBinding
@@ -36,29 +36,35 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
             }
 
             ivScrap.setOnClickListener {
-                if(this@FeedDetailFragment.feed.feedScrapFlag) {
+                if(isFeedScraped()) {
                     removeScrap()
-                    ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_black_24)
                 }
                 else {
                     scrapFeed()
-                    ivScrap.setImageResource(R.drawable.ic_gradient_book_mark)
                 }
-                this@FeedDetailFragment.feed.feedScrapFlag = !this@FeedDetailFragment.feed.feedScrapFlag
+                changeFeedScrapFlag()
             }
         }
+    }
+
+    private fun isFeedScraped() = this@FeedDetailFragment.feed.feedScrapFlag
+
+    private fun changeFeedScrapFlag() {
+        this@FeedDetailFragment.feed.feedScrapFlag = !this@FeedDetailFragment.feed.feedScrapFlag
     }
 
     private fun removeScrap() {
         CoroutineScope(Dispatchers.IO).launch {
             feedViewModel.deleteScrapFeed(feed.seq)
         }
+        binding.ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_black_24)
     }
 
     private fun scrapFeed() {
         CoroutineScope(Dispatchers.IO).launch {
             feedViewModel.scrapFeed(feed.seq)
         }
+        binding.ivScrap.setImageResource(R.drawable.ic_gradient_book_mark)
     }
 
     override fun onOkButtonClicked() {
@@ -67,7 +73,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
         }
     }
 
-    private suspend fun check() = this@FeedDetailFragment.feedViewModel.isFeedDeletedSucceeded.value
 
     private suspend fun deleteFeed() {
         this@FeedDetailFragment.feedViewModel.deleteFeed(this@FeedDetailFragment.feed.seq)

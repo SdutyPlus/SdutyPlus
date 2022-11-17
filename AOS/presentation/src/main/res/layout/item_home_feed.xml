@@ -2,8 +2,8 @@
 <layout>
     <data>
         <variable
-            name="data"
-            type="com.d205.domain.model.feed.HomeFeed" />
+            name="feed"
+            type="com.d205.domain.model.feed.Feed" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +54,7 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/iv_profile"
-                            loadImage="@{data.component2().component5()}"
+                            loadImage="@{feed.profileImgUrl}"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
@@ -66,7 +66,7 @@
                         android:id="@+id/tv_nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{data.component2().component3()}"
+                        android:text="@{feed.nickname}"
                         android:textStyle="bold"
                         android:textSize="12sp"
                         tools:text="nick_name"
@@ -74,6 +74,16 @@
                         app:layout_constraintTop_toTopOf="@id/frame_profile_img"
                         app:layout_constraintBottom_toBottomOf="@id/frame_profile_img"
                         app:layout_constraintStart_toEndOf="@id/frame_profile_img"/>
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:padding="4dp"
+                        android:src="@{feed.feedScrapFlag ? @drawable/ic_gradient_book_mark : @drawable/ic_baseline_bookmark_border_black_24}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_margin="8dp"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -89,7 +99,7 @@
                         android:id="@+id/iv_feed"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        loadImage="@{data.imgUrl}"
+                        loadImage="@{feed.feedImgUrl}"
                         tools:src="@drawable/img_frame_light_mix_violet"
                         android:background="@drawable/home_feed_image_border"
                         app:layout_constraintDimensionRatio="3:4"

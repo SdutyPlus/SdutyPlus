@@ -120,4 +120,10 @@ class UserRepositoryImpl @Inject constructor(
             emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
     }
+
+    override fun checkJwt(token: String): Flow<ResultState<Boolean>> = flow {
+        userRemoteDataSource.checkJwt(token).collect {
+            emit(ResultState.Success(it))
+        }
+    }
 }

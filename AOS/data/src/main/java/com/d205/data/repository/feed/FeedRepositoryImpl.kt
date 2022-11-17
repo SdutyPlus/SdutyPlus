@@ -8,12 +8,11 @@ import com.d205.data.mapper.mapperFeedResponseToFeed
 import com.d205.data.repository.feed.local.FeedLocalDataSource
 import com.d205.data.repository.feed.remote.FeedRemoteDataSource
 import com.d205.domain.model.feed.HomeFeed
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 import com.d205.domain.repository.paging.FeedRepository
 import com.d205.domain.utils.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -62,7 +61,7 @@ class FeedRepositoryImpl @Inject constructor(
     override suspend fun getHomeFeeds(
         page: Int,
         pageSize: Int
-    ): Flow<ResultState<PagingSource.LoadResult<Int, HomeFeed>>> = flow {
+    ): Flow<ResultState<PagingSource.LoadResult<Int, Feed>>> = flow {
         Log.d(TAG, "getHomeFeeds: Loading")
         emit(ResultState.Loading)
 
@@ -73,14 +72,14 @@ class FeedRepositoryImpl @Inject constructor(
                 Log.d(TAG, "getHomeFeeds: not empty")
                 emit(ResultState.Success(PagingSource.LoadResult.Page(
                     data = it.result.map { homeFeedResponse ->
-                        mapperFeedResponseToHomeFeeds(homeFeedResponse)// todo
+                        mapperFeedResponseToFeed(homeFeedResponse)// todo
                     },
                     prevKey = if(page == 0) null else page - 1,
                     nextKey = if(page == it.totalPage) null else page + 1
                 )))
             } else {
                 emit(ResultState.Success(PagingSource.LoadResult.Page(
-                    data = emptyList<HomeFeed>(),
+                    data = emptyList<Feed>(),
                     prevKey = if(page == 0) null else page - 1,
                     nextKey = null
                 )))

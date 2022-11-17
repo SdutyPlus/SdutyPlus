@@ -2,11 +2,8 @@ package com.d205.sdutyplus.view.mypage
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,29 +11,24 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.d205.data.dao.UserSharedPreference
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 import com.d205.domain.model.user.User
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentMyPageBinding
 import com.d205.sdutyplus.uitls.showToast
-import com.d205.sdutyplus.view.MainActivity
-import com.d205.sdutyplus.view.MainViewModel
 import com.d205.sdutyplus.view.feed.FeedAdapter
 import com.d205.sdutyplus.view.feed.FeedViewModel
 import com.d205.sdutyplus.view.login.LoginActivity
 import com.google.android.material.tabs.TabLayout
-import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.NidOAuthLogin
-import com.navercorp.nid.oauth.NidOAuthPreferencesManager
 import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 private const val TAG = "MyPageFragment"
 
@@ -111,7 +103,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     when (tab!!.position) {
                         0 -> {
                             lifecycleScope.launch {
-                                this@MyPageFragment.feedViewModel.feedPage.collectLatest {
+                                this@MyPageFragment.feedViewModel.feedPage.collect {
                                     Log.d(TAG, "onTabSelected feedPage: collect $it")
                                     feedAdapter.submitData(it)
                                 }
@@ -119,13 +111,14 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                         }
                         1 -> {
                             lifecycleScope.launch {
-                                this@MyPageFragment.feedViewModel.scrapFeedPage.collectLatest {
+                                this@MyPageFragment.feedViewModel.scrapFeedPage.collect {
                                     Log.d(TAG, "onTabSelected scrapFeedPage: collect $it")
                                     feedAdapter.submitData(it)
                                 }
                             }
                         }
                     }
+                    feedAdapter.refresh()
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {}
@@ -133,21 +126,22 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     when (tab!!.position) {
                         0 -> {
                             lifecycleScope.launch {
-                                this@MyPageFragment.feedViewModel.feedPage.collectLatest {
-                                    Log.d(TAG, "onTabReselected: collect $it")
+                                this@MyPageFragment.feedViewModel.feedPage.collect {
+                                    Log.d(TAG, "onTabReselected feedPage: collect $it")
                                     feedAdapter.submitData(it)
                                 }
                             }
                         }
                         1 -> {
                             lifecycleScope.launch {
-                                this@MyPageFragment.feedViewModel.scrapFeedPage.collectLatest {
-                                    Log.d(TAG, "onTabSelected scrapFeedPage: collect $it")
+                                this@MyPageFragment.feedViewModel.scrapFeedPage.collect {
+                                    Log.d(TAG, "onTabReselected scrapFeedPage: collect $it")
                                     feedAdapter.submitData(it)
                                 }
                             }
                         }
                     }
+                    feedAdapter.refresh()
                 }
             })
             tabMyPage.getTabAt(0)!!.select()
