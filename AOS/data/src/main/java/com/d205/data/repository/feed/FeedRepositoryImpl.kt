@@ -13,6 +13,7 @@ import com.d205.domain.repository.paging.FeedRepository
 import com.d205.domain.utils.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -36,15 +37,6 @@ class FeedRepositoryImpl @Inject constructor(
 
         feedRemoteDataSource.getUserFeeds(page, pageSize).collect { it ->
 
-//            Log.d(TAG, "getUserFeeds: $it")
-//            emit(ResultState.Success(PagingSource.LoadResult.Page(
-//                data = it.result.map { feedResponse ->
-//                    mapperFeedResponseToFeed(feedResponse)
-//                },
-//                prevKey = if(page == 0) null else page - 1,
-//                nextKey = if(page == it.totalPage) null else page + 1
-//            )))
-
             Log.d(TAG, "getUserFeeds collect : ${it.result}")
             if(it.result.isNotEmpty()) {
                 Log.d(TAG, "getUserFeeds: not empty")
@@ -62,7 +54,6 @@ class FeedRepositoryImpl @Inject constructor(
                     nextKey = null
                 )))
             }
-
         }
     }.catch { e ->
         emit(ResultState.Error(e))
@@ -100,8 +91,35 @@ class FeedRepositoryImpl @Inject constructor(
         emit(ResultState.Error(e))
     }
 
+    override suspend fun getScrapFeeds(
+        page: Int,
+        pageSize: Int
+    ): Flow<ResultState<PagingSource.LoadResult<Int, Feed>>>  = flow {
+        Log.d(TAG, "getScrapFeeds: Loading")
+        emit(ResultState.Loading)
 
-
+        feedRemoteDataSource.getScrapFeeds(page, pageSize).collect { it ->
+            Log.d(TAG, "getScrapFeeds collect : ${it.result}")
+            if(it.result.isNotEmpty()) {
+                Log.d(TAG, "getScrapFeeds: not empty")
+                emit(ResultState.Success(PagingSource.LoadResult.Page(
+                    data = it.result.map { feedResponse ->
+                        mapperFeedResponseToFeed(feedResponse)
+                    },
+                    prevKey = if(page == 0) null else page - 1,
+                    nextKey = if(page == it.totalPage) null else page + 1
+                )))
+            } else {
+                emit(ResultState.Success(PagingSource.LoadResult.Page(
+                    data = emptyList<Feed>(),
+                    prevKey = if(page == 0) null else page - 1,
+                    nextKey = null
+                )))
+            }
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
 
 
     override suspend fun createFeed(
@@ -130,6 +148,46 @@ class FeedRepositoryImpl @Inject constructor(
     }.catch { e ->
         emit(ResultState.Error(e))
         Log.d(TAG, "createFeed success fail: $e")
+    }
+
+    override suspend fun deleteFeed(feedSeq: Int): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "deleteFeed: Loading")
+        //emit(ResultState.Loading)
+
+        feedRemoteDataSource.deleteFeed(feedSeq).collect {
+            Log.d(TAG, "deleteFeed collect : Success!")
+            emit(ResultState.Success(it))
+        }
+        Log.d(TAG, "deleteFeed collect : Finished!")
+    }.catch { e->
+        //emit(ResultState.Error(e))
+        Log.d(TAG, "deleteFeed Error")
+    }
+
+    override suspend fun scrapFeed(feedSeq: Int): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "scrapFeed: Loading")
+
+        feedRemoteDataSource.scrapFeed(feedSeq).collect {
+            Log.d(TAG, "scrapFeed collect : Success!")
+            emit(ResultState.Success(it))
+        }
+        Log.d(TAG, "scrapFeed collect : Finished!")
+    }.catch { e->
+        //emit(ResultState.Error(e))
+        Log.d(TAG, "scrapFeed Error")
+    }
+
+    override suspend fun deleteScrapFeed(feedSeq: Int): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "deleteScrapFeed: Loading")
+
+        feedRemoteDataSource.deleteScrapFeed(feedSeq).collect {
+            Log.d(TAG, "deleteScrapFeed collect : Success!")
+            emit(ResultState.Success(it))
+        }
+        Log.d(TAG, "deleteScrapFeed collect : Finished!")
+    }.catch { e->
+        //emit(ResultState.Error(e))
+        Log.d(TAG, "deleteScrapFeed Error")
     }
 
     inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {

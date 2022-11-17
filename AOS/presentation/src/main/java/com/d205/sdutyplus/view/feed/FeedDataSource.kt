@@ -5,11 +5,17 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.d205.domain.model.mypage.Feed
 import com.d205.domain.usecase.feed.GetFeedsUseCase
+import com.d205.domain.usecase.feed.GetScrapFeedsUseCase
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.ALL_STORY
+import com.d205.sdutyplus.uitls.SCRAP_STORY
 
 private const val TAG ="FeedDataSource"
-class FeedDataSource(val flag: Int, private val getFeedsUseCase: GetFeedsUseCase): PagingSource<Int, Feed>() {
+class FeedDataSource(
+    val flag: Int,
+    private val getFeedsUseCase: GetFeedsUseCase,
+    private val getScrapFeedsUseCase: GetScrapFeedsUseCase
+    ): PagingSource<Int, Feed>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Feed> {
         return try {
             val page = params.key?: 0
@@ -22,11 +28,16 @@ class FeedDataSource(val flag: Int, private val getFeedsUseCase: GetFeedsUseCase
             when(flag){
                 ALL_STORY -> getFeedsUseCase.invoke(page, 18).collect {
                     if(it is ResultState.Success) {
-                        Log.d(TAG, "GetStoryUseCase collect : ${it.data}")
+                        Log.d(TAG, "getFeedsUseCase collect : ${it.data}")
                         response = it.data
                     }
                 }
-                //SCRAP_STORY -> response = storyApi.getScrapList(userSeq, page, 18)
+                SCRAP_STORY -> getScrapFeedsUseCase.invoke(page, 18).collect {
+                    if(it is ResultState.Success) {
+                        Log.d(TAG, "getScrapFeedsUseCase collect : ${it.data}")
+                        response = it.data
+                    }
+                }
             }
             response
         } catch (e: Exception) {
