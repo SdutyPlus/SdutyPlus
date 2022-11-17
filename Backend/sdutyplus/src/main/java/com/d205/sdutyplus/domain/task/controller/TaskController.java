@@ -8,6 +8,7 @@ import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import static com.d205.sdutyplus.global.response.ResponseCode.*;
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor
+@Slf4j
 public class TaskController {
 
     private final TaskService taskService;
@@ -28,11 +30,9 @@ public class TaskController {
     public ResponseEntity<ResponseDto> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
         Long userSeq = (Long)auth.getPrincipal();
         TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
-
         dailyStatisticsService.getReportContinuous(userSeq, taskDto);
         dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
-
-        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS));
+        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
     }
 
     @ApiOperation(value = "테스크 상세 조회")
