@@ -37,14 +37,9 @@ public class WarnController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PostMapping("/user/{to_user_seq}")
-    public ResponseEntity<ResponseDto> userWarn(@ApiIgnore Authentication auth, @PathVariable(value = "to_user_seq") Long toUserSeq) {
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
+    public ResponseEntity<ResponseDto> userWarn(@PathVariable(value = "to_user_seq") Long toUserSeq) {
+        final boolean success = warnService.userWarn(toUserSeq);
 
-        Long fromUserSeq = (Long)auth.getPrincipal();
-
-        final boolean success = warnService.userWarn(fromUserSeq, toUserSeq);
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_SUCCESS, success));
         } else {
@@ -59,14 +54,9 @@ public class WarnController {
             @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
     })
     @PostMapping("/feed/{feed_seq}")
-    public ResponseEntity<ResponseDto> feedWarn(@ApiIgnore Authentication auth, @PathVariable(value = "feed_seq") Long feedSeq) {
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
+    public ResponseEntity<ResponseDto> feedWarn(@PathVariable(value = "feed_seq") Long feedSeq) {
+        final boolean success = warnService.feedWarn(feedSeq);
 
-        Long userSeq = (Long)auth.getPrincipal();
-
-        final boolean success = warnService.feedWarn(userSeq, feedSeq);
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_SUCCESS, success));
         } else {
