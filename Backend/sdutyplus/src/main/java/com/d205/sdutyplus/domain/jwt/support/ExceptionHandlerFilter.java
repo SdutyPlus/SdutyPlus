@@ -7,7 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
+import com.d205.sdutyplus.global.error.ErrorCode;
+import com.d205.sdutyplus.global.error.ErrorResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,6 +22,7 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class ExceptionHandlerFilter extends OncePerRequestFilter{
 
+    private ObjectMapper objectMapper = new ObjectMapper();
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -32,10 +36,12 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
             log.error("JWT exception handler filter");
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-            response.setHeader("Error_Status","401");
-            response.setHeader("Error_Code","U003");
-            response.setHeader("Error_Message","AUTHENTICATION_FAIL");
+            String result = objectMapper.writeValueAsString(ResponseEntity.ok(ErrorResponseDto.of(ErrorCode.AUTHENTICATION_FAIL)));
+            response.getWriter().write(result);
+//            response.setHeader("Error_Status","401");
+//            response.setHeader("Error_Code","U003");
+//            response.setHeader("Error_Message","AUTHENTICATION_FAIL");
+//            response.setHeader("Error_Message","한글테스틑 korean 테스틑");
         }
     }
 
