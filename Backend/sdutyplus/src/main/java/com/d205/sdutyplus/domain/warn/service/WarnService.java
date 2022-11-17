@@ -35,10 +35,10 @@ public class WarnService {
     private final AuthUtils authUtils;
 
     @Transactional
-    public boolean userWarn(Long fromUserSeq, Long toUserSeq){
+    public boolean userWarn(Long toUserSeq){
+        final Long fromUserSeq = authUtils.getLoginUserSeq();
         final User fromUser = authUtils.getLoginUser(fromUserSeq);
-        final User toUser = userRepository.findBySeq(toUserSeq)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
+        final User toUser = authUtils.getLoginUser(toUserSeq);
 
         // 나 자신을 신고
         if (fromUserSeq.equals(toUserSeq)){
@@ -57,7 +57,8 @@ public class WarnService {
     }
 
     @Transactional
-    public boolean feedWarn(Long userSeq, Long feedSeq){
+    public boolean feedWarn(Long feedSeq){
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
         final Feed feed = feedRepository.findById(feedSeq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));

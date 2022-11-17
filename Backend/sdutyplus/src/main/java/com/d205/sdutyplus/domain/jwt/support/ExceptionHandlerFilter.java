@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -29,8 +30,12 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }catch (JwtException e2){
             log.error("JWT exception handler filter");
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+            response.setHeader("Error_Status","401");
+            response.setHeader("Error_Code","U003");
+            response.setHeader("Error_Message","AUTHENTICATION_FAIL");
         }
     }
 

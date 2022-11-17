@@ -47,7 +47,8 @@ public class UserService {
     private final AuthUtils authUtils;
 
     @Transactional
-    public UserRegResponseDto userRegData(Long userSeq, UserRegDto userRegDto) {
+    public UserRegResponseDto userRegData(UserRegDto userRegDto) {
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
 
         if (userRepository.existsByNickname(userRegDto.getNickname())
@@ -55,7 +56,7 @@ public class UserService {
             throw new NicknameAlreadyExistException();
         }
 
-        final Job job = jobRepository.findByJobName(userRegDto.getJobName())
+        final Job job = jobRepository.findByJobName("기타")
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         regUserData(user, userRegDto, job);
@@ -65,7 +66,8 @@ public class UserService {
 
 
     @Transactional
-    public UserRegResponseDto userProfileEdit(Long userSeq, UserProfileEditDto userProfileEditDto) {
+    public UserRegResponseDto userProfileEdit(UserProfileEditDto userProfileEditDto) {
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
 
         if (userRepository.existsByNickname(userProfileEditDto.getNickname())
@@ -73,7 +75,7 @@ public class UserService {
             throw new NicknameAlreadyExistException();
         }
 
-        final Job job = jobRepository.findByJobName(userProfileEditDto.getJobName())
+        final Job job = jobRepository.findByJobName("기타")
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         updateUserData(user, userProfileEditDto, job);

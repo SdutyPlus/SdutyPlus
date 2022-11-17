@@ -43,12 +43,8 @@ public class UserController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PostMapping("/reg")
-    public ResponseEntity<ResponseDto> userRegData(@ApiIgnore Authentication auth, @RequestBody UserRegDto userRegDto){
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
-        Long userSeq = (Long)auth.getPrincipal();
-        UserRegResponseDto result = userService.userRegData(userSeq, userRegDto);
+    public ResponseEntity<ResponseDto> userRegData(@RequestBody UserRegDto userRegDto){
+        UserRegResponseDto result = userService.userRegData(userRegDto);
 
         return ResponseEntity.ok(ResponseDto.of(SAVE_PROFILE_SUCCESS, result));
     }
@@ -88,13 +84,9 @@ public class UserController {
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
     @PutMapping
-    public ResponseEntity<ResponseDto> putUserProfile(@ApiIgnore Authentication auth, @RequestBody UserProfileEditDto userProfileEditDto){
-        if (auth == null) {
-            throw new UserNotLoginException();
-        }
+    public ResponseEntity<ResponseDto> putUserProfile(@RequestBody UserProfileEditDto userProfileEditDto){
 
-        Long userSeq = (Long)auth.getPrincipal();
-        UserRegResponseDto result = userService.userProfileEdit(userSeq, userProfileEditDto);
+        UserRegResponseDto result = userService.userProfileEdit(userProfileEditDto);
 
         return ResponseEntity.ok(ResponseDto.of(EDIT_PROFILE_SUCCESS, result));
     }
