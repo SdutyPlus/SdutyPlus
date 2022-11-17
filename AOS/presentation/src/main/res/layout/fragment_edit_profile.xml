@@ -85,17 +85,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <Button
-                        android:id="@+id/btn_job_select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:background="@drawable/btn_study_filter"
-                        android:paddingHorizontal="16dp"
-                        android:text="직업 선택"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        android:visibility="gone" />
-
-                    <Button
                         android:id="@+id/btn_job"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
@@ -135,7 +124,7 @@
                         android:layout_width="128dp"
                         android:layout_height="128dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/img_camera_gradient_in_circle_128" />
+                        android:src="@drawable/img_camera_gradient_in_circle_256" />
                 </FrameLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

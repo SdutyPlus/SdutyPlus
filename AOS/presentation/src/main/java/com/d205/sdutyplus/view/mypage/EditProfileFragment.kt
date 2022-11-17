@@ -116,10 +116,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                 launchImageCrop()
             }
 
-            btnJobSelect.setOnClickListener {
-                openTagSelectDialog()
-            }
-
             btnJob.setOnClickListener {
                 openTagSelectDialog()
             }
@@ -186,7 +182,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                         this@EditProfileFragment.userJob = selectedJob!!.name
                         btnJob.text = selectedJob.name
                         btnJob.visibility = View.VISIBLE
-                        btnJobSelect.visibility = View.GONE
                     }
                 }
             }
