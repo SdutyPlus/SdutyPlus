@@ -88,6 +88,10 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
             btnJobSelect.setOnClickListener {
                 openTagSelectDialog()
             }
+
+            btnJob.setOnClickListener {
+                openTagSelectDialog()
+            }
         }
     }
 
