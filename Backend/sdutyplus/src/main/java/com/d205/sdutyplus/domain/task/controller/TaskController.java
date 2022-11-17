@@ -30,12 +30,8 @@ public class TaskController {
     public ResponseEntity<ResponseDto> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
         Long userSeq = (Long)auth.getPrincipal();
         TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
-        log.info("테스크 등록(테스크 등록 완료) "+taskDto);
         dailyStatisticsService.getReportContinuous(userSeq, taskDto);
-        log.info("테스크 등록(연속일수 통계 완료)");
         dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
-        log.info("테스크 등록(데일리 학습 통계 완료)");
-        log.info("반환값 : "+ResponseDto.of(CREATE_TASK_SUCCESS));
         return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
     }
 
