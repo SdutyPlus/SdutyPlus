@@ -101,4 +101,36 @@ class FeedRemoteDataSourceImpl @Inject constructor(
     }.catch { e ->
         Log.d(TAG, "deleteFeed Error : $e")
     }
+
+    @SuppressLint("LongLogTag")
+    override suspend fun scrapFeed(feedSeq: Int): Flow<Boolean> = flow{
+        Log.d(TAG, "scrapFeed: start!")
+        val response = feedApi.scrapFeed(feedSeq)
+        if(response.status == 200) {
+            emit(true)
+            Log.d(TAG, "scrapFeed: true")
+        }
+        else {
+            emit(false)
+            Log.d(TAG, "scrapFeed: false")
+        }
+    }.catch { e ->
+        Log.d(TAG, "scrapFeed Error : $e")
+    }
+
+    @SuppressLint("LongLogTag")
+    override suspend fun deleteScrapFeed(feedSeq: Int): Flow<Boolean> = flow {
+        Log.d(TAG, "deleteScrapFeed: start!")
+        val response = feedApi.deleteScrapFeed(feedSeq)
+        if(response.status == 200) {
+            emit(true)
+            Log.d(TAG, "deleteScrapFeed: true")
+        }
+        else {
+            emit(false)
+            Log.d(TAG, "deleteScrapFeed: false")
+        }
+    }.catch { e ->
+        Log.d(TAG, "deleteScrapFeed Error : $e")
+    }
 }

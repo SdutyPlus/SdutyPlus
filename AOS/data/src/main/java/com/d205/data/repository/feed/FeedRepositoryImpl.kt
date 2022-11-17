@@ -164,6 +164,32 @@ class FeedRepositoryImpl @Inject constructor(
         Log.d(TAG, "deleteFeed Error")
     }
 
+    override suspend fun scrapFeed(feedSeq: Int): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "scrapFeed: Loading")
+
+        feedRemoteDataSource.scrapFeed(feedSeq).collect {
+            Log.d(TAG, "scrapFeed collect : Success!")
+            emit(ResultState.Success(it))
+        }
+        Log.d(TAG, "scrapFeed collect : Finished!")
+    }.catch { e->
+        //emit(ResultState.Error(e))
+        Log.d(TAG, "scrapFeed Error")
+    }
+
+    override suspend fun deleteScrapFeed(feedSeq: Int): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "deleteScrapFeed: Loading")
+
+        feedRemoteDataSource.deleteScrapFeed(feedSeq).collect {
+            Log.d(TAG, "deleteScrapFeed collect : Success!")
+            emit(ResultState.Success(it))
+        }
+        Log.d(TAG, "deleteScrapFeed collect : Finished!")
+    }.catch { e->
+        //emit(ResultState.Error(e))
+        Log.d(TAG, "deleteScrapFeed Error")
+    }
+
     inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
         override fun contentType(): MediaType = MediaType.parse("image/*")!!
         override fun writeTo(sink: BufferedSink) {

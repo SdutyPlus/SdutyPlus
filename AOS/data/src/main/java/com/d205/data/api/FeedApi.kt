@@ -28,4 +28,10 @@ interface FeedApi {
 
     @DELETE("feed/{feed_seq}")
     suspend fun deleteFeed(@Path("feed_seq") feedSeq: Int): BaseResponse<Boolean>
+
+    @POST("feed/scrap/{feed_seq}")
+    suspend fun scrapFeed(@Path("feed_seq") feedSeq: Int): BaseResponse<Boolean>
+
+    @DELETE("feed/scrap/{feed_seq}")
+    suspend fun deleteScrapFeed(@Path("feed_seq") feedSeq: Int): BaseResponse<Boolean>
 }

@@ -30,4 +30,12 @@ interface FeedRemoteDataSource {
     suspend fun deleteFeed(
         feedSeq: Int
     ): Flow<Boolean>
+
+    suspend fun scrapFeed(
+        feedSeq: Int
+    ): Flow<Boolean>
+
+    suspend fun deleteScrapFeed(
+        feedSeq: Int
+    ): Flow<Boolean>
 }

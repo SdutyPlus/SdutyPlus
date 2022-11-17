@@ -1,11 +1,5 @@
 package com.d205.sdutyplus.view.feed
 
-import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,7 +10,6 @@ import com.d205.sdutyplus.databinding.FragmentFeedDetailBinding
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.feed.dialog.FeedDeleteDialog
 import com.d205.sdutyplus.view.feed.dialog.FeedDeleteDialogListener
-import com.d205.sdutyplus.view.mypage.MyPageFragmentArgs
 import kotlinx.coroutines.*
 
 private const val TAG = "FeedDetailFragment"
@@ -41,6 +34,29 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
             tvDelete.setOnClickListener {
                 FeedDeleteDialog(requireContext(), this@FeedDetailFragment).show()
             }
+
+            ivScrap.setOnClickListener {
+                if(feed.feedScrapFlag) {
+                    removeScrap()
+                    ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_black_24)
+                }
+                else {
+                    scrapFeed()
+                    ivScrap.setImageResource(R.drawable.ic_gradient_book_mark)
+                }
+            }
+        }
+    }
+
+    private fun removeScrap() {
+        CoroutineScope(Dispatchers.IO).launch {
+            feedViewModel.deleteScrapFeed(feed.seq)
+        }
+    }
+
+    private fun scrapFeed() {
+        CoroutineScope(Dispatchers.IO).launch {
+            feedViewModel.scrapFeed(feed.seq)
         }
     }
 

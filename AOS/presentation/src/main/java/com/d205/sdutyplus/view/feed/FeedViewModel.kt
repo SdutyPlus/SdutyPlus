@@ -6,10 +6,7 @@ import androidx.lifecycle.*
 import androidx.paging.*
 import com.d205.domain.model.mypage.Feed
 import com.d205.domain.model.user.User
-import com.d205.domain.usecase.feed.DeleteFeedUseCase
-import com.d205.domain.usecase.feed.GetFeedsUseCase
-import com.d205.domain.usecase.feed.GetHomeFeedsUseCase
-import com.d205.domain.usecase.feed.GetScrapFeedsUseCase
+import com.d205.domain.usecase.feed.*
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.ALL_STORY
 import com.d205.sdutyplus.uitls.HOME_ALL_STORY
@@ -32,7 +29,9 @@ class FeedViewModel @Inject constructor(
     private val getFeedsUseCase: GetFeedsUseCase,
     private val getHomeFeedsUseCase: GetHomeFeedsUseCase,
     private val getScrapFeedsUseCase: GetScrapFeedsUseCase,
-    private val deleteFeedUseCase: DeleteFeedUseCase
+    private val deleteFeedUseCase: DeleteFeedUseCase,
+    private val scrapFeedUseCase: ScrapFeedUseCase,
+    private val deleteScrapFeedUseCase: DeleteScrapFeedUseCase
 ): ViewModel() {
 
     private val _isFeedDeletedSucceeded = MutableLiveData(false)
@@ -69,7 +68,22 @@ class FeedViewModel @Inject constructor(
                 }
             }
         }
+    }
 
+    suspend fun scrapFeed(feedSeq: Int) {
+        scrapFeedUseCase.invoke(feedSeq).collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "scrapFeed: Success!")
+            }
+        }
+    }
+
+    suspend fun deleteScrapFeed(feedSeq: Int) {
+        deleteScrapFeedUseCase.invoke(feedSeq).collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "deleteScrapFeed: Success!")
+            }
+        }
     }
 
     fun isFeedDeleted() = _isFeedDeletedSucceeded.value!!
