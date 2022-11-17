@@ -19,4 +19,6 @@ interface FeedRepository {
         feedImageBitmap: Bitmap,
         content: String
     ): Flow<ResultState<Boolean>>
+
+    suspend fun deleteFeed(feedSeq: Int): Flow<ResultState<Boolean>>
 }

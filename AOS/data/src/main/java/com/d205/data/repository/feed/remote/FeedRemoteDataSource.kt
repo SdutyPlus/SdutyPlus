@@ -21,4 +21,8 @@ interface FeedRemoteDataSource {
         imageFile: MultipartBody.Part,
         content: MultipartBody.Part
     ): Flow<Boolean>
+
+    suspend fun deleteFeed(
+        feedSeq: Int
+    ): Flow<Boolean>
 }

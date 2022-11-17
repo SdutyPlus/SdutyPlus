@@ -21,4 +21,6 @@ interface FeedApi {
     @POST("feed")
     suspend fun createFeed(@Part imageFile: MultipartBody.Part, @Part content: MultipartBody.Part): BaseResponse<Boolean>
 
+    @DELETE("feed/{feed_seq}")
+    suspend fun deleteFeed(@Path("feed_seq") feedSeq: Int): BaseResponse<Boolean>
 }

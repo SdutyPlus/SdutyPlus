@@ -69,4 +69,19 @@ class FeedRemoteDataSourceImpl @Inject constructor(
     }.catch { e ->
         Log.d(TAG, "CreateFeedDataSourceError: $e")
     }
+
+    override suspend fun deleteFeed(feedSeq: Int): Flow<Boolean> = flow {
+        Log.d(TAG, "deleteFeed: start!")
+        val response = feedApi.deleteFeed(feedSeq)
+        if(response.status == 200) {
+            emit(true)
+            Log.d(TAG, "deleteFeed: true")
+        }
+        else {
+            emit(false)
+            Log.d(TAG, "deleteFeed: false")
+        }
+    }.catch { e ->
+        Log.d(TAG, "deleteFeed Error : $e")
+    }
 }

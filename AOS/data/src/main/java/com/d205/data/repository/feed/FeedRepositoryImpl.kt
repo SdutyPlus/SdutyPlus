@@ -13,6 +13,7 @@ import com.d205.domain.repository.paging.FeedRepository
 import com.d205.domain.utils.ResultState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -130,6 +131,20 @@ class FeedRepositoryImpl @Inject constructor(
     }.catch { e ->
         emit(ResultState.Error(e))
         Log.d(TAG, "createFeed success fail: $e")
+    }
+
+    override suspend fun deleteFeed(feedSeq: Int): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "deleteFeed: Loading")
+        //emit(ResultState.Loading)
+
+        feedRemoteDataSource.deleteFeed(feedSeq).collect {
+            Log.d(TAG, "deleteFeed collect : Success!")
+            emit(ResultState.Success(it))
+        }
+        Log.d(TAG, "deleteFeed collect : Finished!")
+    }.catch { e->
+        //emit(ResultState.Error(e))
+        Log.d(TAG, "deleteFeed Error")
     }
 
     inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
