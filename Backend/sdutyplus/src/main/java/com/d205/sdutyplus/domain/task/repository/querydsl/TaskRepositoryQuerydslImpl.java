@@ -17,7 +17,7 @@ import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 
 @RequiredArgsConstructor
-public class 1` TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
+public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
 
     private final JPAQueryFactory queryFactory;
 
@@ -81,6 +81,7 @@ public class 1` TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                         .and(
                                 task.startTime.loe(startTime).and(task.endTime.goe(startTime))
                                         .or(task.endTime.goe(endTime).and(task.startTime.loe(endTime))))
+                                        .or(task.startTime.goe(startTime).and(task.endTime.loe(endTime)))
                 )
                 .fetch().size();
     }
