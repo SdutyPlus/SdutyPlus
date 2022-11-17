@@ -36,7 +36,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
             }
 
             ivScrap.setOnClickListener {
-                if(feed.feedScrapFlag) {
+                if(this@FeedDetailFragment.feed.feedScrapFlag) {
                     removeScrap()
                     ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_black_24)
                 }
@@ -44,6 +44,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
                     scrapFeed()
                     ivScrap.setImageResource(R.drawable.ic_gradient_book_mark)
                 }
+                this@FeedDetailFragment.feed.feedScrapFlag = !this@FeedDetailFragment.feed.feedScrapFlag
             }
         }
     }
