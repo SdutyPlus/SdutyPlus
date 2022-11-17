@@ -21,8 +21,14 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     }
 
     private fun  initView() {
+        initTimer()
         initBtn()
-        initSeekBar()
+//        initSeekBar()
+    }
+
+    private fun initTimer() {
+        createCountDownTimer(25 * 60 * 1000L)
+        updateRemainTime(25 * 60 * 1000)
     }
 
     private fun initBtn() {
@@ -35,10 +41,10 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
             }
 //
             btnPomodoroPause.setOnClickListener {
-                btnPomodoroPause.visibility = View.GONE
-                btnPomodoroStart.visibility = View.VISIBLE
-
-                stopCountDown()
+//                btnPomodoroPause.visibility = View.GONE
+//                btnPomodoroStart.visibility = View.VISIBLE
+//
+//                stopCountDown()
             }
         }
     }
@@ -102,7 +108,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     }
 
     private fun startCountDown() {
-        currentCountDownTimer = createCountDownTimer(binding.seekBar.progress * 60 * 1000L)
+//        currentCountDownTimer = createCountDownTimer(binding.seekBar.progress * 60 * 1000L)
         currentCountDownTimer?.start()
     }
 
@@ -110,7 +116,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         object : CountDownTimer(initialMillis, 1000L) {
             override fun onTick(millisUntilFinished: Long) {
                 updateRemainTime(millisUntilFinished)
-                updateSeekBar(millisUntilFinished)
+//                updateSeekBar(millisUntilFinished)
             }
 
             override fun onFinish() {
@@ -120,7 +126,6 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
 
     private fun completeCountDown() {
         updateRemainTime(25)
-        updateSeekBar(25)
         binding.apply {
              btnPomodoroPause.visibility = View.GONE
              btnPomodoroStart.visibility = View.VISIBLE
@@ -128,13 +133,11 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         if(isWorking) {
             requireContext()!!.showToast("완료하였습니다! \n휴식 시간이에요!")
             updateRemainTime(5 * 60 * 1000)
-            updateSeekBar(5 * 60 * 1000)
             isWorking = !isWorking
             binding.layoutPomodoro.setBackgroundResource(R.drawable.bg_pomodoro_rest)
         } else {
             requireContext()!!.showToast("진행 시간이에요!")
             updateRemainTime(25 * 60 * 1000)
-            updateSeekBar(25 * 60 * 1000)
             isWorking = !isWorking
             binding.layoutPomodoro.setBackgroundResource(R.drawable.bg_pomodoro_work)
         }
