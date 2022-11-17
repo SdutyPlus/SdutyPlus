@@ -27,14 +27,14 @@
             android:layout_height="48dp"
             app:layout_constraintTop_toTopOf="parent">
 
-<!--            <ImageView-->
-<!--                android:id="@+id/iv_setting"-->
-<!--                android:layout_width="48dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:padding="12dp"-->
-<!--                android:src="@drawable/ic_settings"-->
-<!--                android:visibility="invisible"-->
-<!--                app:layout_constraintEnd_toEndOf="parent" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/iv_setting"-->
+            <!--                android:layout_width="48dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:padding="12dp"-->
+            <!--                android:src="@drawable/ic_settings"-->
+            <!--                android:visibility="invisible"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent" />-->
 
             <TextView
                 android:id="@+id/tv_delete"
@@ -122,8 +122,8 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/empty_profile_image"
-                                tools:src="@drawable/empty_profile_image" />
+                                android:src="@drawable/img_camera_gradient_in_circle_256"
+                                tools:src="@drawable/img_camera_gradient_in_circle_256" />
 
                         </FrameLayout>
 
@@ -172,7 +172,7 @@
                                 android:text="@{mainVM.user.component2()}"
                                 app:layout_constraintTop_toBottomOf="@id/tv_nickname"
                                 app:layout_constraintStart_toStartOf="parent"
-                                tools:text="자기 소개가 표시되는 공간~~" />
+                                tools:text="nheenhee@kakao.com" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,12 +180,12 @@
 
                         <Button
                             android:id="@+id/btn_edit_profile"
-                            android:layout_width="48dp"
+                            android:layout_width="64dp"
                             android:layout_height="48dp"
-                            android:background="@drawable/bg_button_app_blue"
+                            android:background="@drawable/btn_study_regist"
                             android:gravity="center"
-                            android:text="프로필 편집"
-                            android:textColor="@color/white"
+                            android:text="편집"
+                            android:textColor="@color/sduty_mix_violet"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/const_tv_profile"
