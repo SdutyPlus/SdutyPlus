@@ -1,14 +1,12 @@
 package com.d205.sdutyplus.domain.user.dto;
 
+import com.d205.sdutyplus.domain.user.entity.User;
 import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
-@NoArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserWriterProfileDto {
     @ApiModelProperty(value = "유저 번호")
     private Long userSeq;
@@ -21,12 +19,20 @@ public class UserWriterProfileDto {
     @ApiModelProperty(value = "프로필사진")
     private String imgUrl;
 
-    @QueryProjection
-    public UserWriterProfileDto(Long userSeq, String email, String nickname, String job, String imgUrl){
-        this.userSeq = userSeq;
-        this.email = email;
-        this.nickname = nickname;
-        this.job = job;
-        this.imgUrl = imgUrl;
+//    @QueryProjection
+//    public UserWriterProfileDto(Long userSeq, String email, String nickname, String job, String imgUrl){
+//        this.userSeq = userSeq;
+//        this.email = email;
+//        this.nickname = nickname;
+//        this.job = job;
+//        this.imgUrl = imgUrl;
+//    }
+
+    public UserWriterProfileDto(User writer){
+        this.userSeq = writer.getSeq();
+        this.email = writer.getEmail();
+        this.nickname = writer.getNickname();
+        this.job = writer.getJob().getJobName();
+        this.imgUrl = writer.getImgUrl();
     }
 }

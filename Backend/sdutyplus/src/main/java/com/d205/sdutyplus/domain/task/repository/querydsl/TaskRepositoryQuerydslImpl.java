@@ -81,6 +81,7 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                         .and(
                                 task.startTime.loe(startTime).and(task.endTime.goe(startTime))
                                         .or(task.endTime.goe(endTime).and(task.startTime.loe(endTime))))
+                                        .or(task.startTime.goe(startTime).and(task.endTime.loe(endTime)))
                 )
                 .fetch().size();
     }

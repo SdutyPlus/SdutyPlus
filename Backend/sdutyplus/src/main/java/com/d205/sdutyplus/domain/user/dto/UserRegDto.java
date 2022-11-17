@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.user.dto;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRegDto {
 
     @NotBlank(message = "닉네임을 입력해주세요.")
