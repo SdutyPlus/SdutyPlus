@@ -52,6 +52,22 @@ class FeedRemoteDataSourceImpl @Inject constructor(
     }
 
     @SuppressLint("LongLogTag")
+    override suspend fun getScrapFeeds(
+        page: Int,
+        pageSize: Int): Flow<PagingResult<FeedResponse>>  = flow {
+        Log.d(TAG, "getScrapFeeds page: $page")
+        val response = feedApi.getScrapFeeds(page, pageSize)
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(PagingResult(-1,-1, emptyList()))
+        }
+    }.catch { e ->
+        Log.d(TAG, "getScrapFeeds: ${e.message}")
+    }
+
+    @SuppressLint("LongLogTag")
     override suspend fun createFeed(
         imageFile: MultipartBody.Part,
         content: MultipartBody.Part
@@ -70,6 +86,7 @@ class FeedRemoteDataSourceImpl @Inject constructor(
         Log.d(TAG, "CreateFeedDataSourceError: $e")
     }
 
+    @SuppressLint("LongLogTag")
     override suspend fun deleteFeed(feedSeq: Int): Flow<Boolean> = flow {
         Log.d(TAG, "deleteFeed: start!")
         val response = feedApi.deleteFeed(feedSeq)

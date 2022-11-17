@@ -9,9 +9,11 @@ import com.d205.domain.model.user.User
 import com.d205.domain.usecase.feed.DeleteFeedUseCase
 import com.d205.domain.usecase.feed.GetFeedsUseCase
 import com.d205.domain.usecase.feed.GetHomeFeedsUseCase
+import com.d205.domain.usecase.feed.GetScrapFeedsUseCase
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.ALL_STORY
 import com.d205.sdutyplus.uitls.HOME_ALL_STORY
+import com.d205.sdutyplus.uitls.SCRAP_STORY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -29,6 +31,7 @@ private const val TAG ="StoryViewModel"
 class FeedViewModel @Inject constructor(
     private val getFeedsUseCase: GetFeedsUseCase,
     private val getHomeFeedsUseCase: GetHomeFeedsUseCase,
+    private val getScrapFeedsUseCase: GetScrapFeedsUseCase,
     private val deleteFeedUseCase: DeleteFeedUseCase
 ): ViewModel() {
 
@@ -42,7 +45,13 @@ class FeedViewModel @Inject constructor(
     // 모든 스토리 전체 조회
      val feedPage = Pager(
         config = PagingConfig(pageSize = 1, maxSize = 6, enablePlaceholders = false),
-        pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase)}
+        pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase, getScrapFeedsUseCase)}
+    ).flow.cachedIn(viewModelScope)
+
+    // 스크랩 피드 전체 조회
+    val scrapFeedPage = Pager(
+        config = PagingConfig(pageSize = 1, maxSize = 6, enablePlaceholders = false),
+        pagingSourceFactory = {FeedDataSource(SCRAP_STORY, getFeedsUseCase, getScrapFeedsUseCase)}
     ).flow.cachedIn(viewModelScope)
 
     // Feed 전체 조회

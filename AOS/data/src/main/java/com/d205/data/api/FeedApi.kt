@@ -17,6 +17,11 @@ interface FeedApi {
         @Query("page")page: Int,
         @Query("size")pageSize: Int): BaseResponse<PagingResult<FeedResponse>>
 
+    @GET("feed/scrap")
+    suspend fun getScrapFeeds(
+        @Query("page")page: Int,
+        @Query("size")pageSize: Int): BaseResponse<PagingResult<FeedResponse>>
+
     @Multipart
     @POST("feed")
     suspend fun createFeed(@Part imageFile: MultipartBody.Part, @Part content: MultipartBody.Part): BaseResponse<Boolean>

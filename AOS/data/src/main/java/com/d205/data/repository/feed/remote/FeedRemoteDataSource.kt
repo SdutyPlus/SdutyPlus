@@ -17,6 +17,11 @@ interface FeedRemoteDataSource {
         pageSize: Int
     ): Flow<PagingResult<FeedResponse>>
 
+    suspend fun getScrapFeeds(
+        page: Int,
+        pageSize: Int
+    ): Flow<PagingResult<FeedResponse>>
+
     suspend fun createFeed(
         imageFile: MultipartBody.Part,
         content: MultipartBody.Part

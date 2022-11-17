@@ -37,15 +37,6 @@ class FeedRepositoryImpl @Inject constructor(
 
         feedRemoteDataSource.getUserFeeds(page, pageSize).collect { it ->
 
-//            Log.d(TAG, "getUserFeeds: $it")
-//            emit(ResultState.Success(PagingSource.LoadResult.Page(
-//                data = it.result.map { feedResponse ->
-//                    mapperFeedResponseToFeed(feedResponse)
-//                },
-//                prevKey = if(page == 0) null else page - 1,
-//                nextKey = if(page == it.totalPage) null else page + 1
-//            )))
-
             Log.d(TAG, "getUserFeeds collect : ${it.result}")
             if(it.result.isNotEmpty()) {
                 Log.d(TAG, "getUserFeeds: not empty")
@@ -63,7 +54,6 @@ class FeedRepositoryImpl @Inject constructor(
                     nextKey = null
                 )))
             }
-
         }
     }.catch { e ->
         emit(ResultState.Error(e))
@@ -101,8 +91,35 @@ class FeedRepositoryImpl @Inject constructor(
         emit(ResultState.Error(e))
     }
 
+    override suspend fun getScrapFeeds(
+        page: Int,
+        pageSize: Int
+    ): Flow<ResultState<PagingSource.LoadResult<Int, Feed>>>  = flow {
+        Log.d(TAG, "getScrapFeeds: Loading")
+        emit(ResultState.Loading)
 
-
+        feedRemoteDataSource.getScrapFeeds(page, pageSize).collect { it ->
+            Log.d(TAG, "getScrapFeeds collect : ${it.result}")
+            if(it.result.isNotEmpty()) {
+                Log.d(TAG, "getScrapFeeds: not empty")
+                emit(ResultState.Success(PagingSource.LoadResult.Page(
+                    data = it.result.map { feedResponse ->
+                        mapperFeedResponseToFeed(feedResponse)
+                    },
+                    prevKey = if(page == 0) null else page - 1,
+                    nextKey = if(page == it.totalPage) null else page + 1
+                )))
+            } else {
+                emit(ResultState.Success(PagingSource.LoadResult.Page(
+                    data = emptyList<Feed>(),
+                    prevKey = if(page == 0) null else page - 1,
+                    nextKey = null
+                )))
+            }
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
 
 
     override suspend fun createFeed(
