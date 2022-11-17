@@ -140,7 +140,12 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                             }
                         }
                         1 -> {
-                            //feedViewModel.getScrapStoryList(mainViewModel.user.value!!.seq)
+                            lifecycleScope.launch {
+                                this@MyPageFragment.feedViewModel.scrapFeedPage.collectLatest {
+                                    Log.d(TAG, "onTabSelected scrapFeedPage: collect $it")
+                                    feedAdapter.submitData(it)
+                                }
+                            }
                         }
                     }
                 }
