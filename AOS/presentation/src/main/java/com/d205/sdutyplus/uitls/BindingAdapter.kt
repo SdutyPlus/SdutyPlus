@@ -21,6 +21,11 @@ fun loadImage(view: ImageView, src: String?){
         .into(view)
 }
 
+@SuppressLint("SetTextI18n")
+@BindingAdapter("percentage")
+fun percentage(view: TextView, per: Int) {
+    view.setText("$per%")
+}
 
 //@BindingAdapter("profileHashTagText")
 //fun profileHashTagText(view: TextView, profile: Profile?){

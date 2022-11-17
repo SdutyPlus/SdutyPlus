@@ -37,7 +37,11 @@
     <fragment
         android:id="@+id/reportFragment"
         android:name="com.d205.sdutyplus.view.report.ReportFragment"
-        android:label="ReportFragment" />
+        android:label="ReportFragment" >
+        <action
+            android:id="@+id/action_reportFragment_to_graphFragment"
+            app:destination="@id/graphFragment" />
+    </fragment>
     <fragment
         android:id="@+id/timerFragment"
         android:name="com.d205.sdutyplus.view.timer.TimerFragment"
@@ -70,4 +74,8 @@
         android:id="@+id/editProfileFragment"
         android:name="com.d205.sdutyplus.view.mypage.EditProfileFragment"
         android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/graphFragment"
+        android:name="com.d205.sdutyplus.view.report.graph.graphFragment"
+        android:label="graphFragment" />
 </navigation>
