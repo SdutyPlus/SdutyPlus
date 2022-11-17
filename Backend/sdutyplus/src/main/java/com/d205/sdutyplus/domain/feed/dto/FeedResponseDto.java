@@ -16,23 +16,9 @@ public class FeedResponseDto {
     private int scrapCount;
 
     @QueryProjection
-    public FeedResponseDto(Long seq, UserWriterProfileDto writer, String imgUrl, String content){
-        this.seq = seq;
-        this.writer = writer;
-        this.imgUrl = imgUrl;
-        this.content = content;
-    }
-
-    @QueryProjection
     public FeedResponseDto(Long seq, User writer, String imgUrl, String content, int feedLikesCount, int scrapCount){
         this.seq = seq;
-        this.writer = UserWriterProfileDto.builder()
-                .userSeq(writer.getSeq())
-                .email(writer.getEmail())
-                .nickname(writer.getNickname())
-                .job(writer.getJob().getJobName())
-                .imgUrl(writer.getImgUrl())
-                .build();
+        this.writer = new UserWriterProfileDto(writer);
         this.imgUrl = imgUrl;
         this.content = content;
         this.feedLikesCount = feedLikesCount;
