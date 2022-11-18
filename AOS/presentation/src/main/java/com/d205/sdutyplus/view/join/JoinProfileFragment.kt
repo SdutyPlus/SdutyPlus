@@ -149,7 +149,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     }
 
     private fun openTagSelectDialog() {
-        TagSelectDialog(requireContext()).let {
+        TagSelectDialog(requireContext(), "").let {
             it.arguments = bundleOf("flag" to PROFILE)
             it.onClickConfirm = object : TagSelectDialog.OnClickConfirm {
                 override fun onClick(selectedJob: JobHashtag?) {
