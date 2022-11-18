@@ -64,4 +64,8 @@ public class OffService {
 
         return true;
     }
+
+    public void deleteAllFeedOffByUserSeq(Long userSeq){
+        offFeedRepository.deleteAllByUserSeq(userSeq);
+    }
 }
