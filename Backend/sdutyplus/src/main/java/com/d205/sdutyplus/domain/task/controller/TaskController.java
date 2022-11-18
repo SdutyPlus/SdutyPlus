@@ -6,6 +6,7 @@ import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.service.TaskService;
 import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseDto;
+import com.sun.xml.bind.v2.TODO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ public class TaskController {
         TaskDto taskDto = taskService.createTask(taskPostDto);
         dailyStatisticsService.getReportContinuous(taskDto);
         dailyStatisticsService.updateDailyStudy(taskDto);
-        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
+        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS));
     }
 
     @ApiOperation(value = "테스크 상세 조회")
