@@ -128,6 +128,10 @@ class ReportViewModel @Inject constructor(
         }
     }
 
+    fun callBackReset() {
+        _addTaskCallBack.value = 0
+    }
+
 
     private val _continuous = SingleLiveEvent<Int>()
     val continuous get() = _continuous
