@@ -1,19 +1,21 @@
 package com.d205.sdutyplus.view.feed
 
 import android.graphics.Bitmap
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import androidx.paging.*
 import com.d205.domain.model.mypage.Feed
 import com.d205.domain.model.user.User
-import com.d205.domain.usecase.feed.GetFeedsUseCase
-import com.d205.domain.usecase.feed.GetHomeFeedsUseCase
+import com.d205.domain.usecase.feed.*
+import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.ALL_STORY
 import com.d205.sdutyplus.uitls.HOME_ALL_STORY
+import com.d205.sdutyplus.uitls.SCRAP_STORY
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
@@ -25,13 +27,30 @@ private const val TAG ="StoryViewModel"
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val getFeedsUseCase: GetFeedsUseCase,
-    private val getHomeFeedsUseCase: GetHomeFeedsUseCase
+    private val getHomeFeedsUseCase: GetHomeFeedsUseCase,
+    private val getScrapFeedsUseCase: GetScrapFeedsUseCase,
+    private val deleteFeedUseCase: DeleteFeedUseCase,
+    private val scrapFeedUseCase: ScrapFeedUseCase,
+    private val deleteScrapFeedUseCase: DeleteScrapFeedUseCase
 ): ViewModel() {
+
+    private val _isFeedDeletedSucceeded = MutableLiveData(false)
+    val isFeedDeletedSucceeded: LiveData<Boolean>
+        get() = _isFeedDeletedSucceeded
+
+    private val _tmp = MutableStateFlow(false)
+    val tmp get() = _tmp.asStateFlow()
 
     // 모든 스토리 전체 조회
      val feedPage = Pager(
         config = PagingConfig(pageSize = 1, maxSize = 6, enablePlaceholders = false),
-        pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase)}
+        pagingSourceFactory = {FeedDataSource(ALL_STORY, getFeedsUseCase, getScrapFeedsUseCase)}
+    ).flow.cachedIn(viewModelScope)
+
+    // 스크랩 피드 전체 조회
+    val scrapFeedPage = Pager(
+        config = PagingConfig(pageSize = 1, maxSize = 6, enablePlaceholders = false),
+        pagingSourceFactory = {FeedDataSource(SCRAP_STORY, getFeedsUseCase, getScrapFeedsUseCase)}
     ).flow.cachedIn(viewModelScope)
 
     // Feed 전체 조회
@@ -40,7 +59,34 @@ class FeedViewModel @Inject constructor(
         pagingSourceFactory = {HomeFeedDataSource(HOME_ALL_STORY, getHomeFeedsUseCase)}
     ).flow.cachedIn(viewModelScope)
 
+    suspend fun deleteFeed(feedSeq: Int) {
+        deleteFeedUseCase.invoke(feedSeq).collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "deleteFeed: Success!")
+                withContext(Dispatchers.Main) {
+                    _isFeedDeletedSucceeded.value = true
+                }
+            }
+        }
+    }
 
+    suspend fun scrapFeed(feedSeq: Int) {
+        scrapFeedUseCase.invoke(feedSeq).collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "scrapFeed: Success!")
+            }
+        }
+    }
+
+    suspend fun deleteScrapFeed(feedSeq: Int) {
+        deleteScrapFeedUseCase.invoke(feedSeq).collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "deleteScrapFeed: Success!")
+            }
+        }
+    }
+
+    fun isFeedDeleted() = _isFeedDeletedSucceeded.value!!
 
 
 

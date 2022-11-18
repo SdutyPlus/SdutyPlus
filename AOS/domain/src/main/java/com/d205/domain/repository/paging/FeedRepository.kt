@@ -15,8 +15,15 @@ interface FeedRepository {
 
     suspend fun getHomeFeeds(page: Int, pageSize: Int): Flow<ResultState<PagingSource.LoadResult<Int, HomeFeed>>>
 
+    suspend fun getScrapFeeds(page: Int, pageSize: Int): Flow<ResultState<PagingSource.LoadResult<Int, Feed>>>
+
     suspend fun createFeed(
         feedImageBitmap: Bitmap,
         content: String
     ): Flow<ResultState<Boolean>>
+
+    suspend fun deleteFeed(feedSeq: Int): Flow<ResultState<Boolean>>
+
+    suspend fun scrapFeed(feedSeq: Int): Flow<ResultState<Boolean>>
+    suspend fun deleteScrapFeed(feedSeq: Int): Flow<ResultState<Boolean>>
 }

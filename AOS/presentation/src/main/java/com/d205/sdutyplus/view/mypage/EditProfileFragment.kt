@@ -35,7 +35,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     private var profileImageUrl: String? = null
     private var prevProfileImageUrl: String? = null
-    private var userJob: String = ""
 
     private val getImageResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if(it.resultCode == Activity.RESULT_OK){
@@ -54,7 +53,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     override fun initOnViewCreated() {
         profileImageUrl = this@EditProfileFragment.mainViewModel.user.value!!.imgUrl
         prevProfileImageUrl = profileImageUrl
-        userJob = this@EditProfileFragment.mainViewModel.user.value!!.userJob!!
         Log.d(TAG, "initOnViewCreated profileImageUrl : $profileImageUrl")
         initView()
     }
@@ -116,10 +114,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                 launchImageCrop()
             }
 
-            btnJobSelect.setOnClickListener {
-                openTagSelectDialog()
-            }
-
             btnJob.setOnClickListener {
                 openTagSelectDialog()
             }
@@ -167,7 +161,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             UserDto(
                 imgUrl = profileImageUrl,
                 nickname = binding.etNickname.text.toString(),
-                userJob = userJob), prevProfileImageUrl
+                userJob = binding.btnJob.text.toString()), prevProfileImageUrl
         )
     }
 
@@ -183,10 +177,8 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             it.onClickConfirm = object : TagSelectDialog.OnClickConfirm {
                 override fun onClick(selectedJob: JobHashtag?) {
                     binding.apply {
-                        this@EditProfileFragment.userJob = selectedJob!!.name
-                        btnJob.text = selectedJob.name
+                        btnJob.text = selectedJob!!.name
                         btnJob.visibility = View.VISIBLE
-                        btnJobSelect.visibility = View.GONE
                     }
                 }
             }
