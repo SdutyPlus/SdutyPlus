@@ -72,4 +72,8 @@ public class WarnService {
 
         return true;
     }
+
+    public void deleteAllFeedWarnByUserSeq(Long userSeq){
+        warnFeedRepository.deleteAllByUserSeq(userSeq);
+    }
 }

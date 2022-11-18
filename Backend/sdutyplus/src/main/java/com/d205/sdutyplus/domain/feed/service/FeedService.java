@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
@@ -71,7 +72,7 @@ public class FeedService {
     public PagingResultDto getAllFeeds(Pageable pageable){
         final Long userSeq = authUtils.getLoginUserSeq();
 
-        final Page<FeedResponseDto> allFeeds = feedRepository.findAllFeeds(userSeq, pageable);
+        final Page<FeedResponseDto> allFeeds = feedRepository.findAllFeedPage(userSeq, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
         return pagingResultDto;
     }
@@ -113,16 +114,34 @@ public class FeedService {
     }
 
     @Transactional
-    public void deleteFeed(Long seq){
-        final Feed feed = getFeed(seq);
+    public void deleteFeed(Long feedSeq){
+        final Long userSeq = authUtils.getLoginUserSeq();
+        final Feed feed = getFeed(feedSeq);
+        if(!feed.getWriter().equals(userSeq)){
+            //TODO: 작성자가 아닌 유저가 삭제 시도 시, Exception 처리
+        }
 
-        scrapRepository.deleteAllByFeedSeq(seq);
-        feedLikeRepository.deleteAllByFeedSeq(seq);
-        warnFeedRepository.deleteAllByFeedSeq(seq);
-        offFeedRepository.deleteAllByFeedSeq(seq);
-        
+        scrapRepository.deleteAllByFeedSeq(feedSeq);
+        feedLikeRepository.deleteAllByFeedSeq(feedSeq);
+        warnFeedRepository.deleteAllByFeedSeq(feedSeq);
+        offFeedRepository.deleteAllByFeedSeq(feedSeq);
+
         removeFile(feed.getImgUrl());
         feedRepository.delete(feed);
+    }
+
+    @Transactional
+    public void deleteAllFeedByUserSeq(Long userSeq){
+        final List<Feed> myfeeds = feedRepository.findAllByWriterSeq(userSeq);
+        for(Feed feed : myfeeds){
+            scrapRepository.deleteAllByFeedSeq(feed.getSeq());
+            feedLikeRepository.deleteAllByFeedSeq(feed.getSeq());
+            warnFeedRepository.deleteAllByFeedSeq(feed.getSeq());
+            offFeedRepository.deleteAllByFeedSeq(feed.getSeq());
+
+            removeFile(feed.getImgUrl());
+            feedRepository.delete(feed);
+        }
     }
 
     @Transactional
@@ -152,6 +171,11 @@ public class FeedService {
     }
 
     @Transactional
+    public void deleteAllFeedScrapByUserSeq(Long userSeq){
+        scrapRepository.deleteAllByUserSeq(userSeq);
+    }
+
+    @Transactional
     public boolean likeFeed(Long feedSeq) {
         final Long userSeq = authUtils.getLoginUserSeq();
 
@@ -178,6 +202,11 @@ public class FeedService {
 
         feedLikeRepository.delete(feedLike);
         return true;
+    }
+
+    @Transactional
+    public void deleteAllFeedLikeByUserSeq(Long userSeq){
+        feedLikeRepository.deleteAllByUserSeq(userSeq);
     }
 
     //get & set => private

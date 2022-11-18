@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
@@ -28,7 +29,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<FeedResponseDto> findAllFeeds(Long userSeq, Pageable pageable) {
+    public Page<FeedResponseDto> findAllFeedPage(Long userSeq, Pageable pageable) {
         QueryResults<FeedResponseDto> result = queryFactory.select(new QFeedResponseDto(
                                 feed.seq,
                                 feed.writer,
@@ -169,21 +170,6 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .limit(pageable.getPageSize())
                 .fetchResults();
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());
-    }
-
-
-    @Override
-    public void deleteMyLikedFeed(Long userSeq) {
-        queryFactory.delete(feedLike)
-                .where(feedLike.feed.writer.seq.eq(userSeq))
-                .execute();
-    }
-
-    @Override
-    public void deleteMyScrapedFeed(Long userSeq) {
-        queryFactory.delete(scrap)
-                .where(scrap.feed.writer.seq.eq(userSeq))
-                .execute();
     }
 
     private BooleanExpression isExistFeedLikeWhereFeedEqAndUserEq(Long userSeq){
