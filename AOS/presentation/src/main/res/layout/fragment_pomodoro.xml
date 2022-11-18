@@ -102,10 +102,10 @@
             android:layout_marginBottom="17dp"/>
 
         <Button
-            android:id="@+id/btn_pomodoro_pause"
+            android:id="@+id/btn_pomodoro_stop"
             android:layout_width="140dp"
             android:layout_height="60dp"
-            android:text="pause"
+            android:text="stop"
             android:textSize="20dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/app_purple"

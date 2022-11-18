@@ -28,7 +28,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     }
 
     private fun initTimer() {
-        createCountDownTimer(25 * 60 * 1000L)
+        currentCountDownTimer = createCountDownTimer(25 * 60 * 1000L)
         updateRemainTime(25 * 60 * 1000)
     }
 
@@ -36,12 +36,12 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         binding.apply {
             btnPomodoroStart.setOnClickListener {
                 btnPomodoroStart.visibility = View.GONE
-                btnPomodoroPause.visibility = View.VISIBLE
+                btnPomodoroStop.visibility = View.VISIBLE
 
                 startCountDown()
             }
 //
-            btnPomodoroPause.setOnClickListener {
+            btnPomodoroStop.setOnClickListener {
 //                btnPomodoroPause.visibility = View.GONE
 //                btnPomodoroStart.visibility = View.VISIBLE
 //
@@ -91,7 +91,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     private fun completeCountDown() {
         updateRemainTime(25)
         binding.apply {
-             btnPomodoroPause.visibility = View.GONE
+            btnPomodoroStop.visibility = View.GONE
              btnPomodoroStart.visibility = View.VISIBLE
         }
         if(isWorking) {
