@@ -8,22 +8,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.d205.sdutyplus.R
-import com.d205.sdutyplus.databinding.DialogFeedDeleteBinding
+import com.d205.sdutyplus.databinding.DialogFeedReportBinding
 
-class FeedDeleteDialog(context: Context, private val listener: FeedDeleteDialogListener) : Dialog(context){
-    private lateinit var binding: DialogFeedDeleteBinding
+class FeedReportDialog (context: Context, private val listener: FeedReportDialogListener) : Dialog(context){
+    private lateinit var binding: DialogFeedReportBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_feed_delete, null, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_feed_report, null, false)
         setContentView(binding.root)
 
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         binding.apply {
-            btnDelete.setOnClickListener {
-                listener.onDeleteButtonClicked()
+            btnReport.setOnClickListener {
+                listener.onReportButtonClicked()
                 dismiss()
             }
             btnCancel.setOnClickListener {

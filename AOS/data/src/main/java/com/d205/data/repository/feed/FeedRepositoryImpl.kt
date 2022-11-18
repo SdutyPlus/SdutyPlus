@@ -184,9 +184,21 @@ class FeedRepositoryImpl @Inject constructor(
             emit(ResultState.Success(it))
         }
         Log.d(TAG, "deleteScrapFeed collect : Finished!")
-    }.catch { e->
+    }.catch { e ->
         //emit(ResultState.Error(e))
         Log.d(TAG, "deleteScrapFeed Error")
+    }
+
+    override suspend fun reportFeed(feedSeq: Int): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "reportFeed: Loading")
+
+        feedRemoteDataSource.reportFeed(feedSeq).collect {
+            Log.d(TAG, "reportFeed collect : Success!")
+            emit(ResultState.Success(it))
+        }
+        Log.d(TAG, "reportFeed collect : Finished!")
+    }.catch { e ->
+        Log.d(TAG, "reportFeed Error")
     }
 
     inner class BitmapRequestBody(private val bitmap: Bitmap) : RequestBody() {
