@@ -58,14 +58,25 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
                 CoroutineScope(Dispatchers.Main).launch {
                     // 회원가입에 필요한 정보를 모두 입력했는지 여부 체크
                     if(checkJoinAvailable()) {
-                        joinUser()
+                        if(checkNicknameCanUse()) {
+                            joinUser()
+                            Log.d(TAG, "joinUser finished")
 
-                        // 회원가입 성공 여부 체크    true : 성공, false : 실패
-                        if (isUserJoinedSucceeded()) {
-                            moveToMainActivity()
-                        } else {
-                            showToast("회원가입에 실패했습니다")
+                            // 회원가입 성공 여부 체크    true : 성공, false : 실패
+                            if (isUserJoinedSucceeded()) {
+                                Log.d(TAG, "joinUser succeed!")
+                                moveToMainActivity()
+                            } else {
+                                Log.d(TAG, "joinUser failed!")
+                                showToast("회원가입에 실패했습니다")
+                            }
                         }
+                        else {
+                            showToast("이미 사용중인 닉네임입니다!")
+                        }
+                    }
+                    else {
+                        showToast("닉네임과 직업을 모두 기입해주세요!")
                     }
                 }
             }
@@ -86,7 +97,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
     private suspend fun checkNicknameCanUse(): Boolean {
         Log.d(TAG, "checkNicknameIsUsed: start!")
-        return profileViewModel.checkNickname(binding.etNickname.text.toString())
+        return profileViewModel.checkNickname("",binding.etNickname.text.toString())
     }
 
     private fun checkJoinAvailable() = !isNicknameEmpty() && isJobSelected()
@@ -110,12 +121,12 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
     private fun getSocialType(): Int = args.socialType
 
-    private suspend fun joinUser() {
+    suspend fun joinUser() {
         joinViewModel.joinUser(
             UserDto(
                 imgUrl = profileImageUrl,
                 nickname = binding.etNickname.text.toString(),
-                userJob = jobHashtag!!.seq)
+                userJob = jobHashtag!!.name)
         )
     }
 

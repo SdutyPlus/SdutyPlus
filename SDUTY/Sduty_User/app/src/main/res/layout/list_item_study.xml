@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="studyList"
+            type="com.d108.sduty.model.dto.Study" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/gradient_study_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_gravity="center">
+
+
+        <LinearLayout
+            android:id="@+id/study_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/img_study_detail_lock"
+                android:visibility="@{studyList.password == null ? View.GONE : View.VISIBLE}"/>
+
+            <TextView
+                android:id="@+id/study_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="그룹 이름"
+                android:text="@{studyList.name}"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/study_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="그룹 카테고리"
+            android:text="@{studyList.category + ` 스터디`}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/study_title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            />
+
+        <TextView
+            android:id="@+id/study_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="15명"
+            android:text="@{studyList.joinNumber+`명`}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/study_category"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="15dp"
+            />
+
+        <TextView
+            android:id="@+id/slash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" / "
+            app:layout_constraintStart_toEndOf="@id/study_join"
+            app:layout_constraintTop_toBottomOf="@id/study_category"
+            />
+
+        <TextView
+            android:id="@+id/study_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="20명"
+            android:text="@{studyList.limitNumber+`명`}"
+            app:layout_constraintStart_toEndOf="@id/slash"
+            app:layout_constraintTop_toBottomOf="@id/study_category"
+            />
+
+        <ImageView
+            android:id="@+id/iv_type_cam"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@{studyList.roomId != null ?  @drawable/img_type_camstudy : @drawable/img_type_study}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginRight="15dp"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

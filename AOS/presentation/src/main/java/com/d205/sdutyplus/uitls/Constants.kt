@@ -26,4 +26,5 @@ val jobs = mutableListOf(
 
 const val ALL_STORY = 0
 const val SCRAP_STORY = 1
+const val HOME_ALL_STORY = 2
 

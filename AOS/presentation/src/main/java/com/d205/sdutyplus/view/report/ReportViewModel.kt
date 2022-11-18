@@ -1,24 +1,29 @@
 package com.d205.sdutyplus.view.report
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.Task
-import com.d205.domain.usecase.report.DeleteTaskUseCase
-import com.d205.domain.usecase.report.GetReportUseCase
-import com.d205.domain.usecase.report.GetTaskListUseCase
-import com.d205.domain.usecase.report.UpdateTaskUseCase
+import com.d205.domain.model.timer.CurrentTaskDto2
+import com.d205.domain.usecase.report.*
 import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.SingleLiveEvent
+import com.d205.sdutyplus.uitls.convertTimeStringToDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 const val TAG = "ReportViewModel"
@@ -29,11 +34,15 @@ class ReportViewModel @Inject constructor(
     private val getTaskListUseCase: GetTaskListUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val addTaskUseCase: AddTaskUsecase
+    private val addTaskUseCase: AddTaskUsecase,
+    private val getGraphUseCase: GetGraphUseCase
 ) : ViewModel() {
 
     private val _totalTime = SingleLiveEvent<String?>()
     val totalTime get() = _totalTime
+
+    private val _percentage = SingleLiveEvent<Int>()
+    val percentage get() = _percentage
 
     private val _remoteTask: MutableStateFlow<ResultState<List<Task>>> =
         MutableStateFlow(ResultState.Uninitialized)
@@ -42,23 +51,26 @@ class ReportViewModel @Inject constructor(
     private var _taskCheck = SingleLiveEvent<Boolean>()
     val taskCheck get() = _taskCheck
 
-    private var _updateTaskSuccess = MutableLiveData<Boolean>(false)
+    private var _updateTaskSuccess = MutableLiveData(false)
     val updateTaskSuccess: LiveData<Boolean> get() = _updateTaskSuccess
 
-    private var _deleteTaskSuccess = MutableLiveData<Boolean>(false)
+    private var _deleteTaskSuccess = MutableLiveData(false)
     val deleteTaskSuccess: LiveData<Boolean> get() = _deleteTaskSuccess
 
+    private val _addTaskCallBack = MutableLiveData(0)
+    val addTaskCallBack: LiveData<Int> get() = _addTaskCallBack
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getReportUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
-                    _totalTime.postValue(it.data)
+                    _totalTime.postValue(it.data.totalTime)
+                    _percentage.postValue(it.data.percentage)
                 }
             }
         }
     }
-
     fun getTaskList(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date).collectLatest {
@@ -102,7 +114,46 @@ class ReportViewModel @Inject constructor(
         }
     }
 
+    fun addTask(task: CurrentTaskDto2) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.d(TAG, "addTask: ${task}")
+            addTaskUseCase(task).collect { isSuccess ->
+                Log.d(TAG, "addTask: ${isSuccess}")
+                if(isSuccess) {
+                    _addTaskCallBack.postValue(200)
+                }else {
+                    _addTaskCallBack.postValue(400)
+                }
+            }
+        }
+    }
 
+    fun callBackReset() {
+        _addTaskCallBack.value = 0
+    }
+
+
+    private val _continuous = SingleLiveEvent<Int>()
+    val continuous get() = _continuous
+
+    private val _studyTime = SingleLiveEvent<Int>()
+    val studyTime get() = _studyTime
+
+    private val _dailyTime = SingleLiveEvent<List<Int>>()
+    val dailyTime get() = _dailyTime
+
+    fun getGraph() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getGraphUseCase().collect {
+                if(it is ResultState.Success){
+                    _continuous.postValue(it.data.continuous)
+                    _studyTime.postValue(it.data.studyTime)
+                    _dailyTime.postValue(it.data.dailyTimeGraphs)
+                }
+            }
+        }
+
+    }
 
 
 }

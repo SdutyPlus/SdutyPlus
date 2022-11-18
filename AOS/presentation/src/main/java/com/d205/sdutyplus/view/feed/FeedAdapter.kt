@@ -2,21 +2,24 @@ package com.d205.sdutyplus.view.feed
 
 import android.app.Activity
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 import com.d205.sdutyplus.databinding.ItemFeedBinding
 
-private const val TAG ="StoryPagingAdapter"
+
+private const val TAG ="FeedPagingAdapter"
 class FeedAdapter(val activity: Activity): PagingDataAdapter<Feed, FeedAdapter.ViewHolder>(
     IMAGE_COMPARATOR
 ) {
     inner class ViewHolder(val binding: ItemFeedBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(feed: Feed){
             binding.apply {
+                Log.d(TAG, "bind: $feed")
                 data = feed
                 ivStory.setOnClickListener {
                     onClickStoryListener.onClick(feed)
@@ -53,6 +56,7 @@ class FeedAdapter(val activity: Activity): PagingDataAdapter<Feed, FeedAdapter.V
         private val IMAGE_COMPARATOR = object : DiffUtil.ItemCallback<Feed>() {
             override fun areItemsTheSame(oldItem: Feed, newItem: Feed) =
                 oldItem.seq == newItem.seq
+
 
             override fun areContentsTheSame(oldItem: Feed, newItem: Feed) =
                 oldItem == newItem
