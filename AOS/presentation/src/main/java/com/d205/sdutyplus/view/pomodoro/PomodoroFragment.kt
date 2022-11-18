@@ -16,6 +16,8 @@ import com.d205.sdutyplus.databinding.FragmentPomodoroBinding
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.pomodoro.viewmodel.PomodoroViewModel
 
+const val WORKING_TIME = 1 * 60 * 1000L
+const val REST_TIME = 2 * 60 * 1000L
 class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_pomodoro) {
     private val pomodoroViewModel: PomodoroViewModel by activityViewModels()
     private var currentCountDownTimer: CountDownTimer? = null
@@ -44,7 +46,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     }
 
     private fun initTimer() {
-        updateRemainTime(25 * 60 * 1000)
+        updateRemainTime(WORKING_TIME)
     }
 
     private fun initBtn() {
@@ -89,7 +91,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     }
 
     private fun stopCountDown() {
-        updateRemainTime(25 * 60 * 1000)
+        updateRemainTime(WORKING_TIME)
         currentCountDownTimer?.cancel()
         currentCountDownTimer = null
 
@@ -98,9 +100,9 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     private fun startCountDown() {
        if(currentCountDownTimer == null) {
            val time = if(isWorking) {
-               25 * 60 * 1000L
+               WORKING_TIME
            } else {
-               5 * 60 * 1000L
+               REST_TIME
            }
            currentCountDownTimer = createCountDownTimer(time)
        }
@@ -124,9 +126,9 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
             pomoCount ++
             if(pomoCount < 4) {
                 requireContext()!!.showToast("완료하였습니다! \n휴식 시간이에요!")
-                updateRemainTime(5 * 60 * 1000)
+                updateRemainTime(REST_TIME)
                 currentCountDownTimer = null
-                currentCountDownTimer = createCountDownTimer(25 * 60 * 1000L)
+                currentCountDownTimer = createCountDownTimer(REST_TIME)
             } else {
                 requireContext()!!.showToast("뽀모를 모두 완료하셨습니다! \n 휴식 후 시작하세요!")
                 updateRemainTime(30 * 60 * 1000)
@@ -140,12 +142,12 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         } else {
             if(pomoCount < 4) {
                 requireContext()!!.showToast("진행 시간이에요!")
-                updateRemainTime(25 * 60 * 1000)
+                updateRemainTime(WORKING_TIME)
                 binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#2E2E2E"))
                 startCountDown()
             } else {
                 pomoCount == 0
-                updateRemainTime(25 * 60 * 1000)
+                updateRemainTime(WORKING_TIME)
                 binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#2E2E2E"))
                 requireContext()!!.showToast("새로운 뽀모도로를 시작하려면 \n Start를 클릭하세요!")
 
