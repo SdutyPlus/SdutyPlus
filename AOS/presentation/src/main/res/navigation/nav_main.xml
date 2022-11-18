@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
-    app:startDestination="@id/timerFragment">
+    app:startDestination="@id/feedFragment">
 
     <fragment
         android:id="@+id/feedFragment"
@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_feedFragment_to_feedCreateFragment"
             app:destination="@id/feedCreateFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment"/>
     </fragment>
     <fragment
         android:id="@+id/mypageFragment"
@@ -26,11 +29,22 @@
         <action
             android:id="@+id/action_mypageFragment_to_statisticFragment"
             app:destination="@id/statisticFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_feedDetailFragment"
+            app:destination="@id/feedDetailFragment" />
+        <action
+            android:id="@+id/action_mypageFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment"
+            app:popUpTo="@id/mypageFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportFragment"
         android:name="com.d205.sdutyplus.view.report.ReportFragment"
-        android:label="ReportFragment" />
+        android:label="ReportFragment" >
+        <action
+            android:id="@+id/action_reportFragment_to_graphFragment"
+            app:destination="@id/graphFragment" />
+    </fragment>
     <fragment
         android:id="@+id/timerFragment"
         android:name="com.d205.sdutyplus.view.timer.TimerFragment"
@@ -51,4 +65,24 @@
         android:id="@+id/statisticFragment"
         android:name="com.d205.sdutyplus.view.mypage.StatisticFragment"
         android:label="StatisticFragment" />
+    <fragment
+        android:id="@+id/feedDetailFragment"
+        android:name="com.d205.sdutyplus.view.feed.FeedDetailFragment"
+        android:label="FeedDetailFragment" >
+        <argument
+            android:name="feed"
+            app:argType="com.d205.domain.model.feed.Feed" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.d205.sdutyplus.view.mypage.EditProfileFragment"
+        android:label="EditProfileFragment" />
+    <fragment
+        android:id="@+id/pomodoroFragment"
+        android:name="com.d205.sdutyplus.view.pomodoro.PomodoroFragment"
+        android:label="PomodoroFragment" />
+    <fragment
+        android:id="@+id/graphFragment"
+        android:name="com.d205.sdutyplus.view.report.graph.graphFragment"
+        android:label="graphFragment" />
 </navigation>

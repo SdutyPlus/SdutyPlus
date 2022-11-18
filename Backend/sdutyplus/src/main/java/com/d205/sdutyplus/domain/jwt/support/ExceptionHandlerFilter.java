@@ -30,18 +30,17 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
             filterChain.doFilter(request,response);
         } catch (ExpiredJwtException e){
             log.error("jwt expired exception handler filter");
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        }catch (JwtException e2){
+            response.setContentType("application/json;charset=UTF-8");
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            String result = objectMapper.writeValueAsString(ResponseEntity.ok(ErrorResponseDto.of(ErrorCode.AUTHENTICATION_EXPIRED)));
+            response.getWriter().write(result);
+        } catch (JwtException e2){
             log.error("JWT exception handler filter");
             response.setContentType("application/json;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             String result = objectMapper.writeValueAsString(ResponseEntity.ok(ErrorResponseDto.of(ErrorCode.AUTHENTICATION_FAIL)));
+            log.error(result);
             response.getWriter().write(result);
-//            response.setHeader("Error_Status","401");
-//            response.setHeader("Error_Code","U003");
-//            response.setHeader("Error_Message","AUTHENTICATION_FAIL");
-//            response.setHeader("Error_Message","한글테스틑 korean 테스틑");
         }
     }
 

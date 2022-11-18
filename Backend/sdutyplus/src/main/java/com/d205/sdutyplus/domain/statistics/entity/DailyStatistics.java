@@ -25,7 +25,17 @@ public class DailyStatistics {
     @ColumnDefault("0")
     private Long dailyStudyTime;
 
-    public void plusStudyTime(Long time){
+    @Column(name = "daily_study_minute")
+    @ColumnDefault("0")
+    private Long dailyStudyMinute;
+
+    public void plusStudyTime(Long time, Long minute){
         this.dailyStudyTime += time;
+        this.dailyStudyMinute += minute;
+
+        if (this.dailyStudyMinute >= 60) {
+            this.dailyStudyTime += 1;
+            this.dailyStudyMinute -= 60;
+        }
     }
 }

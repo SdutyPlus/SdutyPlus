@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
+import com.d205.domain.usecase.user.AutoLoginUseCase
 import com.d205.domain.usecase.user.KakaoLoginUseCase
 import com.d205.domain.usecase.user.NaverLoginUseCase
 import com.d205.domain.utils.ResultState
@@ -21,14 +22,15 @@ private const val TAG ="LoginViewModel"
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val kakaoLoginUseCase: KakaoLoginUseCase,
-    private val naverLoginUseCase: NaverLoginUseCase
+    private val naverLoginUseCase: NaverLoginUseCase,
+    private val autoLoginUseCase: AutoLoginUseCase
 ): ViewModel() {
     private val _user : MutableStateFlow<User> =
         MutableStateFlow(User())
     val user get() = _user.asStateFlow()
 
     var isLoginSucceeded = false
-
+    var isJwtAvailable = false
 
     suspend fun kakaoLogin(token: String) {
         kakaoLoginUseCase.invoke(token).collect {
@@ -52,6 +54,18 @@ class LoginViewModel @Inject constructor(
             }
             else {
                 Log.d(TAG, "naverLogin $TAG: invoke Done!! $it")
+            }
+        }
+    }
+    
+    suspend fun checkJwt() {
+        autoLoginUseCase.invoke().collect {
+            if(it is ResultState.Success) {
+                isJwtAvailable = it.data
+                Log.d(TAG, "checkJwt: ${it.data}")
+            }
+            else {
+                Log.d(TAG, "checkJwt: Failed!")
             }
         }
     }

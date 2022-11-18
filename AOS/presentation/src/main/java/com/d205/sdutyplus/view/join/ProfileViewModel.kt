@@ -16,12 +16,16 @@ class ProfileViewModel @Inject constructor(
     private val checkNicknameUseCase: CheckNicknameUseCase
 ): ViewModel() {
     private val _canUseNickname : MutableStateFlow<Boolean> =
-        MutableStateFlow(false)
+        MutableStateFlow(true)
     val canUseNickname
         get() = _canUseNickname.asStateFlow()
 
     // 닉네임 중복 체크
-    suspend fun checkNickname(nickname: String): Boolean {
+    suspend fun checkNickname(prevNickname: String, nickname: String): Boolean {
+        if(prevNickname == nickname) {
+            return true
+        }
+
         checkNicknameUseCase.invoke(nickname).collect {
             if(it is ResultState.Success) {
                 _canUseNickname.value = it.data

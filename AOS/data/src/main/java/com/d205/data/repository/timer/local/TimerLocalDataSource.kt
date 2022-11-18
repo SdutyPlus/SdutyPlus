@@ -1,7 +1,9 @@
 package com.d205.data.repository.timer.local
 
+import kotlinx.coroutines.flow.Flow
+
 interface TimerLocalDataSource {
-    suspend fun saveStartTime(startTime: String): Boolean
+    fun saveStartTime(startTime: String): Flow<Boolean>
 
     suspend fun getLocalCurrentTime(): String
 
