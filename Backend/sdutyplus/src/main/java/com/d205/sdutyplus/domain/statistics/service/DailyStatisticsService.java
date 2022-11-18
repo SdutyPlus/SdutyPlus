@@ -84,9 +84,10 @@ public class DailyStatisticsService {
         LocalTime startTime = TimeFormatter.StringToLocalDateTime(taskDto.getStartTime()).toLocalTime();
         LocalTime endTime = TimeFormatter.StringToLocalDateTime(taskDto.getEndTime()).toLocalTime();
 
-        Long studyTime = ChronoUnit.HOURS.between(startTime, endTime);
+        long studyTime = ChronoUnit.HOURS.between(startTime, endTime);
+        long studyMinute = ChronoUnit.MINUTES.between(startTime, endTime) - studyTime * 60;
 
-        dailyStatistics.plusStudyTime(studyTime);
+        dailyStatistics.plusStudyTime(studyTime, studyMinute);
     }
 
     @Transactional
@@ -117,6 +118,7 @@ public class DailyStatisticsService {
         }
 
         dailyStatisticsRepository.resetTime();
+        dailyStatisticsRepository.resetMinute();
     }
 
     private void updateContinuous(User user, LocalDate date, long cnt){
