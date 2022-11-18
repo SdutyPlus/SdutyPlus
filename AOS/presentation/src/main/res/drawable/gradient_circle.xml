@@ -3,11 +3,6 @@
     <item>
         <shape android:shape="oval" >
             <corners android:radius="30dp"/>
-            <gradient
-                android:angle="360"
-                android:startColor="@color/app_blue"
-                android:endColor="@color/app_purple"
-                android:type="linear" />
         </shape>
     </item>
     <item
