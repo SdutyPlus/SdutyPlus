@@ -85,8 +85,10 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         reportViewModel.addTaskCallBack.observe(viewLifecycleOwner) { code ->
             if (code == 200) {
                 Toast.makeText(requireContext(), "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                reportViewModel.callBackReset()
                 initView()
             } else if (code == 400){
+                reportViewModel.callBackReset()
                 Toast.makeText(requireContext(), "이미 중복된 시간입니다.", Toast.LENGTH_SHORT).show()
             }
         }

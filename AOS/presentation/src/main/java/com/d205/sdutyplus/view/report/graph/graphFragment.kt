@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentGraphBinding
@@ -28,7 +29,14 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
 
     override fun initOnViewCreated() {
         initView()
+        initClickListener()
         initViewModelCallBack()
+    }
+
+    private fun initClickListener() {
+        binding.ivBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -105,7 +113,7 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
                 transparentCircleRadius = 61f
                 animateY(1400, Easing.EaseInOutCubic)
                 centerText = "${studyTime}시간 이상 \n공부하였습니다."
-                setCenterTextSize(20F)
+                setCenterTextSize(16F)
                 data = pieData
                 invalidate()
             }

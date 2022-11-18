@@ -71,7 +71,6 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun startTimer() {
-        binding.animationView.playAnimation()
         timerViewModel.startTimer()
         timerViewModel.saveStartTime()
         Toast.makeText(requireActivity(), "공부 시간 측정을 시작합니다!", Toast.LENGTH_SHORT).show()
@@ -101,10 +100,11 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
             isTimerRunning.observe(viewLifecycleOwner) { isTimerRunning ->
                 if(isTimerRunning) {
                     binding.ivTimer.setImageResource(R.drawable.ic_stop) // todo refactor
-                    binding.tvTimer.visibility = View.VISIBLE
+                    binding.animationView.visibility = View.VISIBLE
+                    binding.animationView.playAnimation()
                 } else {
                     binding.ivTimer.setImageResource(R.drawable.ic_play)
-                    binding.tvTimer.visibility = View.GONE
+                    binding.animationView.visibility = View.GONE
                 }
 
             }

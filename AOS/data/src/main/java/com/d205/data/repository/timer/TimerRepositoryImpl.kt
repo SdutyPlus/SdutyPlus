@@ -80,15 +80,13 @@ class TimerRepositoryImpl @Inject constructor(
 
     override fun addTask(currentTaskDto: CurrentTaskDto2): Flow<ResultState<Boolean>> = flow {
 
-        emit(ResultState.Loading) // Loading 상태처리 필요한 경우
-
         timerRemoteDataSource.addTask(currentTaskDto).collect { isSuccessAdd ->
 
             emit(ResultState.Success(isSuccessAdd))
         }
 
     }.catch { e ->
-        emit(ResultState.Error(e))
+
     }
 
 }
