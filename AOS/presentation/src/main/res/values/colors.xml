@@ -92,6 +92,8 @@
     <color name="sduty_main_blue">#7b9cff</color>
     <color name="sduty_light_purple">#d8abeb</color>
     <color name="sduty_main_purple">#b56bd3</color>
+    <color name="sduty_darkest_mix_violet">#411F63</color>
+    <color name="sduty_dark_mix_violet">#6D4FBE</color>
     <color name="sduty_mix_violet">#9585eb</color>
     <color name="sduty_light_mix_violet">#E9E5FF</color>
     <color name="sduty_lightest_mix_violet">#F5F3FF</color>
