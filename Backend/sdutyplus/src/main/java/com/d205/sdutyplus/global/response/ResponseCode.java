@@ -25,6 +25,8 @@ public enum ResponseCode {
     SAVE_PROFILE_SUCCESS(200, "U008", "회원 프로필을 저장하였습니다."),
     DELETE_SUCCESS(200, "U009", "회원 탈퇴에 성공하였습니다."),
     DELETE_FAIL(200, "U010", "회원 탈퇴에 실패하였습니다."),
+    CHECK_TOKEN_SUCCESS(200, "U011", "유효한 토큰 입니다."),
+    CHECK_TOKEN_FAIL(200, "U011", "만료된 토큰 입니다."),
 
     // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
