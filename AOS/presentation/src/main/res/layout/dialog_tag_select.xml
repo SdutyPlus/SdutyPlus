@@ -5,18 +5,13 @@
 
     <data>
 
-        <variable
-            name="vm"
-            type="com.d205.sdutyplus.view.join.TagViewModel" />
-
         <import type="android.view.View" />
-
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/gradient_border"
         tools:context=".ui.sign.dialog.TagSelectDialog">
 
@@ -40,7 +35,7 @@
                     android:id="@+id/tv_job"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="20dp"
+                    android:layout_marginTop="10dp"
                     android:text="직업"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -63,47 +58,21 @@
                     android:layout_marginVertical="40dp"
                     app:layout_constraintTop_toBottomOf="@id/tv_job" />
 
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <TextView
-                android:id="@+id/tv_selected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="선택된 태그"
-                android:textSize="24sp"
-                app:layout_constraintTop_toBottomOf="@id/const_job_select"
-                android:layout_marginVertical="20dp"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_selected_job"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_selected" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_selected_interest"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/recycler_selected_job"
-                app:layout_constraintTop_toTopOf="@id/recycler_selected_job" />
 
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
-                android:background="@drawable/btn_study_regist"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_tag_unselected"
                 android:text="선택 완료"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_selected_interest" />
+                app:layout_constraintTop_toBottomOf="@id/const_job_select" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
