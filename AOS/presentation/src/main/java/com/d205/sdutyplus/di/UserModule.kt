@@ -1,6 +1,8 @@
 package com.d205.sdutyplus.di
 
 import com.d205.data.api.UserApi
+import com.d205.data.dao.FirebaseDao
+import com.d205.data.dao.FirebaseDaoImpl
 import com.d205.data.dao.UserSharedPreference
 import com.d205.data.repository.user.UserRepositoryImpl
 import com.d205.data.repository.user.local.UserLocalDataSource
@@ -28,6 +30,11 @@ object UserModule {
 
     @Provides
     @Singleton
+    fun provideFirebaseDao(): FirebaseDao =
+        FirebaseDaoImpl()
+
+    @Provides
+    @Singleton
     fun provideUserRepository(
         userRemoteDataSource: UserRemoteDataSource,
         userMockDataSource: UserMockDataSource,
@@ -37,8 +44,8 @@ object UserModule {
 
     @Provides
     @Singleton
-    fun provideUserRemoteDataSource(userApi: UserApi): UserRemoteDataSource =
-        UserRemoteDataSourceImpl(userApi)
+    fun provideUserRemoteDataSource(userApi: UserApi, firebaseDao: FirebaseDao): UserRemoteDataSource =
+        UserRemoteDataSourceImpl(userApi, firebaseDao)
 
     @Provides
     @Singleton

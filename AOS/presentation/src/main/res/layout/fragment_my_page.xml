@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/sduty_lightest_mix_violet"
         tools:context=".ui.main.mypage.MyPageFragment">
 
 
@@ -25,16 +25,17 @@
             android:id="@+id/common_top"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:background="@color/white"
             app:layout_constraintTop_toTopOf="parent">
 
-<!--            <ImageView-->
-<!--                android:id="@+id/iv_setting"-->
-<!--                android:layout_width="48dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:padding="12dp"-->
-<!--                android:src="@drawable/ic_settings"-->
-<!--                android:visibility="invisible"-->
-<!--                app:layout_constraintEnd_toEndOf="parent" />-->
+            <!--            <ImageView-->
+            <!--                android:id="@+id/iv_setting"-->
+            <!--                android:layout_width="48dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:padding="12dp"-->
+            <!--                android:src="@drawable/ic_settings"-->
+            <!--                android:visibility="invisible"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent" />-->
 
             <TextView
                 android:id="@+id/tv_delete"
@@ -122,8 +123,8 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_gravity="center"
-                                loadImage="@{mainVM.user.component4()}"
-                                tools:src="@drawable/ic_empty_image" />
+                                android:src="@drawable/img_camera_gradient_in_circle_256"
+                                tools:src="@drawable/img_camera_gradient_in_circle_256" />
 
                         </FrameLayout>
 
@@ -156,7 +157,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:textColor="@color/app_purple_light"
-                                android:textSize="14sp"
+                                android:textSize="13dp"
+                                android:text="@{mainVM.user.userJob}"
+                                android:background="@drawable/btn_study_regist"
+                                android:padding="6dp"
                                 app:layout_constraintStart_toEndOf="@id/tv_nickname"
                                 app:layout_constraintTop_toTopOf="@id/tv_nickname"
                                 app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
@@ -172,7 +176,7 @@
                                 android:text="@{mainVM.user.component2()}"
                                 app:layout_constraintTop_toBottomOf="@id/tv_nickname"
                                 app:layout_constraintStart_toStartOf="parent"
-                                tools:text="자기 소개가 표시되는 공간~~" />
+                                tools:text="nheenhee@kakao.com" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,18 +184,17 @@
 
                         <Button
                             android:id="@+id/btn_edit_profile"
-                            android:layout_width="0dp"
-                            android:layout_height="32dp"
-                            android:layout_marginTop="20dp"
-                            android:background="@drawable/bg_button_app_blue"
+                            android:layout_width="64dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/btn_study_regist"
                             android:gravity="center"
-                            android:text="프로필 편집"
-                            android:visibility="gone"
-                            android:textColor="@color/white"
+                            android:text="편집"
+                            android:textColor="@color/sduty_mix_violet"
                             android:textSize="16sp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/frame_profile_img" />
+                            app:layout_constraintTop_toTopOf="@id/const_tv_profile"
+                            app:layout_constraintBottom_toBottomOf="@id/const_tv_profile"
+                            android:layout_marginEnd="10dp"/>
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -200,16 +203,15 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="10dp"
                             app:layout_collapseMode="none"
-                            app:layout_constraintTop_toBottomOf="@id/btn_edit_profile">
+                            app:layout_constraintTop_toBottomOf="@id/frame_profile_img">
 
                             <com.google.android.material.tabs.TabLayout
                                 android:id="@+id/tab_myPage"
-                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:tabIconTint="@drawable/selector_tab_color"
-                                app:tabIndicatorColor="@color/onlight_04">
+                                app:tabIndicatorColor="@color/app_purple_light">
 
                                 <com.google.android.material.tabs.TabItem
                                     android:layout_width="wrap_content"
@@ -231,22 +233,17 @@
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyler_story"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyler_story"
-                        android:layout_width="match_parent"
-                        android:layout_height="800dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="match_parent"
+                    tools:itemCount="100"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:overScrollMode="never"/>
 
             </androidx.core.widget.NestedScrollView>
 

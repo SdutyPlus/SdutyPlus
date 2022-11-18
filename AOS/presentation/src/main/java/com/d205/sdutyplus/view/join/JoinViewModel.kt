@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.usecase.user.JoinUserUseCase
+import com.d205.domain.usecase.user.UpdateUserUseCase
 import com.d205.domain.utils.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,12 +19,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 import javax.inject.Inject
+import kotlin.math.log
 
 private const val TAG = "JoinViewModel"
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val joinUserUseCase: JoinUserUseCase
+    private val joinUserUseCase: JoinUserUseCase,
+    private val updateUserUseCase: UpdateUserUseCase
 ): ViewModel() {
     private val _isUsedId = MutableLiveData(false)
     val isUsedId: LiveData<Boolean>
@@ -45,9 +48,17 @@ class JoinViewModel @Inject constructor(
     val isJoinSucceeded: LiveData<Boolean>
         get() = _isJoinSucceeded
 
+    private val _isUpdateSucceeded = MutableLiveData(false)
+    val isUpdateSucceeded: LiveData<Boolean>
+        get() = _isUpdateSucceeded
+
     private val _user : MutableStateFlow<User> =
         MutableStateFlow(User())
     val user get() = _user.asStateFlow()
+
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
 
 
     // 유저 회원가입
@@ -56,9 +67,33 @@ class JoinViewModel @Inject constructor(
             if(it is ResultState.Success) {
                 _user.value = it.data
                 _isJoinSucceeded.value = true
+                Log.d(TAG, "addUser ${TAG}: invoke Success!! $it")
             }
-            else {
-                Log.d(TAG, "addUser ${TAG}: invoke Done!! $it")
+            else if (it is ResultState.Error) {
+                Log.d(TAG, "addUser ${TAG}: invoke Fail!! $it")
+            }
+            else if(it is ResultState.Loading){
+                    Log.d(TAG, "addUser ${TAG}: invoke Loading~")
+            }
+        }
+    }
+
+    // 유저 프로필 수정
+    suspend fun updateUser(user: UserDto, prevProfileImageUrl: String?) {
+        updateUserUseCase.invoke(user, prevProfileImageUrl).collect {
+            if(it is ResultState.Success) {
+                _user.value = it.data
+                _isUpdateSucceeded.value = true
+                Log.d(TAG, "updateUser ${TAG}: invoke Success!! $it")
+                _loadingFlag.postValue(false)
+            }
+            else if (it is ResultState.Error) {
+                Log.d(TAG, "updateUser ${TAG}: invoke Fail!! $it")
+                _loadingFlag.postValue(false)
+            }
+            else if(it is ResultState.Loading){
+                Log.d(TAG, "updateUser ${TAG}: invoke Loading~")
+                _loadingFlag.postValue(true)
             }
         }
     }

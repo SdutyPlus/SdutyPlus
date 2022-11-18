@@ -9,6 +9,7 @@ import com.d205.domain.model.report.SubTask
 import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.timer.*
+import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.convertTimeStringToDate
 import com.d205.sdutyplus.uitls.getTodayDate
@@ -90,10 +91,16 @@ class TimerViewModel @Inject constructor(
 
     fun getTodayTotalStudyTime() {
         viewModelScope.launch(defaultDispatcher) {
-            val result = getTodayTotalStudyTimeUsecase.getTodayTotalStudyTime()
-            if(result != "error") {
-                _todayTotalStudyTime.postValue(result)
+
+            getTodayTotalStudyTimeUsecase.getTodayTotalStudyTime().collect() {
+                if(it is ResultState.Success) {
+                    _todayTotalStudyTime.postValue(it.data!!)
+                }
             }
+//            val result = getTodayTotalStudyTimeUsecase.getTodayTotalStudyTime()
+//            if(result != "error") {
+//                _todayTotalStudyTime.postValue(result)
+//            }
         }
     }
 
@@ -180,11 +187,12 @@ class TimerViewModel @Inject constructor(
         val startTime = convertTimeDateToString(getTodayDate(), "yyyy-MM-dd HH:mm:ss")
 
         viewModelScope.launch(defaultDispatcher) {
-            val saveStartTimeResult = saveStartTimeUsecase(startTime)
-            if(saveStartTimeResult) {
-                Log.d(TAG, "saveStartTime 성공")
-            } else {
-                Log.d(TAG, "saveStartTime 실패")
+            saveStartTimeUsecase(startTime).collect() {
+                if(it is ResultState.Success) {
+                    Log.d(TAG, "saveStartTime 성공")
+                } else {
+                    Log.d(TAG, "saveStartTime 실패")
+                }
             }
         }
     }
