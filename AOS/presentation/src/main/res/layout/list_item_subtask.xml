@@ -20,6 +20,7 @@
         android:text="·"
         android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="@color/sduty_mix_violet"
         />
 
     <TextView
@@ -31,6 +32,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_order"
         app:layout_constraintBottom_toBottomOf="@id/tv_order"
         android:text="@{SubTask}"
+        android:textColor="@color/sduty_mix_violet"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

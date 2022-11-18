@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:text="@{Task.startTime.substring(11, 16)}"
-            android:textColor="@color/black"
+            android:textColor="@color/sduty_darkest_mix_violet"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -94,7 +94,7 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cv_title"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="wrap_content"
                         app:cardBackgroundColor="@color/sduty_light_mix_violet"
                         app:cardCornerRadius="12dp"
                         app:layout_constraintBottom_toTopOf="@id/rv_subtask"
@@ -106,7 +106,7 @@
                             android:id="@+id/layout_content"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="4dp"
+                            android:padding="8dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -118,6 +118,7 @@
                                 android:text="@{Task.title}"
                                 android:textSize="16dp"
                                 android:textStyle="bold"
+                                android:textColor="@color/sduty_darkest_mix_violet"
                                 tools:text="알고리즘" />
 
                             <LinearLayout
@@ -129,18 +130,21 @@
                                     android:id="@+id/tv_task_start_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:textColor="@color/sduty_dark_mix_violet"
                                     android:text="@{Task.startTime.substring(11, 19)}"
                                     tools:text="12:00" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:textColor="@color/sduty_dark_mix_violet"
                                     android:text=" ~ " />
 
                                 <TextView
                                     android:id="@+id/tv_task_end_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:textColor="@color/sduty_dark_mix_violet"
                                     android:text="@{Task.endTime.substring(11, 19)}"
                                     tools:text="13:00" />
                             </LinearLayout>
