@@ -35,6 +35,9 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
             if(!isMyFeed()) {
                 tvDelete.visibility = View.GONE
             }
+            else {
+                tvReport.visibility = View.GONE
+            }
 
             ivTopBack.setOnClickListener {
                 findNavController().popBackStack()
