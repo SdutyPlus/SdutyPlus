@@ -8,4 +8,6 @@ import java.util.List;
 public interface SubTaskRepository extends JpaRepository<SubTask, Long> {
     public void deleteByTaskSeq(Long taskSeq);
     public List<SubTask> findAllByTaskSeq(Long taskSeq);
+
+
 }

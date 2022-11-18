@@ -1,28 +1,24 @@
 package com.d205.sdutyplus;
 
-import com.d205.sdutyplus.domain.task.dto.QSubTaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.SubTaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
+import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
+import com.d205.sdutyplus.domain.task.repository.TaskRepository;
+import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.TimeFormatter;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import static com.d205.sdutyplus.domain.task.entity.QSubTask.subTask;
 import static com.d205.sdutyplus.domain.task.entity.QTask.task;
 import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
-import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.group.GroupBy.list;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -32,23 +28,17 @@ public class TaskRepositoryTest {
     @Autowired
     private JPAQueryFactory queryFactory;
 
+    @Autowired
+    private TaskRepository taskRepository;
+
     @Test
     public void findTaskBySeq() {
         //given
         Long taskSeq = 4L;
-        Map<Task, List<SubTaskResponseDto>> transform = queryFactory
-                .selectFrom(task)
-                .leftJoin(task.subTasks, subTask)
-                .where(task.seq.eq(taskSeq))
-                .transform(groupBy(task).as(list(new QSubTaskResponseDto(subTask.seq, subTask.content))));
-
-
-        Optional<TaskResponseDto> taskResponseDto = (Optional<TaskResponseDto>) transform.entrySet().stream()
-                .map(entry -> new TaskResponseDto(entry.getKey().getSeq(), entry.getKey().getStartTime(), entry.getKey().getEndTime(), entry.getKey().getContent(), entry.getValue()))
-                .findFirst();
+        Optional<TaskDto> taskDto = taskRepository.findTaskBySeq(taskSeq);
 
         //then
-        assertThat(taskResponseDto
+        assertThat(taskDto
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND)).getSeq())
                 .isEqualTo(taskSeq);
 
@@ -69,5 +59,28 @@ public class TaskRepositoryTest {
                .fetchFirst();
        String time = TimeFormatter.msToTime(duration);
        assertThat(time).isEqualTo("00:10:00");
+    }
+
+    @Test
+    @DisplayName("시간 중복 검사")
+    public void existTimeDuplicate(){
+        Long userSeq = 20L;
+        Long taskSeq = 106L;
+        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime("2022-11-15 17:13:37");
+        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime("2022-11-15 17:17:00");
+
+        Boolean test = queryFactory
+                .selectFrom(task)
+                .where(task.seq.ne(taskSeq)
+                        .and(task.ownerSeq.eq(userSeq))
+                        .and(
+                                task.startTime.loe(startTime).and(task.endTime.goe(startTime))
+                                        .or(task.endTime.goe(endTime).and(task.startTime.loe(endTime)))
+                                        .or(task.startTime.goe(startTime).and(task.endTime.loe(endTime)))
+                        )
+                )
+                .fetchFirst() != null;
+
+        assertThat(test).isEqualTo(true);
     }
 }

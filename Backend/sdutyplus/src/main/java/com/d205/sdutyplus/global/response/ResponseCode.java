@@ -23,6 +23,10 @@ public enum ResponseCode {
     CHECK_NICKNAME_BAD(200, "U006", "사용불가능한 nickname 입니다."),
     LOGIN_FAIL(200, "U007", "로그인에 실패하였습니다."),
     SAVE_PROFILE_SUCCESS(200, "U008", "회원 프로필을 저장하였습니다."),
+    DELETE_SUCCESS(200, "U009", "회원 탈퇴에 성공하였습니다."),
+    DELETE_FAIL(200, "U010", "회원 탈퇴에 실패하였습니다."),
+    CHECK_TOKEN_SUCCESS(200, "U011", "유효한 토큰 입니다."),
+    CHECK_TOKEN_FAIL(200, "U011", "만료된 토큰 입니다."),
 
     // Task
     CREATE_TASK_SUCCESS(200, "T001", "테스크가 생성되었습니다."),
@@ -41,25 +45,36 @@ public enum ResponseCode {
     //Feed
     CREATE_FEED_SUCCESS(200, "F001", "게시글이 등록되었습니다."),
     GET_ALL_FEED_SUCCESS(200, "F002", "전체 게시글 조회가 성공하였습니다."),
-    UPDATE_FEED_SUCCESS(200, "F003", "게시글이 수정되었습니다."),
+    GET_ONE_FEED_SUCCESS(200, "F003", "게시글 상세 조회가 성공하였습니다."),
     GET_MY_FEED_SUCCESS(200, "F004", "자신이 작성한 게시글 조회가 성공하였습니다."),
     GET_SCRAP_FEED_SUCCESS(200, "F005", "자신이 스크랩한 게시글 조회가 성공하였습니다."),
     GET_JOB_FILTER_FEED_SUCCESS(200, "F006", "직업으로 필터링한 게시글 조회가 성공하였습니다."),
-    DELETE_FEED_SUCCESS(200, "F007", "게시글이 삭제되었습니다."),
-    UPDATE_GOOD_FEED_SUCCESS(200, "F008", "해당 게시글에 좋아요가 등록되었습니다."),
-    UPDATE_UNGOOD_FEED_SUCCESS(200, "F009", "해당 게시글에 좋아요 취소하였습니다."),
-    UPDATE_SCRAP_FEED_SUCCESS(200, "F010", "해당 게시글을 스크랩하였습니다."),
-    UPDATE_UNSCRAP_FEED_SUCCESS(200, "F011", "해당 게시글을 스크랩 취소하였습니다."),
-    UPDATE_GOOD_FEED_FAIL(200, "F012", "좋아요 실패."),
-    UPDATE_UNGOOD_FEED_FAIL(200, "F013", "좋아요 취소 실패."),
+    UPDATE_FEED_SUCCESS(200, "F007", "게시글이 수정되었습니다."),
+    DELETE_FEED_SUCCESS(200, "F008", "게시글이 삭제되었습니다."),
+    UPDATE_GOOD_FEED_SUCCESS(200, "F009", "해당 게시글에 좋아요가 등록되었습니다."),
+    UPDATE_UNGOOD_FEED_SUCCESS(200, "F010", "해당 게시글에 좋아요 취소하였습니다."),
+    UPDATE_SCRAP_FEED_SUCCESS(200, "F011", "해당 게시글을 스크랩하였습니다."),
+    UPDATE_UNSCRAP_FEED_SUCCESS(200, "F012", "해당 게시글을 스크랩 취소하였습니다."),
+    UPDATE_GOOD_FEED_FAIL(200, "F013", "좋아요 실패."),
+    UPDATE_UNGOOD_FEED_FAIL(200, "F014", "좋아요 취소 실패."),
 
     // Warn
-    WARN_SUCCESS(200, "W001", "신고 완료."),
-    WARN_FAIL(200, "W002", "신고 실패."),
+    WARN_SUCCESS(200, "W001", "신고가 완료되었습니다."),
+    WARN_FAIL(200, "W002", "신고가 실패하였습니다."),
 
     // Off
-    OFF_SUCCESS(200, "O001", "차단 완료"),
-    OFF_FAIL(200, "O002", "차단 실패"),
+    OFF_SUCCESS(200, "O001", "차단이 완료되었습니다"),
+    OFF_FAIL(200, "O002", "차단이 실패하였습니다."),
+
+    // Admin
+    GET_WARN_FEED_SUCCESS(200, "A001", "신고 게시글 조회가 성공하였습니다."),
+    GET_WARN_FEED_FAIL(200, "A002", "신고 게시글 조회가 실패하였습니다."),
+    GET_WARN_USER_SUCCESS(200, "A003", "신고 유저 조회가 성공하였습니다."),
+    BAN_WARN_USER_SUCCESS(200, "A004", "신고 유저 제재가 성공하였습니다."),
+    BAN_WARN_USER_FAIL(200, "A005", "신고 유저 제재가 실패하였습니다."),
+
+    // Statistics
+    GET_STATISTICS_SUCCESS(200, "ST001", "통계 조회가 성공하였습니다."),
 
     ;
 

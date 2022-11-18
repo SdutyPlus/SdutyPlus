@@ -1,63 +1,86 @@
 package com.d205.sdutyplus.domain.task.service;
 
 
-import com.d205.sdutyplus.domain.task.dto.ReportResponseDto;
+import com.d205.sdutyplus.domain.task.dto.ReportDto;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
-import com.d205.sdutyplus.domain.task.dto.TaskResponseDto;
-import com.d205.sdutyplus.domain.task.dto.TaskUpdateDto;
+import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
+import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
+import com.d205.sdutyplus.domain.task.exception.SubTaskCntLimitException;
+import com.d205.sdutyplus.domain.task.exception.TimeDuplicateException;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
+import com.d205.sdutyplus.global.error.exception.InvalidInputException;
+import com.d205.sdutyplus.util.AuthUtils;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TaskService{
     private final TaskRepository taskRepository;
     private final SubTaskRepository subTaskRepository;
-    private final TaskRepositoryQuerydsl taskRepositoryQuerydsl;
+    private final AuthUtils authUtils;
 
     @Transactional
-    public Task createTask(Long userSeq, TaskDto taskRequestDto){
-        Task task = taskRequestDto.toEntity();
+    public TaskDto createTask(TaskPostDto taskPostDto){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
+        final Task task = taskPostDto.toEntity();
         task.setOwnerSeq(userSeq);
-        return taskRepository.save(task);
+
+        timeDuplicateCheck(userSeq, 0L, task.getStartTime(), task.getEndTime());
+
+        final Task createdTask = taskRepository.save(task);
+        final List<String> createdSubTasks = createSubTask(createdTask.getSeq(), taskPostDto.getContents());
+
+        final TaskDto taskDto = TaskDto.builder()
+                .seq(createdTask.getSeq())
+                .startTime(createdTask.getStartTime())
+                .endTime(createdTask.getEndTime())
+                .title(createdTask.getTitle())
+                .contents(createdSubTasks)
+                .build();
+        return taskDto;
     }
 
-    public ReportResponseDto getDailyReport(Long userSeq, String date){
-        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
-        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-//        List<Task> tasks = taskRepository.findAllByStartTimeBetween(startTime, endTime);
-        List<TaskResponseDto> taskResponseDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
-
-        ReportResponseDto reportResponseDto = new ReportResponseDto(taskResponseDtos);
-
-        return reportResponseDto;
-    }
-
-    public TaskResponseDto getTaskDetail(Long taskSeq){
-        return taskRepositoryQuerydsl.findTaskBySeq(taskSeq)
+    public TaskDto getTaskDetail(Long taskSeq){
+        return taskRepository.findTaskBySeq(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }
 
     @Transactional
-    public void updateTask(Long taskSeq, TaskUpdateDto taskUpdateDto){
-        Task task = getTask(taskSeq);
-        Task updatedTask = taskUpdateDto.toEntity();
+    public void updateTask(Long taskSeq, TaskDto taskDto){
+        if(!taskSeq.equals(taskDto.getSeq())){
+            throw new InvalidInputException();
+        }
+
+        //task
+        final Task task = getTask(taskSeq);
+        final Task updatedTask = taskDto.toEntity();
+
+        timeDuplicateCheck(task.getOwnerSeq(), taskSeq, updatedTask.getStartTime(), updatedTask.getEndTime());
+
         task.setStartTime(updatedTask.getStartTime());
         task.setEndTime(updatedTask.getEndTime());
         task.setDurationTime(updatedTask.getDurationTime());
-        task.setContent(updatedTask.getContent());
+        task.setTitle(updatedTask.getTitle());
+
+        //subtask
+        deleteSubTaskByTaskSeq(taskSeq);
+        createSubTask(taskSeq, taskDto.getContents());
     }
 
     @Transactional
@@ -66,17 +89,68 @@ public class TaskService{
         taskRepository.deleteById(taskSeq);
     }
 
-    public String getReportTotalTime(Long userSeq, String date){
-        LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
-        LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-        Integer duration = taskRepositoryQuerydsl.getReportTotalTime(userSeq, startTime, endTime);
+    public ReportDto getDailyReport(String date){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
+        final LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
+        final LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
+        final List<TaskDto> taskDtos = taskRepository.findTaskByStartTime(userSeq, startTime, endTime);
+
+        final ReportDto reportResponseDto = new ReportDto(taskDtos);
+
+        return reportResponseDto;
+    }
+
+    public String getReportTotalTime(String date){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
+        final LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
+        final LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
+
+        Integer duration = taskRepository.getReportTotalTime(userSeq, startTime, endTime);
+        if(duration == null){
+            duration = 0;
+        }
         return TimeFormatter.msToTime(duration);
     }
 
-    //get & set => private
+    @Transactional
+    public List<String> createSubTask(Long taskSeq, List<String> subtasks){
+        if(subtasks.size()>3){
+            throw new SubTaskCntLimitException();
+        }
+
+        final List<String> result = new LinkedList<>();
+        for(String subtask : subtasks){
+            final SubTask subTask = SubTask.builder()
+                    .taskSeq(taskSeq)
+                    .content(subtask)
+                    .build();
+            result.add(subTaskRepository.save(subTask).getContent());
+        }
+        return result;
+    }
+
+    @Transactional
+    public void deleteSubTaskByTaskSeq(Long taskSeq){
+        subTaskRepository.deleteByTaskSeq(taskSeq);
+    }
+
+    /**
+     * private
+     */
     private Task getTask(Long taskSeq){
         return taskRepository.findById(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
+    }
+
+
+
+    private void timeDuplicateCheck(Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime){
+        final int duplicatedCnt = taskRepository.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);
+        if(duplicatedCnt > 0){
+            throw new TimeDuplicateException();
+        }
     }
 
 }

@@ -4,6 +4,7 @@ package com.d205.sdutyplus.domain.user.controller;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.user.service.UserAuthService;
 import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseCode;
@@ -19,8 +20,10 @@ import net.bytebuddy.asm.Advice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
@@ -86,10 +89,33 @@ public class UserAuthController {
 
     @ApiOperation(value = "회원 탈퇴")
     @ApiResponses({
+            @ApiResponse(code = 200, message = "U009 - 회원 탈퇴에 성공하였습니다."),
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
     })
     @DeleteMapping
     public ResponseEntity<ResponseDto> deleteUser(){
-        return null;
+
+        boolean success = userAuthService.deleteUser();
+
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_SUCCESS));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_FAIL));
+        }
+    }
+
+    @ApiOperation(value = "토큰 만료 확인")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "U011 - 유효한 토큰 입니다."),
+            @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
+    })
+    @GetMapping("/token")
+    public ResponseEntity<ResponseDto> checkTokenExpiration(){
+        boolean success = userAuthService.checkTokenExpiration();
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_SUCCESS, success));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_FAIL, success));
+        }
     }
 }
