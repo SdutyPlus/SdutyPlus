@@ -32,10 +32,10 @@
 
             <ImageView
                 android:id="@+id/iv_appbar_title"
-                android:layout_width="85dp"
+                android:layout_width="100dp"
                 android:layout_height="29dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/img_sduty_logo"
+                android:src="@drawable/img_sdutyplus_text"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_back"/>
@@ -98,7 +98,7 @@
                             android:id="@+id/layout_polaroid"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone">
+                            >
 
                             <ImageView
                                 android:id="@+id/img_polaroid_white_frame"
@@ -108,9 +108,9 @@
 
                             <ImageView
                                 android:id="@+id/img_sduty_watermark"
-                                android:layout_width="90dp"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/img_sduty_logo"
+                                android:layout_width="100dp"
+                                android:layout_height="29dp"
+                                android:src="@drawable/img_sdutyplus_text"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
