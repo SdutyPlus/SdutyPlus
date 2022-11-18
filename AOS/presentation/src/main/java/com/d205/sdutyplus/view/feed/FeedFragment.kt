@@ -48,7 +48,6 @@ class FeedFragment : BaseFragment<FragmentFeedBinding>(R.layout.fragment_feed) {
 
         binding.apply {
             layoutSwipeRefresh.setOnRefreshListener {
-                Toast.makeText(requireContext(), "REFRESH", Toast.LENGTH_SHORT).show()
                 feedAdapter.refresh()
                 layoutSwipeRefresh.isRefreshing = false
             }
