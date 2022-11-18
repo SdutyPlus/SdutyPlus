@@ -56,7 +56,7 @@ public class UserService {
             throw new NicknameAlreadyExistException();
         }
 
-        final Job job = jobRepository.findByJobName("기타")
+        final Job job = jobRepository.findByJobName(userRegDto.getJobName())
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         regUserData(user, userRegDto, job);
@@ -75,7 +75,7 @@ public class UserService {
             throw new NicknameAlreadyExistException();
         }
 
-        final Job job = jobRepository.findByJobName("기타")
+        final Job job = jobRepository.findByJobName(userProfileEditDto.getJobName())
                 .orElseThrow(() -> new EntityNotFoundException(JOB_NOT_FOUND));
 
         updateUserData(user, userProfileEditDto, job);
