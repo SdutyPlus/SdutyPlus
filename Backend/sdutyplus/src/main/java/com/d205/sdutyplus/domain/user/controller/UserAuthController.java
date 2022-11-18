@@ -103,4 +103,19 @@ public class UserAuthController {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_FAIL));
         }
     }
+
+    @ApiOperation(value = "토큰 만료 확인")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "U011 - 유효한 토큰 입니다."),
+            @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
+    })
+    @GetMapping("/token")
+    public ResponseEntity<ResponseDto> checkTokenExpiration(){
+        boolean success = userAuthService.checkTokenExpiration();
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_SUCCESS, success));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_FAIL, success));
+        }
+    }
 }

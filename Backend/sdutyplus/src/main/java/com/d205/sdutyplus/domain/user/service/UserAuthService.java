@@ -181,6 +181,13 @@ public class UserAuthService {
     }
 
     @Transactional
+    public boolean checkTokenExpiration(){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
+        return true;
+    }
+
+    @Transactional
     public void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
