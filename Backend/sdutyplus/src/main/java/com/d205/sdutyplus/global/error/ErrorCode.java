@@ -26,22 +26,26 @@ public enum ErrorCode {
     AUTHENTICATION_FAIL(401, "U003", "로그인이 필요한 화면입니다."),
     AUTHORITY_INVALID(403, "U004", "권한이 없습니다."),
     ACCOUNT_MISMATCH(401, "U005", "계정 정보가 일치하지 않습니다."),
+    AUTHENTICATION_EXPIRED(401, "U006", "만료된 토큰입니다"),
 
     // Task
     TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다."),
     SUBTASK_NOT_FOUND(400, "T002", "존재하지 않는 서브 테스크입니다."),
     TASK_TIME_DUPLICATE(400, "T003", "해당 시간에 테스크가 이미 존재합니다."),
+    SUBTASK_CNT_EXCEEDED_LIMIT(400, "T004", "컨텐츠를 3개 이상 등록할 수 없습니다."),
 
     // Feed
     IMAGE_TYPE_NOT_SUPPORT(400, "F001", "지원되지 않는 파일 형식입니다."),
     FEED_NOT_FOUND(400, "F002", "존재하지 않는 피드입니다."),
-    FEED_SCRAP_NOT_FOUND(400, "F003", "스크랩하지 않은 피드입니다."),
-    FEED_LIKE_ALREADY_EXIST(400, "F004", "해당 게시물에 이미 좋아요를 누른 회원입니다."),
-    FEED_LIKE_NOT_FOUND(400, "F005", "좋아요 하지 않은 게시물 입니다."),
+    FEED_SCRAP_ALREADY_EXIST(400, "F003", "해당 게시물을 이미 스크랩하였습니다."),
+    FEED_SCRAP_NOT_FOUND(400, "F004", "스크랩하지 않은 피드입니다."),
+    FEED_LIKE_ALREADY_EXIST(400, "F005", "해당 게시물에 이미 좋아요하였습니다."),
+    FEED_LIKE_NOT_FOUND(400, "F006", "좋아요 하지 않은 게시물 입니다."),
 
     // Warn
-    WARN_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
+    WARN_USER_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),
     WARN_MYSELF_FAIL(400,"W002","자기 자신은 신고 할 수 없습니다."),
+    WARN_FEED_ALREADY_EXIST(400, "W003", "이미 신고한 게시글입니다."),
 
     // Off
     OFF_ALREADY_EXIST(400, "O001", "이미 차단한 유저입니다."),
@@ -49,6 +53,9 @@ public enum ErrorCode {
 
     // DailyStatistics
     STATISTICS_NOT_FOUND(400, "DS001", "기록이 존재하지 않습니다."),
+
+    // Admin
+    BAN_USER_ALREADY_EXIST(400, "A001", "이미 제재한 유저입니다"),
 
     ;
 

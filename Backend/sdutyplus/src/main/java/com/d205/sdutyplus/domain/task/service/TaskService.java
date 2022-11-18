@@ -6,17 +6,20 @@ import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
+import com.d205.sdutyplus.domain.task.exception.SubTaskCntLimitException;
 import com.d205.sdutyplus.domain.task.exception.TimeDuplicateException;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.global.error.exception.InvalidInputException;
+import com.d205.sdutyplus.util.AuthUtils;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,13 +28,16 @@ import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TaskService{
     private final TaskRepository taskRepository;
     private final SubTaskRepository subTaskRepository;
-    private final TaskRepositoryQuerydsl taskRepositoryQuerydsl;
+    private final AuthUtils authUtils;
 
     @Transactional
-    public TaskDto createTask(Long userSeq, TaskPostDto taskPostDto){
+    public TaskDto createTask(TaskPostDto taskPostDto){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final Task task = taskPostDto.toEntity();
         task.setOwnerSeq(userSeq);
 
@@ -51,7 +57,7 @@ public class TaskService{
     }
 
     public TaskDto getTaskDetail(Long taskSeq){
-        return taskRepositoryQuerydsl.findTaskBySeq(taskSeq)
+        return taskRepository.findTaskBySeq(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }
 
@@ -83,21 +89,25 @@ public class TaskService{
         taskRepository.deleteById(taskSeq);
     }
 
-    public ReportDto getDailyReport(Long userSeq, String date){
+    public ReportDto getDailyReport(String date){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         final LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-        final List<TaskDto> taskDtos = taskRepositoryQuerydsl.findTaskByStartTime(userSeq, startTime, endTime);
+        final List<TaskDto> taskDtos = taskRepository.findTaskByStartTime(userSeq, startTime, endTime);
 
         final ReportDto reportResponseDto = new ReportDto(taskDtos);
 
         return reportResponseDto;
     }
 
-    public String getReportTotalTime(Long userSeq, String date){
+    public String getReportTotalTime(String date){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
         final LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         final LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
 
-        Integer duration = taskRepositoryQuerydsl.getReportTotalTime(userSeq, startTime, endTime);
+        Integer duration = taskRepository.getReportTotalTime(userSeq, startTime, endTime);
         if(duration == null){
             duration = 0;
         }
@@ -106,6 +116,10 @@ public class TaskService{
 
     @Transactional
     public List<String> createSubTask(Long taskSeq, List<String> subtasks){
+        if(subtasks.size()>3){
+            throw new SubTaskCntLimitException();
+        }
+
         final List<String> result = new LinkedList<>();
         for(String subtask : subtasks){
             final SubTask subTask = SubTask.builder()
@@ -133,7 +147,7 @@ public class TaskService{
 
 
     private void timeDuplicateCheck(Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime){
-        final int duplicatedCnt = taskRepositoryQuerydsl.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);
+        final int duplicatedCnt = taskRepository.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);
         if(duplicatedCnt > 0){
             throw new TimeDuplicateException();
         }

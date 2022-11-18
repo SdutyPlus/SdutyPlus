@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.warn.controller;
 
+import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
 
 import com.d205.sdutyplus.global.response.ResponseCode;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "유저 신고 API")
+@Api(tags = "신고 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/warning")
@@ -35,11 +36,27 @@ public class WarnController {
                     + "W002 - 자시 자신을 신고 할 수 없습니다." ),
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
-    @PostMapping("/user/{toUserSeq}")
-    public ResponseEntity<ResponseDto> userWarn(@ApiIgnore Authentication auth, @PathVariable Long toUserSeq) {
-        Long fromUserSeq = (Long)auth.getPrincipal();
+    @PostMapping("/user/{to_user_seq}")
+    public ResponseEntity<ResponseDto> userWarn(@PathVariable(value = "to_user_seq") Long toUserSeq) {
+        final boolean success = warnService.userWarn(toUserSeq);
 
-        final boolean success = warnService.userWarn(fromUserSeq, toUserSeq);
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_SUCCESS, success));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_FAIL, success));
+        }
+    }
+
+    @ApiOperation(value = "피드 신고")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "신고 완료."),
+            @ApiResponse(code = 400, message = "이미 신고한 피드입니다.\n"),
+            @ApiResponse(code = 401, message = "로그인이 필요한 화면입니다.")
+    })
+    @PostMapping("/feed/{feed_seq}")
+    public ResponseEntity<ResponseDto> feedWarn(@PathVariable(value = "feed_seq") Long feedSeq) {
+        final boolean success = warnService.feedWarn(feedSeq);
+
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.WARN_SUCCESS, success));
         } else {

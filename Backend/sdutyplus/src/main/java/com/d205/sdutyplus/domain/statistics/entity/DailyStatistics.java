@@ -21,9 +21,6 @@ public class DailyStatistics {
     @Column(name = "user_seq", columnDefinition = "INT UNSIGNED")
     private Long userSeq;
 
-    @Column(name = "job_seq", columnDefinition = "INT UNSIGNED")
-    private Long jobSeq;
-
     @Column(name = "daily_study_time")
     @ColumnDefault("0")
     private Long dailyStudyTime;

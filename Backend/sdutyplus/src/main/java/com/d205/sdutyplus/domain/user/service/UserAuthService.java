@@ -4,11 +4,17 @@ package com.d205.sdutyplus.domain.user.service;
 import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
+import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.feed.service.FeedService;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
-import com.d205.sdutyplus.domain.off.repository.OffRepository;
+import com.d205.sdutyplus.domain.off.repository.OffFeedRepository;
+import com.d205.sdutyplus.domain.off.repository.OffUserRepository;
+import com.d205.sdutyplus.domain.off.repository.queyrdsl.OffFeedRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.off.service.OffService;
+import com.d205.sdutyplus.domain.statistics.entity.DailyStatistics;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
@@ -25,7 +31,10 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.d205.sdutyplus.domain.warn.repository.WarnRepository;
+import com.d205.sdutyplus.domain.warn.repository.WarnFeedRepository;
+import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
+import com.d205.sdutyplus.domain.warn.repository.querydsl.WarnFeedRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.warn.service.WarnService;
 import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -45,22 +54,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserAuthService {
 
+    private final FeedService feedService;
+    private final WarnService warnService;
+    private final OffService offService;
     private final JwtRepository jwtRepository;
     private final UserRepository userRepository;
     private final DailyStatisticsRepository dailyStatisticsRepository;
-    private final FeedRepository feedRepository;
-    private final FeedLikeRepository feedLikeRepository;
-    private final OffRepository offRepository;
-    private final ScrapRepository scrapRepository;
-    private final WarnRepository warnRepository;
+//    private final FeedRepository feedRepository;
+//    private final FeedLikeRepository feedLikeRepository;
+    private final OffUserRepository offUserRepository;
+//    private final OffFeedRepository offFeedRepository;
+//    private final ScrapRepository scrapRepository;
+    private final WarnUserRepository warnUserRepository;
+//    private final WarnFeedRepository warnFeedRepository;
     private final AuthUtils authUtils;
-    private final SubTaskRepository subTaskRepository;
-    private final TaskRepository taskRepository;
 
     @Transactional
     public UserLoginDto loginUser(String email, SocialType socialType) {
         //가입된 유저인지 확인
-        Optional<User> userOp = userRepository.findByEmailAndSocialType(email, socialType);
+        final Optional<User> userOp = userRepository.findByEmailAndSocialType(email, socialType);
         User realUser = null;
         if(!userOp.isPresent()) {//가입안 된 user면 => DB save
             User user = new User();
@@ -69,6 +81,10 @@ public class UserAuthService {
             user.setRegTime(LocalDateTime.now());
             user.setLastReport(LocalDate.now());
             realUser = userRepository.save(user);
+
+            final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
+            dailyStatisticsRepository.save(dailyStatistics);
+
             if(realUser == null) {
                 return null;
             }
@@ -76,17 +92,17 @@ public class UserAuthService {
         else {
             realUser = userOp.get();
         }
-        JwtDto jwtDto = new JwtDto(JwtUtils.createAccessToken(realUser), JwtUtils.createRefreshToken(realUser));
+        final JwtDto jwtDto = new JwtDto(JwtUtils.createAccessToken(realUser), JwtUtils.createRefreshToken(realUser));
 
         //token저장
-        Jwt jwt = jwtRepository.findByUserSeq(realUser.getSeq()).orElseGet(()->new Jwt());
+        final Jwt jwt = jwtRepository.findByUserSeq(realUser.getSeq()).orElseGet(()->new Jwt());
         jwt.setUserSeq(realUser.getSeq());
         jwt.setAccessToken(jwtDto.getAccessToken());
         jwt.setRefreshToken(jwtDto.getRefreshToken());
         jwtRepository.save(jwt);
 
-        final long job = 0;
-        UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto, job);
+        final String jobName = "";
+        final UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto, jobName);
 
         return userLoginDto;
     }
@@ -155,7 +171,8 @@ public class UserAuthService {
     }
 
     @Transactional
-    public boolean deleteUser(Long userSeq){
+    public boolean deleteUser(){
+        final Long userSeq = authUtils.getLoginUserSeq();
         final User user = authUtils.getLoginUser(userSeq);
 
         deleteUserCade(userSeq);
@@ -163,20 +180,39 @@ public class UserAuthService {
         return true;
     }
 
-//    private final TaskService taskService;
     @Transactional
-    private void deleteUserCade(Long userSeq) {
+    public boolean checkTokenExpiration(){
+        final Long userSeq = authUtils.getLoginUserSeq();
+
+        return true;
+    }
+
+    @Transactional
+    public void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
-        feedRepository.deleteAllByWriterSeq(userSeq);
-        feedLikeRepository.deleteAllByUserSeq(userSeq);
+        //스크랩, 좋아요, 신고, 차단 정보 삭제
+        feedService.deleteAllFeedScrapByUserSeq(userSeq);
+        feedService.deleteAllFeedLikeByUserSeq(userSeq);
+        warnService.deleteAllFeedWarnByUserSeq(userSeq);
+        offService.deleteAllFeedOffByUserSeq(userSeq);
+        //내가 쓴 글 삭제
+        feedService.deleteAllFeedByUserSeq(userSeq);
+
+        warnUserRepository.deleteAllByFromUserSeq(userSeq);
+        warnUserRepository.deleteAllByToUserSeq(userSeq);
         jwtRepository.deleteByUserSeq(userSeq);
-        offRepository.deleteAllByFromUserSeq(userSeq);
-        offRepository.deleteAllByToUserSeq(userSeq);
-        scrapRepository.deleteAllByUserSeq(userSeq);
-        warnRepository.deleteAllByFromUserSeq(userSeq);
-        warnRepository.deleteAllByToUserSeq(userSeq);
+        offUserRepository.deleteAllByFromUserSeq(userSeq);
+        offUserRepository.deleteAllByToUserSeq(userSeq);
 
         userRepository.deleteById(userSeq);
     }
+
+    private DailyStatistics createUserStatisticsInfo(User user){
+        DailyStatistics result = new DailyStatistics();
+        result.setUserSeq(user.getSeq());
+
+        return result;
+    }
+
 }

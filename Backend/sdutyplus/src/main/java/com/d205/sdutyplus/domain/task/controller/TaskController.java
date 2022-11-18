@@ -6,8 +6,10 @@ import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.service.TaskService;
 import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseDto;
+import com.sun.xml.bind.v2.TODO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,22 +20,19 @@ import static com.d205.sdutyplus.global.response.ResponseCode.*;
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor
+@Slf4j
 public class TaskController {
 
     private final TaskService taskService;
-    private final UserService userService;
     private final DailyStatisticsService dailyStatisticsService;
 
     @ApiOperation(value = "테스크 등록")
     @PostMapping("")
-    public ResponseEntity<ResponseDto> createTask(@ApiIgnore Authentication auth, @RequestBody TaskPostDto taskPostDto){
-        Long userSeq = (Long)auth.getPrincipal();
-        TaskDto taskDto = taskService.createTask(userSeq, taskPostDto);
-
-        userService.getReportContinuous(userSeq, taskDto);
-        dailyStatisticsService.updateDailyStudy(userSeq, taskDto);
-
-        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS, taskDto));
+    public ResponseEntity<ResponseDto> createTask(@RequestBody TaskPostDto taskPostDto){
+        TaskDto taskDto = taskService.createTask(taskPostDto);
+        dailyStatisticsService.getReportContinuous(taskDto);
+        dailyStatisticsService.updateDailyStudy(taskDto);
+        return ResponseEntity.ok().body(ResponseDto.of(CREATE_TASK_SUCCESS));
     }
 
     @ApiOperation(value = "테스크 상세 조회")

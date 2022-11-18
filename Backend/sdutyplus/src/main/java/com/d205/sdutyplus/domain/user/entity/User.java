@@ -59,4 +59,8 @@ public class User {
     @Column(name = "continuous")
     @ColumnDefault("0")
     private Long continuous;
+
+    @Column(name = "study_time")
+    @ColumnDefault("0")
+    private Long studyTime;
 }

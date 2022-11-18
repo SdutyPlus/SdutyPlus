@@ -2,10 +2,12 @@ package com.d205.sdutyplus.global.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 
 @ApiModel(description = "결과 응답 데이터")
 @Getter
+@Data
 public class ResponseDto {
 
     @ApiModelProperty(value = "Http 상태 코드")
