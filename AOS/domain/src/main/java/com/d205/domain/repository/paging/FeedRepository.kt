@@ -24,4 +24,5 @@ interface FeedRepository {
 
     suspend fun scrapFeed(feedSeq: Int): Flow<ResultState<Boolean>>
     suspend fun deleteScrapFeed(feedSeq: Int): Flow<ResultState<Boolean>>
+    suspend fun reportFeed(feedSeq: Int): Flow<ResultState<Boolean>>
 }

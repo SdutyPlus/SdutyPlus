@@ -28,12 +28,17 @@ class FeedViewModel @Inject constructor(
     private val getScrapFeedsUseCase: GetScrapFeedsUseCase,
     private val deleteFeedUseCase: DeleteFeedUseCase,
     private val scrapFeedUseCase: ScrapFeedUseCase,
-    private val deleteScrapFeedUseCase: DeleteScrapFeedUseCase
+    private val deleteScrapFeedUseCase: DeleteScrapFeedUseCase,
+    private val reportFeedUseCase: ReportFeedUseCase
 ): ViewModel() {
 
     private val _isFeedDeletedSucceeded = MutableLiveData(false)
     val isFeedDeletedSucceeded: LiveData<Boolean>
         get() = _isFeedDeletedSucceeded
+
+    private val _isFeedReportedSucceeded = MutableLiveData(false)
+    val isFeedReportedSucceeded: LiveData<Boolean>
+        get() = _isFeedReportedSucceeded
 
     private val _tmp = MutableStateFlow(false)
     val tmp get() = _tmp.asStateFlow()
@@ -67,6 +72,17 @@ class FeedViewModel @Inject constructor(
         }
     }
 
+    suspend fun reportFeed(feedSeq: Int) {
+        reportFeedUseCase.invoke(feedSeq).collect {
+            if(it is ResultState.Success) {
+                Log.d(TAG, "reportFeed: Success!")
+                withContext(Dispatchers.Main) {
+                    _isFeedReportedSucceeded.value = true
+                }
+            }
+        }
+    }
+
     suspend fun scrapFeed(feedSeq: Int) {
         scrapFeedUseCase.invoke(feedSeq).collect {
             if(it is ResultState.Success) {
@@ -84,6 +100,8 @@ class FeedViewModel @Inject constructor(
     }
 
     fun isFeedDeleted() = _isFeedDeletedSucceeded.value!!
+
+    fun isFeedReported() = _isFeedReportedSucceeded.value!!
 
 
 
