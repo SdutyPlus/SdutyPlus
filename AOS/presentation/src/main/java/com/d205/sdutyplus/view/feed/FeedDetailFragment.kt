@@ -60,6 +60,11 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
                 }
                 changeFeedScrapFlag()
             }
+            binding.apply {
+                swipeRefresh.setOnRefreshListener {
+                    swipeRefresh.isRefreshing = false
+                }
+            }
         }
     }
 
