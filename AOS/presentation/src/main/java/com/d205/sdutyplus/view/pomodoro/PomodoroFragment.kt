@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.SeekBar
+import androidx.databinding.adapters.SeekBarBindingAdapter.setOnSeekBarChangeListener
 import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
@@ -46,50 +47,13 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
 //
 //                stopCountDown()
             }
+
+//            ivBack.setOnClickListener {
+//                if(currentCountDownTimer)
+//            }
         }
     }
 
-    private fun initSeekBar() {
-        binding.seekBar.apply {
-            progress = 25
-            updateRemainTime(25 * 60 * 1000L)
-
-            setOnSeekBarChangeListener(
-                object : SeekBar.OnSeekBarChangeListener {
-                    override fun onProgressChanged(
-                        seekBar: SeekBar?,
-                        progress: Int,
-                        fromUser: Boolean
-                    ) {
-                        if (fromUser) { // todo 이거뭐임
-                                updateRemainTime(progress * 60 * 1000L)
-                        }
-                    }
-
-                    override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                        binding.apply {
-                            btnPomodoroPause.visibility = View.GONE
-                            btnPomodoroStart.visibility = View.VISIBLE
-                        }
-
-                        stopCountDown()
-                    }
-
-                    override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                        seekBar ?: return
-
-                        if(progress < 1) {
-                            seekBar!!.progress = 1
-                            updateRemainTime(1 * 60 * 1000L)
-                        } else {
-                            updateRemainTime(progress * 60 * 1000L)
-                        }
-
-                    }
-                }
-            )
-        }
-    }
 
 
     @SuppressLint("SetTextI18n")
@@ -143,11 +107,6 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         }
 
     }
-
-    private fun updateSeekBar(remainMillis: Long) {
-        binding.seekBar.progress = (remainMillis / 1000 / 60).toInt()
-    }
-
 
 
 }
