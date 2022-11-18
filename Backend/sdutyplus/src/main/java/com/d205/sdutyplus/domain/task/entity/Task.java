@@ -1,10 +1,7 @@
 package com.d205.sdutyplus.domain.task.entity;
 
 import com.d205.sdutyplus.util.TimeFormatter;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,8 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
@@ -27,20 +23,20 @@ public class Task {
     private LocalDateTime endTime;
     @Column(name = "duration_time", nullable = false)
     private int durationTime;
-    @Column(nullable = false, length=200)
-    private String content;
+    @Column(name="title", nullable = false, length=200)
+    private String title;
 
     @OneToMany(mappedBy = "taskSeq")
     private List<SubTask> subTasks = new ArrayList<>();
 
     @Builder
-    public Task(String startTime, String endTime, int durationTime, String content){
+    public Task(String startTime, String endTime, String title){
         LocalDateTime startLDT = TimeFormatter.StringToLocalDateTime(startTime);
         LocalDateTime endLDT = TimeFormatter.StringToLocalDateTime(endTime);
         this.startTime = startLDT;
         this.endTime = endLDT;
         this.durationTime = TimeFormatter.getDurationTime(startLDT, endLDT);
-        this.content = content;
+        this.title = title;
     }
 
     public void updateStartTime(String startTime){

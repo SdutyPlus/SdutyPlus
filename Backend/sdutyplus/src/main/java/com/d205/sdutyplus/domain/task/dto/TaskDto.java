@@ -1,21 +1,35 @@
 package com.d205.sdutyplus.domain.task.dto;
 
 import com.d205.sdutyplus.domain.task.entity.Task;
-import lombok.Data;
+import com.d205.sdutyplus.util.TimeFormatter;
+import lombok.*;
 
-@Data
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@AllArgsConstructor
 public class TaskDto {
+    private Long seq;
     private String startTime;
     private String endTime;
-    private int durationTime;
-    private String content;
+    private String title;
+    private List<String> contents;
+
+    @Builder
+    public TaskDto(Long seq, LocalDateTime startTime, LocalDateTime endTime, String title, List<String> contents){
+        this.seq = seq;
+        this.startTime = TimeFormatter.LocalDateTimeToString(startTime);
+        this.endTime = TimeFormatter.LocalDateTimeToString(endTime);
+        this.title = title;
+        this.contents = contents;
+    }
 
     public Task toEntity(){
         return Task.builder()
                 .startTime(startTime)
                 .endTime(endTime)
-                .durationTime(durationTime)
-                .content(content)
+                .title(title)
                 .build();
     }
 

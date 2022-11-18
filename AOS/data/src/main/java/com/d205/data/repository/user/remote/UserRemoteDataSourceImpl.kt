@@ -3,34 +3,35 @@ package com.d205.data.repository.user.remote
 import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.api.UserApi
-import com.d205.data.model.user.UserEntity
+import com.d205.data.dao.FirebaseDao
 import com.d205.data.model.user.UserResponse
 import com.d205.domain.model.user.UserDto
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
-import retrofit2.Response
 import javax.inject.Inject
 
 
 private const val TAG = "UserRemoteDataSourceImpl"
 class UserRemoteDataSourceImpl @Inject constructor(
-    private val userApi: UserApi
+    private val userApi: UserApi,
+    private val firebaseDao: FirebaseDao
 ): UserRemoteDataSource {
 
     @SuppressLint("LongLogTag")
-    override fun joinUser(user: UserDto): Flow<UserEntity> = flow {
+    override fun joinUser(user: UserDto): Flow<UserResponse> = flow {
         Log.d(TAG, "joinUser: $user")
-        val response = userApi.updateProfile(user)
-        Log.d(TAG, "joinUser api response : $response")
+        var result : String? = null
 
+        if(user.imgUrl != null) {
+            result = firebaseDao.uploadProfileImage(user.imgUrl!!, user.nickname)
+        }
+        user.imgUrl = result
+        val response = userApi.joinUser(user)
         if(response.status == 200 && response.data != null) {
             emit(response.data)
         }
         else {
-            emit(UserEntity())
+            emit(UserResponse())
         }
     }
 
@@ -86,6 +87,51 @@ class UserRemoteDataSourceImpl @Inject constructor(
         }
         else {
             emit(UserResponse())
+        }
+    }
+
+    override fun deleteUser(): Flow<Boolean> = flow {
+        val response = userApi.deleteUser()
+        if(response.status == 200) {
+            Log.d("exit","탈퇴 성공")
+            emit(true)
+        }
+        else {
+            Log.d("exit","탈퇴 실패")
+            emit(false)
+        }
+    }
+
+    @SuppressLint("LongLogTag")
+    override fun updateUser(user: UserDto, prevProfileImageUrl: String?): Flow<UserResponse> = flow {
+        var result : String? = null
+
+        if(user.imgUrl != null && prevProfileImageUrl != null && prevProfileImageUrl != user.imgUrl) {
+            result = firebaseDao.uploadProfileImage(user.imgUrl!!, user.nickname)
+            user.imgUrl = result
+        }
+
+        Log.d(TAG, "updateUser: $user")
+        val response = userApi.updateUser(user)
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        }
+        else {
+            emit(UserResponse())
+        }
+    }
+
+    @SuppressLint("LongLogTag")
+    override fun checkJwt(): Flow<Boolean> = flow {
+        Log.d(TAG, "checkJwt: jwt 체크")
+        val response = userApi.checkJwt()
+        if(response.status == 200) {
+            Log.d(TAG, "checkJwt: jwt 사용 가능")
+            emit(true)
+        }
+        else {
+            Log.d(TAG, "checkJwt: jwt 사용 불가능")
+            emit(false)
         }
     }
 }

@@ -1,11 +1,14 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 // 3.
+
 buildscript {
     dependencies {
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.42'
         // Safe Args
         def nav_version = '2.5.2'
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+        // Add the dependency for the Google services Gradle plugin
+        classpath 'com.google.gms:google-services:4.3.13'
     }
 }
 plugins {
@@ -13,3 +16,4 @@ plugins {
     id 'com.android.library' version '7.3.0' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
 }
+

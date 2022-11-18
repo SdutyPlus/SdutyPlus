@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,10 +31,10 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDialogFragment() {
+class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCalendarBottomSheetBinding
     private val monthCalendarView: CalendarView get() = binding.exOneCalendar
-    private val selectedDates = mutableSetOf<LocalDate>()
+    private val todayDate = LocalDate.now()
     private lateinit var listener: dayClickListener
 
     interface dayClickListener {
@@ -48,13 +49,22 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
         }
     }
 
+    @SuppressLint("RestrictedApi")
+    override fun setupDialog(dialog: Dialog, style: Int) {
+        super.setupDialog(dialog, style)
+        dialog.setCanceledOnTouchOutside(true)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
+        //val dialog = super.onCreateDialog(savedInstanceState)
+
+        val dialog = BottomSheetDialog(requireContext(),R.style.NewDialog)
         dialog.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             setupRatio(bottomSheetDialog)
         }
         return dialog
+         //return BottomSheetDialog(requireContext(),R.style.NewDialog)
     }
 
     private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
@@ -65,6 +75,7 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
         layoutParams.height = getBottomSheetDialogDefaultHeight()
         bottomSheet.layoutParams = layoutParams
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
+
     }
 
     private fun getBottomSheetDialogDefaultHeight(): Int {
@@ -123,6 +134,7 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
                 bindDate(data.date, container.textView, data.position == DayPosition.MonthDate)
             }
         }
+
         monthCalendarView.apply {
             monthScrollListener = { updateTitle() }
             setup(startMonth, endMonth, daysOfWeek.first())
@@ -140,28 +152,30 @@ class CalendarBottomSheetFragment(private val todayDate: String) : BottomSheetDi
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
             when {
-                selectedDates.contains(date) -> {
+                selectDate == date.toString() -> {
                     textView.apply {
-                        setTextColorRes(R.color.example_1_bg)
+                        setTextColorRes(R.color.white)
                         setBackgroundResource(R.drawable.bg_calendar_selected)
                     }
                 }
-                todayDate == date.toString() -> {
+
+                todayDate == date -> {
                     textView.apply {
-                        setTextColorRes(R.color.example_1_white)
+                        setTextColorRes(R.color.black)
                         setBackgroundResource(R.drawable.bg_calendar_today)
                     }
                 }
+
                 else -> {
                     textView.apply {
-                        setTextColorRes(R.color.example_1_white)
+                        setTextColorRes(R.color.black)
                         background = null
                     }
                 }
             }
         } else {
             textView.apply {
-                setTextColorRes(R.color.example_1_white_light)
+                setTextColorRes(R.color.sduty_action_off)
                 background = null
             }
         }

@@ -10,10 +10,7 @@ import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.repository.UserRepository
 import com.d205.domain.utils.ResultState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 private const val TAG = "UserRepositoryImpl"
@@ -29,7 +26,7 @@ class UserRepositoryImpl @Inject constructor(
 
         userRemoteDataSource.joinUser(user).collect {
             Log.d(TAG, "joinUser $TAG: collect $it")
-            emit(ResultState.Success(mapperUserEntityToUser(it)))
+            emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
     }
 
@@ -53,6 +50,7 @@ class UserRepositoryImpl @Inject constructor(
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("kakao")
             }
             else {
                 userLocalDataSource.saveJwt("")
@@ -74,6 +72,7 @@ class UserRepositoryImpl @Inject constructor(
             val accessToken = it.jwtDto!!.accessToken
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("naver")
             }
             else {
                 userLocalDataSource.saveJwt("")
@@ -91,11 +90,40 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
 
         userRemoteDataSource.getUser().collect {
+
             Log.d(TAG, "getUser collect: $it")
             Log.d(TAG, "mapper: ${mapperUserResponseToUser(it)}")
             emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
     }.catch { e ->
         emit(ResultState.Error(e))
+    }
+
+    override fun deleteUser(): Flow<ResultState<Boolean>> = flow {
+        Log.d(TAG, "deleteUser: Loading")
+        emit(ResultState.Loading)
+
+        userRemoteDataSource.deleteUser().collect {
+            Log.d(TAG, "deleteUser collect: $it")
+            emit(ResultState.Success(it))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
+
+    override fun updateUser(user: UserDto, prevProfileImageUrl: String?): Flow<ResultState<User>> = flow {
+        Log.d(TAG, "updateUser: $TAG: Loading : $user")
+        emit(ResultState.Loading)
+
+        userRemoteDataSource.updateUser(user, prevProfileImageUrl).collect {
+            Log.d(TAG, "updateUser $TAG: collect $it")
+            emit(ResultState.Success(mapperUserResponseToUser(it)))
+        }
+    }
+
+    override fun checkJwt(): Flow<ResultState<Boolean>> = flow {
+        userRemoteDataSource.checkJwt().collect {
+            emit(ResultState.Success(it))
+        }
     }
 }

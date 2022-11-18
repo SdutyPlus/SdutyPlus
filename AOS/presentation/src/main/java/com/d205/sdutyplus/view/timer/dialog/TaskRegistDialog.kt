@@ -7,18 +7,23 @@ import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.d205.domain.model.report.SubTask
+import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogTaskRegistBinding
 import com.d205.sdutyplus.uitls.getDeviceSize
 
 import com.d205.sdutyplus.view.MainViewModel
+import com.d205.sdutyplus.view.report.dialog.ConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import java.util.*
+import kotlin.concurrent.timer
 
 private const val TAG = "TaskDialog"
 
@@ -64,6 +69,7 @@ class TaskRegistDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
+        initObserver()
     }
 
     private fun initView() {
@@ -72,6 +78,26 @@ class TaskRegistDialog : DialogFragment() {
 
         initBtn()
 
+    }
+
+    private fun initObserver() {
+        timerViewModel.addTaskCallBack.observe(viewLifecycleOwner) { code ->
+            if(code == 200) {
+                Toast.makeText(requireContext(),"기록이 저장되었습니다.",Toast.LENGTH_SHORT).show()
+                timerViewModel.callBackReset()
+                timerViewModel.timerTimeReset()
+                dismiss()
+            }
+//            else if(code == 400) { // todo 이거 안뜨게 하기
+//                Toast.makeText(requireContext(),"기록 저장 실패",Toast.LENGTH_SHORT).show()
+//            }
+        }
+        timerViewModel.stopTaskSaveCallback.observe(viewLifecycleOwner) { isStop ->
+            if(isStop) {
+                timerViewModel.callBackReset()
+                dismiss()
+            }
+        }
     }
 
     private fun setCurrentStudyTime() {
@@ -88,6 +114,17 @@ class TaskRegistDialog : DialogFragment() {
     private fun initBtn() {
         binding.apply {
             btnDelete.setOnClickListener {
+//                ConfirmDialog(Task(0,"","", "", mutableListOf<SubTask>())).apply {
+//                    // 경고창에 출력할 메시지를 담아 보낸다.
+//                    arguments = Bundle().apply {
+//                        putString("Action", "DeleteTask")
+//                        putString("Message", "정말 삭제하시겠습니까? \n 삭제 시 복구할 수 없습니다!")
+//                    }
+//                    show(
+//                        this@TaskRegistDialog.requireActivity().supportFragmentManager,
+//                        "ConfirmDialog"
+//                    )
+//                }
                 timerViewModel.timerTimeReset()
                 dismiss()
             }
@@ -99,41 +136,20 @@ class TaskRegistDialog : DialogFragment() {
                 }
             }
 
-//            btnSave.setOnClickListener {
-//                // 등록 수행
-//                val startTime = timerViewModel.startTime
-//                val endTime = timerViewModel.endTime
-//                val title = etTitle.text.toString()
-//                val content1 = etContent1.text.toString()
-//                val content2 = etContent2.text.toString()
-//                val content3 = etContent3.text.toString()
-//
-//                val today = convertTimeDateToString(Date(System.currentTimeMillis()), "yyyy-MM-dd")
-//
-//                val newTask =
-//                    Task(-1, -1, endTime, startTime, 0, title, content1, content2, content3)
-//
-//                val report = Report(-1, mainViewModel.user.value!!.seq, today, "", listOf(newTask))
-//
-//                // title 은 필수로 입력해야한다.
-//                if (title.isNotEmpty()) {
-//                    timerViewModel.saveTask(report)
-//                    timerViewModel.getTodayReport(mainViewModel.user.value!!.seq)
-//                    dismiss()
-//                } else {
-//                    ConfirmDialog().apply {
-//                        // 경고창에 출력할 메시지를 담아 보낸다.
-//                        arguments = Bundle().apply {
-//                            putString("Action", "Error")
-//                            putString("Message", "제목을 입력해주세요!!")
-//                        }
-//                        show(
-//                            this@TaskRegistDialog.requireActivity().supportFragmentManager,
-//                            "ConfirmDialog"
-//                        )
-//                    }
-//                }
-//            }
+            btnSave.setOnClickListener {
+                val title = etTitle.text.toString()
+
+                val content1 = etContent1.text.toString()
+                val content2 = etContent2.text.toString()
+                val content3 = etContent3.text.toString()
+                var contents: List<String> = listOf(content1, content2, content3)
+
+                if(title.isNotEmpty()) {
+                    timerViewModel.addTask(title, contents)
+                } else {
+                    Toast.makeText(requireContext(), "제목을 입력하세요!",Toast.LENGTH_SHORT).show()
+                }
+            }
 
         }
 

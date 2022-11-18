@@ -60,23 +60,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             btnNaverLogin.setOnClickListener {
                 startNaverLogin()
             }
-            // 회원가입 버튼
-            btnJoin.setOnClickListener {
-                moveToJoinIdFragment()
-            }
         }
     }
 
     private fun startKakaoLogin() {
         // 카카오톡 설치 여부 체크    true : 카카오톡 설치 되어있음, false : 미설치
         if (isKakaoTalkInstalled()) {
-            Log.d(TAG, "카카오톡으로 로그인 가능")
-            userApiClient.loginWithKakaoTalk(
+            Log.d(TAG, "카카오톡 앱이 설치 돼있음")
+//            userApiClient.loginWithKakaoTalk(
+//                requireContext(),
+//                callback = kakaoLoginCallback
+//            )
+            userApiClient.loginWithKakaoAccount(
                 requireContext(),
                 callback = kakaoLoginCallback
             )
         } else {
-            Log.d(TAG, "카카오톡으로 로그인 불가능")
+            Log.d(TAG, "카카오톡 앱이 설치 안 돼있음")
             userApiClient.loginWithKakaoAccount(
                 requireContext(),
                 callback = kakaoLoginCallback
@@ -115,7 +115,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                             moveToMainActivity()
                         }
                         else {
-                            moveToJoinProfileFragment(KAKAO_JOIN)
+                            if(isLoginSucceeded()) {
+                                moveToJoinProfileFragment(KAKAO_JOIN)
+                            }
+                            else {
+                                showToast("소셜 로그인에 실패했습니다.")
+                            }
                         }
                     }
                 }
@@ -144,7 +149,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                         moveToMainActivity()
                     }
                     else {
-                        moveToJoinProfileFragment(NAVER_JOIN)
+                        if(isLoginSucceeded()) {
+                            moveToJoinProfileFragment(NAVER_JOIN)
+                        }
+                        else {
+                            showToast("소셜 로그인에 실패했습니다.")
+                        }
                     }
                 }
             }
@@ -188,14 +198,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         loginViewModel.kakaoLogin(kakaoToken)
     }
 
-    private fun isJoinedKakaoUser(): Boolean = loginViewModel.isJoinedUser()
+    private fun isJoinedKakaoUser(): Boolean = this@LoginFragment.loginViewModel.isJoinedUser()
 
     private suspend fun signInNaverUser(naverToken: String) {
         loginViewModel.naverLogin(naverToken)
     }
 
-    private fun isJoinedNaverUser(): Boolean = loginViewModel.isJoinedUser()
+    private fun isJoinedNaverUser(): Boolean = this@LoginFragment.loginViewModel.isJoinedUser()
+    private fun isLoginSucceeded() = this@LoginFragment.loginViewModel.isLoginSucceeded
 
+    private fun showToast(msg: String) {
+        requireContext().showToast(msg)
+    }
 
     fun moveToMainActivity() {
         val intent = Intent(requireContext(), MainActivity::class.java)

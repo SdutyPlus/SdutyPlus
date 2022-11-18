@@ -16,7 +16,7 @@ class XAccessTokenInterceptor @Inject constructor(
     private val noJwtUrls = arrayListOf("/api/user/kakao/login", "/api/user/naver/login")
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val url = chain.request().url.encodedPath
+        val url = chain.request().url().encodedPath()
         Log.d(TAG, "intercept url: $url")
         if(noJwtUrls.contains(url)) {
             Log.d(TAG, "intercept: No JWT")
@@ -31,8 +31,8 @@ class XAccessTokenInterceptor @Inject constructor(
             .addHeader("JWT-AUTHENTICATION", token)
             .build()
 
-        Log.d(TAG, "intercept headers: ${request.headers} ")
-        Log.d(TAG, "intercept body : ${request.body} ")
+        Log.d(TAG, "intercept headers: ${request.headers()} ")
+        Log.d(TAG, "intercept body : ${request.body()} ")
 
         return chain.proceed(request)
     }

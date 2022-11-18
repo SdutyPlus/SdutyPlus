@@ -1,25 +1,25 @@
 package com.d205.sdutyplus.domain.feed.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.d205.sdutyplus.domain.user.entity.User;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-@Data
+@Getter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Feed {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT UNSIGNED")
     private Long seq;
-    @Column(name = "writer_seq", columnDefinition = "INT UNSIGNED", nullable = false)
-    private Long writerSeq;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_seq")
+    private User writer;
     @Column(name = "img_url", length = 200, nullable = false)
     private String imgUrl;
     @Column(name = "content", length = 200, nullable = false)
@@ -31,9 +31,15 @@ public class Feed {
     @CreationTimestamp
     private LocalDateTime regTime;
 
+    @OneToMany(mappedBy ="feed")
+    private List<FeedLike> feedLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "feed")
+    private List<Scrap> scraps = new ArrayList<>();
+
     @Builder
-    public Feed(Long writerSeq, String imgUrl, String content){
-        this.writerSeq = writerSeq;
+    public Feed(User writer, String imgUrl, String content){
+        this.writer = writer;
         this.imgUrl = imgUrl;
         this.content = content;
         this.banYN = false;

@@ -26,6 +26,8 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun initView() {
+        mainViewModel.displayBottomNav(true)
+
         setTodayInfo()
         initTimer()
         initObserver()
@@ -69,7 +71,6 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun startTimer() {
-        binding.animationView.playAnimation()
         timerViewModel.startTimer()
         timerViewModel.saveStartTime()
         Toast.makeText(requireActivity(), "공부 시간 측정을 시작합니다!", Toast.LENGTH_SHORT).show()
@@ -99,20 +100,29 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
             isTimerRunning.observe(viewLifecycleOwner) { isTimerRunning ->
                 if(isTimerRunning) {
                     binding.ivTimer.setImageResource(R.drawable.ic_stop) // todo refactor
-                    binding.tvTimer.visibility = View.VISIBLE
+                    binding.animationView.visibility = View.VISIBLE
+                    binding.animationView.playAnimation()
                 } else {
                     binding.ivTimer.setImageResource(R.drawable.ic_play)
-                    binding.tvTimer.visibility = View.GONE
+                    binding.animationView.visibility = View.GONE
                 }
 
             }
 
             todayTotalStudyTime.observe(viewLifecycleOwner) { todayTotalStudyTime ->
-                binding.tvTotalTime.text = todayTotalStudyTime
+                if(!timerViewModel.isTimerRunning.value!!) {
+                    binding.tvTotalTime.text = todayTotalStudyTime
+                }
             }
 
             updatedTotalTime.observe(viewLifecycleOwner) { updatedTotalTime ->
                 binding.tvTotalTime.text = updatedTotalTime
+            }
+
+            addTaskCallBack.observe(viewLifecycleOwner) { isSuccess ->
+                if(isSuccess == 200) {
+                    setTodayTotalStudyTime()
+                }
             }
         }
     }
@@ -122,6 +132,14 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
         val min = (time / 60) % 60
         val sec = time % 60
         binding.tvTimer.text = String.format("%02d:%02d:%02d", hour, min, sec)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if(!timerViewModel.isTimerRunning.value!!) {
+            setTodayInfo()
+        }
     }
 
 }

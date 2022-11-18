@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springfox.documentation.annotations.ApiIgnore;
 
-@Api(tags = "유저 차단 API")
+@Api(tags = "차단 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/off")
@@ -35,11 +35,27 @@ public class OffController {
                     + "O002 - 자시 자신을 차단 할 수 없습니다." ),
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
-    @PostMapping("/user/{toUserSeq}")
-    public ResponseEntity<ResponseDto> userWarn(@ApiIgnore Authentication auth, @PathVariable Long toUserSeq) {
-        Long fromUserSeq = (Long)auth.getPrincipal();
+    @PostMapping("/user/{to_user_seq}")
+    public ResponseEntity<ResponseDto> userOff(@PathVariable(value = "to_user_seq") Long toUserSeq) {
+        final boolean success = offService.userOff(toUserSeq);
 
-        final boolean success = offService.userOff(fromUserSeq, toUserSeq);
+        if (success) {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.OFF_SUCCESS, success));
+        } else {
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.OFF_FAIL, success));
+        }
+    }
+
+    @ApiOperation(value = "피드 차단")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "차단 완료."),
+            @ApiResponse(code = 400, message = "이미 차단한 피드입니다."),
+            @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
+    })
+    @PostMapping("/feed/{feed_seq}")
+    public ResponseEntity<ResponseDto> feedOff(@PathVariable(value = "feed_seq") Long feedSeq) {
+        final boolean success = offService.feedOff(feedSeq);
+
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.OFF_SUCCESS, success));
         } else {

@@ -92,9 +92,14 @@
     <color name="sduty_main_blue">#7b9cff</color>
     <color name="sduty_light_purple">#d8abeb</color>
     <color name="sduty_main_purple">#b56bd3</color>
+    <color name="sduty_darkest_mix_violet">#411F63</color>
+    <color name="sduty_dark_mix_violet">#6D4FBE</color>
     <color name="sduty_mix_violet">#9585eb</color>
+    <color name="sduty_light_mix_violet">#E9E5FF</color>
+    <color name="sduty_lightest_mix_violet">#F5F3FF</color>
     <color name="sduty_action_red">#EB8585</color>
     <color name="sduty_action_off">#979797</color>
+
 
     <!-- calendar color -->
     <color name="example_1_bg">#3A284C</color>
@@ -103,5 +108,14 @@
     <color name="example_1_white">#D9FFFFFF</color>
     <color name="example_2_black">#D9000000</color>
     <color name="example_1_selection_color">#FCCA3E</color>
+
+    <color name="transparent">#00000000</color>
+
+    <!-- graph color  -->
+    <color name="sduty_graph_sky_blue">#C6E7FF</color>
+    <color name="sduty_graph_blue">#C6D4FF</color>
+    <color name="sduty_graph_mix_violet">#DED2FF</color>
+    <color name="sduty_graph_purple">#F0CCFF</color>
+    <color name="sduty_graph_pink">#FFCCFA</color>
 
 </resources>

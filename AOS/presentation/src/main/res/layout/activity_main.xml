@@ -26,10 +26,11 @@
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            app:itemIconSize="32dp"
+            app:itemIconSize="24dp"
             app:itemIconTint="@drawable/bottom_nav_color"
             android:background="@color/white"
             app:defaultNavHost="true"
+            app:labelVisibilityMode="unlabeled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/menu_bottom_nav"/>
 

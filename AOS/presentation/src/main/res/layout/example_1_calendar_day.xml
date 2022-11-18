@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:layout_margin="5dp"
     android:gravity="center"
-    android:textColor="@color/white"
+    android:textColor="@color/black"
     android:textSize="16sp"
-    tools:background="@color/example_1_bg"
+    tools:background="@color/black"
     tools:text="22" />
 
 </layout>

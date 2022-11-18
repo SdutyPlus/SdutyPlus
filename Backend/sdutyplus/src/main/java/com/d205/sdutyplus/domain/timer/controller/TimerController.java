@@ -19,8 +19,8 @@ public class TimerController {
 
     @ApiOperation(value = "서버 현재 시간 조회")
     @GetMapping("")
-    public ResponseEntity<?> getServerTime(){
-        LocalDateTime datetime = LocalDateTime.now();
+    public ResponseEntity<ResponseDto> getServerTime(){
+        LocalDateTime datetime = TimeFormatter.getTodayDateTime();
         String now = TimeFormatter.LocalDateTimeToString(datetime);
         return ResponseEntity.ok().body(ResponseDto.of(GET_LOCALDATETIME_SUCCESS, now));
     }

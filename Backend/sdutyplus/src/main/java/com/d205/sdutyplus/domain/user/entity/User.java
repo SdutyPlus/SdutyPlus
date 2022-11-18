@@ -1,11 +1,13 @@
 package com.d205.sdutyplus.domain.user.entity;
 
+import com.d205.sdutyplus.global.entity.Job;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -30,8 +32,9 @@ public class User {
     @ColumnDefault("null")
     private String nickname;
 
-    @Column(name="job", columnDefinition = "INT UNSIGNED default 0")
-    private Long job;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job")
+    private Job job;
 
     @Column(name="fcm_token", length = 250)
     private String fcmToken;
@@ -48,4 +51,16 @@ public class User {
 
     @Column(name = "reg_time")
     private LocalDateTime regTime;
+
+    @Column(name = "last_report")
+    @ColumnDefault("0")
+    private LocalDate lastReport;
+
+    @Column(name = "continuous")
+    @ColumnDefault("0")
+    private Long continuous;
+
+    @Column(name = "study_time")
+    @ColumnDefault("0")
+    private Long studyTime;
 }
