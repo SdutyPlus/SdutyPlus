@@ -50,6 +50,7 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
 
         reportViewModel.dailyTime.observe(viewLifecycleOwner) {
             binding.tvTitle.text = "${continuous}일 연속으로 공부하였습니다."
+
             graphList = it
 
             colorPalette = listOf(
@@ -112,7 +113,7 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
                 setHoleColor(Color.WHITE)
                 transparentCircleRadius = 61f
                 animateY(1400, Easing.EaseInOutCubic)
-                centerText = "${studyTime}시간 이상 \n공부하였습니다."
+                centerText = "회원님은\n${studyTime}시간 이상 \n공부하였습니다."
                 setCenterTextSize(16F)
                 data = pieData
                 invalidate()
