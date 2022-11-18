@@ -43,9 +43,9 @@
 
                 <ImageView
                     android:id="@+id/iv_logo"
-                    android:layout_width="85dp"
+                    android:layout_width="100dp"
                     android:layout_height="29dp"
-                    android:src="@drawable/img_sduty_logo"
+                    android:src="@drawable/img_sdutyplus_text"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/iv_top_back"
