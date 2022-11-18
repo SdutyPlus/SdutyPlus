@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.view.feed
 
+import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,6 +28,10 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
         binding.apply {
             feed = this@FeedDetailFragment.feed
 
+            if(!isMyFeed()) {
+                tvDelete.visibility = View.GONE
+            }
+
             ivTopBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -52,6 +57,8 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
     private fun changeFeedScrapFlag() {
         this@FeedDetailFragment.feed.feedScrapFlag = !this@FeedDetailFragment.feed.feedScrapFlag
     }
+
+    private fun isMyFeed() = this@FeedDetailFragment.feed.writerSeq.toInt() == this@FeedDetailFragment.mainViewModel.user.value!!.seq
 
     private fun removeScrap() {
         CoroutineScope(Dispatchers.IO).launch {

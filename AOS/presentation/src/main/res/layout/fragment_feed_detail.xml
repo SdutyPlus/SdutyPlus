@@ -193,7 +193,8 @@
                         android:padding="6dp"
                         android:src="@{feed.feedScrapFlag ? @drawable/ic_gradient_book_mark : @drawable/ic_baseline_bookmark_border_black_24}"
                         app:layout_constraintTop_toBottomOf="@id/iv_timeline_content"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="2dp"/>
 
                     <TextView
                         android:id="@+id/tv_content"
