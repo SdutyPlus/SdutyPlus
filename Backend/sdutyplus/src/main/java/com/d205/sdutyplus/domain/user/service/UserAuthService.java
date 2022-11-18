@@ -1,23 +1,15 @@
 package com.d205.sdutyplus.domain.user.service;
 
 
-import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
-import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
-import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
-import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.feed.service.FeedService;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
-import com.d205.sdutyplus.domain.off.repository.OffFeedRepository;
 import com.d205.sdutyplus.domain.off.repository.OffUserRepository;
-import com.d205.sdutyplus.domain.off.repository.queyrdsl.OffFeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.off.service.OffService;
 import com.d205.sdutyplus.domain.statistics.entity.DailyStatistics;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
-import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
-import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
@@ -31,9 +23,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.d205.sdutyplus.domain.warn.repository.WarnFeedRepository;
 import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
-import com.d205.sdutyplus.domain.warn.repository.querydsl.WarnFeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
 import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
