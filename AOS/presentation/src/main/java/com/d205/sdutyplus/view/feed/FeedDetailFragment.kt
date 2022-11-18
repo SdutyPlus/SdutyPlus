@@ -94,7 +94,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
             withContext(Dispatchers.Main) {
                 requireContext().showToast("피드 삭제에 실패했습니다.")
             }
-
         }
     }
 }
