@@ -4,8 +4,6 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.*
-import com.d205.domain.model.mypage.Feed
-import com.d205.domain.model.user.User
 import com.d205.domain.usecase.feed.*
 import com.d205.domain.utils.ResultState
 import com.d205.sdutyplus.uitls.ALL_STORY
@@ -14,7 +12,6 @@ import com.d205.sdutyplus.uitls.SCRAP_STORY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType

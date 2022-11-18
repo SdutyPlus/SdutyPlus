@@ -9,22 +9,28 @@ import retrofit2.http.*
 interface FeedApi {
     @GET("feed/writer")
     suspend fun getUserStoryList(
-        @Query("page")page: Int,
-        @Query("size")pageSize: Int): BaseResponse<PagingResult<FeedResponse>>
+        @Query("page") page: Int,
+        @Query("size") pageSize: Int
+    ): BaseResponse<PagingResult<FeedResponse>>
 
     @GET("feed")
     suspend fun getHomeFeeds(
-        @Query("page")page: Int,
-        @Query("size")pageSize: Int): BaseResponse<PagingResult<FeedResponse>>
+        @Query("page") page: Int,
+        @Query("size") pageSize: Int
+    ): BaseResponse<PagingResult<FeedResponse>>
 
     @GET("feed/scrap")
     suspend fun getScrapFeeds(
-        @Query("page")page: Int,
-        @Query("size")pageSize: Int): BaseResponse<PagingResult<FeedResponse>>
+        @Query("page") page: Int,
+        @Query("size") pageSize: Int
+    ): BaseResponse<PagingResult<FeedResponse>>
 
     @Multipart
     @POST("feed")
-    suspend fun createFeed(@Part imageFile: MultipartBody.Part, @Part content: MultipartBody.Part): BaseResponse<Boolean>
+    suspend fun createFeed(
+        @Part imageFile: MultipartBody.Part,
+        @Part content: MultipartBody.Part
+    ): BaseResponse<Boolean>
 
     @DELETE("feed/{feed_seq}")
     suspend fun deleteFeed(@Path("feed_seq") feedSeq: Int): BaseResponse<Boolean>

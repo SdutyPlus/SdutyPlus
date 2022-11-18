@@ -3,7 +3,7 @@ package com.d205.data.mapper
 
 import com.d205.data.model.feed.FeedResponse
 import com.d205.domain.model.feed.HomeFeed
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 
 //fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
 //    return Feed(
@@ -33,6 +33,8 @@ fun mapperFeedResponseToHomeFeeds(feedResponse: FeedResponse): HomeFeed {
     return HomeFeed (
         seq = feedResponse.seq,
         writer = feedResponse.writer,
-        imgUrl = feedResponse.imgUrl
+        imgUrl = feedResponse.imgUrl,
+        content = feedResponse.content,
+        feedScrapFlag = feedResponse.feedScrapFlag
     )
 }

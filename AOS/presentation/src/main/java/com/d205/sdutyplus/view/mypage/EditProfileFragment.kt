@@ -18,6 +18,7 @@ import com.d205.sdutyplus.databinding.FragmentEditProfileBinding
 import com.d205.sdutyplus.uitls.PROFILE
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.common.CropImageActivity
+import com.d205.sdutyplus.view.common.LoadingDialogFragment
 import com.d205.sdutyplus.view.join.JoinViewModel
 import com.d205.sdutyplus.view.join.ProfileViewModel
 import com.d205.sdutyplus.view.join.TagSelectDialog
@@ -32,6 +33,7 @@ private const val TAG = "EditProfileFragment"
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
     private val profileViewModel: ProfileViewModel by viewModels()
     private val joinViewModel: JoinViewModel by viewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     private var profileImageUrl: String? = null
     private var prevProfileImageUrl: String? = null
@@ -55,6 +57,23 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         prevProfileImageUrl = profileImageUrl
         Log.d(TAG, "initOnViewCreated profileImageUrl : $profileImageUrl")
         initView()
+        joinViewModel.loadingFlag.observe(viewLifecycleOwner) {
+            when(it) {
+                true -> showLoader()
+                false -> hideLoader()
+            }
+        }
+    }
+    private fun hideLoader() {
+        if(loadingDialogFragment.isAdded) {
+            loadingDialogFragment.dismissAllowingStateLoss()
+        }
+    }
+
+    private fun showLoader() {
+        if(!loadingDialogFragment.isAdded) {
+            loadingDialogFragment.show(parentFragmentManager, "loader")
+        }
     }
 
     private fun initView() {
@@ -74,6 +93,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                     // 프로필 수정에 필요한 정보를 모두 입력했는지 여부 체크
                     if(checkJoinAvailable()) {
                         if(checkNicknameCanUse()) {
+
                             updateUser()
                             Log.d(TAG, "updateUser finished")
 

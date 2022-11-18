@@ -207,7 +207,7 @@
                                 android:layout_height="wrap_content"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:tabIconTint="@drawable/selector_tab_color"
-                                app:tabIndicatorColor="@color/onlight_04">
+                                app:tabIndicatorColor="@color/app_purple_light">
 
                                 <com.google.android.material.tabs.TabItem
                                     android:layout_width="wrap_content"

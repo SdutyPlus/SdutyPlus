@@ -56,6 +56,10 @@ class JoinViewModel @Inject constructor(
         MutableStateFlow(User())
     val user get() = _user.asStateFlow()
 
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
+
 
     // 유저 회원가입
     suspend fun joinUser(user: UserDto) {
@@ -81,12 +85,15 @@ class JoinViewModel @Inject constructor(
                 _user.value = it.data
                 _isUpdateSucceeded.value = true
                 Log.d(TAG, "updateUser ${TAG}: invoke Success!! $it")
+                _loadingFlag.postValue(false)
             }
             else if (it is ResultState.Error) {
                 Log.d(TAG, "updateUser ${TAG}: invoke Fail!! $it")
+                _loadingFlag.postValue(false)
             }
             else if(it is ResultState.Loading){
                 Log.d(TAG, "updateUser ${TAG}: invoke Loading~")
+                _loadingFlag.postValue(true)
             }
         }
     }

@@ -5,5 +5,7 @@ import android.os.Parcelable
 data class HomeFeed(
     val seq: Int = 0,
     val writer: Writer,
-    val imgUrl: String
+    val imgUrl: String,
+    val content: String,
+    var feedScrapFlag: Boolean
 )

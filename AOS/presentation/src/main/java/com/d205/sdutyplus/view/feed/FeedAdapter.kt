@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 import com.d205.sdutyplus.databinding.ItemFeedBinding
 
 
@@ -56,6 +56,7 @@ class FeedAdapter(val activity: Activity): PagingDataAdapter<Feed, FeedAdapter.V
         private val IMAGE_COMPARATOR = object : DiffUtil.ItemCallback<Feed>() {
             override fun areItemsTheSame(oldItem: Feed, newItem: Feed) =
                 oldItem.seq == newItem.seq
+
 
             override fun areContentsTheSame(oldItem: Feed, newItem: Feed) =
                 oldItem == newItem

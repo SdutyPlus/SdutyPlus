@@ -3,7 +3,7 @@ package com.d205.sdutyplus.view.feed
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 import com.d205.domain.usecase.feed.GetFeedsUseCase
 import com.d205.domain.usecase.feed.GetScrapFeedsUseCase
 import com.d205.domain.utils.ResultState

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="data"
-            type="com.d205.domain.model.mypage.Feed" />
+            type="com.d205.domain.model.feed.Feed" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

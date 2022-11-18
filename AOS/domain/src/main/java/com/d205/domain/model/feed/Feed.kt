@@ -1,4 +1,4 @@
-package com.d205.domain.model.mypage
+package com.d205.domain.model.feed
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

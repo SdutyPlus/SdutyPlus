@@ -102,8 +102,8 @@ class UserRemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    @SuppressLint("LongLogTag")
     override fun updateUser(user: UserDto, prevProfileImageUrl: String?): Flow<UserResponse> = flow {
-
         var result : String? = null
 
         if(user.imgUrl != null && prevProfileImageUrl != null && prevProfileImageUrl != user.imgUrl) {
@@ -118,6 +118,20 @@ class UserRemoteDataSourceImpl @Inject constructor(
         }
         else {
             emit(UserResponse())
+        }
+    }
+
+    @SuppressLint("LongLogTag")
+    override fun checkJwt(): Flow<Boolean> = flow {
+        Log.d(TAG, "checkJwt: jwt 체크")
+        val response = userApi.checkJwt()
+        if(response.status == 200) {
+            Log.d(TAG, "checkJwt: jwt 사용 가능")
+            emit(true)
+        }
+        else {
+            Log.d(TAG, "checkJwt: jwt 사용 불가능")
+            emit(false)
         }
     }
 }
