@@ -60,6 +60,17 @@
             <!--                app:layout_constraintStart_toStartOf="parent" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tv_pomoCount"
+            app:layout_constraintBottom_toTopOf="@id/tv_minute"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="새로운 뽀모도로를 시작하세요!"
+            android:textStyle="italic"
+            android:textSize="20dp"
+            android:textColor="@color/app_blue_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_minute"
