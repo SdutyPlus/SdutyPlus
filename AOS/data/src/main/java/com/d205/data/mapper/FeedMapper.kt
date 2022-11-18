@@ -5,16 +5,6 @@ import com.d205.data.model.feed.FeedResponse
 import com.d205.domain.model.feed.HomeFeed
 import com.d205.domain.model.feed.Feed
 
-//fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
-//    return Feed(
-//        seq = feedResponse.seq,
-//        writerSeq = feedResponse.writerSeq,
-//        imgUrl = feedResponse.imgUrl,
-//        thumbnail = feedResponse.thumbnail.toString(),
-//        content = feedResponse.content.toString()
-//    )
-//}
-
 fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
     return Feed(
         seq = feedResponse.seq,
@@ -25,7 +15,8 @@ fun mapperFeedResponseToFeed(feedResponse: FeedResponse): Feed {
         feedLikesCount = feedResponse.feedLikesCount,
         scrapCount = feedResponse.scrapCount,
         nickname = feedResponse.writer.nickname,
-        feedScrapFlag = feedResponse.feedScrapFlag
+        feedScrapFlag = feedResponse.feedScrapFlag,
+        userJob = feedResponse.writer.job
     )
 }
 

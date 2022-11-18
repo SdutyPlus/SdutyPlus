@@ -119,11 +119,25 @@
                                 android:layout_marginHorizontal="15dp"
                                 android:text="@{feed.nickname}"
                                 tools:text="닉네임"
-                                android:textSize="16sp"
+                                android:textSize="16dp"
                                 app:layout_constraintBottom_toBottomOf="@id/iv_profile"
                                 app:layout_constraintStart_toEndOf="@id/iv_profile"
-                                app:layout_constraintTop_toTopOf="@id/iv_profile"
-                                />
+                                app:layout_constraintTop_toTopOf="@id/iv_profile" />
+
+                            <TextView
+                                android:id="@+id/tv_job"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:textColor="@color/app_purple_light"
+                                android:textSize="13dp"
+                                android:text="@{feed.userJob}"
+                                android:background="@drawable/btn_study_regist"
+                                android:padding="6dp"
+                                app:layout_constraintStart_toEndOf="@id/tv_nickname"
+                                app:layout_constraintTop_toTopOf="@id/tv_nickname"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_nickname"
+                                android:layout_marginStart="10dp" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 

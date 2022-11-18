@@ -8,6 +8,7 @@ data class Feed(
     val seq: Int,
     var writerSeq: Long,
     var nickname: String,
+    val userJob: String,
     var profileImgUrl: String? = null,
     var feedImgUrl: String,
     var content: String,
