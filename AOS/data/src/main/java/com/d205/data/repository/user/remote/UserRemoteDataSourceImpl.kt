@@ -122,8 +122,9 @@ class UserRemoteDataSourceImpl @Inject constructor(
     }
 
     @SuppressLint("LongLogTag")
-    override fun checkJwt(token: String): Flow<Boolean> = flow {
-        val response = userApi.checkJwt(token)
+    override fun checkJwt(): Flow<Boolean> = flow {
+        Log.d(TAG, "checkJwt: jwt 체크")
+        val response = userApi.checkJwt()
         if(response.status == 200) {
             Log.d(TAG, "checkJwt: jwt 사용 가능")
             emit(true)

@@ -58,8 +58,8 @@ class LoginViewModel @Inject constructor(
         }
     }
     
-    suspend fun checkJwt(token: String) {
-        autoLoginUseCase.invoke(token).collect {
+    suspend fun checkJwt() {
+        autoLoginUseCase.invoke().collect {
             if(it is ResultState.Success) {
                 isJwtAvailable = it.data
                 Log.d(TAG, "checkJwt: ${it.data}")

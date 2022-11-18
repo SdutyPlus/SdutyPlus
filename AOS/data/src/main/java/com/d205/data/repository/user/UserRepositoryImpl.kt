@@ -121,8 +121,8 @@ class UserRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun checkJwt(token: String): Flow<ResultState<Boolean>> = flow {
-        userRemoteDataSource.checkJwt(token).collect {
+    override fun checkJwt(): Flow<ResultState<Boolean>> = flow {
+        userRemoteDataSource.checkJwt().collect {
             emit(ResultState.Success(it))
         }
     }

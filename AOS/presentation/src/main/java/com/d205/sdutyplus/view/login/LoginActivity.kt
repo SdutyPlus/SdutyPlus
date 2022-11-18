@@ -48,10 +48,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         Log.d(TAG, "jwt : $jwt")
 
         CoroutineScope(Dispatchers.Main).launch {
-            if(isJwtAvailable(jwt)) {
-
+            if(isJwtAvailable()) {
                 moveToMainActivity()
-
             }
         }
     }
@@ -72,8 +70,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             .check()
     }
 
-    private suspend fun isJwtAvailable(token: String): Boolean {
-        //loginViewModel.checkJwt(token)
+    private suspend fun isJwtAvailable(): Boolean {
+        loginViewModel.checkJwt()
         return loginViewModel.isJwtAvailable
     }
 

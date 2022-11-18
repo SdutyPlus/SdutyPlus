@@ -13,5 +13,5 @@ interface UserRepository {
     fun getUser(): Flow<ResultState<User>>
     fun deleteUser(): Flow<ResultState<Boolean>>
     fun updateUser(user: UserDto, prevProfileImageUrl: String?): Flow<ResultState<User>>
-    fun checkJwt(token: String): Flow<ResultState<Boolean>>
+    fun checkJwt(): Flow<ResultState<Boolean>>
 }

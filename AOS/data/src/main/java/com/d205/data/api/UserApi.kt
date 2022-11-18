@@ -36,6 +36,6 @@ interface UserApi {
     suspend fun deleteUser(): BaseResponse<Boolean>
 
     // jwt 사용 가능 여부 확인
-    @POST("jwt")
-    suspend fun checkJwt(@Body token: String): BaseResponse<Boolean>
+    @GET("user/token")
+    suspend fun checkJwt(): BaseResponse<Boolean>
 }
