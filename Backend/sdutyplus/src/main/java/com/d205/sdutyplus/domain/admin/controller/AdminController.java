@@ -60,9 +60,9 @@ public class AdminController {
             @ApiResponse(code = 200, message = "A005 - 신고 유저 제재가 성공하였습니다."),
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
-    @PutMapping("/warn/user/{warnUserSeq}")
-    public ResponseEntity<ResponseDto> banWarnUser(@PathVariable Long warnUserSeq) {
-        final boolean success = adminService.banWarnUser(warnUserSeq);
+    @PutMapping("/warn/user")
+    public ResponseEntity<ResponseDto> banWarnUser() {
+        final boolean success = adminService.banWarnUser();
 
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_SUCCESS, success));

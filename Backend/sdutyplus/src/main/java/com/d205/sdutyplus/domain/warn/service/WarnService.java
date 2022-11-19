@@ -36,17 +36,17 @@ public class WarnService {
 
     @Transactional
     public boolean userWarn(Long toUserSeq){
-        final Long fromUserSeq = authUtils.getLoginUserSeq();
-        final User fromUser = authUtils.getLoginUser(fromUserSeq);
-        final User toUser = authUtils.getLoginUser(toUserSeq);
+        final User fromUser = authUtils.getLoginUser();
+        final User toUser = userRepository.findBySeq(toUserSeq)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
 
         // 나 자신을 신고
-        if (fromUserSeq.equals(toUserSeq)){
+        if (fromUser.getSeq().equals(toUserSeq)){
             throw new WarnMyselfFailException();
         }
 
         // 이미 신고한 유저
-        if (warnUserRepository.existsByFromUserSeqAndToUserSeq(fromUserSeq, toUserSeq)){
+        if (warnUserRepository.existsByFromUserSeqAndToUserSeq(fromUser.getSeq(), toUserSeq)){
             throw new EntityAlreadyExistException(ErrorCode.WARN_USER_ALREADY_EXIST);
         }
 
@@ -58,8 +58,7 @@ public class WarnService {
 
     @Transactional
     public boolean feedWarn(Long feedSeq){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
         final Feed feed = feedRepository.findById(feedSeq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_NOT_FOUND));
 
@@ -73,6 +72,7 @@ public class WarnService {
         return true;
     }
 
+    @Transactional
     public void deleteAllFeedWarnByUserSeq(Long userSeq){
         warnFeedRepository.deleteAllByUserSeq(userSeq);
     }

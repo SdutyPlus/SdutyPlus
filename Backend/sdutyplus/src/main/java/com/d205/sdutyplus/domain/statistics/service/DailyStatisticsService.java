@@ -39,8 +39,7 @@ public class DailyStatisticsService {
 
     @Transactional
     public StatisticsDto getUserStatistics(){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
 
         if (Period.between(user.getLastReport(), LocalDate.now()).getDays() >= 2) {
             updateContinuous(user, LocalDate.now(), 0);
@@ -58,8 +57,7 @@ public class DailyStatisticsService {
 
     @Transactional
     public void getReportContinuous(TaskDto taskDto){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
 
         LocalDate today = TimeFormatter.StringToLocalDateTime(taskDto.getStartTime()).toLocalDate();
         LocalDate lastReport = user.getLastReport();

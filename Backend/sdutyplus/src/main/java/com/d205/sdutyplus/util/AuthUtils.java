@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import static com.d205.sdutyplus.global.error.ErrorCode.AUTHENTICATION_FAIL;
 import static com.d205.sdutyplus.global.error.ErrorCode.USER_NOT_FOUND;
 
 @Component
@@ -17,10 +16,10 @@ public class AuthUtils {
 
     private final UserRepository userRepository;
 
-    public User getLoginUser(Long loginUserSeq) {
-        final User loginUser = userRepository.findBySeq(loginUserSeq)
+    public User getLoginUser() {
+        final Long userSeq = (Long)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final User loginUser = userRepository.findBySeq(userSeq)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
-
         return loginUser;
     }
 
