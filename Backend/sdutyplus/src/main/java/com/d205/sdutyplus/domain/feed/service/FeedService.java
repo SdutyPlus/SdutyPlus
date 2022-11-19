@@ -59,8 +59,7 @@ public class FeedService {
 
     @Transactional
     public void createFeed(FeedPostDto feedPostDto){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
         final String imgUrl = uploadFile(feedPostDto.getImg());
         final Feed feed = Feed.builder()
                 .writer(user)
@@ -94,8 +93,7 @@ public class FeedService {
     }
 
     public PagingResultDto getScrapFeeds(Pageable pageable){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
 
         final Page<FeedResponseDto> feedPage = feedRepository.findScrapFeedPage(user, pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
@@ -146,12 +144,10 @@ public class FeedService {
 
     @Transactional
     public void scrapFeed(Long feedSeq){
-        final Long userSeq = authUtils.getLoginUserSeq();
-
+        final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
 
-        if(scrapRepository.findByUserSeqAndFeedSeq(userSeq, feedSeq).isPresent()){
+        if(scrapRepository.findByUserSeqAndFeedSeq(user.getSeq(), feedSeq).isPresent()){
             throw new EntityAlreadyExistException(FEED_SCRAP_ALREADY_EXIST);
         }
 
@@ -160,12 +156,9 @@ public class FeedService {
 
     @Transactional
     public void unscrapFeed(Long feedSeq){
-        final Long userSeq = authUtils.getLoginUserSeq();
-
-        final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
-
-        final Scrap scrap = scrapRepository.findByUserSeqAndFeedSeq(userSeq, feedSeq)
+        final User user = authUtils.getLoginUser();
+        
+        final Scrap scrap = scrapRepository.findByUserSeqAndFeedSeq(user.getSeq(), feedSeq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_SCRAP_NOT_FOUND));
         scrapRepository.delete(scrap);
     }
@@ -177,10 +170,8 @@ public class FeedService {
 
     @Transactional
     public boolean likeFeed(Long feedSeq) {
-        final Long userSeq = authUtils.getLoginUserSeq();
-
+        final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
 
         if (feedLikeRepository.findByUserAndFeed(user, feed).isPresent()){
             throw new EntityAlreadyExistException(FEED_LIKE_ALREADY_EXIST);
@@ -192,10 +183,8 @@ public class FeedService {
 
     @Transactional
     public boolean unlikeFeed(Long feedSeq) {
-        final Long userSeq = authUtils.getLoginUserSeq();
-
+        final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
 
         FeedLike feedLike = feedLikeRepository.findByUserAndFeed(user, feed)
                 .orElseThrow(() -> new EntityNotFoundException(FEED_LIKE_NOT_FOUND));

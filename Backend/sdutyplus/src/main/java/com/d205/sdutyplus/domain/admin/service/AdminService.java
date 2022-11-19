@@ -3,7 +3,6 @@ package com.d205.sdutyplus.domain.admin.service;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
-import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.querydsl.UserRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.warn.dto.WarnUserDto;
@@ -14,11 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AdminService {
     private final FeedRepository feedRepository;
     private final UserRepositoryQuerydsl userRepositoryQuerydsl;
@@ -42,8 +41,8 @@ public class AdminService {
     }
 
     @Transactional
-    public boolean banWarnUser(Long warnUserSeq){
-        final User warnUser = authUtils.getLoginUser(warnUserSeq);
+    public boolean banWarnUser(){
+        final User warnUser = authUtils.getLoginUser();
 
         if (warnUser.isBanYN()) {
             throw new EntityAlreadyExistException(ErrorCode.BAN_USER_ALREADY_EXIST);

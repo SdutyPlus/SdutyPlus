@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
 import com.d205.sdutyplus.util.AuthUtils;
@@ -34,6 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserAuthService {
 
     private final FeedService feedService;
@@ -50,13 +50,8 @@ public class UserAuthService {
     private final JwtRepository jwtRepository;
     private final UserRepository userRepository;
     private final DailyStatisticsRepository dailyStatisticsRepository;
-//    private final FeedRepository feedRepository;
-//    private final FeedLikeRepository feedLikeRepository;
     private final OffUserRepository offUserRepository;
-//    private final OffFeedRepository offFeedRepository;
-//    private final ScrapRepository scrapRepository;
     private final WarnUserRepository warnUserRepository;
-//    private final WarnFeedRepository warnFeedRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -162,15 +157,13 @@ public class UserAuthService {
 
     @Transactional
     public boolean deleteUser(){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
 
-        deleteUserCade(userSeq);
+        deleteUserCade(user.getSeq());
 
         return true;
     }
 
-    @Transactional
     public boolean checkTokenExpiration(){
         final Long userSeq = authUtils.getLoginUserSeq();
 
@@ -198,7 +191,8 @@ public class UserAuthService {
         userRepository.deleteById(userSeq);
     }
 
-    private DailyStatistics createUserStatisticsInfo(User user){
+    @Transactional
+    public DailyStatistics createUserStatisticsInfo(User user){
         DailyStatistics result = new DailyStatistics();
         result.setUserSeq(user.getSeq());
 
