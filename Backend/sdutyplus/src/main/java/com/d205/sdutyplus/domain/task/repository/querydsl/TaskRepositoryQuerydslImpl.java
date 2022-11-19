@@ -73,18 +73,19 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
     }
 
     @Override
-    public int getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime) {
+    public boolean getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime) {
         return queryFactory
-                .selectFrom(task)
+                .select(task.seq)
+                .from(task)
                 .where(task.seq.ne(taskSeq)
                         .and(task.ownerSeq.eq(userSeq))
                         .and(
                                 task.startTime.loe(startTime).and(task.endTime.goe(startTime))
-                                        .or(task.endTime.goe(endTime).and(task.startTime.loe(endTime)))
-                                        .or(task.startTime.goe(startTime).and(task.endTime.loe(endTime)))
+                                        .or(task.startTime.loe(endTime).and(task.endTime.goe(endTime)))
+                                        .or(task.startTime.loe(startTime).and(task.endTime.goe(endTime)))
                         )
                 )
-                .fetch().size();
+                .fetchFirst() != null;
     }
 
 
