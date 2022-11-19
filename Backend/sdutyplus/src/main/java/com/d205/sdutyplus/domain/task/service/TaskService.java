@@ -34,6 +34,7 @@ public class TaskService{
     private final SubTaskRepository subTaskRepository;
     private final AuthUtils authUtils;
 
+    //TODO: 테스크 등록, 수정에 시작시간 < 끝시간 검사 로직 추가
     @Transactional
     public TaskDto createTask(TaskPostDto taskPostDto){
         final Long userSeq = authUtils.getLoginUserSeq();
@@ -147,8 +148,8 @@ public class TaskService{
 
 
     private void timeDuplicateCheck(Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime){
-        final int duplicatedCnt = taskRepository.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);
-        if(duplicatedCnt > 0){
+        final boolean duplicatedCnt = taskRepository.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);
+        if(duplicatedCnt){
             throw new TimeDuplicateException();
         }
     }

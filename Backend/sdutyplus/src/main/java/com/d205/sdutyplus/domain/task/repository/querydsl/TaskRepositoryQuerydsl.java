@@ -11,5 +11,5 @@ public interface TaskRepositoryQuerydsl {
     List<TaskDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end);
     Optional<TaskDto> findTaskBySeq(Long taskSeq);
     public Integer getReportTotalTime(Long userSeq, LocalDateTime startTime, LocalDateTime endTime);
-    public int getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime);
+    public boolean getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime);
 }
