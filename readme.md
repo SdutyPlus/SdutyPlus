@@ -5,11 +5,10 @@
 
 # Sduty+ 
 
-공부 인증 스터디앱
+**공부 인증 스터디앱**
 
-[1. Explore Front Repository](./AOS)
-
-[2. Explore Back Repository](./Backend)
+**[1. Explore Front Repository](./AOS)**<br>
+**[2. Explore Back Repository](./Backend)**
 
 
 </div>
