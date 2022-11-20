@@ -13,9 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Configuration
 @RequiredArgsConstructor
 public class QuerydslConfig {
-
     private final EntityManager entityManager;
-
     @Bean
     public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(entityManager);

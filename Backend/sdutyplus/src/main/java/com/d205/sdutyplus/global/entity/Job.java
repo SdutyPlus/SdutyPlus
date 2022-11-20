@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.global.entity;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -7,7 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Job {
 
