@@ -74,6 +74,5 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 )
                 .fetchFirst() != null;
     }
-
-
+    
 }

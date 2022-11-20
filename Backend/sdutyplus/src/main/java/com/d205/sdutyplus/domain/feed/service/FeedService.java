@@ -40,7 +40,6 @@ import java.util.UUID;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -89,7 +88,7 @@ public class FeedService {
         final Long writerSeq = authUtils.getLoginUserSeq();
 
         final Page<FeedResponseDto> myfeeds = feedRepository.findMyFeedPage(writerSeq, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), myfeeds.getTotalPages() - 1, myfeeds.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), myfeeds.getTotalPages() - 1, myfeeds.getContent());
         return pagingResultDto;
     }
 
@@ -97,7 +96,7 @@ public class FeedService {
         final User user = authUtils.getLoginUser();
 
         final Page<FeedResponseDto> feedPage = feedRepository.findScrapFeedPage(user, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }
 
@@ -108,7 +107,7 @@ public class FeedService {
                 ()->new EntityNotFoundException(JOB_NOT_FOUND)
         );
         final Page<FeedResponseDto> feedPage = feedRepository.findFilterFeedPage(userSeq, job, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }
 
@@ -149,7 +148,7 @@ public class FeedService {
         final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
 
-        if(scrapRepository.findByUserSeqAndFeedSeq(user.getSeq(), feedSeq).isPresent()){
+        if(scrapRepository.existsByUserSeqAndFeedSeq(user.getSeq(), feedSeq)){
             throw new EntityAlreadyExistException(FEED_SCRAP_ALREADY_EXIST);
         }
 
@@ -175,7 +174,7 @@ public class FeedService {
         final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
 
-        if (feedLikeRepository.findByUserAndFeed(user, feed).isPresent()){
+        if (feedLikeRepository.existsByUserSeqAndFeedSeq(user.getSeq(), feedSeq)){
             throw new EntityAlreadyExistException(FEED_LIKE_ALREADY_EXIST);
         }
 
@@ -202,7 +201,6 @@ public class FeedService {
 
     //get & set => private
     private String uploadFile(MultipartFile file){
-        log.debug("업로드할 파일 : "+file);
         final String originFileName = file.getOriginalFilename();
         final UUID uuid = UUID.randomUUID();
         final String fileName = new MD5Generator(originFileName).toString() + "_" + uuid.toString();
