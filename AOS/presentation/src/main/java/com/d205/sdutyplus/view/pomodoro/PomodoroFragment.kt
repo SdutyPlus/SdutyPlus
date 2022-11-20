@@ -16,33 +16,32 @@ import com.d205.sdutyplus.databinding.FragmentPomodoroBinding
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.pomodoro.viewmodel.PomodoroViewModel
 
-const val WORKING_TIME = 1 * 60 * 1000L
-const val REST_TIME = 2 * 60 * 1000L
+const val WORKING_TIME = 1 * 10 * 1000L
+const val REST_TIME = 1 * 15 * 1000L
 class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_pomodoro) {
+
     private val pomodoroViewModel: PomodoroViewModel by activityViewModels()
+
     private var currentCountDownTimer: CountDownTimer? = null
     private var isWorking: Boolean = true
     private var pomoCount: Int = 0
 
     override fun initOnViewCreated() {
         initView()
-
-            requireActivity()?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if(currentCountDownTimer != null) {
-                        requireContext().showToast("진행 중에는 돌아갈 수 없습니다!")
-                    } else {
-                        requireContext().showToast("백 버튼을 이용해주세요!")
-
-                    }
+        requireActivity()?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if(currentCountDownTimer != null) {
+                    requireContext().showToast("진행 중에는 돌아갈 수 없습니다!")
+                } else {
+                    requireContext().showToast("백 버튼을 이용해주세요!")
                 }
-            })
+            }
+        })
     }
 
     private fun  initView() {
         initTimer()
         initBtn()
-//        initSeekBar()
     }
 
     private fun initTimer() {
@@ -55,6 +54,10 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
                 btnPomodoroStart.visibility = View.GONE
                 btnPomodoroStop.visibility = View.VISIBLE
 
+                binding.animationView.visibility = View.VISIBLE
+                binding.animationView.setAnimation(R.raw.timer)
+                binding.animationView.playAnimation()
+
                 binding.tvPomoCount.text = "$pomoCount 번 완료하였습니다!"
                 startCountDown()
             }
@@ -62,6 +65,11 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
             btnPomodoroStop.setOnClickListener {
                 btnPomodoroStop.visibility = View.GONE
                 btnPomodoroStart.visibility = View.VISIBLE
+
+//                binding.animationView.visibility = View.GONE
+                binding.animationView.setAnimation(R.raw.dont_waste_time)
+                binding.animationView.playAnimation()
+
 //
                 stopCountDown()
 
@@ -96,6 +104,13 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         currentCountDownTimer?.cancel()
         currentCountDownTimer = null
 
+        requireContext().showToast("뽀모도로가 종료되었습니다.")
+        binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#2E2E2E"))
+        binding.tvPomoCount.text = "뽀모도로를 시작하려면\nStart를 클릭하세요!"
+
+        updateRemainTime(WORKING_TIME)
+        pomoCount = 0
+        isWorking = true
     }
 
     private fun startCountDown() {
