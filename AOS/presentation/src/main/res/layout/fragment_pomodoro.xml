@@ -60,6 +60,29 @@
             <!--                app:layout_constraintStart_toStartOf="parent" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="400dp"
+            app:layout_constraintTop_toBottomOf="@id/common_top"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_rawRes="@raw/dont_waste_time"
+            android:visibility="visible"
+            app:lottie_loop="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_pomoCount"
+            app:layout_constraintTop_toBottomOf="@id/tv_minute"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="새로운 뽀모도로를 시작하세요!"
+            android:textStyle="italic"
+            android:textSize="20dp"
+            android:textColor="@color/app_blue_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/tv_minute"
@@ -67,13 +90,13 @@
             android:layout_height="wrap_content"
             android:text="00'"
             android:textColor="@color/app_blue"
-            android:textSize="120sp"
+            android:textSize="80sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/tv_seconds"
-            app:layout_constraintTop_toBottomOf="@id/common_top"/>
+            app:layout_constraintTop_toBottomOf="@id/animation_view"/>
 
         <TextView
             android:id="@+id/tv_seconds"
@@ -81,7 +104,7 @@
             android:layout_height="wrap_content"
             android:text="00"
             android:textColor="@color/app_blue_light"
-            android:textSize="80sp"
+            android:textSize="60sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@id/tv_minute"
             app:layout_constraintLeft_toRightOf="@id/tv_minute"
@@ -102,10 +125,10 @@
             android:layout_marginBottom="17dp"/>
 
         <Button
-            android:id="@+id/btn_pomodoro_pause"
+            android:id="@+id/btn_pomodoro_stop"
             android:layout_width="140dp"
             android:layout_height="60dp"
-            android:text="pause"
+            android:text="stop"
             android:textSize="20dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/app_purple"
