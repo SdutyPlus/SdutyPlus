@@ -88,7 +88,7 @@ public class DailyStatisticsService {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 15 * * *")
     public void resetDailyTime(){
         List<DailyTimeGraph> dailyTimeGraphs = dailyTimeGraphRepository.findAll();
 
