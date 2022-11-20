@@ -16,8 +16,8 @@ import com.d205.sdutyplus.databinding.FragmentPomodoroBinding
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.pomodoro.viewmodel.PomodoroViewModel
 
-const val WORKING_TIME = 1 * 10 * 1000L
-const val REST_TIME = 1 * 15 * 1000L
+const val WORKING_TIME = 25 * 60 * 1000L
+const val REST_TIME = 5 * 60 * 1000L
 class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_pomodoro) {
 
     private val pomodoroViewModel: PomodoroViewModel by activityViewModels()
@@ -151,9 +151,9 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
 
             } else {
                 requireContext()!!.showToast("30분 휴식 후 시작하세요!")
-                updateRemainTime(1 * 60 * 1000)
+                updateRemainTime(30 * 60 * 1000)
                 currentCountDownTimer = null
-                currentCountDownTimer = createCountDownTimer(1 * 60 * 1000)
+                currentCountDownTimer = createCountDownTimer(30 * 60 * 1000)
 
             }
             isWorking = !isWorking
