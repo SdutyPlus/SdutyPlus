@@ -33,7 +33,6 @@ public class TaskService{
     private final SubTaskRepository subTaskRepository;
     private final AuthUtils authUtils;
 
-    //TODO: 테스크 등록, 수정에 시작시간 < 끝시간 검사 로직 추가
     @Transactional
     public TaskDto createTask(TaskPostDto taskPostDto){
         final Long userSeq = authUtils.getLoginUserSeq();
@@ -47,13 +46,7 @@ public class TaskService{
         final Task createdTask = taskRepository.save(task);
         final List<String> createdSubTasks = createSubTask(createdTask.getSeq(), taskPostDto.getContents());
 
-        final TaskDto taskDto = TaskDto.builder()
-                .seq(createdTask.getSeq())
-                .startTime(createdTask.getStartTime())
-                .endTime(createdTask.getEndTime())
-                .title(createdTask.getTitle())
-                .contents(createdSubTasks)
-                .build();
+        final TaskDto taskDto = new TaskDto(createdTask, createdSubTasks);
         return taskDto;
     }
 

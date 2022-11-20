@@ -1,14 +1,16 @@
 package com.d205.sdutyplus.domain.task.dto;
 
 import com.d205.sdutyplus.util.TimeFormatter;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReportDto {
     private String totalTime;
     private int percentage;
