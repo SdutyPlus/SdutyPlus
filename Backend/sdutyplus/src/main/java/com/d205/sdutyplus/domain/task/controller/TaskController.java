@@ -4,16 +4,11 @@ import com.d205.sdutyplus.domain.statistics.service.DailyStatisticsService;
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.service.TaskService;
-import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseDto;
-import com.sun.xml.bind.v2.TODO;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import static com.d205.sdutyplus.global.response.ResponseCode.*;
 

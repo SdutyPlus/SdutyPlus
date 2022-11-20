@@ -3,7 +3,6 @@ package com.d205.sdutyplus.domain.warn.entity;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.user.entity.User;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 

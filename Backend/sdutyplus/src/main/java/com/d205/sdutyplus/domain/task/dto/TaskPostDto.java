@@ -3,7 +3,6 @@ package com.d205.sdutyplus.domain.task.dto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -1,13 +1,10 @@
 package com.d205.sdutyplus.domain.user.controller;
 
-import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.user.dto.UserProfileDto;
 import com.d205.sdutyplus.domain.user.dto.UserProfileEditDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegDto;
 import com.d205.sdutyplus.domain.user.dto.UserRegResponseDto;
-import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.user.service.UserService;
-import com.d205.sdutyplus.global.error.ErrorResponseDto;
 import com.d205.sdutyplus.global.response.ResponseDto;
 
 import io.swagger.annotations.Api;
@@ -19,12 +16,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
-import static com.d205.sdutyplus.global.error.ErrorCode.AUTHENTICATION_FAIL;
 import static com.d205.sdutyplus.global.response.ResponseCode.*;
 
 @Log4j2
