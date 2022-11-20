@@ -76,7 +76,7 @@
             android:id="@+id/tv_animation_text"
             android:layout_width="wrap_content"
             android:layout_height="320dp"
-            android:text="Pomodoro"
+            android:text="\nPomodoro"
             android:textColor="@color/background"
             android:paddingTop="00dp"
             android:textSize="55dp"
