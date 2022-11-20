@@ -12,11 +12,9 @@ import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.AuthUtils;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,7 +25,6 @@ import java.util.List;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DailyStatisticsService {
