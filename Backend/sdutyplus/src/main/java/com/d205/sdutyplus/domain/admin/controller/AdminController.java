@@ -1,8 +1,7 @@
 package com.d205.sdutyplus.domain.admin.controller;
 
 import com.d205.sdutyplus.domain.admin.service.AdminService;
-import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
-import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
+import com.d205.sdutyplus.global.dto.PagingResultDto;
 import com.d205.sdutyplus.global.response.ResponseCode;
 import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.Api;
@@ -14,10 +13,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 
 @Log4j2

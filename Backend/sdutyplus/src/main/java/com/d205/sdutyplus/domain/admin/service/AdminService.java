@@ -1,7 +1,7 @@
 package com.d205.sdutyplus.domain.admin.service;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
-import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
+import com.d205.sdutyplus.global.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
