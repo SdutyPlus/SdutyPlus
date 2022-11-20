@@ -170,8 +170,7 @@ public class UserAuthService {
         return true;
     }
 
-    @Transactional
-    public void deleteUserCade(Long userSeq) {
+    private void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
         //스크랩, 좋아요, 신고, 차단 정보 삭제
@@ -191,8 +190,7 @@ public class UserAuthService {
         userRepository.deleteById(userSeq);
     }
 
-    @Transactional
-    public DailyStatistics createUserStatisticsInfo(User user){
+    private DailyStatistics createUserStatisticsInfo(User user){
         DailyStatistics result = new DailyStatistics();
         result.setUserSeq(user.getSeq());
 

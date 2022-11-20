@@ -41,7 +41,7 @@ public class UserService {
 
         final Job job = getJob(userRegDto.getJobName());
 
-        regUserData(user, userRegDto, job);
+        setUserRegData(user, userRegDto, job);
 
         return new UserRegResponseDto(user);
     }
@@ -58,7 +58,7 @@ public class UserService {
 
         final Job job = getJob(userProfileEditDto.getJobName());
 
-        updateUserData(user, userProfileEditDto, job);
+        setUserData(user, userProfileEditDto, job);
 
         return new UserRegResponseDto(user);
     }
@@ -74,15 +74,13 @@ public class UserService {
         return result;
     }
 
-    @Transactional
-    public void regUserData(User user, UserRegDto userRegDto, Job job){
+    private void setUserRegData(User user, UserRegDto userRegDto, Job job){
         user.setNickname(userRegDto.getNickname());
         user.setImgUrl(userRegDto.getImgUrl());
         user.setJob(job);
     }
 
-    @Transactional
-    public void updateUserData(User user, UserProfileEditDto userProfileEditDto, Job job){
+    private void setUserData(User user, UserProfileEditDto userProfileEditDto, Job job){
         user.setNickname(userProfileEditDto.getNickname());
         user.setImgUrl(userProfileEditDto.getImgUrl());
         user.setJob(job);
