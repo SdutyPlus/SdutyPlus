@@ -2,6 +2,8 @@ package com.d205.sdutyplus.view.report.graph
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.Typeface
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -11,10 +13,13 @@ import com.d205.sdutyplus.databinding.FragmentGraphBinding
 import com.d205.sdutyplus.view.report.ReportViewModel
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -23,6 +28,9 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
     private val reportViewModel: ReportViewModel by activityViewModels()
     private lateinit var colorPalette: List<Int>
     private lateinit var graphList: List<Int>
+    private val graphTitle: List<String> by lazy {
+        listOf("2시간 미만", "2~4시간", "4~6시간", "6~8시간", "8시간 이상")
+    }
     private var continuous: Int = -1
     private var studyTime: Int = -1
 
@@ -68,11 +76,10 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
                 sliceSpace = 3f
                 selectionShift = 5f
 
-
-                setValueLinePart1OffsetPercentage(80f)
-                setValueLinePart1Length(0.2f)
-                setValueLinePart2Length(0.4f)
-                setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE)
+//                setValueLinePart1OffsetPercentage(80.0f)
+//                setValueLinePart1Length(0.3f)
+//                setValueLinePart2Length(0.5f)
+//                setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE)
             }
 
             val pieData = PieData(pieDataSet)
@@ -81,17 +88,21 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
                 setValueFormatter(PercentFormatter())
                 setValueTextSize(14f)
                 setValueTextColor(Color.BLACK)
+                setValueTypeface(Typeface.DEFAULT_BOLD)
+
             }
 
             binding.piechart.apply {
 
                 setUsePercentValues(true)
-
                 setExtraOffsets(5f, 10f, 5f, 5f)
                 setDragDecelerationFrictionCoef(0.95f)
 
                 setExtraOffsets(20f, 0f, 20f, 0f)
                 setEntryLabelTextSize(16F)
+                setEntryLabelColor(Color.BLACK)
+
+                setEntryLabelTypeface(Typeface.DEFAULT)
 
                 setDrawHoleEnabled(true)
                 setHoleColor(Color.WHITE)
@@ -102,7 +113,7 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
                 setRotationAngle(0f)
                 // enable rotation of the chart by touch
                 setRotationEnabled(true)
-                setHighlightPerTapEnabled(true)
+                //setHighlightPerTapEnabled(true)
 
 
 
@@ -110,16 +121,17 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
                 description.isEnabled = false
 
                 isDrawHoleEnabled = true
-                setHoleColor(Color.WHITE)
+                // setHoleColor(Color.WHITE)
                 transparentCircleRadius = 61f
                 animateY(1400, Easing.EaseInOutCubic)
                 centerText = "회원님은\n${studyTime}시간 이상 \n공부하였습니다."
                 setCenterTextSize(16F)
                 data = pieData
+                highlightValues(null)
                 invalidate()
             }
 
-            // chart.spin(2000, 0, 360);
+
             val l: Legend = binding.piechart.getLegend()
             l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
             l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
@@ -136,14 +148,16 @@ class graphFragment : BaseFragment<FragmentGraphBinding>(R.layout.fragment_graph
     private fun data(): ArrayList<PieEntry> {
         val datavalue: ArrayList<PieEntry> = ArrayList()
 
-        datavalue.add(PieEntry(graphList[0].toFloat(), "2시간 미만"))
-        datavalue.add(PieEntry(graphList[1].toFloat(), "2~4시간"))
-        datavalue.add(PieEntry(graphList[2].toFloat(), "4~6시간"))
-        datavalue.add(PieEntry(graphList[3].toFloat(), "6~8시간"))
-        datavalue.add(PieEntry(graphList[4].toFloat(), "8시간 이상"))
+        for(i in 0..4){
+            if(graphList[i] != 0){
+                datavalue.add(PieEntry(graphList[i].toFloat(), graphTitle[i]))
+            }
+        }
+
 
         return datavalue
     }
+
 
 
 }
