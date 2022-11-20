@@ -7,20 +7,19 @@ import com.d205.sdutyplus.global.entity.Job;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.d205.sdutyplus.domain.feed.entity.QFeed.feed;
 import static com.d205.sdutyplus.domain.feed.entity.QFeedLike.feedLike;
 import static com.d205.sdutyplus.domain.feed.entity.QScrap.scrap;
 import static com.d205.sdutyplus.domain.off.entity.QOffFeed.offFeed;
-import static com.d205.sdutyplus.domain.user.entity.QUser.user;
 import static com.d205.sdutyplus.domain.warn.entity.QWarnFeed.warnFeed;
 
 @RequiredArgsConstructor
@@ -43,20 +42,10 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 ).from(feed)
                 .where(
                         feed.banYN.eq(false)
-                                .and(
-                                        feed.notIn(
-                                                JPAExpressions.select(offFeed.feed)
-                                                        .where(offFeed.user.seq.eq(userSeq)).from(offFeed)
-                                        )
-                                )
-                                .and(
-                                        feed.notIn(
-                                                JPAExpressions.select(warnFeed.feed)
-                                                        .where(warnFeed.user.seq.eq(userSeq)).from(warnFeed)
-                                        )
-                                )
+                        .and(feed.seq.notIn(getOffFeedByUserSeq(userSeq)))
+                        .and(feed.seq.notIn(getWarnFeedByUserSeq(userSeq)))
                 )
-                .orderBy(feed.regTime.desc())
+                .orderBy(feed.seq.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -94,7 +83,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 ).from(feed)
                 .where(feed.writer.seq.eq(writerSeq))
-                .orderBy(feed.regTime.desc())
+                .orderBy(feed.seq.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -118,7 +107,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 )
                 .from(scrap)
                 .where(scrap.user.eq(userObject))
-                .orderBy(scrap.feed.regTime.desc())
+                .orderBy(scrap.feed.seq.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -141,8 +130,16 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 )
                 .from(feed)
-                .where(feed.writer.job.eq(jobObject))
-                .orderBy(feed.regTime.desc())
+                .where(
+                        feed.writer.job.eq(jobObject)
+                        .and(
+                                feed.banYN.eq(false)
+                                .and(feed.seq.notIn(getOffFeedByUserSeq(userSeq)))
+                                .and(feed.seq.notIn(getWarnFeedByUserSeq(userSeq)))
+                        )
+
+                )
+                .orderBy(feed.seq.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -165,7 +162,7 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                         )
                 )
                 .from(warnFeed)
-                .orderBy(warnFeed.feed.regTime.desc())
+                .orderBy(warnFeed.feed.seq.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -184,6 +181,16 @@ public class FeedRepositoryQuerydslImpl implements FeedRepositoryQuerydsl {
                 .selectFrom(scrap)
                 .where(scrap.feed.seq.eq(feed.seq).and(scrap.user.seq.eq(userSeq)))
                 .exists();
+    }
+
+    private JPQLQuery<Long> getWarnFeedByUserSeq(Long userSeq){
+        return JPAExpressions.select(warnFeed.feed.seq)
+                .where(warnFeed.user.seq.eq(userSeq)).from(warnFeed);
+    }
+
+    private JPQLQuery<Long> getOffFeedByUserSeq(Long userSeq){
+        return JPAExpressions.select(offFeed.feed.seq)
+                .where(offFeed.user.seq.eq(userSeq)).from(offFeed);
     }
 
 }

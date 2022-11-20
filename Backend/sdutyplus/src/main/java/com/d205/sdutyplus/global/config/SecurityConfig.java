@@ -37,14 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(exceptionHandlerFilter, JwtRequestFilter.class);
         http.exceptionHandling()
                 .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
-//		.accessDeniedHandler(new CustomAccessDeniedHandler());
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user").authenticated()
                 .antMatchers(HttpMethod.POST, "/user/reg").authenticated()
                 .antMatchers(HttpMethod.POST, "/task/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/feed/**").authenticated()
-//                .antMatchers(HttpMethod.GET, "/user/**").authenticated()
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PUT).authenticated();
 
@@ -56,7 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/swagger-ui/**");
         web.httpFirewall(new DefaultHttpFirewall());// '//'허용..
     }
-
 
     //CORS 해결
     @Bean

@@ -31,13 +31,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter{
         } catch (ExpiredJwtException e){
             log.error("jwt expired exception handler filter");
             response.setContentType("application/json;charset=UTF-8");
-//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             String result = objectMapper.writeValueAsString(ResponseEntity.ok(ErrorResponseDto.of(ErrorCode.AUTHENTICATION_EXPIRED)));
             response.getWriter().write(result);
         } catch (JwtException e2){
             log.error("JWT exception handler filter");
             response.setContentType("application/json;charset=utf-8");
-//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             String result = objectMapper.writeValueAsString(ResponseEntity.ok(ErrorResponseDto.of(ErrorCode.AUTHENTICATION_FAIL)));
             log.error(result);
             response.getWriter().write(result);

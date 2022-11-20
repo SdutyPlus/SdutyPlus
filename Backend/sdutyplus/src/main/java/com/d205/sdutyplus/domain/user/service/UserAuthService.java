@@ -1,23 +1,15 @@
 package com.d205.sdutyplus.domain.user.service;
 
 
-import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
-import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
-import com.d205.sdutyplus.domain.feed.repository.ScrapRepository;
-import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.feed.service.FeedService;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
 import com.d205.sdutyplus.domain.jwt.support.JwtUtils;
 import com.d205.sdutyplus.domain.jwt.repository.JwtRepository;
-import com.d205.sdutyplus.domain.off.repository.OffFeedRepository;
 import com.d205.sdutyplus.domain.off.repository.OffUserRepository;
-import com.d205.sdutyplus.domain.off.repository.queyrdsl.OffFeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.off.service.OffService;
 import com.d205.sdutyplus.domain.statistics.entity.DailyStatistics;
 import com.d205.sdutyplus.domain.statistics.repository.DailyStatisticsRepository;
-import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
-import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
@@ -29,11 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
-import com.d205.sdutyplus.domain.warn.repository.WarnFeedRepository;
 import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
-import com.d205.sdutyplus.domain.warn.repository.querydsl.WarnFeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
 import com.d205.sdutyplus.util.AuthUtils;
 import org.json.simple.JSONObject;
@@ -44,6 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -52,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserAuthService {
 
     private final FeedService feedService;
@@ -60,13 +50,8 @@ public class UserAuthService {
     private final JwtRepository jwtRepository;
     private final UserRepository userRepository;
     private final DailyStatisticsRepository dailyStatisticsRepository;
-//    private final FeedRepository feedRepository;
-//    private final FeedLikeRepository feedLikeRepository;
     private final OffUserRepository offUserRepository;
-//    private final OffFeedRepository offFeedRepository;
-//    private final ScrapRepository scrapRepository;
     private final WarnUserRepository warnUserRepository;
-//    private final WarnFeedRepository warnFeedRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -172,23 +157,20 @@ public class UserAuthService {
 
     @Transactional
     public boolean deleteUser(){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
 
-        deleteUserCade(userSeq);
+        deleteUserCade(user.getSeq());
 
         return true;
     }
 
-    @Transactional
     public boolean checkTokenExpiration(){
         final Long userSeq = authUtils.getLoginUserSeq();
 
         return true;
     }
 
-    @Transactional
-    public void deleteUserCade(Long userSeq) {
+    private void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
         //스크랩, 좋아요, 신고, 차단 정보 삭제

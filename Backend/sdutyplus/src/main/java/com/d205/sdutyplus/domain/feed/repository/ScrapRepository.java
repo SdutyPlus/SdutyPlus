@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
     Optional<Scrap> findByUserSeqAndFeedSeq(Long userSeq, Long feedSeq);
+    boolean existsByUserSeqAndFeedSeq(Long userSeq, Long feedSeq);
     void deleteAllByUserSeq(Long userSeq);
     void deleteAllByFeedSeq(Long feedSeq);
 }

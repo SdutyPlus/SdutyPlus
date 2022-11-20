@@ -31,15 +31,8 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .transform(groupBy(task).as(list(subTask.content)));
 
         return transform.entrySet().stream()
-                .map(entry -> TaskDto.builder()
-                        .seq(entry.getKey().getSeq())
-                        .startTime(entry.getKey().getStartTime())
-                        .endTime(entry.getKey().getEndTime())
-                        .title(entry.getKey().getTitle())
-                        .contents(entry.getValue())
-                        .build())
+                .map(entry -> new TaskDto(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -51,13 +44,7 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .transform(groupBy(task).as(list(subTask.content)));
 
         return (Optional<TaskDto>) transform.entrySet().stream()
-                .map(entry -> TaskDto.builder()
-                        .seq(entry.getKey().getSeq())
-                        .startTime(entry.getKey().getStartTime())
-                        .endTime(entry.getKey().getEndTime())
-                        .title(entry.getKey().getTitle())
-                        .contents(entry.getValue())
-                        .build())
+                .map(entry -> new TaskDto(entry.getKey(), entry.getValue()))
                 .findFirst();
     }
 
@@ -73,19 +60,19 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
     }
 
     @Override
-    public int getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime) {
+    public boolean getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime) {
         return queryFactory
-                .selectFrom(task)
+                .select(task.seq)
+                .from(task)
                 .where(task.seq.ne(taskSeq)
                         .and(task.ownerSeq.eq(userSeq))
                         .and(
                                 task.startTime.loe(startTime).and(task.endTime.goe(startTime))
-                                        .or(task.endTime.goe(endTime).and(task.startTime.loe(endTime)))
-                                        .or(task.startTime.goe(startTime).and(task.endTime.loe(endTime)))
+                                        .or(task.startTime.loe(endTime).and(task.endTime.goe(endTime)))
+                                        .or(task.startTime.loe(startTime).and(task.endTime.goe(endTime)))
                         )
                 )
-                .fetch().size();
+                .fetchFirst() != null;
     }
-
-
+    
 }
