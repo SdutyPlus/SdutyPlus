@@ -4,7 +4,7 @@ import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
 import com.d205.sdutyplus.domain.user.entity.User;
-import com.d205.sdutyplus.domain.user.repository.querydsl.UserRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.user.repository.UserRepository;
 import com.d205.sdutyplus.domain.warn.dto.WarnUserDto;
 import com.d205.sdutyplus.global.error.ErrorCode;
 import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AdminService {
     private final FeedRepository feedRepository;
-    private final UserRepositoryQuerydsl userRepositoryQuerydsl;
+    private final UserRepository userRepository;
     private final AuthUtils authUtils;
 
     @Transactional
@@ -34,7 +34,7 @@ public class AdminService {
 
     @Transactional
     public PagingResultDto getWarnUser(Pageable pageable){
-        final Page<WarnUserDto> warnUsers = userRepositoryQuerydsl.findAllWarnUserPage(pageable);
+        final Page<WarnUserDto> warnUsers = userRepository.findAllWarnUserPage(pageable);
         final PagingResultDto pagingResultDto = new PagingResultDto<WarnUserDto>(pageable.getPageNumber(), warnUsers.getTotalPages() - 1, warnUsers.getContent());
 
         return pagingResultDto;

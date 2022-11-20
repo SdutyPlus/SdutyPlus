@@ -113,9 +113,9 @@ public class UserAuthController {
     public ResponseEntity<ResponseDto> checkTokenExpiration(){
         boolean success = userAuthService.checkTokenExpiration();
         if (success) {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_SUCCESS, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_SUCCESS, true));
         } else {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_FAIL, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_FAIL, false));
         }
     }
 }
