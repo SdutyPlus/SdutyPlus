@@ -116,7 +116,7 @@ public class FeedService {
         final Long userSeq = authUtils.getLoginUserSeq();
         final Feed feed = getFeed(feedSeq);
         
-        if(!feed.getWriter().equals(userSeq)){
+        if(!feed.getWriter().getSeq().equals(userSeq)){
             throw new CannotDeleteFeedException();
         }
 
