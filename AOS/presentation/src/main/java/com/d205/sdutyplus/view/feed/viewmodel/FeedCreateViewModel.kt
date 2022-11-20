@@ -43,6 +43,11 @@ class FeedCreateViewModel @Inject constructor(
         _content.value = content
     }
 
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
+
+
     private val _isFeedCreated = MutableLiveData<Boolean?>()
     val isFeedCreated: LiveData<Boolean?>
         get() = _isFeedCreated
@@ -70,14 +75,17 @@ class FeedCreateViewModel @Inject constructor(
                     Log.d(TAG, "createFeed: Success")
                     viewModelScope.launch(Dispatchers.Main) {
                         _isFeedCreated.value = true
+                        _loadingFlag.value = false
                     }
                 }
                 else if (it is ResultState.Loading) {
                     Log.d(TAG, "createFeed: Loading")
+                    _loadingFlag.postValue(true)
                 }
                 else {
                     Log.d(TAG, "createFeed: not Success!!")
                     _isFeedCreateFailed.postValue(true)
+                    _loadingFlag.postValue(false)
                 }
             }
         }

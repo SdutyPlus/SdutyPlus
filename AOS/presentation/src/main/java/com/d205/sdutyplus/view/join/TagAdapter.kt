@@ -1,13 +1,16 @@
 package com.d205.sdutyplus.view.join
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.d205.domain.model.common.JobHashtag
+import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.ItemTagBinding
 
 class TagAdapter(): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
+    private var curPosition = -1
     var jobList = mutableListOf<JobHashtag>()
         set(value) {
             field = value
@@ -15,10 +18,26 @@ class TagAdapter(): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
         }
 
     inner class ViewHolder(var binding: ItemTagBinding): RecyclerView.ViewHolder(binding.root){
-        fun bind(name: String){
-            binding.btnTag.text = name
+        fun bind(jobHashtag: JobHashtag){
+            binding.btnTag.text = jobHashtag.name
+            if(jobHashtag.selected) {
+                binding.btnTag.setBackgroundResource(R.drawable.bg_tag_selected)
+                binding.btnTag.setTextColor(Color.parseColor("#FFFFFF"))
+            }
+            else {
+                binding.btnTag.setBackgroundResource(R.drawable.bg_tag_unselected)
+                binding.btnTag.setTextColor(Color.parseColor("#0a0a0a"))
+            }
+
             binding.btnTag.setOnClickListener {
-                onClickTagItem.onClick(it, absoluteAdapterPosition, name)
+                if(curPosition != -1) {
+                    jobList[curPosition].selected = false
+                    notifyItemChanged(curPosition)
+                }
+                jobList[absoluteAdapterPosition].selected = true
+                curPosition = absoluteAdapterPosition
+                notifyItemChanged(absoluteAdapterPosition)
+                onClickTagItem.onClick(jobHashtag)
             }
         }
     }
@@ -29,13 +48,17 @@ class TagAdapter(): RecyclerView.Adapter<TagAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(jobList[position].name)
+        holder.bind(jobList[position])
     }
 
     override fun getItemCount(): Int = jobList.size
 
+    fun setCurPosition(position: Int) {
+        curPosition = position
+    }
+
     interface OnClickTagListener{
-        fun onClick(view: View, position: Int, tagName: String)
+        fun onClick(jobHashtag: JobHashtag)
     }
     lateinit var onClickTagItem: OnClickTagListener
 }

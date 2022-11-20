@@ -48,7 +48,11 @@
     <fragment
         android:id="@+id/timerFragment"
         android:name="com.d205.sdutyplus.view.timer.TimerFragment"
-        android:label="TimerFragment" />
+        android:label="TimerFragment" >
+        <action
+            android:id="@+id/action_timerFragment_to_pomodoroFragment"
+            app:destination="@id/pomodoroFragment" />
+    </fragment>
     <fragment
         android:id="@+id/feedCreateFragment"
         android:name="com.d205.sdutyplus.view.feed.FeedCreateFragment"
@@ -80,7 +84,11 @@
     <fragment
         android:id="@+id/pomodoroFragment"
         android:name="com.d205.sdutyplus.view.pomodoro.PomodoroFragment"
-        android:label="PomodoroFragment" />
+        android:label="PomodoroFragment" >
+        <action
+            android:id="@+id/action_pomodoroFragment_to_timerFragment"
+            app:destination="@id/timerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/graphFragment"
         android:name="com.d205.sdutyplus.view.report.graph.graphFragment"

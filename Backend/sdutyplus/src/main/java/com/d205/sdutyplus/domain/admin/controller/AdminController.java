@@ -1,8 +1,7 @@
 package com.d205.sdutyplus.domain.admin.controller;
 
 import com.d205.sdutyplus.domain.admin.service.AdminService;
-import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
-import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
+import com.d205.sdutyplus.global.dto.PagingResultDto;
 import com.d205.sdutyplus.global.response.ResponseCode;
 import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.Api;
@@ -14,11 +13,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
 
 @Log4j2
 @Api(tags = "관리자 API")
@@ -29,7 +25,6 @@ import springfox.documentation.annotations.ApiIgnore;
 public class AdminController {
 
     private final AdminService adminService;
-
 
     @ApiOperation(value = "신고된 게시물 조회")
     @ApiResponses({
@@ -60,14 +55,14 @@ public class AdminController {
             @ApiResponse(code = 200, message = "A005 - 신고 유저 제재가 성공하였습니다."),
             @ApiResponse(code = 401, message = "U003 - 로그인이 필요한 화면입니다.")
     })
-    @PutMapping("/warn/user/{warnUserSeq}")
-    public ResponseEntity<ResponseDto> banWarnUser(@PathVariable Long warnUserSeq) {
-        final boolean success = adminService.banWarnUser(warnUserSeq);
+    @PutMapping("/warn/user")
+    public ResponseEntity<ResponseDto> banWarnUser() {
+        final boolean success = adminService.banWarnUser();
 
         if (success) {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_SUCCESS, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_SUCCESS, true));
         } else {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_FAIL, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_FAIL, false));
         }
     }
 }

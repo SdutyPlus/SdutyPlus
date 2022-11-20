@@ -81,6 +81,6 @@ public class TaskRepositoryTest {
                 )
                 .fetchFirst() != null;
 
-        assertThat(test).isEqualTo(true);
+        assertThat(test).isTrue();
     }
 }

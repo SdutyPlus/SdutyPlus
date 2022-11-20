@@ -7,15 +7,10 @@ import com.d205.sdutyplus.util.TimeFormatter;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static com.d205.sdutyplus.global.response.ResponseCode.GET_REPORT_SUCCESS;
 import static com.d205.sdutyplus.global.response.ResponseCode.GET_REPORT_TOTALTIME_SUCCESS;

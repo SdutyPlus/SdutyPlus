@@ -192,7 +192,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     }
 
     private fun openTagSelectDialog() {
-        TagSelectDialog(requireContext()).let {
+        TagSelectDialog(requireContext(), binding.btnJob.text.toString()).let {
             it.arguments = bundleOf("flag" to PROFILE)
             it.onClickConfirm = object : TagSelectDialog.OnClickConfirm {
                 override fun onClick(selectedJob: JobHashtag?) {
