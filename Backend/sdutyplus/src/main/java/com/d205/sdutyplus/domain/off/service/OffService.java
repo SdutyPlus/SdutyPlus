@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 import static com.d205.sdutyplus.global.error.ErrorCode.FEED_NOT_FOUND;
 import static com.d205.sdutyplus.global.error.ErrorCode.USER_NOT_FOUND;
 
@@ -30,16 +32,17 @@ public class OffService {
     private final OffFeedRepository offFeedRepository;
     private final AuthUtils authUtils;
 
+    @Transactional
     public boolean userOff(Long toUserSeq) {
-        final Long fromUserSeq = authUtils.getLoginUserSeq();
-        final User fromUser = authUtils.getLoginUser(fromUserSeq);
-        final User toUser = authUtils.getLoginUser(toUserSeq);
+        final User fromUser = authUtils.getLoginUser();
+        final User toUser = userRepository.findBySeq(toUserSeq)
+                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND));
 
-        if (fromUserSeq.equals(toUserSeq)){
+        if (fromUser.getSeq().equals(toUserSeq)){
             throw new OffMyselfFailException();
         }
 
-        if (offUserRepository.existsByFromUserSeqAndToUserSeq(fromUserSeq, toUserSeq)){
+        if (offUserRepository.existsByFromUserSeqAndToUserSeq(fromUser.getSeq(), toUserSeq)){
             throw new EntityAlreadyExistException(ErrorCode.OFF_ALREADY_EXIST);
         }
 
@@ -49,13 +52,13 @@ public class OffService {
         return true;
     }
 
+    @Transactional
     public boolean feedOff(Long feedSeq) {
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
         final Feed feed = feedRepository.findById(feedSeq)
                 .orElseThrow(() -> new EntityNotFoundException(FEED_NOT_FOUND));
 
-        if (offFeedRepository.existsByFeedSeqAndUserSeq(feedSeq, userSeq)){
+        if (offFeedRepository.existsByFeedSeqAndUserSeq(feedSeq, user.getSeq())){
             throw new EntityAlreadyExistException(ErrorCode.OFF_ALREADY_EXIST);
         }
 
@@ -65,7 +68,9 @@ public class OffService {
         return true;
     }
 
+    @Transactional
     public void deleteAllFeedOffByUserSeq(Long userSeq){
         offFeedRepository.deleteAllByUserSeq(userSeq);
     }
+
 }

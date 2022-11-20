@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -133,6 +134,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
                 bindDate(data.date, container.textView, data.position == DayPosition.MonthDate)
             }
         }
+
         monthCalendarView.apply {
             monthScrollListener = { updateTitle() }
             setup(startMonth, endMonth, daysOfWeek.first())
@@ -150,17 +152,17 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
             when {
-                todayDate == date -> {
+                selectDate == date.toString() -> {
                     textView.apply {
                         setTextColorRes(R.color.white)
-                        setBackgroundResource(R.drawable.bg_calendar_today)
+                        setBackgroundResource(R.drawable.bg_calendar_selected)
                     }
                 }
 
-                selectDate == date.toString() -> {
+                todayDate == date -> {
                     textView.apply {
                         setTextColorRes(R.color.black)
-                        setBackgroundResource(R.drawable.bg_calendar_selected)
+                        setBackgroundResource(R.drawable.bg_calendar_today)
                     }
                 }
 

@@ -35,25 +35,38 @@ class TimerRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getTodayTotalStudyTime(): String {
-
-            try {
-                val response = timerApi.getTodayTotalStudyTime()
-                if (response.isSuccessful && response.body() != null) {
-                    Log.d("timerApi", "getTodayTotalStudyTime success ${response.body()!!.data}")
-                    return response.body()!!.data
-                } else if (response.body() != null) {
-                    Log.d("timerApi", "getTodayTotalStudyTime error ${response.body()!!.code}")
-                    return "error"
-                } else {
-                    Log.d("timerApi", "getTodayTotalStudyTime 통신 error")
-                    return "error"
-                }
-            } catch (e: Exception) {
-                Log.d(TAG, "통신 $e")
-                return "error"
-            }
+    override fun getTodayTotalStudyTime(): Flow<String> = flow {
+        val response = timerApi.getTodayTotalStudyTime()
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        } else if(response.status == 200 && response.data == null) {
+            emit("00:00:00")
+        } else {
+            Log.d(TAG, "getTodayTotalStudyTime status ${response.status}")
+        }
+    }.catch { e->
+        Log.d(TAG, "getTodayTotalStudyTime error $e")
     }
+
+//    {
+//
+//            try {
+//                val response = timerApi.getTodayTotalStudyTime()
+//                if (response.isSuccessful && response.body() != null) {
+//                    Log.d("timerApi", "getTodayTotalStudyTime success ${response.body()!!.data}")
+//                    return response.body()!!.data
+//                } else if (response.body() != null) {
+//                    Log.d("timerApi", "getTodayTotalStudyTime error ${response.body()!!.code}")
+//                    return "error"
+//                } else {
+//                    Log.d("timerApi", "getTodayTotalStudyTime 통신 error")
+//                    return "error"
+//                }
+//            } catch (e: Exception) {
+//                Log.d(TAG, "통신 $e")
+//                return "error"
+//            }
+//    }
 
     override fun addTask(currentTaskDto: CurrentTaskDto2): Flow<Boolean> = flow {
 

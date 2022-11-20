@@ -2,7 +2,7 @@ package com.d205.sdutyplus.domain.feed.controller;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
-import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
+import com.d205.sdutyplus.global.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.service.FeedService;
 import com.d205.sdutyplus.global.response.ResponseCode;
 import com.d205.sdutyplus.global.response.ResponseDto;
@@ -14,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import static com.d205.sdutyplus.global.response.ResponseCode.*;
 

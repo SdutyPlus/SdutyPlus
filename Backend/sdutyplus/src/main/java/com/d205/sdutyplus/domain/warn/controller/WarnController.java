@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.domain.warn.controller;
 
-import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
 
 import com.d205.sdutyplus.global.response.ResponseCode;
@@ -12,10 +11,8 @@ import io.swagger.annotations.ApiResponses;
 
 import lombok.RequiredArgsConstructor;
 
-import springfox.documentation.annotations.ApiIgnore;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

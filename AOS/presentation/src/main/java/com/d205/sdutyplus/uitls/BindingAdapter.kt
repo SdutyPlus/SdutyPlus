@@ -14,13 +14,18 @@ private const val TAG ="BindingAdapter"
 
 @BindingAdapter("loadImage")
 fun loadImage(view: ImageView, src: String?){
+
     Glide.with(view.context)
-        .load(Uri.parse("${SERVER_URL}/image/${src}"))
-        .error(R.drawable.img_sduty_logo)
-        .diskCacheStrategy(DiskCacheStrategy.ALL)
+        .load(src)
+        .error(R.drawable.ic_empty_image)
         .into(view)
 }
 
+@SuppressLint("SetTextI18n")
+@BindingAdapter("percentage")
+fun percentage(view: TextView, per: Int) {
+    view.setText("$per%")
+}
 
 //@BindingAdapter("profileHashTagText")
 //fun profileHashTagText(view: TextView, profile: Profile?){

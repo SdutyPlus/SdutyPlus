@@ -1,7 +1,7 @@
 package com.d205.domain.usecase.feed
 
 import androidx.paging.PagingSource
-import com.d205.domain.model.mypage.Feed
+import com.d205.domain.model.feed.Feed
 import com.d205.domain.repository.paging.FeedRepository
 import com.d205.domain.utils.ResultState
 import kotlinx.coroutines.flow.Flow

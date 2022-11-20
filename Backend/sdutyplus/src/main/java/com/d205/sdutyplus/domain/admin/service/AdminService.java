@@ -1,11 +1,10 @@
 package com.d205.sdutyplus.domain.admin.service;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
-import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
+import com.d205.sdutyplus.global.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.repository.FeedRepository;
-import com.d205.sdutyplus.domain.feed.repository.querydsl.FeedRepositoryQuerydsl;
 import com.d205.sdutyplus.domain.user.entity.User;
-import com.d205.sdutyplus.domain.user.repository.querydsl.UserRepositoryQuerydsl;
+import com.d205.sdutyplus.domain.user.repository.UserRepository;
 import com.d205.sdutyplus.domain.warn.dto.WarnUserDto;
 import com.d205.sdutyplus.global.error.ErrorCode;
 import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
@@ -14,36 +13,34 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AdminService {
     private final FeedRepository feedRepository;
-    private final UserRepositoryQuerydsl userRepositoryQuerydsl;
+    private final UserRepository userRepository;
     private final AuthUtils authUtils;
 
-    @Transactional
     public PagingResultDto getWarnFeed(Pageable pageable){
         final Long userSeq = authUtils.getLoginUserSeq();
         final Page<FeedResponseDto> warnFeeds = feedRepository.findAllWarnFeedPage(userSeq, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), warnFeeds.getTotalPages() - 1, warnFeeds.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), warnFeeds.getTotalPages() - 1, warnFeeds.getContent());
 
         return pagingResultDto;
     }
 
-    @Transactional
     public PagingResultDto getWarnUser(Pageable pageable){
-        final Page<WarnUserDto> warnUsers = userRepositoryQuerydsl.findAllWarnUserPage(pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<WarnUserDto>(pageable.getPageNumber(), warnUsers.getTotalPages() - 1, warnUsers.getContent());
+        final Page<WarnUserDto> warnUsers = userRepository.findAllWarnUserPage(pageable);
+        final PagingResultDto<WarnUserDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), warnUsers.getTotalPages() - 1, warnUsers.getContent());
 
         return pagingResultDto;
     }
 
     @Transactional
-    public boolean banWarnUser(Long warnUserSeq){
-        final User warnUser = authUtils.getLoginUser(warnUserSeq);
+    public boolean banWarnUser(){
+        final User warnUser = authUtils.getLoginUser();
 
         if (warnUser.isBanYN()) {
             throw new EntityAlreadyExistException(ErrorCode.BAN_USER_ALREADY_EXIST);
