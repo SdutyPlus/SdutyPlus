@@ -15,10 +15,12 @@ import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedCreateBinding
 import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.view.common.LoadingDialogFragment
 import com.d205.sdutyplus.view.feed.viewmodel.FeedCreateViewModel
 
 class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.fragment_feed_create) {
     private val feedCreateViewModel: FeedCreateViewModel by activityViewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     override fun initOnViewCreated() {
         initView()
@@ -67,6 +69,12 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
                     setIsFeedCreateFailed(false)
                 }
             }
+            loadingFlag.observe(viewLifecycleOwner) {
+                when(it) {
+                    true -> showLoader()
+                    false -> hideLoader()
+                }
+            }
         }
     }
 
@@ -107,5 +115,17 @@ class FeedCreateFragment : BaseFragment<FragmentFeedCreateBinding>(R.layout.frag
 
     private fun moveToFeedDecoFragment() {
         findNavController().navigate(FeedCreateFragmentDirections.actionFeedCreateFragmentToFeedDecoFragment())
+    }
+
+    private fun hideLoader() {
+        if(loadingDialogFragment.isAdded) {
+            loadingDialogFragment.dismissAllowingStateLoss()
+        }
+    }
+
+    private fun showLoader() {
+        if(!loadingDialogFragment.isAdded) {
+            loadingDialogFragment.show(parentFragmentManager, "loader")
+        }
     }
 }

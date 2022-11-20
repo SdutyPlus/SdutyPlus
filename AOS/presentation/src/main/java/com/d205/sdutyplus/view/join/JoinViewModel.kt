@@ -68,12 +68,15 @@ class JoinViewModel @Inject constructor(
                 _user.value = it.data
                 _isJoinSucceeded.value = true
                 Log.d(TAG, "addUser ${TAG}: invoke Success!! $it")
+                _loadingFlag.postValue(false)
             }
             else if (it is ResultState.Error) {
                 Log.d(TAG, "addUser ${TAG}: invoke Fail!! $it")
+                _loadingFlag.postValue(false)
             }
             else if(it is ResultState.Loading){
                     Log.d(TAG, "addUser ${TAG}: invoke Loading~")
+                _loadingFlag.postValue(true)
             }
         }
     }
