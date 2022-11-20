@@ -45,7 +45,6 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="0dp"
-                android:visibility="invisible"
                 android:src="@drawable/pomodoro"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

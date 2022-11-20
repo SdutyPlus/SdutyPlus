@@ -54,11 +54,14 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
                 btnPomodoroStart.visibility = View.GONE
                 btnPomodoroStop.visibility = View.VISIBLE
 
+                binding.tvAnimationText.visibility = View.INVISIBLE
+
                 binding.animationView.visibility = View.VISIBLE
-                binding.animationView.setAnimation(R.raw.timer)
+                binding.animationView.setAnimation(R.raw.dont_waste_time)
                 binding.animationView.playAnimation()
 
-                binding.tvPomoCount.text = "$pomoCount 번 완료하였습니다!"
+                binding.tvPomoCount.visibility = View.VISIBLE
+                binding.tvPomoCount.text = "$pomoCount Complete!"
                 startCountDown()
             }
 //
@@ -66,9 +69,10 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
                 btnPomodoroStop.visibility = View.GONE
                 btnPomodoroStart.visibility = View.VISIBLE
 
-//                binding.animationView.visibility = View.GONE
-                binding.animationView.setAnimation(R.raw.dont_waste_time)
-                binding.animationView.playAnimation()
+                binding.animationView.visibility = View.INVISIBLE
+
+                binding.tvPomoCount.visibility = View.INVISIBLE
+                binding.tvAnimationText.visibility = View.VISIBLE
 
 //
                 stopCountDown()
@@ -105,8 +109,6 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         currentCountDownTimer = null
 
         requireContext().showToast("뽀모도로가 종료되었습니다.")
-        binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#2E2E2E"))
-        binding.tvPomoCount.text = "뽀모도로를 시작하려면\nStart를 클릭하세요!"
 
         updateRemainTime(WORKING_TIME)
         pomoCount = 0
@@ -140,14 +142,15 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
     private fun completeCountDown() {
         if(isWorking) {
             pomoCount ++
-            binding.tvPomoCount.text = "$pomoCount 번 완료하였습니다!"
+            binding.tvPomoCount.text = "$pomoCount Complete!"
             if(pomoCount < 4) {
-                requireContext()!!.showToast("완료하였습니다! \n휴식 시간이에요!")
+                requireContext()!!.showToast("휴식 시간이에요!")
                 updateRemainTime(REST_TIME)
                 currentCountDownTimer = null
                 currentCountDownTimer = createCountDownTimer(REST_TIME)
+
             } else {
-                requireContext()!!.showToast("뽀모를 모두 완료하셨습니다!\n휴식 후 시작하세요!")
+                requireContext()!!.showToast("30분 휴식 후 시작하세요!")
                 updateRemainTime(1 * 60 * 1000)
                 currentCountDownTimer = null
                 currentCountDownTimer = createCountDownTimer(1 * 60 * 1000)
@@ -155,16 +158,23 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
             }
             isWorking = !isWorking
             startCountDown()
-            binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#ffffff"))
+
+            binding.animationView.visibility = View.VISIBLE
+            binding.animationView.setAnimation(R.raw.pomodoro_rest)
+            binding.animationView.playAnimation()
+
         } else {
             if(pomoCount < 4) {
                 requireContext()!!.showToast("진행 시간이에요!")
                 updateRemainTime(WORKING_TIME)
-                binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#2E2E2E"))
+
+                binding.animationView.visibility = View.VISIBLE
+                binding.animationView.setAnimation(R.raw.dont_waste_time)
+                binding.animationView.playAnimation()
+
                 startCountDown()
             } else {
                 pomoCount = 0
-                binding.tvPomoCount.text = "뽀모도로를 모두 완료하였습니다! \n 새로운 뽀모도로를 시작하려면 Start를 클릭하세요!"
                 updateRemainTime(WORKING_TIME)
                 binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#2E2E2E"))
                 requireContext()!!.showToast("새로운 뽀모도로를 시작하려면\nStart를 클릭하세요!")
@@ -172,6 +182,11 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
                 binding.apply {
                     btnPomodoroStart.visibility = View.VISIBLE
                     btnPomodoroStop.visibility = View.GONE
+
+                    animationView.visibility = View.INVISIBLE
+                    tvAnimationText.visibility = View.VISIBLE
+
+                    tvPomoCount.text = ""
                 }
             }
             isWorking = !isWorking
