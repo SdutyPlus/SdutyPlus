@@ -60,13 +60,15 @@ public class DailyStatisticsService {
         LocalDate lastReport = user.getLastReport();
         int gap = Period.between(lastReport, today).getDays();
 
-        long cnt = 1;
+        if (gap > 0) {
+            long cnt = 1;
 
-        if (user.getContinuous() > 0 && gap == 1) {
-            cnt = user.getContinuous() + 1;
+            if (user.getContinuous() > 0 && gap == 1) {
+                cnt = user.getContinuous() + 1;
+            }
+
+            updateContinuous(user, today, cnt);
         }
-
-        updateContinuous(user, today, cnt);
     }
 
     @Transactional
@@ -120,5 +122,4 @@ public class DailyStatisticsService {
         user.setLastReport(date);
         user.setContinuous(cnt);
     }
-
 }
