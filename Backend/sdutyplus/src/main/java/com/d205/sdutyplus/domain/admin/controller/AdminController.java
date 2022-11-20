@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @Log4j2
 @Api(tags = "관리자 API")
 @Validated
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
-
 
     @ApiOperation(value = "신고된 게시물 조회")
     @ApiResponses({
@@ -62,9 +60,9 @@ public class AdminController {
         final boolean success = adminService.banWarnUser();
 
         if (success) {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_SUCCESS, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_SUCCESS, true));
         } else {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_FAIL, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.BAN_WARN_USER_FAIL, false));
         }
     }
 }
