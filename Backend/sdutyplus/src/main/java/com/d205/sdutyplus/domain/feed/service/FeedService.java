@@ -219,7 +219,8 @@ public class FeedService {
         final Bucket bucket = StorageClient.getInstance().bucket(firebaseBucket);
         final String temp[] = imgUrl.split("/o/");
         final String fileName = temp[1].replace("%2F", "/").replace("?alt=media", "");
-        bucket.get(fileName).delete();
+        Blob blob = bucket.get(fileName);
+        if(blob!=null){blob.delete();}
     }
 
     private Feed getFeed(Long seq){
