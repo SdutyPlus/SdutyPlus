@@ -164,7 +164,7 @@
                                 android:textColor="@color/app_purple_light"
                                 android:textSize="13dp"
                                 android:text="@{feed.userJob}"
-                                android:background="@drawable/btn_study_regist"
+                                android:background="@drawable/bg_tag_unselected"
                                 android:padding="6dp"
                                 app:layout_constraintStart_toEndOf="@id/tv_nickname"
                                 app:layout_constraintTop_toTopOf="@id/tv_nickname"

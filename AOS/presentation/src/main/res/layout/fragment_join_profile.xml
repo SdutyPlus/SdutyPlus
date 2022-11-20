@@ -99,7 +99,7 @@
                         android:id="@+id/btn_job"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:background="@drawable/btn_study_regist"
+                        android:background="@drawable/bg_tag_unselected"
                         android:textColor="@color/sduty_mix_violet"
                         android:paddingHorizontal="16dp"
                         android:textSize="16sp"

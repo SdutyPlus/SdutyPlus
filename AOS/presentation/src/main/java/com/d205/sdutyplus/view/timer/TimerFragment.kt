@@ -4,11 +4,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentTimerBinding
 import com.d205.sdutyplus.uitls.convertTimeDateToString
 import com.d205.sdutyplus.uitls.getTodayDate
+import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.timer.dialog.StopStudyConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +33,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
         setTodayInfo()
         initTimer()
         initObserver()
+        initBtn()
     }
 
     private fun setTodayInfo() {
@@ -124,6 +127,17 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
                     setTodayTotalStudyTime()
                 }
             }
+        }
+    }
+
+    private fun initBtn() {
+        binding.ivPomodoro.setOnClickListener {
+            if(timerViewModel.isTimerRunning.value == true) {
+                requireContext().showToast("기록 중에는 타이머를 변경할 수 없습니다.")
+                return@setOnClickListener
+            }
+
+            findNavController().navigate(TimerFragmentDirections.actionTimerFragmentToPomodoroFragment())
         }
     }
 

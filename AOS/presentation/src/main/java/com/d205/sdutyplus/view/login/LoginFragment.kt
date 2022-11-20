@@ -35,12 +35,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     override fun initOnViewCreated() {
         getKakaoKeyHash()
         initNaverLogin()
+        Log.d(TAG, "init naver")
         initView()
     }
 
     private fun getKakaoKeyHash() {
         val kakaoKeyHash = Utility.getKeyHash(context = requireContext())
-        Log.d(TAG, "init: $kakaoKeyHash")
+        Log.d(TAG, "init kakao: $kakaoKeyHash")
     }
 
     private fun initNaverLogin() {

@@ -20,6 +20,7 @@ import com.d205.sdutyplus.uitls.PROFILE
 import com.d205.sdutyplus.uitls.showToast
 import com.d205.sdutyplus.view.MainActivity
 import com.d205.sdutyplus.view.common.CropImageActivity
+import com.d205.sdutyplus.view.common.LoadingDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
@@ -30,6 +31,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     private val args by navArgs<JoinProfileFragmentArgs>()
     private val profileViewModel: ProfileViewModel by viewModels()
     private val joinViewModel: JoinViewModel by viewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     private var profileImageUrl: String? = null
     private var jobHashtag: JobHashtag? = null
@@ -49,6 +51,13 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
 
     override fun initOnViewCreated() {
         initView()
+
+        joinViewModel.loadingFlag.observe(viewLifecycleOwner) {
+            when(it) {
+                true -> showLoader()
+                false -> hideLoader()
+            }
+        }
     }
 
     private fun initView() {
@@ -149,7 +158,7 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
     }
 
     private fun openTagSelectDialog() {
-        TagSelectDialog(requireContext()).let {
+        TagSelectDialog(requireContext(), "").let {
             it.arguments = bundleOf("flag" to PROFILE)
             it.onClickConfirm = object : TagSelectDialog.OnClickConfirm {
                 override fun onClick(selectedJob: JobHashtag?) {
@@ -162,6 +171,18 @@ class JoinProfileFragment : BaseFragment<FragmentJoinProfileBinding>(R.layout.fr
                 }
             }
             it.show(parentFragmentManager, null)
+        }
+    }
+
+    private fun hideLoader() {
+        if(loadingDialogFragment.isAdded) {
+            loadingDialogFragment.dismissAllowingStateLoss()
+        }
+    }
+
+    private fun showLoader() {
+        if(!loadingDialogFragment.isAdded) {
+            loadingDialogFragment.show(parentFragmentManager, "loader")
         }
     }
 }
