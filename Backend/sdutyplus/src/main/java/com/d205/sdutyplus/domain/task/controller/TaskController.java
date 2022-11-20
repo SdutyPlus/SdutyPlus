@@ -20,7 +20,6 @@ import static com.d205.sdutyplus.global.response.ResponseCode.*;
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor
-@Slf4j
 public class TaskController {
 
     private final TaskService taskService;

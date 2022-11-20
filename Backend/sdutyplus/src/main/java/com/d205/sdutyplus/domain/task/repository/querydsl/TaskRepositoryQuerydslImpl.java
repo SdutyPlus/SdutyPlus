@@ -31,15 +31,8 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .transform(groupBy(task).as(list(subTask.content)));
 
         return transform.entrySet().stream()
-                .map(entry -> TaskDto.builder()
-                        .seq(entry.getKey().getSeq())
-                        .startTime(entry.getKey().getStartTime())
-                        .endTime(entry.getKey().getEndTime())
-                        .title(entry.getKey().getTitle())
-                        .contents(entry.getValue())
-                        .build())
+                .map(entry -> new TaskDto(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -51,13 +44,7 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 .transform(groupBy(task).as(list(subTask.content)));
 
         return (Optional<TaskDto>) transform.entrySet().stream()
-                .map(entry -> TaskDto.builder()
-                        .seq(entry.getKey().getSeq())
-                        .startTime(entry.getKey().getStartTime())
-                        .endTime(entry.getKey().getEndTime())
-                        .title(entry.getKey().getTitle())
-                        .contents(entry.getValue())
-                        .build())
+                .map(entry -> new TaskDto(entry.getKey(), entry.getValue()))
                 .findFirst();
     }
 
