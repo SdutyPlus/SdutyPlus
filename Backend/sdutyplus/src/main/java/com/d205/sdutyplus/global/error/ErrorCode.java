@@ -42,6 +42,7 @@ public enum ErrorCode {
     FEED_SCRAP_NOT_FOUND(400, "F004", "스크랩하지 않은 피드입니다."),
     FEED_LIKE_ALREADY_EXIST(400, "F005", "해당 게시물에 이미 좋아요하였습니다."),
     FEED_LIKE_NOT_FOUND(400, "F006", "좋아요 하지 않은 게시물 입니다."),
+    CAN_NOT_DELETE_FEED(400, "F007", "피드를 삭제할 수 없습니다."),
 
     // Warn
     WARN_USER_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),

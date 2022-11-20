@@ -2,7 +2,8 @@ package com.d205.sdutyplus.domain.feed.service;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
-import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
+import com.d205.sdutyplus.domain.feed.exception.CannotDeleteFeedException;
+import com.d205.sdutyplus.global.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.feed.entity.FeedLike;
 import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
@@ -72,7 +73,7 @@ public class FeedService {
         final Long userSeq = authUtils.getLoginUserSeq();
 
         final Page<FeedResponseDto> allFeeds = feedRepository.findAllFeedPage(userSeq, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
         return pagingResultDto;
     }
 
@@ -115,8 +116,9 @@ public class FeedService {
     public void deleteFeed(Long feedSeq){
         final Long userSeq = authUtils.getLoginUserSeq();
         final Feed feed = getFeed(feedSeq);
+        
         if(!feed.getWriter().equals(userSeq)){
-            //TODO: 작성자가 아닌 유저가 삭제 시도 시, Exception 처리
+            throw new CannotDeleteFeedException();
         }
 
         scrapRepository.deleteAllByFeedSeq(feedSeq);
@@ -130,8 +132,8 @@ public class FeedService {
 
     @Transactional
     public void deleteAllFeedByUserSeq(Long userSeq){
-        final List<Feed> myfeeds = feedRepository.findAllByWriterSeq(userSeq);
-        for(Feed feed : myfeeds){
+        final List<Feed> feeds = feedRepository.findAllByWriterSeq(userSeq);
+        for(Feed feed : feeds){
             scrapRepository.deleteAllByFeedSeq(feed.getSeq());
             feedLikeRepository.deleteAllByFeedSeq(feed.getSeq());
             warnFeedRepository.deleteAllByFeedSeq(feed.getSeq());
