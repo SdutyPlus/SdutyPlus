@@ -8,10 +8,9 @@ import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.exception.SubTaskCntLimitException;
 import com.d205.sdutyplus.domain.task.exception.TimeDuplicateException;
+import com.d205.sdutyplus.domain.task.exception.TimeReveredException;
 import com.d205.sdutyplus.domain.task.repository.SubTaskRepository;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
-import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
-import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.global.error.exception.InvalidInputException;
 import com.d205.sdutyplus.util.AuthUtils;
@@ -42,6 +41,7 @@ public class TaskService{
         final Task task = taskPostDto.toEntity();
         task.setOwnerSeq(userSeq);
 
+        timeReversedCheck(task.getStartTime(), task.getEndTime());
         timeDuplicateCheck(userSeq, 0L, task.getStartTime(), task.getEndTime());
 
         final Task createdTask = taskRepository.save(task);
@@ -72,6 +72,7 @@ public class TaskService{
         final Task task = getTask(taskSeq);
         final Task updatedTask = taskDto.toEntity();
 
+        timeReversedCheck(updatedTask.getStartTime(), updatedTask.getEndTime());
         timeDuplicateCheck(task.getOwnerSeq(), taskSeq, updatedTask.getStartTime(), updatedTask.getEndTime());
 
         task.setStartTime(updatedTask.getStartTime());
@@ -145,6 +146,11 @@ public class TaskService{
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
     }
 
+    private void timeReversedCheck(LocalDateTime startTime, LocalDateTime endTime){
+        if(!startTime.isBefore(endTime)){
+            throw new TimeReveredException();
+        }
+    }
 
     private void timeDuplicateCheck(Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime){
         final boolean duplicatedCnt = taskRepository.getTimeDuplicatedTaskCnt(userSeq, taskSeq, startTime, endTime);

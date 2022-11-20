@@ -3,7 +3,6 @@ package com.d205.sdutyplus.domain.task.dto;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,7 +21,7 @@ public class ReportDto {
             LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(taskDto.getEndTime());
             totalSecond+=TimeFormatter.getDurationTime(startTime, endTime);
         }
-        this.percentage = Math.min(totalSecond*100/7200000, 100);
+        this.percentage = Math.min(totalSecond/72000, 100);
         this.totalTime = TimeFormatter.msToTime(totalSecond);
         this.taskDtos = taskDtos;
     }
