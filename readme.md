@@ -1,7 +1,8 @@
 <div align="center">
 
-<img src="https://user-images.githubusercontent.com/49026286/202903659-84b39720-96f9-4a7c-8ea8-80c8e299ad35.png" width="130" height="130"/>
-
+<br>
+<img src="https://user-images.githubusercontent.com/49026286/202903659-84b39720-96f9-4a7c-8ea8-80c8e299ad35.png" width="200" height="200"/>
+<br>
 
 # Sduty+ 
 
@@ -54,7 +55,7 @@
 ## 시스템 구조도
 <div align="center">
 
-<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="660" height="440"/>
+<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="900" height="600"/>
 
 </div>
 <br>
