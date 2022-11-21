@@ -52,8 +52,11 @@
 
 
 ## 시스템 구조도
-<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="600" height="400"/>
+<div align="center">
 
+<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="660" height="440"/>
+
+</div>
 <br>
 
 ## 규칙
