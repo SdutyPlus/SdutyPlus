@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.d108.sduty.repo.UserAchieveRepo">	
+	<insert id="insertUserAchieve" parameterType="Integer">
+		insert into userachieve(userachieve_user_seq, userachieve_achievement_seq) values(#{userSeq}, #{achievementSeq});
+	</insert>
+	
+	<select id="selectUserAchieve" resultType="Achievement" parameterType="Integer">
+		select a.achievement_seq as "seq", a.achievement_name as "name", a.achievement_content as "content", a.achievement_is_hidden as "isHidden" from userachieve u left join achievement a on (u.userachieve_achievement_seq = a.achievement_seq) where u.userachieve_user_seq = #{userSeq};
+	</select>
+	
+		<select id="selectAchievement" resultType="Achievement" parameterType="Integer">
+		select a.achievement_seq as "seq", a.achievement_name as "name", a.achievement_content as "content", a.achievement_is_hidden as "isHidden" from achievement a where achievement_seq = #{ahcievementSeq};
+	</select>
+
+</mapper>
