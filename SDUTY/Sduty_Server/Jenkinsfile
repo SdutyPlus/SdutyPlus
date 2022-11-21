@@ -1,0 +1,31 @@
+pipeline {         
+        agent none
+        stages { 
+	  		stage('Gradle build'){
+						agent any
+						steps{
+							dir('SDUTY/Sduty_Server') {sh 'chmod +x ./gradlew'}
+							dir('SDUTY/Sduty_Server') {sh './gradlew clean build'}
+						}
+			   }              
+                stage('Docker build') {
+                        agent any
+                        steps {                                                     
+                                sh 'docker build -t sdutyimg ./SDUTY/Sduty_Server'
+                        }
+                }
+                stage('Docker run') {
+                        agent any
+                        steps {
+                                sh 'docker ps -f name=sdutyimg -q \
+                                        | xargs --no-run-if-empty docker container stop'
+
+                                sh 'docker container ls -a -f name=sdutyimg -q \
+                                        | xargs -r docker container rm'
+
+                                sh 'docker run -v /home/files:/home/files -d --network sduty-network --name sdutyimg -p 8090:8090 sdutyimg'
+                        }
+                }
+        }
+
+}
