@@ -25,6 +25,7 @@
 
 ### ⏱ 타이머
 <img src="https://user-images.githubusercontent.com/49026286/202905679-e269b04f-0b62-4d92-94bb-3be739a6eaa1.gif" width="150" height="310"/>
+<img src="https://user-images.githubusercontent.com/49026286/202933761-d9f2ba67-d668-4be4-b5a7-0a1ef1fa6feb.gif" width="150" height="310"/>
 
 
 실제 공부하는 시간을 측정하는 타이머를 통해 공부 시간을 측정하고 기록을 저장할 수 있어요.
@@ -38,8 +39,14 @@
 
 ### ⌛ 타임라인
 <img src="https://user-images.githubusercontent.com/49026286/202906189-e0fcc9c0-6187-4199-bbe7-ab8a1c0e4872.png" width="150" height="310"/>
+<img src="https://user-images.githubusercontent.com/49026286/202933701-c05e504a-9d1d-4491-95cc-faefd2954f0c.jpg" width="150" height="310"/>
 
 다른 사람들과 공부한 내용을 공유할 수 있어요.
+
+### 📊 통계
+<img src="https://user-images.githubusercontent.com/49026286/202933789-ed946a7a-5a5d-4f03-a24b-29f4d204e8cb.gif" width="150" height="310"/>
+
+오늘 하루 공부한 결과를 통계 자료를 통해 시각적으로 볼 수 있어요.
 
 <br>
 
