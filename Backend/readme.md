@@ -91,30 +91,40 @@ public enum ResultCode {
 }
 ```
 
+<br>
+
 ## 디렉토리 구조
 ```markdown
-📁backend
+📁Backend/sdutyplus
 ├──📁src/main
-├──📁java/com/ssafy/gumid207
-│ ├──📃Gumid207Application.java
-│ ├──📁advice
-│ ├──📁config
-│ ├──📁customexception
-│ ├──📁devutil
-│ ├──📁dto
-│ ├──📁entity
-│ ├──📁jwt
-│ ├──📁mypage
-│ ├──📁oauth
-│ ├──📁recommend
-│ ├──📁res
-│ ├──📁review
-│ ├──📁s3
-│ ├──📁song
-│ ├──📁songbox
-│ ├──📁user
-│ ├──📁vote
-│ └──📁vote
+├──📁java/com/d205/sdutyplus
+│ ├──📃SdutyplusApplication.java
+│ ├──📁domain
+│ │ ├──📁admin
+│ │ ├──📁feed
+│ │ ├──📁jwt
+│ │ ├──📁off
+│ │ ├──📁statistics
+│ │ ├──📁task
+│ │ ├──📁timer
+│ │ ├──📁user
+│ │ └──📁warn
+│ ├──📁global
+│ │ ├──📁config
+│ │ ├──📁dto
+│ │ ├──📁entity
+│ │ ├──📁enums
+│ │ ├──📁error
+│ │ ├──📁policy
+│ │ └──📁response
+│ └──📁util
+│   ├──📁AuthUtils
+│   ├──📁FirebaseInitializer
+│   ├──📁MD5Generator
+│   ├──📁TimeFormatter
+│   └──📁Workaround
+├──📃Dockerfile
+├──📃Jenkinsfile
 ├──📃.gitignore
-└──📃pom.xml
+└──📃build.gradle
 ```
