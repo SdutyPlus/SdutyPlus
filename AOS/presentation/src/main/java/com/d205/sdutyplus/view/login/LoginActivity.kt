@@ -47,11 +47,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
         val jwt = userPref.getStringFromPreference("jwt")
         Log.d(TAG, "jwt : $jwt")
 
-        CoroutineScope(Dispatchers.Main).launch {
-            if(isJwtAvailable()) {
-                moveToMainActivity()
-            }
-        }
+
     }
 
     private fun initPermission() {
@@ -70,14 +66,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             .check()
     }
 
-    private suspend fun isJwtAvailable(): Boolean {
-        loginViewModel.checkJwt()
-        return loginViewModel.isJwtAvailable
-    }
 
     private fun moveToMainActivity() {
         val intent = Intent(this@LoginActivity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
+    }
+
+    private suspend fun getUser() {
+        loginViewModel.getUser()
     }
 }
