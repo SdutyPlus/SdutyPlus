@@ -70,9 +70,8 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                     .setPositiveButton("네", object : DialogInterface.OnClickListener {
                         override fun onClick(p0: DialogInterface, p1: Int) {
                             CoroutineScope(Dispatchers.IO).launch {
-                                deleteJwt()
                                 this@MyPageFragment.mainViewModel.deleteUser()
-
+                                deleteJwt()
                                 if(mainViewModel.isDeletedSuccess) {
                                     if(getSocialType() == "kakao") {
                                         Log.d(TAG, "카카오 회원 탈퇴 진행 socialType : ${getSocialType()}")

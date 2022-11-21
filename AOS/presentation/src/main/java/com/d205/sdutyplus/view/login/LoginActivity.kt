@@ -38,7 +38,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private val REQUIRED_PERMISSIONS = mutableListOf(
         Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
         Manifest.permission.ACCESS_NETWORK_STATE).toTypedArray()
-    private val loginViewModel : LoginViewModel by viewModels()
     private val userPref = UserSharedPreference(this)
 
     override fun init() {
@@ -46,7 +45,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
 
         val jwt = userPref.getStringFromPreference("jwt")
         Log.d(TAG, "jwt : $jwt")
-
 
     }
 
@@ -64,16 +62,5 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             .setPermissionListener(permissionListener)
             .setPermissions(*REQUIRED_PERMISSIONS)
             .check()
-    }
-
-
-    private fun moveToMainActivity() {
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-    }
-
-    private suspend fun getUser() {
-        loginViewModel.getUser()
     }
 }
