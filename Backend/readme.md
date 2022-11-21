@@ -12,6 +12,7 @@
 
 </div>
 
+
 ## Response 규칙
 
 ### 💥 Error Response
@@ -90,3 +91,30 @@ public enum ResultCode {
 }
 ```
 
+## 디렉토리 구조
+```markdown
+📁backend
+├──📁src/main
+├──📁java/com/ssafy/gumid207
+│ ├──📃Gumid207Application.java
+│ ├──📁advice
+│ ├──📁config
+│ ├──📁customexception
+│ ├──📁devutil
+│ ├──📁dto
+│ ├──📁entity
+│ ├──📁jwt
+│ ├──📁mypage
+│ ├──📁oauth
+│ ├──📁recommend
+│ ├──📁res
+│ ├──📁review
+│ ├──📁s3
+│ ├──📁song
+│ ├──📁songbox
+│ ├──📁user
+│ ├──📁vote
+│ └──📁vote
+├──📃.gitignore
+└──📃pom.xml
+```
