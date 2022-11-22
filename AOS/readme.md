@@ -31,7 +31,7 @@ ViewModel
 	<tr><td>Navigation</td><td>2.5.2</td><td>UI 전환을 쉽게 구현하는데 도와주는 라이브러리</td></tr> 
 	<tr><td>Permission</td><td>3.3.0</td><td>권한 체크 라이브러리</td></tr>
 	<tr><td>Paging3</td><td>3.1.1</td><td>다양한 데이터 소스에서 대량의 data set를 효율적으로 관리하고 로드하기위한 라이브러리</td></tr>
-	<tr><td>lottie</td><td>3.0.7</td><td>고품질 애니메이션 라이브러리입니다</td></tr>
+	<tr><td>lottie</td><td>3.0.7</td><td>고품질 애니메이션 라이브러리</td></tr>
 	<tr><td>Glide</td><td>4.13.0</td><td>이미지 로딩 라이브러리</td></tr>
 	<tr><td>CircleImageView</td><td>3.1.0</td><td>ImageView를 확장한 라이브러리</td></tr>
 	<tr><td>ImagePicker</td><td>2.1</td><td>갤러리 or 카메라를 통해 이미지를 가져오고 화면에 표시하기 위해 사용하는 라이브러리</td></tr>
