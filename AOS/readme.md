@@ -38,6 +38,12 @@ ViewModel
 15. Kakao Social Log In %%
 16. Ted Permission
 
+<table>
+	<tr><th rowspan="1">라이브러리명</th><th rowspan="1">Version</th><th rowspan="1">Content</th></tr>
+	<tr><td>레트로 핏</td><td>Spring Boot</td><td>Spring Boot</td></tr>
+
+</table>
+
 
 
 <br>
