@@ -23,7 +23,7 @@ ResultState
 ViewModel
 
 <br>
-FireBase
+FireBase MVVM
 <br>
 
 ## 사용한 라이브러리
