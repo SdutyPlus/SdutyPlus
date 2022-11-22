@@ -71,6 +71,14 @@ https://play.google.com/store/apps/details?id=com.d205.sdutyplus
 </div>
 <br>
 
+## 기술 스택
+<div align="center">
+
+<img src="https://user-images.githubusercontent.com/49026286/203214927-ad52ec91-e46c-4711-8071-f1edb03f020d.png" width="900" height="400"/>
+
+</div>
+<br>
+
 ## 규칙
 
 🌐 Git Flow
