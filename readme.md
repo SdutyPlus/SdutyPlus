@@ -66,9 +66,21 @@ https://play.google.com/store/apps/details?id=com.d205.sdutyplus
 ## 시스템 구조도
 <div align="center">
 
-<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="900" height="600"/>
+<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="840" height="560"/>
 
 </div>
+<br>
+
+## 기술 스택
+
+<table>
+	<tr><th rowspan="1">🐬Front-end</th><td>Android, Kotlin, Jetpack, Figma, Clean Architecture</td></tr>
+	<tr><th rowspan="1">🍀Back-end</th><td>Spring Boot, Spring Security, JPA, Querydsl, JWT, MariaDB, Firebase, JUnit, JMeter</td></tr>
+    <tr><th rowspan="1">🛠Server</th><td>EC2, Docker, Jenkins, Nginx, Certbot</td></tr>
+	<tr><th rowspan="1">👨‍👩‍👦‍👦Collaboration</th><td>Gitlab, Jira Software, Mattermost, Notion</td></tr>
+
+</table>
+
 <br>
 
 ## 규칙
