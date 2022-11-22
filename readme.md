@@ -41,7 +41,7 @@ https://play.google.com/store/apps/details?id=com.d205.sdutyplus
 
 ### 📙 리포트
 <img src="https://user-images.githubusercontent.com/49026286/202905787-523feaa6-f498-4983-911c-bfe87f69b0d6.gif" width="300" height="610"/>
-<img src="https://user-images.githubusercontent.com/49026286/202906067-c4f8a5e4-a72e-44f8-8069-44b1a4d7c972.png" width="300" height="610"/>
+<img src="https://user-images.githubusercontent.com/49026286/203218539-42078568-8495-4031-83d6-4777f75c977b.png" width="300" height="610"/>
 
 타이머로 기록된 특정 일자의 공부 시간과 내용을 리포트를 통해 확인할 수 있어요.
 
