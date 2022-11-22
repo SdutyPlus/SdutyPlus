@@ -12,6 +12,33 @@
 
 </div>
 
+<br>
+
+[클린 아키텍쳐]
+flow
+coroutine
+ResultState
+ViewModel
+
+[라이브러리] - 버전, 라이브러리 한 줄 설명
+1. 레트로 핏
+2. 캘린더 %%
+3. Lottie
+4. MP Android Chart %%
+5. Hilt %%
+6. Paging3 %%
+7. ImageCrop??????
+8. Navigation
+9. Glide
+10. Bottom Sheet
+11. Swipe Refresh Layout
+12. Image Picker
+13. Circle ImageView
+14. Naver Social Log In %%
+15. Kakao Social Log In %%
+16. Ted Permission
+
+
 
 <br>
 
