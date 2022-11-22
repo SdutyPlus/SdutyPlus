@@ -26,13 +26,7 @@
 
 <br>
 
-## 프로젝트 소개
-
-### 🧷 다운로드 링크
-https://play.google.com/store/apps/details?id=com.d205.sdutyplus
-
-<br>
-
+## 기능
 ### ⏱ 타이머
 <img src="https://user-images.githubusercontent.com/49026286/202905679-e269b04f-0b62-4d92-94bb-3be739a6eaa1.gif" width="300" height="610"/>
 <img src="https://user-images.githubusercontent.com/49026286/202933761-d9f2ba67-d668-4be4-b5a7-0a1ef1fa6feb.gif" width="300" height="610"/>
