@@ -7,6 +7,7 @@
 # Sduty+ 
 
 **공부 인증 스터디앱**
+<br>
 
 **[1. Explore Front Repository](./AOS)**<br>
 **[2. Explore Back Repository](./Backend)**
@@ -24,6 +25,11 @@
 
 ## 프로젝트 소개
 
+### 🧷 다운로드 링크
+https://play.google.com/store/apps/details?id=com.d205.sdutyplus
+
+<br>
+
 ### ⏱ 타이머
 <img src="https://user-images.githubusercontent.com/49026286/202905679-e269b04f-0b62-4d92-94bb-3be739a6eaa1.gif" width="300" height="610"/>
 <img src="https://user-images.githubusercontent.com/49026286/202933761-d9f2ba67-d668-4be4-b5a7-0a1ef1fa6feb.gif" width="300" height="610"/>
@@ -31,18 +37,23 @@
 
 실제 공부하는 시간을 측정하는 타이머를 통해 공부 시간을 측정하고 기록을 저장할 수 있어요.
 
+<br>
+
 ### 📙 리포트
 <img src="https://user-images.githubusercontent.com/49026286/202905787-523feaa6-f498-4983-911c-bfe87f69b0d6.gif" width="300" height="610"/>
 <img src="https://user-images.githubusercontent.com/49026286/202906067-c4f8a5e4-a72e-44f8-8069-44b1a4d7c972.png" width="300" height="610"/>
 
 타이머로 기록된 특정 일자의 공부 시간과 내용을 리포트를 통해 확인할 수 있어요.
 
+<br>
 
 ### ⌛ 타임라인
 <img src="https://user-images.githubusercontent.com/49026286/202906189-e0fcc9c0-6187-4199-bbe7-ab8a1c0e4872.png" width="300" height="610"/>
 <img src="https://user-images.githubusercontent.com/49026286/202933701-c05e504a-9d1d-4491-95cc-faefd2954f0c.jpg" width="300" height="610"/>
 
 다른 사람들과 공부한 내용을 공유할 수 있어요.
+
+<br>
 
 ### 📊 통계
 <img src="https://user-images.githubusercontent.com/49026286/202933789-ed946a7a-5a5d-4f03-a24b-29f4d204e8cb.gif" width="300" height="610"/>
