@@ -123,8 +123,7 @@
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/img_camera_gradient_in_circle_256"
-                                tools:src="@drawable/img_camera_gradient_in_circle_256" />
+                                android:src="@drawable/sdutyplus_logo_text" />
 
                         </FrameLayout>
 

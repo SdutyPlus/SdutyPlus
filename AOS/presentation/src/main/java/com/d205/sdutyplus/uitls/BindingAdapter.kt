@@ -1,14 +1,11 @@
 package com.d205.sdutyplus.uitls
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.d205.sdutyplus.R
-import java.util.*
 
 private const val TAG ="BindingAdapter"
 
@@ -17,7 +14,7 @@ fun loadImage(view: ImageView, src: String?){
 
     Glide.with(view.context)
         .load(src)
-        .error(R.drawable.ic_empty_image)
+        .error(R.drawable.sdutyplus_logo_text)
         .into(view)
 }
 
