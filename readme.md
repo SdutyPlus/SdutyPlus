@@ -1,16 +1,19 @@
 <div align="center">
 
-<br>
-<img src="https://user-images.githubusercontent.com/49026286/202903659-84b39720-96f9-4a7c-8ea8-80c8e299ad35.png" width="200" height="200"/>
-<br>
-
 # Sduty+ 
+<img src="https://user-images.githubusercontent.com/49026286/202903659-84b39720-96f9-4a7c-8ea8-80c8e299ad35.png" width="200" height="200"/>
+
+<br/>
 
 **공부 인증 스터디앱**
 <br>
+  <a href="https://play.google.com/store/apps/details?id=com.d205.sdutyplus">
+    <img alt="Get it on Google Play" title="Google Play" src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width="180">
+  </a>
 
 **[1. Explore Front Repository](./AOS)**<br>
 **[2. Explore Back Repository](./Backend)**
+
 
 
 </div>
@@ -66,7 +69,7 @@ https://play.google.com/store/apps/details?id=com.d205.sdutyplus
 ## 시스템 구조도
 <div align="center">
 
-<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="840" height="560"/>
+<img src="https://user-images.githubusercontent.com/49026286/202906377-f1317e67-ebb5-4aef-a444-806d1eee1bab.png" width="720" height="480"/>
 
 </div>
 <br>
@@ -82,6 +85,35 @@ https://play.google.com/store/apps/details?id=com.d205.sdutyplus
 </table>
 
 <br>
+
+## TEAM MEMBER
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/nhee-dev"><img src="https://avatars.githubusercontent.com/nhee-dev" width=80px;" alt=""></td>
+    <td align="center"><a href="https://github.com/forlivd"><img src="https://avatars.githubusercontent.com/forlivd" width=80px;" alt=""></td>
+    <td align="center"><a href="https://github.com/YunsHub"><img src="https://avatars.githubusercontent.com/YunsHub" width=80px;" alt=""></td>
+    <td align="center"><a href="https://github.com/toy9910"><img src="https://avatars.githubusercontent.com/toy9910" width=80px;" alt=""></td>
+    <td align="center"><a href="https://github.com/Sicoree"><img src="https://avatars.githubusercontent.com/Sicoree" width=80px;" alt=""></td>
+    <td align="center"><a href="https://github.com/pmi4202"><img src="https://avatars.githubusercontent.com/pmi4202" width=80px;" alt=""></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/nhee-dev"><sub><b>김남희</b></td>
+    <td align="center"><a href="https://github.com/forlivd"><sub><b>서재형</b></td>
+    <td align="center"><a href="https://github.com/YunsHub"><sub><b>김정윤</b></td>
+    <td align="center"><a href="https://github.com/toy9910"><sub><b>배한용</b></td>
+    <td align="center"><a href="https://github.com/Sicoree"><sub><b>배시현</b></td>
+    <td align="center"><a href="https://github.com/pmi4202"><sub><b>편예린</b></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=Android&logoColor=white"/></td>
+    <td align="center"><img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=Android&logoColor=white"/></td>
+    <td align="center"><img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=Android&logoColor=white"/></td>
+    <td align="center"><img src="https://img.shields.io/badge/Android-3DDC84?style=flat&logo=Android&logoColor=white"/></td>
+    <td align="center"><img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white"/></td>
+    <td align="center"><img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white"/></td>	
+  </tr>  
+</table>
+
 
 ## 규칙
 
