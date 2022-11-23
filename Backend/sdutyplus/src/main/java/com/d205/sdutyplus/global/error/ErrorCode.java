@@ -33,6 +33,7 @@ public enum ErrorCode {
     SUBTASK_NOT_FOUND(400, "T002", "존재하지 않는 서브 테스크입니다."),
     TASK_TIME_DUPLICATE(400, "T003", "해당 시간에 테스크가 이미 존재합니다."),
     SUBTASK_CNT_EXCEEDED_LIMIT(400, "T004", "컨텐츠를 3개 이상 등록할 수 없습니다."),
+    TASK_TIME_NOT_REVERSED(400, "T005", "시작 시간보다 종료 시간이 큰 값이어야 합니다."),
 
     // Feed
     IMAGE_TYPE_NOT_SUPPORT(400, "F001", "지원되지 않는 파일 형식입니다."),
@@ -41,6 +42,7 @@ public enum ErrorCode {
     FEED_SCRAP_NOT_FOUND(400, "F004", "스크랩하지 않은 피드입니다."),
     FEED_LIKE_ALREADY_EXIST(400, "F005", "해당 게시물에 이미 좋아요하였습니다."),
     FEED_LIKE_NOT_FOUND(400, "F006", "좋아요 하지 않은 게시물 입니다."),
+    CAN_NOT_DELETE_FEED(400, "F007", "피드를 삭제할 수 없습니다."),
 
     // Warn
     WARN_USER_ALREADY_EXIST(400, "W001", "이미 신고한 유저입니다."),

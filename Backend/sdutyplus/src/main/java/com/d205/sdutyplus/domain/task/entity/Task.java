@@ -39,11 +39,4 @@ public class Task {
         this.title = title;
     }
 
-    public void updateStartTime(String startTime){
-        this.startTime = TimeFormatter.StringToLocalDateTime(startTime);
-    }
-
-    public void updateEndTime(String endTime){
-        this.endTime = TimeFormatter.StringToLocalDateTime(endTime);
-    }
 }

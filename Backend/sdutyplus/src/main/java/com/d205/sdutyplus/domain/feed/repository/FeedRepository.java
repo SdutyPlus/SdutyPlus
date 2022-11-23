@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FeedRepository extends JpaRepository<Feed, Long>, FeedRepositoryQuerydsl {
-    void deleteAllByWriterSeq(Long userSeq);
     List<Feed> findAllByWriterSeq(Long userSeq);
 }

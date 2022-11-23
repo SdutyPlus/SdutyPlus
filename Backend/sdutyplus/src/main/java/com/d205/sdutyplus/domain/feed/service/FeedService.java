@@ -2,7 +2,8 @@ package com.d205.sdutyplus.domain.feed.service;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedPostDto;
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
-import com.d205.sdutyplus.domain.feed.dto.PagingResultDto;
+import com.d205.sdutyplus.domain.feed.exception.CannotDeleteFeedException;
+import com.d205.sdutyplus.global.dto.PagingResultDto;
 import com.d205.sdutyplus.domain.feed.entity.Feed;
 import com.d205.sdutyplus.domain.feed.entity.FeedLike;
 import com.d205.sdutyplus.domain.feed.repository.FeedLikeRepository;
@@ -23,7 +24,6 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.google.firebase.cloud.StorageClient;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +39,6 @@ import java.util.UUID;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -59,8 +58,7 @@ public class FeedService {
 
     @Transactional
     public void createFeed(FeedPostDto feedPostDto){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
         final String imgUrl = uploadFile(feedPostDto.getImg());
         final Feed feed = Feed.builder()
                 .writer(user)
@@ -73,7 +71,7 @@ public class FeedService {
         final Long userSeq = authUtils.getLoginUserSeq();
 
         final Page<FeedResponseDto> allFeeds = feedRepository.findAllFeedPage(userSeq, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), allFeeds.getTotalPages() - 1, allFeeds.getContent());
         return pagingResultDto;
     }
 
@@ -89,16 +87,15 @@ public class FeedService {
         final Long writerSeq = authUtils.getLoginUserSeq();
 
         final Page<FeedResponseDto> myfeeds = feedRepository.findMyFeedPage(writerSeq, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), myfeeds.getTotalPages() - 1, myfeeds.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), myfeeds.getTotalPages() - 1, myfeeds.getContent());
         return pagingResultDto;
     }
 
     public PagingResultDto getScrapFeeds(Pageable pageable){
-        final Long userSeq = authUtils.getLoginUserSeq();
-        final User user = authUtils.getLoginUser(userSeq);
+        final User user = authUtils.getLoginUser();
 
         final Page<FeedResponseDto> feedPage = feedRepository.findScrapFeedPage(user, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }
 
@@ -109,7 +106,7 @@ public class FeedService {
                 ()->new EntityNotFoundException(JOB_NOT_FOUND)
         );
         final Page<FeedResponseDto> feedPage = feedRepository.findFilterFeedPage(userSeq, job, pageable);
-        final PagingResultDto pagingResultDto = new PagingResultDto<FeedResponseDto>(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
+        final PagingResultDto<FeedResponseDto> pagingResultDto = new PagingResultDto(pageable.getPageNumber(), feedPage.getTotalPages() - 1, feedPage.getContent());
         return pagingResultDto;
     }
 
@@ -117,8 +114,9 @@ public class FeedService {
     public void deleteFeed(Long feedSeq){
         final Long userSeq = authUtils.getLoginUserSeq();
         final Feed feed = getFeed(feedSeq);
-        if(!feed.getWriter().equals(userSeq)){
-            //TODO: 작성자가 아닌 유저가 삭제 시도 시, Exception 처리
+        
+        if(!feed.getWriter().getSeq().equals(userSeq)){
+            throw new CannotDeleteFeedException();
         }
 
         scrapRepository.deleteAllByFeedSeq(feedSeq);
@@ -132,8 +130,8 @@ public class FeedService {
 
     @Transactional
     public void deleteAllFeedByUserSeq(Long userSeq){
-        final List<Feed> myfeeds = feedRepository.findAllByWriterSeq(userSeq);
-        for(Feed feed : myfeeds){
+        final List<Feed> feeds = feedRepository.findAllByWriterSeq(userSeq);
+        for(Feed feed : feeds){
             scrapRepository.deleteAllByFeedSeq(feed.getSeq());
             feedLikeRepository.deleteAllByFeedSeq(feed.getSeq());
             warnFeedRepository.deleteAllByFeedSeq(feed.getSeq());
@@ -146,12 +144,10 @@ public class FeedService {
 
     @Transactional
     public void scrapFeed(Long feedSeq){
-        final Long userSeq = authUtils.getLoginUserSeq();
-
+        final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
 
-        if(scrapRepository.findByUserSeqAndFeedSeq(userSeq, feedSeq).isPresent()){
+        if(scrapRepository.existsByUserSeqAndFeedSeq(user.getSeq(), feedSeq)){
             throw new EntityAlreadyExistException(FEED_SCRAP_ALREADY_EXIST);
         }
 
@@ -160,12 +156,9 @@ public class FeedService {
 
     @Transactional
     public void unscrapFeed(Long feedSeq){
-        final Long userSeq = authUtils.getLoginUserSeq();
-
-        final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
-
-        final Scrap scrap = scrapRepository.findByUserSeqAndFeedSeq(userSeq, feedSeq)
+        final User user = authUtils.getLoginUser();
+        
+        final Scrap scrap = scrapRepository.findByUserSeqAndFeedSeq(user.getSeq(), feedSeq)
                 .orElseThrow(()->new EntityNotFoundException(FEED_SCRAP_NOT_FOUND));
         scrapRepository.delete(scrap);
     }
@@ -177,12 +170,10 @@ public class FeedService {
 
     @Transactional
     public boolean likeFeed(Long feedSeq) {
-        final Long userSeq = authUtils.getLoginUserSeq();
-
+        final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
 
-        if (feedLikeRepository.findByUserAndFeed(user, feed).isPresent()){
+        if (feedLikeRepository.existsByUserSeqAndFeedSeq(user.getSeq(), feedSeq)){
             throw new EntityAlreadyExistException(FEED_LIKE_ALREADY_EXIST);
         }
 
@@ -192,10 +183,8 @@ public class FeedService {
 
     @Transactional
     public boolean unlikeFeed(Long feedSeq) {
-        final Long userSeq = authUtils.getLoginUserSeq();
-
+        final User user = authUtils.getLoginUser();
         final Feed feed = getFeed(feedSeq);
-        final User user = authUtils.getLoginUser(userSeq);
 
         FeedLike feedLike = feedLikeRepository.findByUserAndFeed(user, feed)
                 .orElseThrow(() -> new EntityNotFoundException(FEED_LIKE_NOT_FOUND));
@@ -211,7 +200,6 @@ public class FeedService {
 
     //get & set => private
     private String uploadFile(MultipartFile file){
-        log.debug("업로드할 파일 : "+file);
         final String originFileName = file.getOriginalFilename();
         final UUID uuid = UUID.randomUUID();
         final String fileName = new MD5Generator(originFileName).toString() + "_" + uuid.toString();
@@ -231,7 +219,8 @@ public class FeedService {
         final Bucket bucket = StorageClient.getInstance().bucket(firebaseBucket);
         final String temp[] = imgUrl.split("/o/");
         final String fileName = temp[1].replace("%2F", "/").replace("?alt=media", "");
-        bucket.get(fileName).delete();
+        Blob blob = bucket.get(fileName);
+        if(blob!=null){blob.delete();}
     }
 
     private Feed getFeed(Long seq){

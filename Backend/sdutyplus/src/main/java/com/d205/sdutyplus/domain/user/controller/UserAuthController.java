@@ -1,12 +1,8 @@
 package com.d205.sdutyplus.domain.user.controller;
 
-
-import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.user.dto.UserLoginDto;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
-import com.d205.sdutyplus.domain.user.exception.UserNotLoginException;
 import com.d205.sdutyplus.domain.user.service.UserAuthService;
-import com.d205.sdutyplus.domain.user.service.UserService;
 import com.d205.sdutyplus.global.response.ResponseCode;
 import com.d205.sdutyplus.global.response.ResponseDto;
 import io.swagger.annotations.Api;
@@ -15,15 +11,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
@@ -113,9 +103,9 @@ public class UserAuthController {
     public ResponseEntity<ResponseDto> checkTokenExpiration(){
         boolean success = userAuthService.checkTokenExpiration();
         if (success) {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_SUCCESS, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_SUCCESS, true));
         } else {
-            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_FAIL, success));
+            return ResponseEntity.ok(ResponseDto.of(ResponseCode.CHECK_TOKEN_FAIL, false));
         }
     }
 }

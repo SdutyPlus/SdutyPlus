@@ -63,4 +63,8 @@ public class User {
     @Column(name = "study_time")
     @ColumnDefault("0")
     private Long studyTime;
+
+    @Column(name = "study_percent")
+    @ColumnDefault("0")
+    private Long studyPercent;
 }
