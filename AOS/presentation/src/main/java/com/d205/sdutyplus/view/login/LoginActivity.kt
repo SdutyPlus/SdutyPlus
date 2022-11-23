@@ -41,6 +41,8 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
     private val userPref = UserSharedPreference(this)
 
     override fun init() {
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN    // Hide the status bar.
+
         initPermission()
 
         val jwt = userPref.getStringFromPreference("jwt")
