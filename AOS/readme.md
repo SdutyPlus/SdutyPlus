@@ -15,7 +15,7 @@
 <br>
 
 ## 클린 아키텍처
-
+ <img src = "../assets/img/CleanArchitecture.PNG">
 
 Presentation, Domain, Data의 계층으로 분리하여 관심사를 분리하는 아키텍쳐를 적용하였습니다.
 의존성 주입에 Hilt를 사용하고, Coroutine, Flow, ResultState를 사용하여 데이터를 관리합니다.
