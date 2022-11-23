@@ -16,11 +16,14 @@
 
 ## 클린 아키텍처
 
+
 Presentation, Domain, Data의 계층으로 분리하여 관심사를 분리하는 아키텍쳐를 적용하였습니다.
 의존성 주입에 Hilt를 사용하고, Coroutine, Flow, ResultState를 사용하여 데이터를 관리합니다.
 
 <br>
+
 ## MVVM
+
 MVVM 디자인 패턴을 적용하여 View와 Data 간의 역할과 독립성을 확보하였습니다.
 
 <br>
