@@ -24,6 +24,10 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
+//jasypt
+test{
+	systemProperty "jasypt.encryptor.password", System.getProperties().get("jasypt.encryptor.password")
+}
 
 repositories {
 	mavenCentral()
@@ -71,6 +75,9 @@ dependencies {
 	//jsp
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'javax.servlet:jstl'
+
+	//jasypt
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.4'
 }
 
 //querydsl start
