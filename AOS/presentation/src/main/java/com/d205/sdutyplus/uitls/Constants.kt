@@ -2,7 +2,7 @@ package com.d205.sdutyplus.uitls
 
 import com.d205.domain.model.common.JobHashtag
 
-const val SERVER_URL = "https://d205.kro.kr/api/"
+
 
 const val COMMON_JOIN = 0
 const val KAKAO_JOIN = 1
