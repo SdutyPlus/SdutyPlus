@@ -10,7 +10,7 @@
 
 **[1. Explore Front Repository](./AOS)**<br>
 **[2. Explore Back Repository](./Backend)**
-te
+t
 
 </div>
 
