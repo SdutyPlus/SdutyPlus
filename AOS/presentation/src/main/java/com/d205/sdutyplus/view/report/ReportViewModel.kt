@@ -75,7 +75,6 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
-                    Log.d(TAG, "getTaskList: $it")
                     _remoteTask.value = it
                     if (it.data.isEmpty()) {
                         _taskCheck.postValue(false)
@@ -116,9 +115,7 @@ class ReportViewModel @Inject constructor(
 
     fun addTask(task: CurrentTaskDto2) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d(TAG, "addTask: ${task}")
             addTaskUseCase(task).collect { isSuccess ->
-                Log.d(TAG, "addTask: ${isSuccess}")
                 if(isSuccess) {
                     _addTaskCallBack.postValue(200)
                 }else {
