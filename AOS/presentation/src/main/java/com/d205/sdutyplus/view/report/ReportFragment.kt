@@ -54,7 +54,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
 
     private fun initViewModelCallback() {
         reportViewModel.taskCheck.observe(viewLifecycleOwner) {
-            Log.d(TAG, "initViewModelCallback11: $it")
             if (it) {
                 binding.apply {
                     tvNotice.visibility = View.GONE
@@ -203,7 +202,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         val week = weekCalendarView.findFirstVisibleWeek() ?: return
         val firstDate = week.days.first().date
         val lastDate = week.days.last().date
-        Log.d(TAG, "updateTitle: ${binding.tvSelectedDate.text}")
         if (firstDate.yearMonth == lastDate.yearMonth) {
             binding.exOneYearText.text = firstDate.year.toString()
             binding.exOneMonthText.text = firstDate.month.displayText(short = false) +

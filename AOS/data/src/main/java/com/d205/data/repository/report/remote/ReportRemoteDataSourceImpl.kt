@@ -17,7 +17,6 @@ const val TAG = "ReportRemoteDataSourceImpl"
 class ReportRemoteDataSourceImpl @Inject constructor(
     private val reportApi: ReportApi
 ): ReportRemoteDataSource {
-    @SuppressLint("LongLogTag")
     override fun getReport(date: String): Flow<BaseResponse<ReportResponse>> = flow {
         emit(reportApi.getReport(date))
     }
