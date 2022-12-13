@@ -76,8 +76,9 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation 'javax.servlet:jstl'
 
-	//jasypt
-	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.4'
+	//Jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+	implementation 'org.bouncycastle:bcprov-jdk15on:1.61'
 }
 
 //querydsl start
