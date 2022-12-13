@@ -97,10 +97,6 @@ class TimerViewModel @Inject constructor(
                     _todayTotalStudyTime.postValue(it.data!!)
                 }
             }
-//            val result = getTodayTotalStudyTimeUsecase.getTodayTotalStudyTime()
-//            if(result != "error") {
-//                _todayTotalStudyTime.postValue(result)
-//            }
         }
     }
 
@@ -147,13 +143,9 @@ class TimerViewModel @Inject constructor(
             // 00:00:00을 초로 변환
 
             var token = totalTime.split(':')
-            Log.d("slice", "t0 ${token[0]}")
-            Log.d("slice", "t1 ${token[1]}")
-            Log.d("slice", "t2 ${token[2]}")
 
             // 초로 변환 후 + 1
             var seconds = token[0].toInt() * 3600 + token[1].toInt() * 60 + token[2].toInt()
-            Log.d("slice", "seconds ${seconds}")
             seconds = seconds + _timerTime.value!!
 
             // 다시 00:00:00으로 변환 후 입력
