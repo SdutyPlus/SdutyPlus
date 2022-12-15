@@ -79,6 +79,7 @@ class TimerViewModel @Inject constructor(
     }
 
 
+    // flow, base response, result state와의 비교용 으로 기존 방식으로 구현된 코드
     fun getCurrentTime() {
         viewModelScope.launch(defaultDispatcher){
             var result = getCurrentTimeUsecase()
