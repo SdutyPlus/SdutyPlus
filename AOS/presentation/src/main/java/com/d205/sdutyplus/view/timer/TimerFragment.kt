@@ -28,7 +28,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun initView() {
-        mainViewModel.displayBottomNav(true)
+        displayBottomNav(true)
 
         setTodayInfo()
         initTimer()
