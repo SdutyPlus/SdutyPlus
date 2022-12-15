@@ -37,7 +37,7 @@ import java.time.format.DateTimeFormatter
 class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_report),
     TaskAdapterListener {
     private val reportViewModel: ReportViewModel by activityViewModels()
-    private val weekCalendarView: WeekCalendarView get() = binding.WeekCalendar
+    private val weekCalendarView: WeekCalendarView get() = binding.calendarWeek
     private val taskAdapter = TaskAdapter(this)
     private val todayDate = LocalDate.now()
 
@@ -153,7 +153,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     ) {
         class WeekDayViewContainer(view: View) : ViewContainer(view) {
             lateinit var day: WeekDay
-            val textView = Example1CalendarDayBinding.bind(view).exOneDayText
+            val textView = Example1CalendarDayBinding.bind(view).tvDay
 
             init {
                 view.setOnClickListener {
@@ -203,19 +203,19 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         val firstDate = week.days.first().date
         val lastDate = week.days.last().date
         if (firstDate.yearMonth == lastDate.yearMonth) {
-            binding.exOneYearText.text = firstDate.year.toString()
-            binding.exOneMonthText.text = firstDate.month.displayText(short = false) +
+            binding.tvYear.text = firstDate.year.toString()
+            binding.tvMonth.text = firstDate.month.displayText(short = false) +
                     " " + binding.tvSelectedDate.text.substring(8, 10)
         }
         else {
-            binding.exOneMonthText.text =
+            binding.tvMonth.text =
                 firstDate.month.displayText(short = false) +
                         " " + binding.tvSelectedDate.text.substring(8, 10)
             //+ " - " + lastDate.month.displayText(short = false)
             if (firstDate.year == lastDate.year) {
-                binding.exOneYearText.text = firstDate.year.toString()
+                binding.tvYear.text = firstDate.year.toString()
             } else {
-                binding.exOneYearText.text = "${firstDate.year} - ${lastDate.year}"
+                binding.tvYear.text = "${firstDate.year} - ${lastDate.year}"
             }
         }
     }
