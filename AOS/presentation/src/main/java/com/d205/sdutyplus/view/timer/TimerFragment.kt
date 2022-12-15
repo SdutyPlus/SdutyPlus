@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.view.timer
 
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -29,7 +30,6 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
     private fun initView() {
         displayBottomNav(true)
-
         setTodayInfo()
         initTimer()
         initObserver()
@@ -102,10 +102,12 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
             isTimerRunning.observe(viewLifecycleOwner) { isTimerRunning ->
                 if(isTimerRunning) {
+                    activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     binding.ivTimer.setImageResource(R.drawable.ic_stop) // todo refactor
                     binding.animationView.visibility = View.VISIBLE
                     binding.animationView.playAnimation()
                 } else {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     binding.ivTimer.setImageResource(R.drawable.ic_play)
                     binding.animationView.visibility = View.GONE
                 }
