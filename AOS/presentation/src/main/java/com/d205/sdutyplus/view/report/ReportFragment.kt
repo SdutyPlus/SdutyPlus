@@ -14,8 +14,8 @@ import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentReportBinding
 import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
-import com.d205.sdutyplus.uitls.displayText
-import com.d205.sdutyplus.uitls.setTextColorRes
+import com.d205.sdutyplus.utills.displayText
+import com.d205.sdutyplus.utills.setTextColorRes
 import com.d205.sdutyplus.view.report.dialog.CustomTaskRegistDialog
 import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import com.kizitonwose.calendar.core.*

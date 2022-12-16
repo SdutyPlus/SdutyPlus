@@ -9,9 +9,9 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogCropSelectBinding
-import com.d205.sdutyplus.uitls.FLAG_CAMERA
-import com.d205.sdutyplus.uitls.FLAG_GALLERY
-import com.d205.sdutyplus.uitls.FLAG_NO_SELECT
+import com.d205.sdutyplus.utills.FLAG_CAMERA
+import com.d205.sdutyplus.utills.FLAG_GALLERY
+import com.d205.sdutyplus.utills.FLAG_NO_SELECT
 
 private const val TAG ="CropSelectDialog"
 class CropSelectDialog(val activity: Activity) : DialogFragment() {

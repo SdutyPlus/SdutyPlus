@@ -11,8 +11,8 @@ import androidx.core.app.ActivityCompat
 import com.canhub.cropper.CropImage
 import com.canhub.cropper.CropImageView
 import com.d205.sdutyplus.databinding.ActivityCropImageBinding
-import com.d205.sdutyplus.uitls.NOT_PROFILE
-import com.d205.sdutyplus.uitls.PROFILE
+import com.d205.sdutyplus.utills.NOT_PROFILE
+import com.d205.sdutyplus.utills.PROFILE
 
 internal class CropImageActivity : CropActivity() {
 

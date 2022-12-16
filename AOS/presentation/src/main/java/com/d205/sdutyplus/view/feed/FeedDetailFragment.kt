@@ -8,7 +8,7 @@ import com.d205.domain.model.feed.Feed
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedDetailBinding
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utills.showToast
 import com.d205.sdutyplus.view.feed.dialog.FeedDeleteDialog
 import com.d205.sdutyplus.view.feed.dialog.FeedDeleteDialogListener
 import com.d205.sdutyplus.view.feed.dialog.FeedReportDialog
