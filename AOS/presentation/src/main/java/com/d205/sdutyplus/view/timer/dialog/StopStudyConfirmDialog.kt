@@ -7,13 +7,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogStopStudyConfirmBinding
-import com.d205.sdutyplus.uitls.getDeviceSize
+import com.d205.sdutyplus.utills.getDeviceSize
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.concurrent.timer
 
 
 private const val TAG = "StopStudyConfirmDialog"

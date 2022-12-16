@@ -15,8 +15,8 @@ import com.d205.domain.model.user.UserDto
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentEditProfileBinding
-import com.d205.sdutyplus.uitls.PROFILE
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utills.PROFILE
+import com.d205.sdutyplus.utills.showToast
 import com.d205.sdutyplus.view.common.CropImageActivity
 import com.d205.sdutyplus.view.common.LoadingDialogFragment
 import com.d205.sdutyplus.view.join.JoinViewModel

@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.d205.domain.model.feed.Feed
-import com.d205.domain.model.feed.HomeFeed
 import com.d205.domain.usecase.feed.GetHomeFeedsUseCase
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.uitls.HOME_ALL_STORY
+import com.d205.sdutyplus.utills.HOME_ALL_STORY
 
 
 private const val TAG ="HomeFeedDataSource"

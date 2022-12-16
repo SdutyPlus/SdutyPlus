@@ -1,7 +1,6 @@
 package com.d205.sdutyplus.view.report
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,18 +11,13 @@ import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.report.*
 import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.uitls.SingleLiveEvent
-import com.d205.sdutyplus.uitls.convertTimeStringToDate
+import com.d205.sdutyplus.utills.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 const val TAG = "ReportViewModel"

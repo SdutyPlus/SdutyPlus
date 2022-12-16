@@ -4,16 +4,13 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.SeekBar
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.databinding.adapters.SeekBarBindingAdapter.setOnSeekBarChangeListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentPomodoroBinding
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utills.showToast
 import com.d205.sdutyplus.view.pomodoro.viewmodel.PomodoroViewModel
 
 const val WORKING_TIME = 25 * 60 * 1000L

@@ -6,17 +6,16 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.d205.sdutyplus.R
-import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentCalendarBottomSheetBinding
-import com.d205.sdutyplus.uitls.displayText
-import com.d205.sdutyplus.uitls.setTextColorRes
+import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
+import com.d205.sdutyplus.utills.displayText
+import com.d205.sdutyplus.utills.setTextColorRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,7 +32,7 @@ import java.time.YearMonth
 @RequiresApi(Build.VERSION_CODES.O)
 class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCalendarBottomSheetBinding
-    private val monthCalendarView: CalendarView get() = binding.exOneCalendar
+    private val monthCalendarView: CalendarView get() = binding.calendarMonth
     private val todayDate = LocalDate.now()
     private lateinit var listener: dayClickListener
 
@@ -56,15 +55,13 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //val dialog = super.onCreateDialog(savedInstanceState)
 
-        val dialog = BottomSheetDialog(requireContext(),R.style.NewDialog)
+        val dialog = BottomSheetDialog(requireContext(), R.style.NewDialog)
         dialog.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             setupRatio(bottomSheetDialog)
         }
         return dialog
-         //return BottomSheetDialog(requireContext(),R.style.NewDialog)
     }
 
     private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
@@ -115,7 +112,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     ) {
         class DayViewContainer(view: View) : ViewContainer(view) {
             lateinit var day: CalendarDay
-            val textView = Example1CalendarDayBinding.bind(view).exOneDayText
+            val textView = ResourceCalendarDayBinding.bind(view).tvDay
 
             init {
                 view.setOnClickListener {
@@ -186,8 +183,8 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     private fun updateTitle() {
         val month = monthCalendarView.findFirstVisibleMonth()?.yearMonth ?: return
         binding.apply {
-            exOneYearText.text = month.year.toString()
-            exOneMonthText.text = month.month.displayText(short = false)
+            tvYear.text = month.year.toString()
+            tvMonth.text = month.month.displayText(short = false)
         }
     }
 

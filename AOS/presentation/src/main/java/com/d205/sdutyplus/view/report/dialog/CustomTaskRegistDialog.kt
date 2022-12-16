@@ -11,12 +11,11 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.sdutyplus.databinding.DialogCustomTaskRegistBinding
-import com.d205.sdutyplus.uitls.getDeviceSize
+import com.d205.sdutyplus.utills.getDeviceSize
 import com.d205.sdutyplus.view.report.ReportViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate

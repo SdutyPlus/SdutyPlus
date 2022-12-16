@@ -6,9 +6,9 @@ import androidx.lifecycle.*
 import androidx.paging.*
 import com.d205.domain.usecase.feed.*
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.uitls.ALL_STORY
-import com.d205.sdutyplus.uitls.HOME_ALL_STORY
-import com.d205.sdutyplus.uitls.SCRAP_STORY
+import com.d205.sdutyplus.utills.ALL_STORY
+import com.d205.sdutyplus.utills.HOME_ALL_STORY
+import com.d205.sdutyplus.utills.SCRAP_STORY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
