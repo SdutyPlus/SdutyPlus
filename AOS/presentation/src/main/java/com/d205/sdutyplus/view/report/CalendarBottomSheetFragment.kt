@@ -12,8 +12,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.d205.sdutyplus.R
-import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentCalendarBottomSheetBinding
+import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
 import com.d205.sdutyplus.uitls.displayText
 import com.d205.sdutyplus.uitls.setTextColorRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -112,7 +112,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     ) {
         class DayViewContainer(view: View) : ViewContainer(view) {
             lateinit var day: CalendarDay
-            val textView = Example1CalendarDayBinding.bind(view).tvDay
+            val textView = ResourceCalendarDayBinding.bind(view).tvDay
 
             init {
                 view.setOnClickListener {

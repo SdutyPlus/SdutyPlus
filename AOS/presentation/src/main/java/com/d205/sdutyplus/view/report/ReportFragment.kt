@@ -3,29 +3,25 @@ package com.d205.sdutyplus.view.report
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
-import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentReportBinding
+import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
 import com.d205.sdutyplus.uitls.displayText
 import com.d205.sdutyplus.uitls.setTextColorRes
 import com.d205.sdutyplus.view.report.dialog.CustomTaskRegistDialog
-import com.d205.sdutyplus.view.MainViewModel
 import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.ViewContainer
 import com.kizitonwose.calendar.view.WeekCalendarView
 import com.kizitonwose.calendar.view.WeekDayBinder
-import com.navercorp.nid.oauth.NidOAuthPreferencesManager.code
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -70,13 +66,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         }
 
         reportViewModel.updateTaskSuccess.observe(viewLifecycleOwner) {
-            if(it) {
+            if (it) {
                 initView()
             }
         }
-        
+
         reportViewModel.deleteTaskSuccess.observe(viewLifecycleOwner) {
-            if(it) {
+            if (it) {
                 initView()
             }
         }
@@ -86,7 +82,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
                 Toast.makeText(requireContext(), "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
                 reportViewModel.callBackReset()
                 initView()
-            } else if (code == 400){
+            } else if (code == 400) {
                 reportViewModel.callBackReset()
                 Toast.makeText(requireContext(), "이미 중복된 시간입니다.", Toast.LENGTH_SHORT).show()
             }
@@ -153,11 +149,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     ) {
         class WeekDayViewContainer(view: View) : ViewContainer(view) {
             lateinit var day: WeekDay
-            val textView = Example1CalendarDayBinding.bind(view).tvDay
+            val textView = ResourceCalendarDayBinding.bind(view).tvDay
 
             init {
                 view.setOnClickListener {
-                    if(day.position == WeekDayPosition.RangeDate){
+                    if (day.position == WeekDayPosition.RangeDate) {
                         dateClicked(date = day.date)
                     }
                 }
@@ -186,7 +182,12 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         }
 
         if (currentMonth != null) {
-            weekCalendarView.scrollToWeek(LocalDate.parse(binding.tvSelectedDate.text, DateTimeFormatter.ISO_DATE))
+            weekCalendarView.scrollToWeek(
+                LocalDate.parse(
+                    binding.tvSelectedDate.text,
+                    DateTimeFormatter.ISO_DATE
+                )
+            )
         }
     }
 
@@ -206,8 +207,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
             binding.tvYear.text = firstDate.year.toString()
             binding.tvMonth.text = firstDate.month.displayText(short = false) +
                     " " + binding.tvSelectedDate.text.substring(8, 10)
-        }
-        else {
+        } else {
             binding.tvMonth.text =
                 firstDate.month.displayText(short = false) +
                         " " + binding.tvSelectedDate.text.substring(8, 10)

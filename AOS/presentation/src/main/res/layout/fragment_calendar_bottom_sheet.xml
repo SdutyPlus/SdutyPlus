@@ -109,7 +109,7 @@
                 android:id="@+id/calendar_month"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cv_dayViewResource="@layout/example_1_calendar_day" />
+                app:cv_dayViewResource="@layout/resource_calendar_day" />
 
 
         </FrameLayout>
