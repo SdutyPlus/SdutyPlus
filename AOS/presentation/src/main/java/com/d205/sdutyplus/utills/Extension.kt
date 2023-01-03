@@ -1,4 +1,4 @@
-package com.d205.sdutyplus.uitls
+package com.d205.sdutyplus.utills
 
 
 import android.content.Context
@@ -12,10 +12,7 @@ import android.graphics.Point
 import android.view.WindowInsets
 import android.view.WindowManager
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.Month
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
 

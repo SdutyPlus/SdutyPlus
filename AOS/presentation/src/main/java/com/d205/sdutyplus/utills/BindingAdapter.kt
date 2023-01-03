@@ -1,4 +1,4 @@
-package com.d205.sdutyplus.uitls
+package com.d205.sdutyplus.utills
 
 import android.annotation.SuppressLint
 import android.widget.ImageView

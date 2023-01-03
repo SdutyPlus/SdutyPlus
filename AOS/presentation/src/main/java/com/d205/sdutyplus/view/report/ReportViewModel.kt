@@ -1,7 +1,6 @@
 package com.d205.sdutyplus.view.report
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,18 +11,13 @@ import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.report.*
 import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.uitls.SingleLiveEvent
-import com.d205.sdutyplus.uitls.convertTimeStringToDate
+import com.d205.sdutyplus.utills.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 const val TAG = "ReportViewModel"
@@ -75,7 +69,6 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
-                    Log.d(TAG, "getTaskList: $it")
                     _remoteTask.value = it
                     if (it.data.isEmpty()) {
                         _taskCheck.postValue(false)
@@ -116,9 +109,7 @@ class ReportViewModel @Inject constructor(
 
     fun addTask(task: CurrentTaskDto2) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d(TAG, "addTask: ${task}")
             addTaskUseCase(task).collect { isSuccess ->
-                Log.d(TAG, "addTask: ${isSuccess}")
                 if(isSuccess) {
                     _addTaskCallBack.postValue(200)
                 }else {

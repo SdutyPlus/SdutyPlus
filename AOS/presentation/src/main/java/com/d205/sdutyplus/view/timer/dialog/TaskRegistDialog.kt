@@ -9,21 +9,12 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.d205.domain.model.report.SubTask
-import com.d205.domain.model.report.Task
-import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogTaskRegistBinding
-import com.d205.sdutyplus.uitls.getDeviceSize
+import com.d205.sdutyplus.utills.getDeviceSize
 
-import com.d205.sdutyplus.view.MainViewModel
-import com.d205.sdutyplus.view.report.dialog.ConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
-import java.util.*
-import kotlin.concurrent.timer
 
 private const val TAG = "TaskDialog"
 

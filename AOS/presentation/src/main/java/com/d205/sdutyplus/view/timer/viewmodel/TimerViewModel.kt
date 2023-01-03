@@ -6,13 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.SubTask
-import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.timer.*
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.uitls.convertTimeDateToString
-import com.d205.sdutyplus.uitls.convertTimeStringToDate
-import com.d205.sdutyplus.uitls.getTodayDate
+import com.d205.sdutyplus.utills.convertTimeDateToString
+import com.d205.sdutyplus.utills.convertTimeStringToDate
+import com.d205.sdutyplus.utills.getTodayDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

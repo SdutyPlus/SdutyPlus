@@ -4,19 +4,14 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentTimerBinding
-import com.d205.sdutyplus.uitls.convertTimeDateToString
-import com.d205.sdutyplus.uitls.getTodayDate
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utills.showToast
 import com.d205.sdutyplus.view.timer.dialog.StopStudyConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.concurrent.timer
 
 
 private const val TAG = "TimerFragment"
