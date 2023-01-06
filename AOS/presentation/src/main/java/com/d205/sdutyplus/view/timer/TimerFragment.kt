@@ -41,7 +41,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun setTodayTotalStudyTime() {
-        binding.tvTotalTime.text = "00:00:00"
+        binding.tvTotalTime.text = getString(R.string.total_time_initial)
         timerViewModel.getTodayTotalStudyTime()
     }
 
@@ -71,7 +71,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     private fun startTimer() {
         timerViewModel.startTimer()
         timerViewModel.saveStartTime()
-        Toast.makeText(requireActivity(), "공부 시간 측정을 시작합니다!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity(), getString(R.string.timer_start_alert), Toast.LENGTH_SHORT).show()
     }
 
     private fun pauseTimer() {
@@ -130,7 +130,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     private fun initBtn() {
         binding.ivPomodoro.setOnClickListener {
             if(timerViewModel.isTimerRunning.value == true) {
-                requireContext().showToast("기록 중에는 타이머를 변경할 수 없습니다.")
+                requireContext().showToast(getString(R.string.disturb_swipe_timer_alert))
                 return@setOnClickListener
             }
 

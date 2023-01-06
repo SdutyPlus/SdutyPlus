@@ -33,9 +33,9 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         requireActivity()?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if(currentCountDownTimer != null) {
-                    requireContext().showToast("진행 중에는 돌아갈 수 없습니다!")
+                    requireContext().showToast(getString(R.string.disturb_swipe_timer_alert))
                 } else {
-                    requireContext().showToast("백 버튼을 이용해주세요!")
+                    requireContext().showToast(getString(R.string.request_using_back_alert))
                 }
             }
         })
@@ -63,7 +63,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
                 binding.animationView.playAnimation()
 
                 binding.tvPomoCount.visibility = View.VISIBLE
-                binding.tvPomoCount.text = "$pomoCount Complete!"
+                binding.tvPomoCount.text = "$pomoCount + Complete!"
                 startCountDown()
             }
 //
@@ -85,7 +85,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
 
             ivBack.setOnClickListener {
                 if(currentCountDownTimer != null) {
-                    requireContext().showToast("진행 중에는 돌아갈 수 없습니다!")
+                    requireContext().showToast(getString(R.string.disturb_swipe_timer_alert))
                     return@setOnClickListener
                 }
                 findNavController().popBackStack()
@@ -110,7 +110,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         currentCountDownTimer?.cancel()
         currentCountDownTimer = null
 
-        requireContext().showToast("뽀모도로가 종료되었습니다.")
+        requireContext().showToast(getString(R.string.end_pomodoro_alert))
 
         updateRemainTime(WORKING_TIME)
         pomoCount = 0
