@@ -146,13 +146,13 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
             pomoCount ++
             binding.tvPomoCount.text = "$pomoCount Complete!"
             if(pomoCount < 4) {
-                requireContext()!!.showToast("휴식 시간이에요!")
+                requireContext()!!.showToast(getString(R.string.rest_time_alert))
                 updateRemainTime(REST_TIME)
                 currentCountDownTimer = null
                 currentCountDownTimer = createCountDownTimer(REST_TIME)
 
             } else {
-                requireContext()!!.showToast("30분 휴식 후 시작하세요!")
+                requireContext()!!.showToast(getString(R.string.last_rest_time_alert))
                 updateRemainTime(30 * 60 * 1000)
                 currentCountDownTimer = null
                 currentCountDownTimer = createCountDownTimer(30 * 60 * 1000)
@@ -167,7 +167,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
 
         } else {
             if(pomoCount < 4) {
-                requireContext()!!.showToast("진행 시간이에요!")
+                requireContext()!!.showToast(getString(R.string.working_time_alert))
                 updateRemainTime(WORKING_TIME)
 
                 binding.animationView.visibility = View.VISIBLE
@@ -179,7 +179,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
                 pomoCount = 0
                 updateRemainTime(WORKING_TIME)
                 binding.layoutPomodoro.setBackgroundColor(Color.parseColor("#2E2E2E"))
-                requireContext()!!.showToast("새로운 뽀모도로를 시작하려면\nStart를 클릭하세요!")
+                requireContext()!!.showToast(getString(R.string.request_pomodoro_create_alert))
 
                 binding.apply {
                     btnPomodoroStart.visibility = View.VISIBLE
