@@ -6,8 +6,6 @@ import android.os.CountDownTimer
 import android.view.View
 
 import android.view.WindowManager
-import android.widget.SeekBar
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -19,6 +17,7 @@ import com.d205.sdutyplus.view.pomodoro.viewmodel.PomodoroViewModel
 
 const val WORKING_TIME = 25 * 60 * 1000L
 const val REST_TIME = 5 * 60 * 1000L
+const val MAX_COUNT = 4
 class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_pomodoro) {
 
     private val pomodoroViewModel: PomodoroViewModel by activityViewModels()
@@ -93,8 +92,6 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         }
     }
 
-
-
     @SuppressLint("SetTextI18n")
     private fun updateRemainTime(remainMillis: Long) {
         val remainSeconds = remainMillis / 1000
@@ -145,7 +142,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
         if(isWorking) {
             pomoCount ++
             binding.tvPomoCount.text = "$pomoCount Complete!"
-            if(pomoCount < 4) {
+            if(pomoCount < MAX_COUNT) {
                 requireContext()!!.showToast(getString(R.string.rest_time_alert))
                 updateRemainTime(REST_TIME)
                 currentCountDownTimer = null
@@ -166,7 +163,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
             binding.animationView.playAnimation()
 
         } else {
-            if(pomoCount < 4) {
+            if(pomoCount < MAX_COUNT) {
                 requireContext()!!.showToast(getString(R.string.working_time_alert))
                 updateRemainTime(WORKING_TIME)
 
