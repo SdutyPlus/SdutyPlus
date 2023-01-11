@@ -1,6 +1,7 @@
 package com.d205.data.repository.timer
 
 import android.util.Log
+import com.d205.data.mapper.mapperCurrentTimeResponseToCurrentTime
 import com.d205.data.repository.timer.local.TimerLocalDataSource
 import com.d205.data.repository.timer.remote.TimerRemoteDataSource
 import com.d205.domain.model.timer.CurrentTaskDto2
@@ -35,13 +36,13 @@ class TimerRepositoryImpl @Inject constructor(
     }
 
 
-    // flow, base response, reusult state와의 비교용 으로 기존 방식으로 구현된 코드
+    // flow, base response, result state와의 비교용 으로 기존 방식으로 구현된 코드
     override suspend fun getCurrentTime(): String { // remote 통신 실패 시 local 시간 반환
         var result  = timerRemoteDataSource.getRealTime()
         if(result != "error") {
-            return result
+            return mapperCurrentTimeResponseToCurrentTime(result)
         } else {
-            return timerLocalDatasource.getLocalCurrentTime()
+            return mapperCurrentTimeResponseToCurrentTime(timerLocalDatasource.getLocalCurrentTime())
         }
     }
 

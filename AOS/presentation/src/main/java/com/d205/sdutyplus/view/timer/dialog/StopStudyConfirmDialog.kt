@@ -94,10 +94,6 @@ class StopStudyConfirmDialog(context: Context) : DialogFragment() {
         timerViewModel.startResumeCountDown()
     }
 
-
-
-    
-    
     private fun initView() {
         binding.apply {
             btnContinue.setOnClickListener {
@@ -114,15 +110,6 @@ class StopStudyConfirmDialog(context: Context) : DialogFragment() {
                         "TaskRegistDialog"
                     )
                 }
-//
-//                Toast.makeText(requireActivity(), "측정을 종료 하였습니다!", Toast.LENGTH_SHORT).show()
-//
-//                timerViewModel.resetDelayTimer()
-//                timerViewModel.stopTimer(mainViewModel.user.value!!.seq)
-                /*
-                timerViewModel.stopTimer()
-                timerViewModel.timerTimeReset()
-                 */
                 timerViewModel.stopTimer()
                 dismiss()
 
