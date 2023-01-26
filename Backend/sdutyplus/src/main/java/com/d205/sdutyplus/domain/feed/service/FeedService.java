@@ -46,7 +46,7 @@ public class FeedService {
 
     @Value("${app.firebase-bucket}")
     private String firebaseBucket;
-    private final String UPLOADURL = "feed/";
+    private final String UPLOADURL = "dev/feed/";
     private final AuthUtils authUtils;
     private final FeedRepository feedRepository;
     private final ScrapRepository scrapRepository;
