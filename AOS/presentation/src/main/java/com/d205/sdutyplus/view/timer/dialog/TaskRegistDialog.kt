@@ -79,9 +79,6 @@ class TaskRegistDialog : DialogFragment() {
                 timerViewModel.timerTimeReset()
                 dismiss()
             }
-//            else if(code == 400) { // todo 이거 안뜨게 하기
-//                Toast.makeText(requireContext(),"기록 저장 실패",Toast.LENGTH_SHORT).show()
-//            }
         }
         timerViewModel.stopTaskSaveCallback.observe(viewLifecycleOwner) { isStop ->
             if(isStop) {
@@ -169,19 +166,15 @@ class TaskRegistDialog : DialogFragment() {
                         contentStrings.add(contentEditTexts[index].text.toString())
                     }
                 }
-
-                Log.d("remove","기존 내용 $contentStrings")
-
+                
                 // remove 한 index의 내용을 삭제
                 contentStrings.removeAt(index)
-                Log.d("remove","삭제 인덱스 $index 내용 $contentStrings")
 
                 // 가장 뒤에서 visible인 contentView를 Gone 처리
                for((index,contentView) in contentViews.reversed().withIndex()) {
                     if(contentView.visibility == View.VISIBLE) {
                         contentView.visibility = View.GONE
                         contentEditTexts[2-index].setText("")
-                        Log.d("remove","삭제된 et $index 내용 ${contentEditTexts[index].text.toString()}")
                         break
                     }
                 }
@@ -194,7 +187,6 @@ class TaskRegistDialog : DialogFragment() {
                         count ++
                     }
                 }
-                Log.d("remove","남은 카운트 $count")
 
                 //Strings 배열 초기화
                 contentStrings.clear()
