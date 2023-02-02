@@ -26,7 +26,7 @@ fun convertTimeDateToString(date: Date, format: String = "yyyy년 M월 d일"): S
 }
 
 fun getTodayDateString(): String {
-    val simpleDateFormat = SimpleDateFormat("yy.M.dd", Locale("ko", "KR"))
+    val simpleDateFormat = SimpleDateFormat("yy.MM.dd", Locale("ko", "KR"))
     val currentDate = simpleDateFormat.format(Date())
 
     return currentDate
