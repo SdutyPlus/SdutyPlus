@@ -170,6 +170,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
                     content
                 )
                 reportViewModel.updateTask(task.seq, updateTask)
+                Log.d(TAG, "modifyTaskaa: ${updateTask}")
                 dismiss()
             }
 
