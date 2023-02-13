@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.view.report.dialog
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
@@ -87,6 +89,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
                 contentEditTexts[i].isEnabled = false
             }
 
+            // Log.d(TAG, "initInfoView: ${task.startTime} , ${task.endTime}")
             tvStartTime.text = task.startTime.substring(11, 19)
             tvEndTime.text = task.endTime.substring(11, 19)
             etTitle.setText(task.title)
@@ -126,6 +129,14 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
     private fun modifyTask() {
         binding.apply {
+            tvStartTime.setOnClickListener {
+                startTimePickerDialog()
+            }
+
+            tvEndTime.setOnClickListener {
+                endTimePickerDialog()
+            }
+
             etTitle.isEnabled = true
 
             for(i in 0 until 3){
@@ -164,8 +175,8 @@ class TaskDialog(private val task: Task) : DialogFragment() {
                 }
                 val updateTask = Task(
                     task.seq,
-                    task.startTime,
-                    task.endTime,
+                    task.startTime.replace(task.startTime.substring(11, 16), tvStartTime.text.toString()),
+                    task.endTime.replace(task.endTime.substring(11, 16), tvEndTime.text.toString()),
                     etTitle.text.toString(),
                     content
                 )
@@ -175,6 +186,47 @@ class TaskDialog(private val task: Task) : DialogFragment() {
             }
 
         }
+    }
+
+    private fun startTimePickerDialog() {
+        val timePickerDialog = CustomTimePickerDialog(
+            requireContext(),
+            binding.tvStartTime.text.toString(),
+            object : CustomTimePickerDialogClickListener {
+                override fun onPositiveClick(hour: String, minute: String) {
+                    if (hour != "" && minute != "") {
+                        binding.tvStartTime.text = "${hour}:${minute}"
+                    }
+
+                }
+            })
+        timePickerDialog.show(parentFragmentManager, "TimePicker")
+    }
+
+    private fun endTimePickerDialog() {
+        val timePickerDialog = CustomTimePickerDialog(
+            requireContext(),
+            binding.tvEndTime.text.toString(),
+            object : CustomTimePickerDialogClickListener {
+                @SuppressLint("SetTextI18n")
+                override fun onPositiveClick(hour: String, minute: String) {
+                    if (hour != "" && minute != "") {
+                        if (hour.toInt() >= binding.tvStartTime.text.substring(0, 2).toInt() &&
+                            (minute.toInt() > binding.tvStartTime.text.substring(3, 5).toInt() ||
+                                    hour.toInt() > binding.tvStartTime.text.substring(0, 2).toInt())
+                        ) {
+                            binding.tvEndTime.text = "${hour}:${minute}"
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "시작 시간보다 이른 시간으로 설정할 수 없습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            })
+        timePickerDialog.show(parentFragmentManager, "TimePicker")
     }
 
     private fun initRemoveContextBtns() {

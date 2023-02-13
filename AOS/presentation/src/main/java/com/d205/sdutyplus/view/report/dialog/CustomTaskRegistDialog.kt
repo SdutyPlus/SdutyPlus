@@ -150,7 +150,7 @@ class CustomTaskRegistDialog : DialogFragment() {
             object : CustomTimePickerDialogClickListener {
                 override fun onPositiveClick(hour: String, minute: String) {
                     if (hour != "" && minute != "") {
-                        binding.tvStartTime.setText("${hour}:${minute}")
+                        binding.tvStartTime.text = "${hour}:${minute}"
                     }
 
                 }
@@ -170,7 +170,7 @@ class CustomTaskRegistDialog : DialogFragment() {
                             (minute.toInt() > binding.tvStartTime.text.substring(3, 5).toInt() ||
                                     hour.toInt() > binding.tvStartTime.text.substring(0, 2).toInt())
                         ) {
-                            binding.tvEndTime.setText("${hour}:${minute}")
+                            binding.tvEndTime.text = "${hour}:${minute}"
                         } else {
                             Toast.makeText(
                                 requireContext(),
