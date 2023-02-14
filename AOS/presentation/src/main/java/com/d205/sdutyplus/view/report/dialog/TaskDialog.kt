@@ -19,7 +19,7 @@ import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.databinding.DialogTaskBinding
 import com.d205.sdutyplus.view.report.ReportViewModel
 import com.d205.sdutyplus.view.report.TAG
-import javax.annotation.Nullable
+import timePickerDialog
 
 class TaskDialog(private val task: Task) : DialogFragment() {
     private lateinit var binding: DialogTaskBinding
@@ -84,7 +84,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
         binding.apply {
             etTitle.isEnabled = false
 
-            for(i in 0 until 3){
+            for (i in 0 until 3) {
                 contentViews[i].visibility = View.GONE
                 contentEditTexts[i].isEnabled = false
             }
@@ -95,7 +95,7 @@ class TaskDialog(private val task: Task) : DialogFragment() {
             etTitle.setText(task.title)
             ibAddContent.visibility = View.GONE
 
-            for(i in 0 until task.contents.size) {
+            for (i in 0 until task.contents.size) {
                 contentViews[i].visibility = View.VISIBLE
                 contentEditTexts[i].setText(task.contents[i])
                 removeContentBtns[i].visibility = View.GONE
@@ -132,25 +132,24 @@ class TaskDialog(private val task: Task) : DialogFragment() {
             tvStartTime.setOnClickListener {
                 startTimePickerDialog()
             }
-
             tvEndTime.setOnClickListener {
                 endTimePickerDialog()
             }
 
             etTitle.isEnabled = true
 
-            for(i in 0 until 3){
+            for (i in 0 until 3) {
                 removeContentBtns[i].visibility = View.VISIBLE
                 contentEditTexts[i].isEnabled = true
             }
 
-            if(task.contents.size < 3) {
+            if (task.contents.size < 3) {
                 ibAddContent.visibility = View.VISIBLE
             }
 
             ibAddContent.setOnClickListener {
-                val nextContent: View  = getNextInVisibleContentView()
-                if(nextContent is ConstraintLayout) {
+                val nextContent: View = getNextInVisibleContentView()
+                if (nextContent is ConstraintLayout) {
                     nextContent.visibility = View.VISIBLE
                 }
             }
@@ -167,16 +166,19 @@ class TaskDialog(private val task: Task) : DialogFragment() {
 
             btnSave.text = "저장"
             btnSave.setOnClickListener {
-                val content : MutableList<String> = mutableListOf()
-                for(i in 0 until 3){
-                    if(contentEditTexts[i].text.toString() != ""){
+                val content: MutableList<String> = mutableListOf()
+                for (i in 0 until 3) {
+                    if (contentEditTexts[i].text.toString() != "") {
                         content.add(contentEditTexts[i].text.toString())
                     }
                 }
                 val updateTask = Task(
                     task.seq,
-                    task.startTime.replace(task.startTime.substring(11, 16), tvStartTime.text.toString()),
-                    task.endTime.replace(task.endTime.substring(11, 16), tvEndTime.text.toString()),
+                    task.startTime.replace(
+                        task.startTime.substring(11, 19),
+                        tvStartTime.text.toString()
+                    ),
+                    task.endTime.replace(task.endTime.substring(11, 19), tvEndTime.text.toString()),
                     etTitle.text.toString(),
                     content
                 )
@@ -189,33 +191,34 @@ class TaskDialog(private val task: Task) : DialogFragment() {
     }
 
     private fun startTimePickerDialog() {
-        val timePickerDialog = CustomTimePickerDialog(
-            requireContext(),
+        timePickerDialog(requireContext(),
             binding.tvStartTime.text.toString(),
+            parentFragmentManager,
             object : CustomTimePickerDialogClickListener {
                 override fun onPositiveClick(hour: String, minute: String) {
                     if (hour != "" && minute != "") {
-                        binding.tvStartTime.text = "${hour}:${minute}"
+                        binding.tvStartTime.text = "${hour}:${minute}:00"
                     }
-
                 }
             })
-        timePickerDialog.show(parentFragmentManager, "TimePicker")
     }
 
     private fun endTimePickerDialog() {
-        val timePickerDialog = CustomTimePickerDialog(
-            requireContext(),
+        timePickerDialog(requireContext(),
             binding.tvEndTime.text.toString(),
+            parentFragmentManager,
             object : CustomTimePickerDialogClickListener {
                 @SuppressLint("SetTextI18n")
                 override fun onPositiveClick(hour: String, minute: String) {
                     if (hour != "" && minute != "") {
-                        if (hour.toInt() >= binding.tvStartTime.text.substring(0, 2).toInt() &&
-                            (minute.toInt() > binding.tvStartTime.text.substring(3, 5).toInt() ||
-                                    hour.toInt() > binding.tvStartTime.text.substring(0, 2).toInt())
+                        if (hour.toInt() >= binding.tvStartTime.text.substring(0, 2)
+                                .toInt() &&
+                            (minute.toInt() > binding.tvStartTime.text.substring(3, 5)
+                                .toInt() ||
+                                    hour.toInt() > binding.tvStartTime.text.substring(0, 2)
+                                .toInt())
                         ) {
-                            binding.tvEndTime.text = "${hour}:${minute}"
+                            binding.tvEndTime.text = "${hour}:${minute}:00"
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -226,16 +229,15 @@ class TaskDialog(private val task: Task) : DialogFragment() {
                     }
                 }
             })
-        timePickerDialog.show(parentFragmentManager, "TimePicker")
     }
 
     private fun initRemoveContextBtns() {
-        for((index, removeBtn) in removeContentBtns.withIndex()) {
+        for ((index, removeBtn) in removeContentBtns.withIndex()) {
             removeBtn.setOnClickListener {
 
                 // visible 인 content의 내용들을 저장
-                for((index,contentView) in contentViews.withIndex()) {
-                    if(contentView.visibility == View.VISIBLE) {
+                for ((index, contentView) in contentViews.withIndex()) {
+                    if (contentView.visibility == View.VISIBLE) {
                         contentStrings.add(contentEditTexts[index].text.toString())
                     }
                 }
@@ -244,26 +246,26 @@ class TaskDialog(private val task: Task) : DialogFragment() {
                 contentStrings.removeAt(index)
 
                 // 가장 뒤에서 visible인 contentView를 Gone 처리
-                for((index,contentView) in contentViews.reversed().withIndex()) {
-                    if(contentView.visibility == View.VISIBLE) {
+                for ((index, contentView) in contentViews.reversed().withIndex()) {
+                    if (contentView.visibility == View.VISIBLE) {
                         contentView.visibility = View.GONE
-                        contentEditTexts[2-index].setText("")
+                        contentEditTexts[2 - index].setText("")
                         break
                     }
                 }
 
                 // Visible인 Content들에 SetText
                 var count = 0
-                for((index,contentView) in contentViews.withIndex()) {
-                    if(contentView.visibility == View.VISIBLE) {
+                for ((index, contentView) in contentViews.withIndex()) {
+                    if (contentView.visibility == View.VISIBLE) {
                         contentEditTexts[index].setText(contentStrings[index])
-                        count ++
+                        count++
                     }
                 }
 
                 //Strings 배열 초기화
                 contentStrings.clear()
-                if(count != 3) {
+                if (count != 3) {
                     binding.ibAddContent.visibility = View.VISIBLE
                 }
             }
@@ -271,9 +273,9 @@ class TaskDialog(private val task: Task) : DialogFragment() {
     }
 
     private fun getNextInVisibleContentView(): View {
-        for((index, contentView) in contentViews.withIndex()) {
-            if(contentView.visibility == View.GONE) {
-                if(index == contentViews.size -1) {
+        for ((index, contentView) in contentViews.withIndex()) {
+            if (contentView.visibility == View.GONE) {
+                if (index == contentViews.size - 1) {
                     binding.ibAddContent.visibility = View.GONE
                 }
                 return contentView
