@@ -48,7 +48,7 @@ public class SwaggerConfig {
                 .build();
 
         Server serverLocal = new Server("local", "http://localhost:8090", "for local usages", Collections.emptyList(), Collections.emptyList());
-        Server testServer = new Server("test", "https://d205.kro.kr/api", "for testing", Collections.emptyList(), Collections.emptyList());
+        Server testServer = new Server("test", "https://sp205.kro.kr/api", "for testing", Collections.emptyList(), Collections.emptyList());
 
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
                 .alternateTypeRules(AlternateTypeRules
