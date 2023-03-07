@@ -48,6 +48,7 @@ public class SwaggerConfig {
                 .build();
 
         Server serverLocal = new Server("local", "http://localhost:8090", "for local usages", Collections.emptyList(), Collections.emptyList());
+        Server server = new Server("server", "https://sp205.kro.kr/api", "for testing", Collections.emptyList(), Collections.emptyList());
         Server testServer = new Server("test", "https://sp205.kro.kr/api", "for testing", Collections.emptyList(), Collections.emptyList());
 
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
@@ -55,7 +56,7 @@ public class SwaggerConfig {
                         .newRule(typeResolver.resolve(Pageable.class), typeResolver.resolve(Page.class)))
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
-                .servers(serverLocal, testServer)
+                .servers(serverLocal, server)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())
