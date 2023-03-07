@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.databinding.DialogTaskRegistBinding
 import com.d205.sdutyplus.utills.getDeviceSize
+import com.d205.sdutyplus.view.common.LoadingDialogFragment
 
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 
@@ -21,6 +22,7 @@ private const val TAG = "TaskDialog"
 class TaskRegistDialog : DialogFragment() {
     private lateinit var binding: DialogTaskRegistBinding
     private val timerViewModel: TimerViewModel by activityViewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     private val contentViews: List<ConstraintLayout> by lazy {
         listOf(binding.clContent1, binding.clContent2, binding.clContent3)
@@ -84,6 +86,12 @@ class TaskRegistDialog : DialogFragment() {
             if(isStop) {
                 timerViewModel.callBackReset()
                 dismiss()
+            }
+        }
+        timerViewModel.loadingFlag.observe(viewLifecycleOwner) {
+            when(it) {
+                true -> showLoader()
+                false -> hideLoader()
             }
         }
     }
@@ -210,4 +218,15 @@ class TaskRegistDialog : DialogFragment() {
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
 
+    private fun showLoader() {
+        if(!loadingDialogFragment.isAdded) {
+            loadingDialogFragment.show(parentFragmentManager, "loader")
+        }
+    }
+
+    private fun hideLoader() {
+        if(loadingDialogFragment.isAdded) {
+            loadingDialogFragment.dismissAllowingStateLoss()
+        }
+    }
 }
