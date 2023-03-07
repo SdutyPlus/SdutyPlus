@@ -54,6 +54,10 @@ class ReportViewModel @Inject constructor(
     private val _addTaskCallBack = MutableLiveData(0)
     val addTaskCallBack: LiveData<Int> get() = _addTaskCallBack
 
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -109,11 +113,16 @@ class ReportViewModel @Inject constructor(
 
     fun addTask(task: CurrentTaskDto2) {
         viewModelScope.launch(Dispatchers.IO) {
-            addTaskUseCase(task).collect { isSuccess ->
-                if(isSuccess) {
+            addTaskUseCase(task).collect {
+                if(it is ResultState.Success) {
                     _addTaskCallBack.postValue(200)
-                }else {
+                    _loadingFlag.postValue(false)
+                } else if (it is ResultState.Loading) {
+                    _loadingFlag.postValue(true)
+                }
+                else {
                     _addTaskCallBack.postValue(400)
+                    _loadingFlag.postValue(false)
                 }
             }
         }
