@@ -178,7 +178,9 @@ class TaskDialog(private val task: Task) : DialogFragment() {
                         task.startTime.substring(11, 19),
                         tvStartTime.text.toString()
                     ),
-                    task.endTime.replace(task.endTime.substring(11, 19), tvEndTime.text.toString()),
+                    task.endTime.replace(
+                        task.endTime.substring(11, 19),
+                        tvEndTime.text.toString()),
                     etTitle.text.toString(),
                     content
                 )

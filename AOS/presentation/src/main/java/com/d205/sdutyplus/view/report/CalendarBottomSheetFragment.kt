@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +37,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     private val todayDate = LocalDate.now()
     private lateinit var listener: dayClickListener
     private val reportViewModel: ReportViewModel by activityViewModels()
-    private var dateList: List<String>? = null
+    // private val dateList: List<String> = listOf("2023-03-02", "2023-03-05", "2023-03-06")
 
     interface dayClickListener {
         fun onClick(date: String)
@@ -113,9 +112,9 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     }
 
     private fun initViewModelCallback() {
-        reportViewModel.date.observe(viewLifecycleOwner) {
-            dateList = it
-        }
+//        reportViewModel.date.observe(viewLifecycleOwner) {
+//            dateList = listOf()
+//        }
     }
 
     private fun setupMonthCalendar(
@@ -161,46 +160,41 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     @RequiresApi(Build.VERSION_CODES.O)
     private fun bindDate(date: LocalDate, textView: TextView, isSelectable: Boolean) {
         textView.text = date.dayOfMonth.toString()
-
-        for(str in dateList!!) {
-            if(str == date.toString()) {
-                textView.apply {
-                    setTextColorRes(R.color.black)
-                    setBackgroundResource(R.drawable.bg_calendar_study)
-                }
-            }
-        }
-
         if (isSelectable) {
-            when {
-                selectDate == date.toString() -> {
-                    textView.apply {
-                        setTextColorRes(R.color.white)
-                        setBackgroundResource(R.drawable.bg_calendar_selected)
+           // for (element in dateList) {
+                when (date.toString()) {
+                    selectDate -> {
+                        textView.apply {
+                            setTextColorRes(R.color.white)
+                            setBackgroundResource(R.drawable.bg_calendar_selected)
+                        }
                     }
-                }
 
-                todayDate == date -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        setBackgroundResource(R.drawable.bg_calendar_today)
+                    todayDate.toString() -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_today)
+                        }
                     }
-                }
 
-//                "2022-12-12" == date.toString() -> {
-//                    textView.apply {
-//                        setTextColorRes(R.color.black)
-//                        setBackgroundResource(R.drawable.bg_calendar_study)
+//                    element -> {
+//                        textView.apply {
+//                            setTextColorRes(R.color.black)
+//                            setBackgroundResource(R.drawable.bg_calendar_study)
+//                        }
+//                        break
 //                    }
-//                }
 
-                else -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        background = null
+                    else -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            background = null
+                        }
                     }
                 }
-            }
+            //}
+
+
         } else {
             textView.apply {
                 setTextColorRes(R.color.sduty_action_off)

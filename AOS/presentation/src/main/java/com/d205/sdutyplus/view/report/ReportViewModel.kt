@@ -130,7 +130,7 @@ class ReportViewModel @Inject constructor(
 
     fun getDate() {
         viewModelScope.launch(Dispatchers.IO) {
-            getDateUseCase().collect() {
+            getDateUseCase().collect {
                 if(it is ResultState.Success) {
                     _date.postValue(it.data.date)
                 }
