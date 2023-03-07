@@ -40,7 +40,7 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         final ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("구미 자율2반 5팀")
+                .title("Sdutyplus 스터디 팀")
                 .description("<h3>김남희 김정윤 배시현 배한용 서재형 편예린</h3>")
                 .contact(new Contact("D205", "https://edu.ssafy.com", "ssafy@ssafy.com"))
                 .license("MIT License")
