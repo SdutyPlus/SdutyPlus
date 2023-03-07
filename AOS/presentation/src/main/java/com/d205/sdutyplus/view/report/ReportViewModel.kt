@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,6 +30,7 @@ class ReportViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val addTaskUseCase: AddTaskUsecase,
+    private val getDateUseCase: GetDateUseCase,
     private val getGraphUseCase: GetGraphUseCase
 ) : ViewModel() {
 
@@ -132,6 +134,18 @@ class ReportViewModel @Inject constructor(
         _addTaskCallBack.value = 0
     }
 
+    private val _date = SingleLiveEvent<List<String>>()
+    val date get() = _date
+
+    fun getDate() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getDateUseCase().collect {
+                if(it is ResultState.Success) {
+                    _date.postValue(it.data.date)
+                }
+            }
+        }
+    }
 
     private val _continuous = SingleLiveEvent<Int>()
     val continuous get() = _continuous

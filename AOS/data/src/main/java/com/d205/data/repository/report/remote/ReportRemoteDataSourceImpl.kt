@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.model.BaseResponse
 import com.d205.data.api.ReportApi
+import com.d205.data.model.report.DateResponse
 import com.d205.data.model.report.GraphResponse
 import com.d205.data.model.report.ReportResponse
 import com.d205.data.model.report.TaskResponse
@@ -42,6 +43,10 @@ class ReportRemoteDataSourceImpl @Inject constructor(
         }
     }.catch { e ->
         emit(false)
+    }
+
+    override fun getDate(): Flow<BaseResponse<DateResponse>> = flow {
+        emit(reportApi.getDate())
     }
 
     override fun getGraph(): Flow<BaseResponse<GraphResponse>> = flow {
