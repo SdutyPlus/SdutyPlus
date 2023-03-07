@@ -19,10 +19,10 @@ import com.canhub.cropper.CropImageIntentChooser
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.databinding.CropImageActivityBinding
-import com.d205.sdutyplus.utills.FLAG_CAMERA
-import com.d205.sdutyplus.utills.FLAG_GALLERY
-import com.d205.sdutyplus.utills.getUriForFile
-import com.d205.sdutyplus.utills.showToast
+import com.d205.sdutyplus.utils.FLAG_CAMERA
+import com.d205.sdutyplus.utils.FLAG_GALLERY
+import com.d205.sdutyplus.utils.getUriForFile
+import com.d205.sdutyplus.utils.showToast
 import com.d205.sdutyplus.view.login.LoginActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission

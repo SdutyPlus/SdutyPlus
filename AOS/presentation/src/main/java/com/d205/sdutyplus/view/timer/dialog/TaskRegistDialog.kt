@@ -3,7 +3,6 @@ package com.d205.sdutyplus.view.timer.dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
@@ -12,7 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.databinding.DialogTaskRegistBinding
-import com.d205.sdutyplus.utills.getDeviceSize
+import com.d205.sdutyplus.utils.getDeviceSize
 import com.d205.sdutyplus.view.common.LoadingDialogFragment
 
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel

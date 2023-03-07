@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogStopStudyConfirmBinding
-import com.d205.sdutyplus.utills.getDeviceSize
+import com.d205.sdutyplus.utils.getDeviceSize
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

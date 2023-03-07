@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.sdutyplus.databinding.DialogCustomTaskRegistBinding
-import com.d205.sdutyplus.utills.getDeviceSize
+import com.d205.sdutyplus.utils.getDeviceSize
 import com.d205.sdutyplus.view.report.ReportViewModel
 import timePickerDialog
 import java.text.SimpleDateFormat

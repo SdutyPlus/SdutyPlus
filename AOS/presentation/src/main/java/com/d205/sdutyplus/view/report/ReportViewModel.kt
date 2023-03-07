@@ -11,12 +11,11 @@ import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.report.*
 import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.utills.SingleLiveEvent
+import com.d205.sdutyplus.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject

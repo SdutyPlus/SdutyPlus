@@ -9,9 +9,9 @@ import com.d205.domain.model.report.SubTask
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.timer.*
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.utills.convertTimeDateToString
-import com.d205.sdutyplus.utills.convertTimeStringToDate
-import com.d205.sdutyplus.utills.getTodayDate
+import com.d205.sdutyplus.utils.convertTimeDateToString
+import com.d205.sdutyplus.utils.convertTimeStringToDate
+import com.d205.sdutyplus.utils.getTodayDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

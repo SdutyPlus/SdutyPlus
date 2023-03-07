@@ -15,8 +15,8 @@ import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.FragmentCalendarBottomSheetBinding
 import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
-import com.d205.sdutyplus.utills.displayText
-import com.d205.sdutyplus.utills.setTextColorRes
+import com.d205.sdutyplus.utils.displayText
+import com.d205.sdutyplus.utils.setTextColorRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
