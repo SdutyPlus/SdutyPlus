@@ -1,7 +1,7 @@
 package com.d205.data.mapper
 
 import com.d205.data.model.BaseResponse
-import com.d205.data.model.report.DateResponse
+import com.d205.data.model.report.ReportDateResponse
 import com.d205.data.model.report.GraphResponse
 import com.d205.data.model.report.ReportResponse
 import com.d205.domain.model.report.Date
@@ -20,9 +20,9 @@ fun mapperToTask(reportResponse: BaseResponse<ReportResponse>): List<Task> {
     return reportResponse.data!!.taskDtos
 }
 
-fun mapperToDate(dateResponse: BaseResponse<DateResponse>): Date{
+fun mapperToDate(dateResponse: BaseResponse<ReportDateResponse>): Date{
     return Date(
-        dateResponse.data!!.date
+        dateResponse.data!!.dates
     )
 }
 
