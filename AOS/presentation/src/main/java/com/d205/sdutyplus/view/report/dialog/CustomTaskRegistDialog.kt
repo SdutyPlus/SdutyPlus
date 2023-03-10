@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
@@ -81,8 +82,8 @@ class CustomTaskRegistDialog : DialogFragment() {
         val dateFormat = SimpleDateFormat("HH:mm")
         binding.apply {
             tvToday.text = todayDate.toString()
-            tvStartTime.text = dateFormat.format(todayTime).toString()
-            tvEndTime.text = dateFormat.format(todayTime.plus(60000)).toString()
+            tvStartTime.text = dateFormat.format(todayTime).toString() + ":00"
+            tvEndTime.text = dateFormat.format(todayTime.plus(60000)).toString() + ":00"
         }
     }
 
@@ -117,8 +118,8 @@ class CustomTaskRegistDialog : DialogFragment() {
                     reportViewModel.addTask(
                         CurrentTaskDto2(
                             0,
-                            "${todayDate} ${tvStartTime.text}:00",
-                            "${todayDate} ${tvEndTime.text}:00",
+                            "${todayDate} ${tvStartTime.text}",
+                            "${todayDate} ${tvEndTime.text}",
                             title,
                             realContents
                         )

@@ -9,7 +9,7 @@ interface ReportRepository {
     fun getTaskList(date: String): Flow<ResultState<List<Task>>>
     fun updateTask(task_seq: Long, task: Task): Flow<ResultState<Boolean>>
     fun deleteTask(task_seq: Long): Flow<ResultState<Boolean>>
-    fun getDate(): Flow<ResultState<Date>>
+    fun getReportDate(): Flow<ResultState<Date>>
     fun getGraph(): Flow<ResultState<Graph>>
 
 }
