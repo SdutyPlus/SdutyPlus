@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedCreateBinding
-import com.d205.sdutyplus.utills.showToast
+import com.d205.sdutyplus.utils.showToast
 import com.d205.sdutyplus.view.common.LoadingDialogFragment
 import com.d205.sdutyplus.view.feed.viewmodel.FeedCreateViewModel
 

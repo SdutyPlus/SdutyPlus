@@ -11,7 +11,7 @@ import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.report.*
 import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.utills.SingleLiveEvent
+import com.d205.sdutyplus.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +29,7 @@ class ReportViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val addTaskUseCase: AddTaskUsecase,
+    private val getDateUseCase: GetDateUseCase,
     private val getGraphUseCase: GetGraphUseCase
 ) : ViewModel() {
 
@@ -53,6 +54,10 @@ class ReportViewModel @Inject constructor(
 
     private val _addTaskCallBack = MutableLiveData(0)
     val addTaskCallBack: LiveData<Int> get() = _addTaskCallBack
+
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getReportTotalTime(date: String) {
@@ -109,11 +114,16 @@ class ReportViewModel @Inject constructor(
 
     fun addTask(task: CurrentTaskDto2) {
         viewModelScope.launch(Dispatchers.IO) {
-            addTaskUseCase(task).collect { isSuccess ->
-                if(isSuccess) {
+            addTaskUseCase(task).collect {
+                if(it is ResultState.Success) {
                     _addTaskCallBack.postValue(200)
-                }else {
+                    _loadingFlag.postValue(false)
+                } else if (it is ResultState.Loading) {
+                    _loadingFlag.postValue(true)
+                }
+                else {
                     _addTaskCallBack.postValue(400)
+                    _loadingFlag.postValue(false)
                 }
             }
         }
@@ -123,6 +133,18 @@ class ReportViewModel @Inject constructor(
         _addTaskCallBack.value = 0
     }
 
+    private val _date = SingleLiveEvent<List<String>>()
+    val date get() = _date
+
+    fun getDate() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getDateUseCase().collect {
+                if(it is ResultState.Success) {
+                    _date.postValue(it.data.date)
+                }
+            }
+        }
+    }
 
     private val _continuous = SingleLiveEvent<Int>()
     val continuous get() = _continuous

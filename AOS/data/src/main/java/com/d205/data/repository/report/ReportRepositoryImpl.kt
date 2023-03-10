@@ -1,16 +1,15 @@
 package com.d205.data.repository.report
 
 import android.util.Log
+import com.d205.data.mapper.mapperToDate
 import com.d205.data.mapper.mapperToGraph
 import com.d205.data.mapper.mapperToReport
 import com.d205.data.mapper.mapperToTask
 import com.d205.data.repository.report.remote.ReportRemoteDataSource
-import com.d205.domain.model.report.Graph
-import com.d205.domain.model.report.Report
-import com.d205.domain.model.report.SubTask
-import com.d205.domain.model.report.Task
+import com.d205.domain.model.report.*
 import com.d205.domain.repository.ReportRepository
 import com.d205.domain.utils.ResultState
+import com.google.firebase.firestore.local.LruGarbageCollector.Results
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -53,6 +52,15 @@ class ReportRepositoryImpl @Inject constructor(
         emit(ResultState.Loading)
         reportRemoteDataSource.deleteTask(task_seq).collect {
             emit(ResultState.Success(it))
+        }
+    }.catch { e ->
+        emit(ResultState.Error(e))
+    }
+
+    override fun getDate(): Flow<ResultState<Date>> = flow {
+        emit(ResultState.Loading)
+        reportRemoteDataSource.getDate().collect {
+            emit(ResultState.Success(mapperToDate(it)))
         }
     }.catch { e ->
         emit(ResultState.Error(e))
