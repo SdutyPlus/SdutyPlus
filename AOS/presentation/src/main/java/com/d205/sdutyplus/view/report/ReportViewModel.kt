@@ -117,13 +117,16 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             addTaskUseCase(task).collect {
                 if(it is ResultState.Success) {
-                    _addTaskCallBack.postValue(200)
+                    if(it.data) {
+                        _addTaskCallBack.postValue(200)
+                    } else {
+                        _addTaskCallBack.postValue(400)
+                    }
                     _loadingFlag.postValue(false)
                 } else if (it is ResultState.Loading) {
                     _loadingFlag.postValue(true)
                 }
                 else {
-                    _addTaskCallBack.postValue(400)
                     _loadingFlag.postValue(false)
                 }
             }
