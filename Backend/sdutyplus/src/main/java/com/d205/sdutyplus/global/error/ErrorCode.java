@@ -33,7 +33,8 @@ public enum ErrorCode {
     SUBTASK_NOT_FOUND(400, "T002", "존재하지 않는 서브 테스크입니다."),
     TASK_TIME_DUPLICATE(400, "T003", "해당 시간에 테스크가 이미 존재합니다."),
     SUBTASK_CNT_EXCEEDED_LIMIT(400, "T004", "컨텐츠를 3개 이상 등록할 수 없습니다."),
-    TASK_TIME_NOT_REVERSED(400, "T005", "시작 시간보다 종료 시간이 큰 값이어야 합니다."),
+    TASK_TIME_NOT_REVERSED(400, "T005", "시작 시간이 종료 시간보다 큰 값입니다."),
+    INVALID_END_TIME(400, "T006", "종료 시간이 현재 시간보다 큰 값입니다"),
 
     // Feed
     IMAGE_TYPE_NOT_SUPPORT(400, "F001", "지원되지 않는 파일 형식입니다."),
