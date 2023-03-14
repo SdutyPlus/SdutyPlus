@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
@@ -15,8 +16,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.sdutyplus.databinding.DialogCustomTaskRegistBinding
-import com.d205.sdutyplus.utills.getDeviceSize
+import com.d205.sdutyplus.utils.getDeviceSize
 import com.d205.sdutyplus.view.report.ReportViewModel
+import timePickerDialog
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -80,8 +82,8 @@ class CustomTaskRegistDialog : DialogFragment() {
         val dateFormat = SimpleDateFormat("HH:mm")
         binding.apply {
             tvToday.text = todayDate.toString()
-            tvStartTime.text = dateFormat.format(todayTime).toString()
-            tvEndTime.text = dateFormat.format(todayTime.plus(60000)).toString()
+            tvStartTime.text = dateFormat.format(todayTime).toString() + ":00"
+            tvEndTime.text = dateFormat.format(todayTime.plus(60000)).toString() + ":00"
         }
     }
 
@@ -116,8 +118,8 @@ class CustomTaskRegistDialog : DialogFragment() {
                     reportViewModel.addTask(
                         CurrentTaskDto2(
                             0,
-                            "${todayDate} ${tvStartTime.text}:00",
-                            "${todayDate} ${tvEndTime.text}:00",
+                            "${todayDate} ${tvStartTime.text}",
+                            "${todayDate} ${tvEndTime.text}",
                             title,
                             realContents
                         )
@@ -144,33 +146,34 @@ class CustomTaskRegistDialog : DialogFragment() {
     }
 
     private fun startTimePickerDialog() {
-        val timePickerDialog = CustomTimePickerDialog(
-            requireContext(),
+        timePickerDialog(requireContext(),
             binding.tvStartTime.text.toString(),
+            parentFragmentManager,
             object : CustomTimePickerDialogClickListener {
                 override fun onPositiveClick(hour: String, minute: String) {
                     if (hour != "" && minute != "") {
-                        binding.tvStartTime.setText("${hour}:${minute}")
+                        binding.tvStartTime.text = "${hour}:${minute}:00"
                     }
-
                 }
             })
-        timePickerDialog.show(parentFragmentManager, "TimePicker")
     }
 
     private fun endTimePickerDialog() {
-        val timePickerDialog = CustomTimePickerDialog(
-            requireContext(),
+        timePickerDialog(requireContext(),
             binding.tvEndTime.text.toString(),
+            parentFragmentManager,
             object : CustomTimePickerDialogClickListener {
                 @SuppressLint("SetTextI18n")
                 override fun onPositiveClick(hour: String, minute: String) {
                     if (hour != "" && minute != "") {
-                        if (hour.toInt() >= binding.tvStartTime.text.substring(0, 2).toInt() &&
-                            (minute.toInt() > binding.tvStartTime.text.substring(3, 5).toInt() ||
-                                    hour.toInt() > binding.tvStartTime.text.substring(0, 2).toInt())
+                        if (hour.toInt() >= binding.tvStartTime.text.substring(0, 2)
+                                .toInt() &&
+                            (minute.toInt() > binding.tvStartTime.text.substring(3, 5)
+                                .toInt() ||
+                                    hour.toInt() > binding.tvStartTime.text.substring(0, 2)
+                                .toInt())
                         ) {
-                            binding.tvEndTime.setText("${hour}:${minute}")
+                            binding.tvEndTime.text = "${hour}:${minute}:00"
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -181,7 +184,6 @@ class CustomTaskRegistDialog : DialogFragment() {
                     }
                 }
             })
-        timePickerDialog.show(parentFragmentManager, "TimePicker")
     }
 
     private fun getNextInVisibleContentView(): View {

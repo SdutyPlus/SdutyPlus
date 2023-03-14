@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedDecoBinding
-import com.d205.sdutyplus.utills.NOT_PROFILE
-import com.d205.sdutyplus.utills.getTodayDateString
+import com.d205.sdutyplus.utils.NOT_PROFILE
+import com.d205.sdutyplus.utils.getTodayDateString
 import com.d205.sdutyplus.view.common.CropImageActivity
 import com.d205.sdutyplus.view.feed.viewmodel.FeedCreateViewModel
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel

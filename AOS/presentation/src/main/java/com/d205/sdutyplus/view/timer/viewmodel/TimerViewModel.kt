@@ -9,9 +9,9 @@ import com.d205.domain.model.report.SubTask
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.timer.*
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.utills.convertTimeDateToString
-import com.d205.sdutyplus.utills.convertTimeStringToDate
-import com.d205.sdutyplus.utills.getTodayDate
+import com.d205.sdutyplus.utils.convertTimeDateToString
+import com.d205.sdutyplus.utils.convertTimeStringToDate
+import com.d205.sdutyplus.utils.getTodayDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -61,7 +61,9 @@ class TimerViewModel @Inject constructor(
     val updatedTotalTime: LiveData<String>
         get() = _updatedTotalTime
 
-
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
 
     private val _addTaskCallBack = MutableLiveData<Int>(0)
     val addTaskCallBack: LiveData<Int>
@@ -230,11 +232,16 @@ class TimerViewModel @Inject constructor(
             var timeInfo = getCurrentStudyTimeInfoUsecase(_timerTime.value!!)
             var newTask = CurrentTaskDto2(0,timeInfo.startTime, timeInfo.endTime, title, realContents)
 
-            addTaskUsecase(newTask).collect { isSuccess ->
-                if(isSuccess) {
+            addTaskUsecase(newTask).collect {
+                if(it is ResultState.Success) {
                     _addTaskCallBack.postValue(200)
-                }else {
+                    _loadingFlag.postValue(false)
+                } else if (it is ResultState.Loading) {
+                    _loadingFlag.postValue(true)
+                }
+                else {
                     _addTaskCallBack.postValue(400)
+                    _loadingFlag.postValue(false)
                 }
             }
 

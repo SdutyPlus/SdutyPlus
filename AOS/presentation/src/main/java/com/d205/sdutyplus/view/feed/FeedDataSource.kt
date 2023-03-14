@@ -7,8 +7,8 @@ import com.d205.domain.model.feed.Feed
 import com.d205.domain.usecase.feed.GetFeedsUseCase
 import com.d205.domain.usecase.feed.GetScrapFeedsUseCase
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.utills.ALL_STORY
-import com.d205.sdutyplus.utills.SCRAP_STORY
+import com.d205.sdutyplus.utils.ALL_STORY
+import com.d205.sdutyplus.utils.SCRAP_STORY
 
 private const val TAG ="FeedDataSource"
 class FeedDataSource(

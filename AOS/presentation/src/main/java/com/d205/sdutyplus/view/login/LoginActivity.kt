@@ -7,7 +7,7 @@ import com.d205.data.dao.UserSharedPreference
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseActivity
 import com.d205.sdutyplus.databinding.ActivityLoginBinding
-import com.d205.sdutyplus.utills.showToast
+import com.d205.sdutyplus.utils.showToast
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import dagger.hilt.android.AndroidEntryPoint
