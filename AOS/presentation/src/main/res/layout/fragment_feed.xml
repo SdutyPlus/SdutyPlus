@@ -33,16 +33,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/iv_filter"-->
-<!--                    android:layout_width="48dp"-->
-<!--                    android:layout_height="48dp"-->
-<!--                    android:padding="12dp"-->
-<!--                    android:src="@drawable/ic_menu_tune_black_24"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toStartOf="@id/iv_create_feed"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
                 <ImageView
                     android:id="@+id/iv_create_feed"
                     android:layout_width="48dp"
