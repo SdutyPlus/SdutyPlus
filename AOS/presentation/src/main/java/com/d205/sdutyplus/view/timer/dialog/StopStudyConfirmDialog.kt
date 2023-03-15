@@ -7,13 +7,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogStopStudyConfirmBinding
-import com.d205.sdutyplus.uitls.getDeviceSize
+import com.d205.sdutyplus.utils.getDeviceSize
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.concurrent.timer
 
 
 private const val TAG = "StopStudyConfirmDialog"
@@ -96,10 +94,6 @@ class StopStudyConfirmDialog(context: Context) : DialogFragment() {
         timerViewModel.startResumeCountDown()
     }
 
-
-
-    
-    
     private fun initView() {
         binding.apply {
             btnContinue.setOnClickListener {
@@ -116,15 +110,6 @@ class StopStudyConfirmDialog(context: Context) : DialogFragment() {
                         "TaskRegistDialog"
                     )
                 }
-//
-//                Toast.makeText(requireActivity(), "측정을 종료 하였습니다!", Toast.LENGTH_SHORT).show()
-//
-//                timerViewModel.resetDelayTimer()
-//                timerViewModel.stopTimer(mainViewModel.user.value!!.seq)
-                /*
-                timerViewModel.stopTimer()
-                timerViewModel.timerTimeReset()
-                 */
                 timerViewModel.stopTimer()
                 dismiss()
 

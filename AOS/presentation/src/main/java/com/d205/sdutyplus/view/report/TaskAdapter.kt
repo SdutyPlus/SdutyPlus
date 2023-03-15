@@ -22,9 +22,6 @@ class TaskAdapter(private val listener: TaskAdapterListener) :
         }
 
         fun bind(taskDto: Task) {
-            if (position == 0) {
-                binding.dividerTop.visibility = View.GONE
-            }
             binding.apply {
                 task = taskDto
                 rvSubtask.apply {
