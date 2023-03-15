@@ -2,6 +2,9 @@ package com.d205.sdutyplus.domain.task.repository.querydsl;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
+import com.querydsl.core.types.ConstantImpl;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -74,5 +77,23 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
                 )
                 .fetchFirst() != null;
     }
-    
+
+    @Override
+    public List<String> getReportDateByOwnerSeq(Long userSeq) {
+        StringTemplate formattedDate = Expressions.stringTemplate(
+                "DATE_FORMAT({0}, {1})"
+                ,task.startTime
+                , ConstantImpl.create("%Y-%m-%d")
+        );
+
+        return queryFactory
+                .select(
+                        formattedDate
+                )
+                .from(task)
+                .where(task.ownerSeq.eq(userSeq))
+                .distinct()
+                .fetch();
+    }
+
 }

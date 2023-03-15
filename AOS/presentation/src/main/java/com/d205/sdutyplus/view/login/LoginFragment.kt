@@ -7,9 +7,9 @@ import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentLoginBinding
-import com.d205.sdutyplus.utills.KAKAO_JOIN
-import com.d205.sdutyplus.utills.NAVER_JOIN
-import com.d205.sdutyplus.utills.showToast
+import com.d205.sdutyplus.utils.KAKAO_JOIN
+import com.d205.sdutyplus.utils.NAVER_JOIN
+import com.d205.sdutyplus.utils.showToast
 import com.d205.sdutyplus.view.MainActivity
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.util.Utility

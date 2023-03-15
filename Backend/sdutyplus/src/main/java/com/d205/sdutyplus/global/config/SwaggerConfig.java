@@ -40,22 +40,17 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         final ApiInfo apiInfo = new ApiInfoBuilder()
-                .title("구미 자율2반 5팀")
+                .title("Sdutyplus 스터디 팀")
                 .description("<h3>김남희 김정윤 배시현 배한용 서재형 편예린</h3>")
-                .contact(new Contact("D205", "https://edu.ssafy.com", "ssafy@ssafy.com"))
                 .license("MIT License")
                 .version("1.0")
                 .build();
-
-        Server serverLocal = new Server("local", "http://localhost:8090", "for local usages", Collections.emptyList(), Collections.emptyList());
-        Server testServer = new Server("test", "https://d205.kro.kr/api", "for testing", Collections.emptyList(), Collections.emptyList());
 
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo)
                 .alternateTypeRules(AlternateTypeRules
                         .newRule(typeResolver.resolve(Pageable.class), typeResolver.resolve(Page.class)))
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
-                .servers(serverLocal, testServer)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .paths(PathSelectors.any())

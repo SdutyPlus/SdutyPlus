@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentPomodoroBinding
-import com.d205.sdutyplus.utills.showToast
+import com.d205.sdutyplus.utils.showToast
 import com.d205.sdutyplus.view.pomodoro.viewmodel.PomodoroViewModel
 
 const val WORKING_TIME = 25 * 60 * 1000L

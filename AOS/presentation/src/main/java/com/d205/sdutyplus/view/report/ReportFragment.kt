@@ -14,8 +14,8 @@ import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentReportBinding
 import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
-import com.d205.sdutyplus.utills.displayText
-import com.d205.sdutyplus.utills.setTextColorRes
+import com.d205.sdutyplus.utils.displayText
+import com.d205.sdutyplus.utils.setTextColorRes
 import com.d205.sdutyplus.view.report.dialog.CustomTaskRegistDialog
 import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import com.kizitonwose.calendar.core.*
@@ -36,6 +36,7 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     private val weekCalendarView: WeekCalendarView get() = binding.calendarWeek
     private val taskAdapter = TaskAdapter(this)
     private val todayDate = LocalDate.now()
+    private lateinit var reportDateList: List<String>
 
     override fun initOnViewCreated() {
         binding.apply {
@@ -87,30 +88,32 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
                 Toast.makeText(requireContext(), "이미 중복된 시간입니다.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        reportViewModel.reportDate.observe(viewLifecycleOwner) {
+            reportDateList = it
+            val daysOfWeek = daysOfWeek()
+
+            val currentMonth = YearMonth.now()
+            val startMonth = currentMonth.minusMonths(100)
+            val endMonth = currentMonth.plusMonths(100)
+
+            setupWeekCalendar(startMonth, endMonth, currentMonth, daysOfWeek)
+        }
     }
 
     private fun initView() {
-        val daysOfWeek = daysOfWeek()
-
-        val currentMonth = YearMonth.now()
-        val startMonth = currentMonth.minusMonths(100)
-        val endMonth = currentMonth.plusMonths(100)
-
-        setupWeekCalendar(startMonth, endMonth, currentMonth, daysOfWeek)
-        mainViewModel.displayBottomNav(true)
-
         reportViewModel.apply {
             getReportTotalTime(binding.tvSelectedDate.text.toString())
             getTaskList(binding.tvSelectedDate.text.toString())
+            getReportDate()
         }
-
-
+        mainViewModel.displayBottomNav(true)
     }
 
     private fun initClickListener() {
         binding.apply {
             ivCalendarCall.setOnClickListener {
-                val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString())
+                val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString(), reportDateList)
                 dialog.show(parentFragmentManager, "BottomSheet")
                 dialog.setOnClickListener {
                     binding.tvSelectedDate.text = it
@@ -211,7 +214,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
             binding.tvMonth.text =
                 firstDate.month.displayText(short = false) +
                         " " + binding.tvSelectedDate.text.substring(8, 10)
-            //+ " - " + lastDate.month.displayText(short = false)
             if (firstDate.year == lastDate.year) {
                 binding.tvYear.text = firstDate.year.toString()
             } else {
@@ -224,25 +226,35 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     private fun bindDate(date: LocalDate, textView: TextView, isSelectable: Boolean) {
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
-            when {
-                binding.tvSelectedDate.text.toString() == date.toString() -> {
-                    textView.apply {
-                        setTextColorRes(R.color.white)
-                        setBackgroundResource(R.drawable.bg_calendar_selected)
+            for (element in reportDateList) {
+                when (date.toString()) {
+                    binding.tvSelectedDate.text.toString() -> {
+                        textView.apply {
+                            setTextColorRes(R.color.white)
+                            setBackgroundResource(R.drawable.bg_calendar_selected)
+                        }
                     }
-                }
 
-                todayDate == date -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        setBackgroundResource(R.drawable.bg_calendar_today)
+                    todayDate.toString() -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_today)
+                        }
                     }
-                }
 
-                else -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        background = null
+                    element -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_study)
+                        }
+                        break
+                    }
+
+                    else -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            background = null
+                        }
                     }
                 }
             }

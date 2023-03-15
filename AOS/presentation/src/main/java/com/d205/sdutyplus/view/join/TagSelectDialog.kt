@@ -13,9 +13,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.d205.domain.model.common.JobHashtag
 import com.d205.sdutyplus.databinding.DialogTagSelectBinding
-import com.d205.sdutyplus.utills.PROFILE
-import com.d205.sdutyplus.utills.jobs
-import com.d205.sdutyplus.utills.showToast
+import com.d205.sdutyplus.utils.PROFILE
+import com.d205.sdutyplus.utils.jobs
+import com.d205.sdutyplus.utils.showToast
 
 private const val TAG ="TagSelectDialog"
 class TagSelectDialog(val mContext: Context, var curJobName: String) : DialogFragment() {
