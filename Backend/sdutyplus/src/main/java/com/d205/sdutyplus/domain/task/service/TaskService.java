@@ -131,6 +131,11 @@ public class TaskService{
         subTaskRepository.deleteByTaskSeq(taskSeq);
     }
 
+    public List<String> getReportDateByOwnerSeq(){
+        final Long userSeq = authUtils.getLoginUserSeq();
+        return taskRepository.getReportDateByOwnerSeq(userSeq);
+    }
+
     /**
      * private
      */
