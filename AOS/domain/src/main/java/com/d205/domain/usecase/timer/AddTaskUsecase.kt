@@ -11,12 +11,15 @@ import javax.inject.Inject
 class AddTaskUsecase @Inject constructor(
     private val timerRepository: TimerRepository
 ) {
-    operator fun invoke(currentTask: CurrentTaskDto2): Flow<Boolean> = flow {
+    operator fun invoke(currentTask: CurrentTaskDto2): Flow<ResultState<Boolean>> = flow {
         timerRepository.addTask(currentTask).collect{
             if(it is ResultState.Success) {
-                emit(it.data)
-            } else {
-                emit(false)
+                emit(it)
+            } else if (it is ResultState.Loading){
+                emit(it)
+            }
+            else {
+                emit(it)
             }
         }
 

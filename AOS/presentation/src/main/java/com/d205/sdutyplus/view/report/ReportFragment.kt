@@ -3,29 +3,25 @@ package com.d205.sdutyplus.view.report
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d205.domain.model.report.Task
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
-import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentReportBinding
-import com.d205.sdutyplus.uitls.displayText
-import com.d205.sdutyplus.uitls.setTextColorRes
+import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
+import com.d205.sdutyplus.utils.displayText
+import com.d205.sdutyplus.utils.setTextColorRes
 import com.d205.sdutyplus.view.report.dialog.CustomTaskRegistDialog
-import com.d205.sdutyplus.view.MainViewModel
 import com.d205.sdutyplus.view.report.dialog.TaskDialog
 import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.ViewContainer
 import com.kizitonwose.calendar.view.WeekCalendarView
 import com.kizitonwose.calendar.view.WeekDayBinder
-import com.navercorp.nid.oauth.NidOAuthPreferencesManager.code
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -37,9 +33,10 @@ import java.time.format.DateTimeFormatter
 class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_report),
     TaskAdapterListener {
     private val reportViewModel: ReportViewModel by activityViewModels()
-    private val weekCalendarView: WeekCalendarView get() = binding.WeekCalendar
+    private val weekCalendarView: WeekCalendarView get() = binding.calendarWeek
     private val taskAdapter = TaskAdapter(this)
     private val todayDate = LocalDate.now()
+    private lateinit var reportDateList: List<String>
 
     override fun initOnViewCreated() {
         binding.apply {
@@ -54,7 +51,6 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
 
     private fun initViewModelCallback() {
         reportViewModel.taskCheck.observe(viewLifecycleOwner) {
-            Log.d(TAG, "initViewModelCallback11: $it")
             if (it) {
                 binding.apply {
                     tvNotice.visibility = View.GONE
@@ -71,13 +67,13 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         }
 
         reportViewModel.updateTaskSuccess.observe(viewLifecycleOwner) {
-            if(it) {
+            if (it) {
                 initView()
             }
         }
-        
+
         reportViewModel.deleteTaskSuccess.observe(viewLifecycleOwner) {
-            if(it) {
+            if (it) {
                 initView()
             }
         }
@@ -87,35 +83,37 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
                 Toast.makeText(requireContext(), "기록이 저장되었습니다.", Toast.LENGTH_SHORT).show()
                 reportViewModel.callBackReset()
                 initView()
-            } else if (code == 400){
+            } else if (code == 400) {
                 reportViewModel.callBackReset()
                 Toast.makeText(requireContext(), "이미 중복된 시간입니다.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        reportViewModel.reportDate.observe(viewLifecycleOwner) {
+            reportDateList = it
+            val daysOfWeek = daysOfWeek()
+
+            val currentMonth = YearMonth.now()
+            val startMonth = currentMonth.minusMonths(100)
+            val endMonth = currentMonth.plusMonths(100)
+
+            setupWeekCalendar(startMonth, endMonth, currentMonth, daysOfWeek)
+        }
     }
 
     private fun initView() {
-        val daysOfWeek = daysOfWeek()
-
-        val currentMonth = YearMonth.now()
-        val startMonth = currentMonth.minusMonths(100)
-        val endMonth = currentMonth.plusMonths(100)
-
-        setupWeekCalendar(startMonth, endMonth, currentMonth, daysOfWeek)
-        mainViewModel.displayBottomNav(true)
-
         reportViewModel.apply {
             getReportTotalTime(binding.tvSelectedDate.text.toString())
             getTaskList(binding.tvSelectedDate.text.toString())
+            getReportDate()
         }
-
-
+        mainViewModel.displayBottomNav(true)
     }
 
     private fun initClickListener() {
         binding.apply {
             ivCalendarCall.setOnClickListener {
-                val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString())
+                val dialog = CalendarBottomSheetFragment(binding.tvSelectedDate.text.toString(), reportDateList)
                 dialog.show(parentFragmentManager, "BottomSheet")
                 dialog.setOnClickListener {
                     binding.tvSelectedDate.text = it
@@ -154,11 +152,11 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     ) {
         class WeekDayViewContainer(view: View) : ViewContainer(view) {
             lateinit var day: WeekDay
-            val textView = Example1CalendarDayBinding.bind(view).exOneDayText
+            val textView = ResourceCalendarDayBinding.bind(view).tvDay
 
             init {
                 view.setOnClickListener {
-                    if(day.position == WeekDayPosition.RangeDate){
+                    if (day.position == WeekDayPosition.RangeDate) {
                         dateClicked(date = day.date)
                     }
                 }
@@ -187,7 +185,12 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         }
 
         if (currentMonth != null) {
-            weekCalendarView.scrollToWeek(LocalDate.parse(binding.tvSelectedDate.text, DateTimeFormatter.ISO_DATE))
+            weekCalendarView.scrollToWeek(
+                LocalDate.parse(
+                    binding.tvSelectedDate.text,
+                    DateTimeFormatter.ISO_DATE
+                )
+            )
         }
     }
 
@@ -203,21 +206,18 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
         val week = weekCalendarView.findFirstVisibleWeek() ?: return
         val firstDate = week.days.first().date
         val lastDate = week.days.last().date
-        Log.d(TAG, "updateTitle: ${binding.tvSelectedDate.text}")
         if (firstDate.yearMonth == lastDate.yearMonth) {
-            binding.exOneYearText.text = firstDate.year.toString()
-            binding.exOneMonthText.text = firstDate.month.displayText(short = false) +
+            binding.tvYear.text = firstDate.year.toString()
+            binding.tvMonth.text = firstDate.month.displayText(short = false) +
                     " " + binding.tvSelectedDate.text.substring(8, 10)
-        }
-        else {
-            binding.exOneMonthText.text =
+        } else {
+            binding.tvMonth.text =
                 firstDate.month.displayText(short = false) +
                         " " + binding.tvSelectedDate.text.substring(8, 10)
-            //+ " - " + lastDate.month.displayText(short = false)
             if (firstDate.year == lastDate.year) {
-                binding.exOneYearText.text = firstDate.year.toString()
+                binding.tvYear.text = firstDate.year.toString()
             } else {
-                binding.exOneYearText.text = "${firstDate.year} - ${lastDate.year}"
+                binding.tvYear.text = "${firstDate.year} - ${lastDate.year}"
             }
         }
     }
@@ -226,25 +226,35 @@ class ReportFragment : BaseFragment<FragmentReportBinding>(R.layout.fragment_rep
     private fun bindDate(date: LocalDate, textView: TextView, isSelectable: Boolean) {
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
-            when {
-                binding.tvSelectedDate.text.toString() == date.toString() -> {
-                    textView.apply {
-                        setTextColorRes(R.color.white)
-                        setBackgroundResource(R.drawable.bg_calendar_selected)
+            for (element in reportDateList) {
+                when (date.toString()) {
+                    binding.tvSelectedDate.text.toString() -> {
+                        textView.apply {
+                            setTextColorRes(R.color.white)
+                            setBackgroundResource(R.drawable.bg_calendar_selected)
+                        }
                     }
-                }
 
-                todayDate == date -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        setBackgroundResource(R.drawable.bg_calendar_today)
+                    todayDate.toString() -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_today)
+                        }
                     }
-                }
 
-                else -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        background = null
+                    element -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_study)
+                        }
+                        break
+                    }
+
+                    else -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            background = null
+                        }
                     }
                 }
             }

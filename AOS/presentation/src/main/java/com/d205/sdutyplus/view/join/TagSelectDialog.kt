@@ -10,14 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.d205.domain.model.common.JobHashtag
-import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogTagSelectBinding
-import com.d205.sdutyplus.uitls.PROFILE
-import com.d205.sdutyplus.uitls.jobs
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utils.PROFILE
+import com.d205.sdutyplus.utils.jobs
+import com.d205.sdutyplus.utils.showToast
 
 private const val TAG ="TagSelectDialog"
 class TagSelectDialog(val mContext: Context, var curJobName: String) : DialogFragment() {

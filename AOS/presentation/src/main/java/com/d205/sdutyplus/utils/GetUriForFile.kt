@@ -1,4 +1,4 @@
-package com.d205.sdutyplus.uitls
+package com.d205.sdutyplus.utils
 
 import android.content.Context
 import android.net.Uri

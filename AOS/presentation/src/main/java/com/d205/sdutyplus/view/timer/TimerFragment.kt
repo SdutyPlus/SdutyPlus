@@ -1,21 +1,17 @@
 package com.d205.sdutyplus.view.timer
 
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentTimerBinding
-import com.d205.sdutyplus.uitls.convertTimeDateToString
-import com.d205.sdutyplus.uitls.getTodayDate
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utils.showToast
 import com.d205.sdutyplus.view.timer.dialog.StopStudyConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.concurrent.timer
 
 
 private const val TAG = "TimerFragment"
@@ -28,8 +24,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun initView() {
-        mainViewModel.displayBottomNav(true)
-
+        displayBottomNav(true)
         setTodayInfo()
         initTimer()
         initObserver()
@@ -46,7 +41,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     }
 
     private fun setTodayTotalStudyTime() {
-        binding.tvTotalTime.text = "00:00:00"
+        binding.tvTotalTime.text = getString(R.string.total_time_initial)
         timerViewModel.getTodayTotalStudyTime()
     }
 
@@ -76,7 +71,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     private fun startTimer() {
         timerViewModel.startTimer()
         timerViewModel.saveStartTime()
-        Toast.makeText(requireActivity(), "공부 시간 측정을 시작합니다!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity(), getString(R.string.timer_start_alert), Toast.LENGTH_SHORT).show()
     }
 
     private fun pauseTimer() {
@@ -102,10 +97,12 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
 
             isTimerRunning.observe(viewLifecycleOwner) { isTimerRunning ->
                 if(isTimerRunning) {
+                    activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     binding.ivTimer.setImageResource(R.drawable.ic_stop) // todo refactor
                     binding.animationView.visibility = View.VISIBLE
                     binding.animationView.playAnimation()
                 } else {
+                    activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     binding.ivTimer.setImageResource(R.drawable.ic_play)
                     binding.animationView.visibility = View.GONE
                 }
@@ -133,7 +130,7 @@ class TimerFragment : BaseFragment<FragmentTimerBinding>(R.layout.fragment_timer
     private fun initBtn() {
         binding.ivPomodoro.setOnClickListener {
             if(timerViewModel.isTimerRunning.value == true) {
-                requireContext().showToast("기록 중에는 타이머를 변경할 수 없습니다.")
+                requireContext().showToast(getString(R.string.disturb_swipe_timer_alert))
                 return@setOnClickListener
             }
 
