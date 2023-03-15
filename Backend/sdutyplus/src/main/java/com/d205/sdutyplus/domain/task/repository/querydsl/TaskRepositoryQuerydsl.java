@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface TaskRepositoryQuerydsl {
     List<TaskDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end);
     Optional<TaskDto> findTaskBySeq(Long taskSeq);
-    public Integer getReportTotalTime(Long userSeq, LocalDateTime startTime, LocalDateTime endTime);
-    public boolean getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime);
+    Integer getReportTotalTime(Long userSeq, LocalDateTime startTime, LocalDateTime endTime);
+    boolean getTimeDuplicatedTaskCnt (Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime);
+    List<String> getReportDateByOwnerSeq (Long userSeq);
 }

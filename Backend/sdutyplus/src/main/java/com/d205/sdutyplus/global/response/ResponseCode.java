@@ -38,6 +38,7 @@ public enum ResponseCode {
     GET_TASK_DETAIL_SUCCESS(200, "T007", "테스크 상세 조회에 성공하였습니다."),
     GET_REPORT_SUCCESS(200, "T008", "리포트 조회에 성공하였습니다."),
     GET_REPORT_TOTALTIME_SUCCESS(200, "T009", "리포트 총 시간 조회에 성공하였습니다."),
+    GET_REPORT_ALL_DATE_SUCCESS(200, "T010", "전체 리포트 날짜 조회에 성공하였습니다."),
 
     //Timer
     GET_LOCALDATETIME_SUCCESS(200, "TI001", "서버 날짜, 시간 조회가 성공하였습니다."),

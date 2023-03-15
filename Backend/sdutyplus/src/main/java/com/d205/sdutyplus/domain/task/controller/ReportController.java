@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.task.controller;
 
+import com.d205.sdutyplus.domain.task.dto.ReportDateResponseDto;
 import com.d205.sdutyplus.domain.task.dto.ReportDto;
 import com.d205.sdutyplus.domain.task.service.TaskService;
 import com.d205.sdutyplus.global.response.ResponseDto;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.d205.sdutyplus.global.response.ResponseCode.GET_REPORT_SUCCESS;
-import static com.d205.sdutyplus.global.response.ResponseCode.GET_REPORT_TOTALTIME_SUCCESS;
+import java.util.List;
+
+import static com.d205.sdutyplus.global.response.ResponseCode.*;
 
 @RestController
 @RequestMapping("/task/report")
@@ -35,4 +37,12 @@ public class ReportController {
         String totalTime = taskService.getReportTotalTime(TimeFormatter.LocalDateToString(TimeFormatter.getTodayDate()));
         return ResponseEntity.ok().body(ResponseDto.of(GET_REPORT_TOTALTIME_SUCCESS, totalTime));
     }
+
+    @ApiOperation(value = "리포트 유저의 공부한 날짜 조회")
+    @GetMapping("/date")
+    public ResponseEntity<ResponseDto> getReportDate(){
+        final ReportDateResponseDto reportDateResponseDto = new ReportDateResponseDto(taskService.getReportDateByOwnerSeq());
+        return ResponseEntity.ok().body(ResponseDto.of(GET_REPORT_ALL_DATE_SUCCESS, reportDateResponseDto));
+    }
+
 }

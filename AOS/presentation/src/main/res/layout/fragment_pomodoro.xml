@@ -14,7 +14,6 @@
             android:id="@+id/common_top"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:layout_marginTop="4dp"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
