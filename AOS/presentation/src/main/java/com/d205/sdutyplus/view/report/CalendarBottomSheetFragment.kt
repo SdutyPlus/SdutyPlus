@@ -6,17 +6,17 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
 import com.d205.sdutyplus.R
-import com.d205.sdutyplus.databinding.Example1CalendarDayBinding
 import com.d205.sdutyplus.databinding.FragmentCalendarBottomSheetBinding
-import com.d205.sdutyplus.uitls.displayText
-import com.d205.sdutyplus.uitls.setTextColorRes
+import com.d205.sdutyplus.databinding.ResourceCalendarDayBinding
+import com.d205.sdutyplus.utils.displayText
+import com.d205.sdutyplus.utils.setTextColorRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -31,11 +31,13 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetDialogFragment() {
+class CalendarBottomSheetFragment(private val selectDate: String, private val dateList: List<String>) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCalendarBottomSheetBinding
-    private val monthCalendarView: CalendarView get() = binding.exOneCalendar
+    private val monthCalendarView: CalendarView get() = binding.calendarMonth
     private val todayDate = LocalDate.now()
     private lateinit var listener: dayClickListener
+    private val reportViewModel: ReportViewModel by activityViewModels()
+    private val reportDateList: List<String> = dateList
 
     interface dayClickListener {
         fun onClick(date: String)
@@ -56,15 +58,13 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //val dialog = super.onCreateDialog(savedInstanceState)
 
-        val dialog = BottomSheetDialog(requireContext(),R.style.NewDialog)
+        val dialog = BottomSheetDialog(requireContext(), R.style.NewDialog)
         dialog.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             setupRatio(bottomSheetDialog)
         }
         return dialog
-         //return BottomSheetDialog(requireContext(),R.style.NewDialog)
     }
 
     private fun setupRatio(bottomSheetDialog: BottomSheetDialog) {
@@ -99,12 +99,21 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCalendarBottomSheetBinding.bind(view)
+
+        initViewModelCallback()
+
         val daysOfWeek = daysOfWeek()
 
         val currentMonth = YearMonth.now()
         val startMonth = currentMonth.minusMonths(100)
         val endMonth = currentMonth.plusMonths(100)
         setupMonthCalendar(startMonth, endMonth, currentMonth, daysOfWeek)
+    }
+
+    private fun initViewModelCallback() {
+//        reportViewModel.date.observe(viewLifecycleOwner) {
+//            dateList = listOf()
+//        }
     }
 
     private fun setupMonthCalendar(
@@ -115,7 +124,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     ) {
         class DayViewContainer(view: View) : ViewContainer(view) {
             lateinit var day: CalendarDay
-            val textView = Example1CalendarDayBinding.bind(view).exOneDayText
+            val textView = ResourceCalendarDayBinding.bind(view).tvDay
 
             init {
                 view.setOnClickListener {
@@ -151,28 +160,40 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     private fun bindDate(date: LocalDate, textView: TextView, isSelectable: Boolean) {
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
-            when {
-                selectDate == date.toString() -> {
-                    textView.apply {
-                        setTextColorRes(R.color.white)
-                        setBackgroundResource(R.drawable.bg_calendar_selected)
+            for (element in dateList) {
+                when (date.toString()) {
+                    selectDate -> {
+                        textView.apply {
+                            setTextColorRes(R.color.white)
+                            setBackgroundResource(R.drawable.bg_calendar_selected)
+                        }
                     }
-                }
 
-                todayDate == date -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        setBackgroundResource(R.drawable.bg_calendar_today)
+                    todayDate.toString() -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_today)
+                        }
                     }
-                }
 
-                else -> {
-                    textView.apply {
-                        setTextColorRes(R.color.black)
-                        background = null
+                    element -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_study)
+                        }
+                        break
+                    }
+
+                    else -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            background = null
+                        }
                     }
                 }
             }
+
+
         } else {
             textView.apply {
                 setTextColorRes(R.color.sduty_action_off)
@@ -186,8 +207,8 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     private fun updateTitle() {
         val month = monthCalendarView.findFirstVisibleMonth()?.yearMonth ?: return
         binding.apply {
-            exOneYearText.text = month.year.toString()
-            exOneMonthText.text = month.month.displayText(short = false)
+            tvYear.text = month.year.toString()
+            tvMonth.text = month.month.displayText(short = false)
         }
     }
 

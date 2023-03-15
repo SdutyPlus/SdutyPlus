@@ -1,5 +1,6 @@
 package com.d205.sdutyplus.domain.task.controller;
 
+import com.d205.sdutyplus.domain.task.dto.ReportDateResponseDto;
 import com.d205.sdutyplus.domain.task.dto.ReportDto;
 import com.d205.sdutyplus.domain.task.service.TaskService;
 import com.d205.sdutyplus.global.response.ResponseDto;
@@ -40,8 +41,8 @@ public class ReportController {
     @ApiOperation(value = "리포트 유저의 공부한 날짜 조회")
     @GetMapping("/date")
     public ResponseEntity<ResponseDto> getReportDate(){
-        final List<String> reportDates = taskService.getReportDateByOwnerSeq();
-        return ResponseEntity.ok().body(ResponseDto.of(GET_REPORT_ALL_DATE_SUCCESS, reportDates));
+        final ReportDateResponseDto reportDateResponseDto = new ReportDateResponseDto(taskService.getReportDateByOwnerSeq());
+        return ResponseEntity.ok().body(ResponseDto.of(GET_REPORT_ALL_DATE_SUCCESS, reportDateResponseDto));
     }
 
 }

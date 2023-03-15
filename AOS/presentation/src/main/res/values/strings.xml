@@ -10,4 +10,17 @@
     <string name="naver_client_id">pF8mXN898yVFEssyqQv9</string>
     <string name="naver_client_secret">JGhqjabixT</string>
     <string name="naver_client_name">SdutyPlus</string>
+
+    <!-- Timer -->
+    <string name="total_time_initial">00:00:00</string>
+    <string name="timer_start_alert">공부 시간 측정을 시작합니다!</string>
+    <string name="disturb_swipe_timer_alert">기록 중에는 타이머를 변경할 수 없습니다.</string>
+    <string name="request_using_back_alert">백 버튼을 이용해주세요!</string>
+    <string name="end_pomodoro_alert">뽀모도로가 종료되었습니다.</string>
+    <string name="rest_time_alert">휴식 시간이에요!</string>
+    <string name="last_rest_time_alert">30분 휴식 후 시작하세요!</string>
+    <string name="working_time_alert">진행 시간이에요!</string>
+    <string name="request_pomodoro_create_alert">새로운 뽀모도로를 시작하려면 \nStart를 클릭하세요!</string>
+
+
 </resources>
