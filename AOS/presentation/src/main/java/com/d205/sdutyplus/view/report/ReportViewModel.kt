@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.view.report
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,7 +30,7 @@ class ReportViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val addTaskUseCase: AddTaskUsecase,
-    private val getDateUseCase: GetDateUseCase,
+    private val getReportDateUseCase: GetReportDateUseCase,
     private val getGraphUseCase: GetGraphUseCase
 ) : ViewModel() {
 
@@ -116,13 +117,16 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             addTaskUseCase(task).collect {
                 if(it is ResultState.Success) {
-                    _addTaskCallBack.postValue(200)
+                    if(it.data) {
+                        _addTaskCallBack.postValue(200)
+                    } else {
+                        _addTaskCallBack.postValue(400)
+                    }
                     _loadingFlag.postValue(false)
                 } else if (it is ResultState.Loading) {
                     _loadingFlag.postValue(true)
                 }
                 else {
-                    _addTaskCallBack.postValue(400)
                     _loadingFlag.postValue(false)
                 }
             }
@@ -133,14 +137,14 @@ class ReportViewModel @Inject constructor(
         _addTaskCallBack.value = 0
     }
 
-    private val _date = SingleLiveEvent<List<String>>()
-    val date get() = _date
+    private val _reportDate = SingleLiveEvent<List<String>>()
+    val reportDate get() = _reportDate
 
-    fun getDate() {
+    fun getReportDate() {
         viewModelScope.launch(Dispatchers.IO) {
-            getDateUseCase().collect {
+            getReportDateUseCase().collect {
                 if(it is ResultState.Success) {
-                    _date.postValue(it.data.date)
+                    _reportDate.postValue(it.data.date)
                 }
             }
         }

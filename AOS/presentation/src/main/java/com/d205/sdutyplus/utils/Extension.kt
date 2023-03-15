@@ -11,26 +11,11 @@ import android.graphics.Insets
 import android.graphics.Point
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.time.Month
 import java.time.format.TextStyle
 import java.util.*
-
-fun getTodayDate(): Date {
-    return Date(System.currentTimeMillis())
-}
-
-fun convertTimeDateToString(date: Date, format: String = "yyyy년 M월 d일"): String {
-    val simpleDateFormat = SimpleDateFormat(format, Locale("ko", "KR"))
-    return simpleDateFormat.format(date)
-}
-
-fun getTodayDateString(): String {
-    val simpleDateFormat = SimpleDateFormat("yy.MM.dd", Locale("ko", "KR"))
-    val currentDate = simpleDateFormat.format(Date())
-
-    return currentDate
-}
 
 
 // Calendar
@@ -46,9 +31,8 @@ fun Month.displayText(short: Boolean = true): String {
     return getDisplayName(style, Locale.ENGLISH)
 }
 
-fun convertTimeStringToDate(str: String, format: String): Date {
-    val simpleDateFormat = SimpleDateFormat(format, Locale("ko", "KR"))
-    return simpleDateFormat.parse(str)
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
 fun WindowManager.currentWindowMetricsPointCompat() : Point {

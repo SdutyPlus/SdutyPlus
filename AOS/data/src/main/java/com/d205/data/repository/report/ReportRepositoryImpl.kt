@@ -5,6 +5,7 @@ import com.d205.data.mapper.mapperToDate
 import com.d205.data.mapper.mapperToGraph
 import com.d205.data.mapper.mapperToReport
 import com.d205.data.mapper.mapperToTask
+import com.d205.data.model.report.ReportDateResponse
 import com.d205.data.repository.report.remote.ReportRemoteDataSource
 import com.d205.domain.model.report.*
 import com.d205.domain.repository.ReportRepository
@@ -57,9 +58,9 @@ class ReportRepositoryImpl @Inject constructor(
         emit(ResultState.Error(e))
     }
 
-    override fun getDate(): Flow<ResultState<Date>> = flow {
+    override fun getReportDate(): Flow<ResultState<Date>> = flow {
         emit(ResultState.Loading)
-        reportRemoteDataSource.getDate().collect {
+        reportRemoteDataSource.getReportDate().collect {
             emit(ResultState.Success(mapperToDate(it)))
         }
     }.catch { e ->

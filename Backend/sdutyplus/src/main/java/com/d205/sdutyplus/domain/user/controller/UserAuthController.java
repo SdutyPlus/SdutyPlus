@@ -86,7 +86,7 @@ public class UserAuthController {
     public ResponseEntity<ResponseDto> deleteUser(){
 
         boolean success = userAuthService.deleteUser();
-
+        log.info("회원탈퇴 "+success);
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_SUCCESS));
         } else {

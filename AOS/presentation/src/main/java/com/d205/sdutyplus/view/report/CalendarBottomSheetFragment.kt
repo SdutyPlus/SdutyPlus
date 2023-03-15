@@ -31,13 +31,13 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetDialogFragment() {
+class CalendarBottomSheetFragment(private val selectDate: String, private val dateList: List<String>) : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentCalendarBottomSheetBinding
     private val monthCalendarView: CalendarView get() = binding.calendarMonth
     private val todayDate = LocalDate.now()
     private lateinit var listener: dayClickListener
     private val reportViewModel: ReportViewModel by activityViewModels()
-    // private val dateList: List<String> = listOf("2023-03-02", "2023-03-05", "2023-03-06")
+    private val reportDateList: List<String> = dateList
 
     interface dayClickListener {
         fun onClick(date: String)
@@ -100,7 +100,6 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCalendarBottomSheetBinding.bind(view)
 
-        reportViewModel.getDate()
         initViewModelCallback()
 
         val daysOfWeek = daysOfWeek()
@@ -161,7 +160,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
     private fun bindDate(date: LocalDate, textView: TextView, isSelectable: Boolean) {
         textView.text = date.dayOfMonth.toString()
         if (isSelectable) {
-           // for (element in dateList) {
+            for (element in dateList) {
                 when (date.toString()) {
                     selectDate -> {
                         textView.apply {
@@ -177,13 +176,13 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
                         }
                     }
 
-//                    element -> {
-//                        textView.apply {
-//                            setTextColorRes(R.color.black)
-//                            setBackgroundResource(R.drawable.bg_calendar_study)
-//                        }
-//                        break
-//                    }
+                    element -> {
+                        textView.apply {
+                            setTextColorRes(R.color.black)
+                            setBackgroundResource(R.drawable.bg_calendar_study)
+                        }
+                        break
+                    }
 
                     else -> {
                         textView.apply {
@@ -192,7 +191,7 @@ class CalendarBottomSheetFragment(private val selectDate: String) : BottomSheetD
                         }
                     }
                 }
-            //}
+            }
 
 
         } else {

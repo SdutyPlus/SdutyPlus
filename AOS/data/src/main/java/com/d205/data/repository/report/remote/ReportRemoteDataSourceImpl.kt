@@ -4,10 +4,9 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.d205.data.model.BaseResponse
 import com.d205.data.api.ReportApi
-import com.d205.data.model.report.DateResponse
 import com.d205.data.model.report.GraphResponse
+import com.d205.data.model.report.ReportDateResponse
 import com.d205.data.model.report.ReportResponse
-import com.d205.data.model.report.TaskResponse
 import com.d205.domain.model.report.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -45,10 +44,14 @@ class ReportRemoteDataSourceImpl @Inject constructor(
         emit(false)
     }
 
-    override fun getDate(): Flow<BaseResponse<DateResponse>> = flow {
-        emit(reportApi.getDate())
+    @SuppressLint("LongLogTag")
+    override fun getReportDate(): Flow<BaseResponse<ReportDateResponse>> = flow {
+        Log.d(TAG, "getReportDate: ${emit(reportApi.getReportDate())}")
+        Log.d(TAG, "getReportDate: ${reportApi.getReportDate()}")
+        emit(reportApi.getReportDate())
     }
 
+    @SuppressLint("LongLogTag")
     override fun getGraph(): Flow<BaseResponse<GraphResponse>> = flow {
         emit(reportApi.getGraph())
     }
