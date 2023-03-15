@@ -3,33 +3,25 @@ package com.d205.sdutyplus.view.timer.dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.d205.domain.model.report.SubTask
-import com.d205.domain.model.report.Task
-import com.d205.sdutyplus.R
 import com.d205.sdutyplus.databinding.DialogTaskRegistBinding
-import com.d205.sdutyplus.uitls.getDeviceSize
+import com.d205.sdutyplus.utils.getDeviceSize
+import com.d205.sdutyplus.view.common.LoadingDialogFragment
 
-import com.d205.sdutyplus.view.MainViewModel
-import com.d205.sdutyplus.view.report.dialog.ConfirmDialog
 import com.d205.sdutyplus.view.timer.viewmodel.TimerViewModel
-import java.util.*
-import kotlin.concurrent.timer
 
 private const val TAG = "TaskDialog"
 
 class TaskRegistDialog : DialogFragment() {
     private lateinit var binding: DialogTaskRegistBinding
     private val timerViewModel: TimerViewModel by activityViewModels()
+    private val loadingDialogFragment by lazy { LoadingDialogFragment() }
 
     private val contentViews: List<ConstraintLayout> by lazy {
         listOf(binding.clContent1, binding.clContent2, binding.clContent3)
@@ -88,14 +80,17 @@ class TaskRegistDialog : DialogFragment() {
                 timerViewModel.timerTimeReset()
                 dismiss()
             }
-//            else if(code == 400) { // todo 이거 안뜨게 하기
-//                Toast.makeText(requireContext(),"기록 저장 실패",Toast.LENGTH_SHORT).show()
-//            }
         }
         timerViewModel.stopTaskSaveCallback.observe(viewLifecycleOwner) { isStop ->
             if(isStop) {
                 timerViewModel.callBackReset()
                 dismiss()
+            }
+        }
+        timerViewModel.loadingFlag.observe(viewLifecycleOwner) {
+            when(it) {
+                true -> showLoader()
+                false -> hideLoader()
             }
         }
     }
@@ -178,19 +173,15 @@ class TaskRegistDialog : DialogFragment() {
                         contentStrings.add(contentEditTexts[index].text.toString())
                     }
                 }
-
-                Log.d("remove","기존 내용 $contentStrings")
-
+                
                 // remove 한 index의 내용을 삭제
                 contentStrings.removeAt(index)
-                Log.d("remove","삭제 인덱스 $index 내용 $contentStrings")
 
                 // 가장 뒤에서 visible인 contentView를 Gone 처리
                for((index,contentView) in contentViews.reversed().withIndex()) {
                     if(contentView.visibility == View.VISIBLE) {
                         contentView.visibility = View.GONE
                         contentEditTexts[2-index].setText("")
-                        Log.d("remove","삭제된 et $index 내용 ${contentEditTexts[index].text.toString()}")
                         break
                     }
                 }
@@ -203,7 +194,6 @@ class TaskRegistDialog : DialogFragment() {
                         count ++
                     }
                 }
-                Log.d("remove","남은 카운트 $count")
 
                 //Strings 배열 초기화
                 contentStrings.clear()
@@ -227,4 +217,15 @@ class TaskRegistDialog : DialogFragment() {
         dialog?.window?.attributes = params as WindowManager.LayoutParams
     }
 
+    private fun showLoader() {
+        if(!loadingDialogFragment.isAdded) {
+            loadingDialogFragment.show(parentFragmentManager, "loader")
+        }
+    }
+
+    private fun hideLoader() {
+        if(loadingDialogFragment.isAdded) {
+            loadingDialogFragment.dismissAllowingStateLoss()
+        }
+    }
 }
