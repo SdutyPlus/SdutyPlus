@@ -12,18 +12,13 @@ import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.report.*
 import com.d205.domain.usecase.timer.AddTaskUsecase
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.uitls.SingleLiveEvent
-import com.d205.sdutyplus.uitls.convertTimeStringToDate
+import com.d205.sdutyplus.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 const val TAG = "ReportViewModel"
@@ -35,6 +30,7 @@ class ReportViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val addTaskUseCase: AddTaskUsecase,
+    private val getReportDateUseCase: GetReportDateUseCase,
     private val getGraphUseCase: GetGraphUseCase
 ) : ViewModel() {
 
@@ -60,6 +56,10 @@ class ReportViewModel @Inject constructor(
     private val _addTaskCallBack = MutableLiveData(0)
     val addTaskCallBack: LiveData<Int> get() = _addTaskCallBack
 
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun getReportTotalTime(date: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -75,7 +75,6 @@ class ReportViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getTaskListUseCase(date).collectLatest {
                 if (it is ResultState.Success) {
-                    Log.d(TAG, "getTaskList: $it")
                     _remoteTask.value = it
                     if (it.data.isEmpty()) {
                         _taskCheck.postValue(false)
@@ -116,13 +115,19 @@ class ReportViewModel @Inject constructor(
 
     fun addTask(task: CurrentTaskDto2) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d(TAG, "addTask: ${task}")
-            addTaskUseCase(task).collect { isSuccess ->
-                Log.d(TAG, "addTask: ${isSuccess}")
-                if(isSuccess) {
-                    _addTaskCallBack.postValue(200)
-                }else {
-                    _addTaskCallBack.postValue(400)
+            addTaskUseCase(task).collect {
+                if(it is ResultState.Success) {
+                    if(it.data) {
+                        _addTaskCallBack.postValue(200)
+                    } else {
+                        _addTaskCallBack.postValue(400)
+                    }
+                    _loadingFlag.postValue(false)
+                } else if (it is ResultState.Loading) {
+                    _loadingFlag.postValue(true)
+                }
+                else {
+                    _loadingFlag.postValue(false)
                 }
             }
         }
@@ -132,6 +137,18 @@ class ReportViewModel @Inject constructor(
         _addTaskCallBack.value = 0
     }
 
+    private val _reportDate = SingleLiveEvent<List<String>>()
+    val reportDate get() = _reportDate
+
+    fun getReportDate() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getReportDateUseCase().collect {
+                if(it is ResultState.Success) {
+                    _reportDate.postValue(it.data.date)
+                }
+            }
+        }
+    }
 
     private val _continuous = SingleLiveEvent<Int>()
     val continuous get() = _continuous

@@ -6,13 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.report.SubTask
-import com.d205.domain.model.timer.CurrentTaskDto
 import com.d205.domain.model.timer.CurrentTaskDto2
 import com.d205.domain.usecase.timer.*
 import com.d205.domain.utils.ResultState
-import com.d205.sdutyplus.uitls.convertTimeDateToString
-import com.d205.sdutyplus.uitls.convertTimeStringToDate
-import com.d205.sdutyplus.uitls.getTodayDate
+import com.d205.sdutyplus.utils.convertTimeDateToString
+import com.d205.sdutyplus.utils.convertTimeStringToDate
+import com.d205.sdutyplus.utils.getTodayDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -62,7 +61,9 @@ class TimerViewModel @Inject constructor(
     val updatedTotalTime: LiveData<String>
         get() = _updatedTotalTime
 
-
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
 
     private val _addTaskCallBack = MutableLiveData<Int>(0)
     val addTaskCallBack: LiveData<Int>
@@ -79,6 +80,7 @@ class TimerViewModel @Inject constructor(
     }
 
 
+    // flow, base response, result state와의 비교용 으로 기존 방식으로 구현된 코드
     fun getCurrentTime() {
         viewModelScope.launch(defaultDispatcher){
             var result = getCurrentTimeUsecase()
@@ -97,10 +99,6 @@ class TimerViewModel @Inject constructor(
                     _todayTotalStudyTime.postValue(it.data!!)
                 }
             }
-//            val result = getTodayTotalStudyTimeUsecase.getTodayTotalStudyTime()
-//            if(result != "error") {
-//                _todayTotalStudyTime.postValue(result)
-//            }
         }
     }
 
@@ -147,13 +145,9 @@ class TimerViewModel @Inject constructor(
             // 00:00:00을 초로 변환
 
             var token = totalTime.split(':')
-            Log.d("slice", "t0 ${token[0]}")
-            Log.d("slice", "t1 ${token[1]}")
-            Log.d("slice", "t2 ${token[2]}")
 
             // 초로 변환 후 + 1
             var seconds = token[0].toInt() * 3600 + token[1].toInt() * 60 + token[2].toInt()
-            Log.d("slice", "seconds ${seconds}")
             seconds = seconds + _timerTime.value!!
 
             // 다시 00:00:00으로 변환 후 입력
@@ -238,11 +232,16 @@ class TimerViewModel @Inject constructor(
             var timeInfo = getCurrentStudyTimeInfoUsecase(_timerTime.value!!)
             var newTask = CurrentTaskDto2(0,timeInfo.startTime, timeInfo.endTime, title, realContents)
 
-            addTaskUsecase(newTask).collect { isSuccess ->
-                if(isSuccess) {
+            addTaskUsecase(newTask).collect {
+                if(it is ResultState.Success) {
                     _addTaskCallBack.postValue(200)
-                }else {
+                    _loadingFlag.postValue(false)
+                } else if (it is ResultState.Loading) {
+                    _loadingFlag.postValue(true)
+                }
+                else {
                     _addTaskCallBack.postValue(400)
+                    _loadingFlag.postValue(false)
                 }
             }
 

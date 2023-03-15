@@ -2,15 +2,13 @@ package com.d205.sdutyplus.view.join
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentJoinIdBinding
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.regex.Pattern
 
 private const val TAG = "JoinIdFragment"
 
