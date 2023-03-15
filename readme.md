@@ -14,8 +14,6 @@
 **[1. Explore Front Repository](./AOS)**<br>
 **[2. Explore Back Repository](./Backend)**
 
-
-
 </div>
 
 <br>
@@ -120,7 +118,44 @@ feature : 기능을 개발하는 브랜치
 hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
 ```
 
+🌐 Git branch 생성 규칙
 
+master ← develop ←  (release) ← be/fe ← 작업 브랜치 **순서대로 머지** 한다.
+
+작업 브랜치 이름은 **FE/BE-대작업분류**로 . UI는 따로 가장 뒤에 UI를 붙인다.
+```
+FE-report
+FE-report-UI
+FE-pomodoro-timer
+BE-report
+```
+
+🌐 Git 커밋 타입
+```
+feat : 기능 추가
+fix : 버그 수정 (안 돌아간다)
+refactor : 가독성, 유지보수의 목적이 있는 코드 수정
+pref : 성능 향상
+rename : 단순 파일 이름 수정 및 이동, 추가
+style : 코드 스타일 변경 (뉴라인, 세미콜론 등)
+docs : 문서 수정
+test : 테스트 관련 코드 추가
+ui : ui 변경
+```
+
+🌐 Git 커밋 형식
+```
+커밋 타입: 대작업분류(Epic) | 작업 단위, 변경 사항
+```
+```
+feat: 타이머 | 용이 나타나면서 승천하는 애니메이션 기능 추가
+```
+
+<details>
+<summary>ver.2022</summary>
+<div markdown="1">
+
+</br>
 🌐 Git branch 생성 규칙
 
 master ← develop ←  (release) ← be/fe ← feat  **순서대로 머지** 한다.
@@ -165,4 +200,9 @@ feat: 회원관리 | 네이버 로그인 기능 추가
 [Jira 이슈 번호]
 
 <br/>
+
+
+
+</div>
+</details>
 
