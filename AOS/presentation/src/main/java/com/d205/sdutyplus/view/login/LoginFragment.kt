@@ -60,6 +60,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             btnNaverLogin.setOnClickListener {
                 startNaverLogin()
             }
+            // 테스트 로그인 버튼
+            btnTestLogin.setOnClickListener {
+                startTestLogin()
+            }
         }
     }
 
@@ -192,6 +196,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         }
 
         NaverIdLoginSDK.authenticate(requireContext(), oauthLoginCallback)
+    }
+
+    private fun startTestLogin() {
+        // 다이얼 로그 띄우기
+
+        // 다이얼 로그 확인 되면 테스트 로그인 api 호출
+
     }
 
     private suspend fun signInKakaoUser(kakaoToken: String) {
