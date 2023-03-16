@@ -12,6 +12,7 @@ interface UserRemoteDataSource {
     fun checkNickname(nickname: String): Flow<Boolean>
     fun loginKakaoUser(token: String): Flow<UserResponse>
     fun loginNaverUser(token: String): Flow<UserResponse>
+    fun loginTestUser(): Flow<UserResponse>
     fun getUser(): Flow<UserResponse>
     fun deleteUser(): Flow<Boolean>
     fun updateUser(user:UserDto, prevProfileImageUrl: String?): Flow<UserResponse>

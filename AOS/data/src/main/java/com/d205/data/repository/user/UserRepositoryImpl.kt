@@ -85,6 +85,23 @@ class UserRepositoryImpl @Inject constructor(
         emit(ResultState.Error(e))
     }
 
+    override fun loginTestUser(): Flow<ResultState<User>> = flow {
+        emit(ResultState.Loading)
+
+        userRemoteDataSource.loginTestUser().collect {
+            val accessToken = it.jwtDto!!.accessToken
+            if(accessToken != null) {
+                userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("test")
+            }
+            else {
+                userLocalDataSource.saveJwt("")
+            }
+
+            emit(ResultState.Success(mapperUserResponseToUser(it)))
+        }
+    }
+
     override fun getUser(): Flow<ResultState<User>> = flow {
         Log.d(TAG, "getUser: Loading")
         emit(ResultState.Loading)
