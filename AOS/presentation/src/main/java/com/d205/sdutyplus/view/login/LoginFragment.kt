@@ -1,6 +1,8 @@
 package com.d205.sdutyplus.view.login
 
+import android.app.ProgressDialog.show
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,6 +13,8 @@ import com.d205.sdutyplus.utils.KAKAO_JOIN
 import com.d205.sdutyplus.utils.NAVER_JOIN
 import com.d205.sdutyplus.utils.showToast
 import com.d205.sdutyplus.view.MainActivity
+import com.d205.sdutyplus.view.login.dialog.TestLoginDialog
+import com.d205.sdutyplus.view.report.dialog.ConfirmDialog
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
@@ -200,8 +204,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     private fun startTestLogin() {
         // 다이얼 로그 띄우기
-
-        // 다이얼 로그 확인 되면 테스트 로그인 api 호출
+        TestLoginDialog().show(this@LoginFragment.parentFragmentManager, "TestLoginDialog")
 
     }
 
