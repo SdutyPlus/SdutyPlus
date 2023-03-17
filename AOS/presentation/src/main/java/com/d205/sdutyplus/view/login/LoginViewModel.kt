@@ -2,6 +2,8 @@ package com.d205.sdutyplus.view.login
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.d205.domain.model.user.User
@@ -28,6 +30,10 @@ class LoginViewModel @Inject constructor(
     private val _user : MutableStateFlow<User> =
         MutableStateFlow(User())
     val user get() = _user.asStateFlow()
+
+    private val _loadingFlag = MutableLiveData(false)
+    val loadingFlag : LiveData<Boolean>
+        get() = _loadingFlag
 
     var isLoginSucceeded = false
     var isJwtAvailable = false
@@ -62,9 +68,14 @@ class LoginViewModel @Inject constructor(
         testLoginUseCase().collect {
             if(it is ResultState.Success) {
                 _user.value = it.data
+                isLoginSucceeded = true
+                _loadingFlag.postValue(false)
             }
-            else {
-                Log.d(TAG, "naverLogin $TAG: invoke Done!! $it")
+            else if (it is ResultState.Error) {
+                _loadingFlag.postValue(false)
+            }
+            else if(it is ResultState.Loading){
+                _loadingFlag.postValue(true)
             }
         }
     }
