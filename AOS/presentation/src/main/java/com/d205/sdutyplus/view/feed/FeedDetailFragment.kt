@@ -60,11 +60,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
                 }
                 changeFeedScrapFlag()
             }
-            binding.apply {
-                swipeRefresh.setOnRefreshListener {
-                    swipeRefresh.isRefreshing = false
-                }
-            }
         }
     }
 
@@ -80,7 +75,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
         CoroutineScope(Dispatchers.IO).launch {
             feedViewModel.deleteScrapFeed(feed.seq)
         }
-        binding.ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_black_24)
+        binding.ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_gray_24)
     }
 
     private fun scrapFeed() {
