@@ -24,20 +24,22 @@ public class UserTestLoginTest {
         List<String> testUsers = getLastUserID();
         String testAccount = "test2@sduty.com";
         String newUserEmail;
-        testUsers.add(testAccount);
 
         if(testUsers.size()==0){
             newUserEmail = "test1@sduty.com";
+            assertThat(newUserEmail).isEqualTo("test1@sduty.com");
         }
         else{
+            testUsers.add(testAccount);
             String[] prevUser = testUsers.get(testUsers.size()-1).split("@");
             StringBuilder sb = new StringBuilder();
             sb.append("test")
                     .append(Integer.parseInt(prevUser[0].substring(4))+1)
                     .append("@sduty.com");
             newUserEmail = sb.toString();
+            assertThat(newUserEmail).isEqualTo("test3@sduty.com");
         }
-        assertThat(newUserEmail).isEqualTo("test3@sduty.com");
+
     }
 
     private List<String> getLastUserID(){
