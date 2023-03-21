@@ -95,13 +95,14 @@ class UserRepositoryImpl @Inject constructor(
             if(accessToken != null) {
                 userLocalDataSource.saveJwt(accessToken)
                 userLocalDataSource.saveSocialType("test")
+                emit(ResultState.Success(mapperUserResponseToUser(it)))
             }
             else {
-                userLocalDataSource.saveJwt("")
+                emit(ResultState.Error(Exception("로그인 실패")))
             }
-
-            emit(ResultState.Success(mapperUserResponseToUser(it)))
         }
+    }.catch { e ->
+            emit(ResultState.Error(e))
     }
 
     override fun getUser(): Flow<ResultState<User>> = flow {
