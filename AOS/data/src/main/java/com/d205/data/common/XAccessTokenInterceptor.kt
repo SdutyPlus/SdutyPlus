@@ -13,7 +13,8 @@ private const val TAG = "XAccessTokenInterceptor"
 class XAccessTokenInterceptor @Inject constructor(
     private val sharedPref: UserSharedPreference
 ): Interceptor {
-    private val noJwtUrls = arrayListOf("/api/user/kakao/login", "/api/user/naver/login")
+    private val noJwtUrls = arrayListOf("/api/user/kakao/login", "/api/user/naver/login"
+    , "/api/user/test/login")
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val url = chain.request().url().encodedPath()

@@ -19,6 +19,10 @@ interface UserApi {
     @POST("user/naver/login")
     suspend fun loginNaverUser(@Body token: String): BaseResponse<UserResponse>
 
+    // 테스트 로그인
+    @POST("user/test/login")
+    suspend fun loginTestUser(): BaseResponse<UserResponse>
+
     // 회원 가입
     @POST("user/reg")
     suspend fun joinUser(@Body user: UserDto): BaseResponse<UserResponse>

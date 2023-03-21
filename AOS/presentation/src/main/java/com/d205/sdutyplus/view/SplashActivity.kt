@@ -35,12 +35,12 @@ class SplashActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
 
             delay(1200)
-            if(isJwtAvailable() && loginViewModel.user.value.nickname != null) {
-                Log.d(TAG, "moveToMainActivity!")
+
+            if(isJwtAvailable() && (loginViewModel.user.value.nickname != null
+                        && loginViewModel.user.value.nickname != "")) {
                 moveToMainActivity()
             }
             else {
-                Log.d(TAG, "moveToLoginActivity!")
                 moveToLoginActivity()
             }
         }

@@ -83,9 +83,14 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                                         Log.d(TAG, "카카오 회원 탈퇴 진행 socialType : ${getSocialType()}")
                                         kakaoUnlink()
                                     }
-                                    else {
+                                    else if(getSocialType() == "naver"){
                                         Log.d(TAG, "네이버 회원 탈퇴 진행 socialType : ${getSocialType()}")
                                         naverUnlink()
+                                    } else {
+                                        withContext(Dispatchers.Main) {
+                                            showToast("Test 계정 회원 탈퇴 성공")
+                                            moveToLoginActivity()
+                                        }
                                     }
                                 }
                                 else {
