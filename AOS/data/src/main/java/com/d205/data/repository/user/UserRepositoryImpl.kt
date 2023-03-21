@@ -3,6 +3,7 @@ package com.d205.data.repository.user
 import android.util.Log
 import com.d205.data.mapper.mapperUserEntityToUser
 import com.d205.data.mapper.mapperUserResponseToUser
+import com.d205.data.model.user.UserResponse
 import com.d205.data.repository.user.local.UserLocalDataSource
 import com.d205.data.repository.user.local.UserMockDataSource
 import com.d205.data.repository.user.remote.UserRemoteDataSource
@@ -10,6 +11,7 @@ import com.d205.domain.model.user.User
 import com.d205.domain.model.user.UserDto
 import com.d205.domain.repository.UserRepository
 import com.d205.domain.utils.ResultState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -83,6 +85,24 @@ class UserRepositoryImpl @Inject constructor(
         }
     }.catch { e ->
         emit(ResultState.Error(e))
+    }
+
+    override fun loginTestUser(): Flow<ResultState<User>> = flow {
+        emit(ResultState.Loading)
+
+        userRemoteDataSource.loginTestUser().collect {
+            val accessToken = it.jwtDto!!.accessToken
+            if(accessToken != null) {
+                userLocalDataSource.saveJwt(accessToken)
+                userLocalDataSource.saveSocialType("test")
+                emit(ResultState.Success(mapperUserResponseToUser(it)))
+            }
+            else {
+                emit(ResultState.Error(Exception("로그인 실패")))
+            }
+        }
+    }.catch { e ->
+            emit(ResultState.Error(e))
     }
 
     override fun getUser(): Flow<ResultState<User>> = flow {
