@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserRepositoryQuerydsl {
     Page<WarnUserDto> findAllWarnUserPage(Pageable pageable);
+    String findLastTestUserEmail();
 }

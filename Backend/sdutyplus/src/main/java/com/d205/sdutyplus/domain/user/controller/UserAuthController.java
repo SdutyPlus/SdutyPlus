@@ -67,6 +67,12 @@ public class UserAuthController {
         return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_FAIL));
     }
 
+    @PostMapping("/test/login")
+    public ResponseEntity<ResponseDto> testLogin(){
+        final UserLoginDto userLoginDto = userAuthService.loginTestUser();
+        return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_SUCCESS, userLoginDto));
+    }
+
     @ApiOperation(value = "로그아웃")
     @ApiResponses({
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
