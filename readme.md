@@ -181,6 +181,7 @@ rename: 추가된 기능, 별 내용 없이 폴더 및 파일만 추가, 폴더 
 refactor : 코드 리팩토링
 test : 테스트 추가
 comment : 필요한 주석 추가 및 변경
+release : 배포 관련 수정, 버전 관리
 study : 학습 내용
 ```
 **ver01(간략) : commit type: Epic/대분류 | 작업 단위 [Jira 이슈 번호]**
