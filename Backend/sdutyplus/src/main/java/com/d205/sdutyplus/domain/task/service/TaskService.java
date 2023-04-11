@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.d205.sdutyplus.global.error.ErrorCode.TASK_NOT_FOUND;
 
@@ -44,15 +46,16 @@ public class TaskService{
         timeValidCheck(userSeq, 0L, task.getStartTime(), task.getEndTime());
 
         final Task createdTask = taskRepository.save(task);
-        final List<String> createdSubTasks = createSubTask(createdTask.getSeq(), taskPostDto.getContents());
+        createSubTask(createdTask, taskPostDto.getContents());
 
-        final TaskDto taskDto = new TaskDto(createdTask, createdSubTasks);
+        final TaskDto taskDto = new TaskDto(createdTask);
         return taskDto;
     }
 
     public TaskDto getTaskDetail(Long taskSeq){
-        return taskRepository.findTaskBySeq(taskSeq)
+        final Task task = taskRepository.findById(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
+        return new TaskDto(task);
     }
 
     @Transactional
@@ -74,12 +77,11 @@ public class TaskService{
 
         //subtask
         deleteSubTaskByTaskSeq(taskSeq);
-        createSubTask(taskSeq, taskDto.getContents());
+        createSubTask(task, taskDto.getContents());
     }
 
     @Transactional
     public void deleteTask(Long taskSeq){
-        subTaskRepository.deleteByTaskSeq(taskSeq);
         taskRepository.deleteById(taskSeq);
     }
 
@@ -88,7 +90,8 @@ public class TaskService{
 
         final LocalDateTime startTime = TimeFormatter.StringToLocalDateTime(date+" 00:00:00");
         final LocalDateTime endTime = TimeFormatter.StringToLocalDateTime(date+" 23:59:59");
-        final List<TaskDto> taskDtos = taskRepository.findTaskByStartTime(userSeq, startTime, endTime);
+        final List<Task> tasks = taskRepository.findTaskByStartTime(userSeq, startTime, endTime);
+        final List<TaskDto> taskDtos = tasks.stream().map(TaskDto::new).collect(Collectors.toList());
 
         final ReportDto reportResponseDto = new ReportDto(taskDtos);
 
@@ -109,20 +112,18 @@ public class TaskService{
     }
 
     @Transactional
-    public List<String> createSubTask(Long taskSeq, List<String> subtasks){
-        if(subtasks.size()>3){
+    public void createSubTask(Task task, List<String> subTaskContents){
+        if(subTaskContents.size()>3){
             throw new SubTaskCntLimitException();
         }
 
-        final List<String> result = new LinkedList<>();
-        for(String subtask : subtasks){
+        for(String subtask : subTaskContents){
             final SubTask subTask = SubTask.builder()
-                    .taskSeq(taskSeq)
+                    .taskSeq(task.getSeq())
                     .content(subtask)
                     .build();
-            result.add(subTaskRepository.save(subTask).getContent());
+            task.getSubTasks().add(subTask);
         }
-        return result;
     }
 
     @Transactional
