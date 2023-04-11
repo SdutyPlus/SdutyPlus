@@ -1,6 +1,7 @@
 package com.d205.sdutyplus;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
+import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.TimeFormatter;
@@ -37,10 +38,10 @@ public class TaskRepositoryTest {
     public void findTaskBySeq() {
         //given
         Long taskSeq = 4L;
-        Optional<TaskDto> taskDto = taskRepository.findTaskBySeq(taskSeq);
+        Optional<Task> task = taskRepository.findById(taskSeq);
 
         //then
-        assertThat(taskDto
+        assertThat(task
                 .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND)).getSeq())
                 .isEqualTo(taskSeq);
 

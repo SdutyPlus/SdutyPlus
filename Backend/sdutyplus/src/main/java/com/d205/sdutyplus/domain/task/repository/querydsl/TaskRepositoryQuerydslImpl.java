@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.domain.task.repository.querydsl;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
+import com.d205.sdutyplus.domain.task.entity.QTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.dsl.Expressions;
@@ -8,6 +9,7 @@ import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -25,30 +27,14 @@ public class TaskRepositoryQuerydslImpl implements TaskRepositoryQuerydsl{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<TaskDto> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end) {
-        Map<Task, List<String>> transform = queryFactory
+    public List<Task> findTaskByStartTime(Long userSeq, LocalDateTime start, LocalDateTime end) {
+        List<Task> tasks = queryFactory
                 .selectFrom(task)
-                .leftJoin(task.subTasks, subTask)
                 .where(task.startTime.between(start, end).and(task.ownerSeq.eq(userSeq)))
                 .orderBy(task.startTime.asc())
-                .transform(groupBy(task).as(list(subTask.content)));
+                .fetch();
 
-        return transform.entrySet().stream()
-                .map(entry -> new TaskDto(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Optional<TaskDto> findTaskBySeq(Long taskSeq) {
-        Map<Task, List<String>> transform = queryFactory
-                .selectFrom(task)
-                .leftJoin(task.subTasks, subTask)
-                .where(task.seq.eq(taskSeq))
-                .transform(groupBy(task).as(list(subTask.content)));
-
-        return (Optional<TaskDto>) transform.entrySet().stream()
-                .map(entry -> new TaskDto(entry.getKey(), entry.getValue()))
-                .findFirst();
+        return tasks;
     }
 
     @Override
