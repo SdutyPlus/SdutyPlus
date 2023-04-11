@@ -62,7 +62,7 @@ class PomodoroFragment: BaseFragment<FragmentPomodoroBinding>(R.layout.fragment_
                 binding.animationView.playAnimation()
 
                 binding.tvPomoCount.visibility = View.VISIBLE
-                binding.tvPomoCount.text = "$pomoCount + Complete!"
+                binding.tvPomoCount.text = "$pomoCount Complete!"
                 startCountDown()
             }
 //
