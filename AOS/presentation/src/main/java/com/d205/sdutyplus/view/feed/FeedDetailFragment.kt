@@ -8,7 +8,7 @@ import com.d205.domain.model.feed.Feed
 import com.d205.sdutyplus.R
 import com.d205.sdutyplus.base.BaseFragment
 import com.d205.sdutyplus.databinding.FragmentFeedDetailBinding
-import com.d205.sdutyplus.uitls.showToast
+import com.d205.sdutyplus.utils.showToast
 import com.d205.sdutyplus.view.feed.dialog.FeedDeleteDialog
 import com.d205.sdutyplus.view.feed.dialog.FeedDeleteDialogListener
 import com.d205.sdutyplus.view.feed.dialog.FeedReportDialog
@@ -60,11 +60,6 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
                 }
                 changeFeedScrapFlag()
             }
-            binding.apply {
-                swipeRefresh.setOnRefreshListener {
-                    swipeRefresh.isRefreshing = false
-                }
-            }
         }
     }
 
@@ -80,7 +75,7 @@ class FeedDetailFragment : BaseFragment<FragmentFeedDetailBinding>(R.layout.frag
         CoroutineScope(Dispatchers.IO).launch {
             feedViewModel.deleteScrapFeed(feed.seq)
         }
-        binding.ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_black_24)
+        binding.ivScrap.setImageResource(R.drawable.ic_baseline_bookmark_border_gray_24)
     }
 
     private fun scrapFeed() {

@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,6 +68,17 @@ public class UserAuthController {
         return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_FAIL));
     }
 
+    @ApiOperation(value="테스트 계정 로그인")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "U001 - 로그인에 성공하였습니다."),
+            @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
+    })
+    @PostMapping("/test/login")
+    public synchronized ResponseEntity<ResponseDto> testLogin(){
+        final UserLoginDto userLoginDto = userAuthService.loginTestUser();
+        return ResponseEntity.ok(ResponseDto.of(ResponseCode.LOGIN_SUCCESS, userLoginDto));
+    }
+
     @ApiOperation(value = "로그아웃")
     @ApiResponses({
             @ApiResponse(code = 401, message = "U005 - 계정 정보가 일치하지 않습니다.")
@@ -86,7 +98,6 @@ public class UserAuthController {
     public ResponseEntity<ResponseDto> deleteUser(){
 
         boolean success = userAuthService.deleteUser();
-
         if (success) {
             return ResponseEntity.ok(ResponseDto.of(ResponseCode.DELETE_SUCCESS));
         } else {

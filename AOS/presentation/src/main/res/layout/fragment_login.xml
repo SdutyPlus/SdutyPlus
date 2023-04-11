@@ -32,152 +32,30 @@
                     <ImageView
                         android:id="@+id/iv_login_logo"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="180dp"
                         android:src="@drawable/img_logo_white_360"
                         app:layout_constraintTop_toTopOf="parent"/>
 
-
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/const_btn_sns_field"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/const_top"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginVertical="30dp"
-                    >
-
-                    <!--                    <Button-->
-                    <!--                        android:id="@+id/btn_kakao_login"-->
-                    <!--                        android:layout_width="80dp"-->
-                    <!--                        android:layout_height="40dp"-->
-                    <!--                        app:layout_constraintTop_toTopOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                        android:src="@drawable/icon_kakao_login"-->
-                    <!--                        android:background="@drawable/icon_kakao_login"-->
-                    <!--                        />-->
-                    <!--                    <Button-->
-                    <!--                        android:id="@+id/btn_naver_login"-->
-                    <!--                        android:layout_width="80dp"-->
-                    <!--                        android:layout_height="40dp"-->
-                    <!--                        android:layout_marginStart="10dp"-->
-                    <!--                        android:background="@drawable/icon_naver_login"-->
-                    <!--                        app:layout_constraintTop_toTopOf="parent"-->
-                    <!--                        app:layout_constraintStart_toStartOf="parent"-->
-                    <!--                        android:src="@drawable/icon_naver_login"-->
-                    <!--                        />-->
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:id="@+id/const_input_field"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/const_btn_sns_field"-->
-<!--                    >-->
-
-<!--                    <EditText-->
-<!--                        android:id="@+id/et_id"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        android:layout_marginVertical="20dp"-->
-<!--                        android:hint="ID"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textColorHint="@color/white"-->
-<!--                        android:backgroundTint="@color/white"-->
-<!--                        android:singleLine="true" />-->
-<!--                    <EditText-->
-<!--                        android:id="@+id/et_pw"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="50dp"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/et_id"-->
-<!--                        android:layout_marginVertical="20dp"-->
-<!--                        android:hint="Password"-->
-<!--                        android:inputType="textPassword"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textColorHint="@color/white"-->
-<!--                        android:backgroundTint="@color/white"-->
-<!--                        android:singleLine="true"/>-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                    android:id="@+id/const_find_info_field"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/const_input_field"-->
-<!--                    android:layout_marginVertical="20dp"-->
-<!--                    >-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_find_id"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="아이디 찾기"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="16sp"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        app:layout_constraintEnd_toStartOf="@id/divider_vertical"-->
-<!--                        android:layout_marginHorizontal="10dp"-->
-<!--                        />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:id="@+id/divider_vertical"-->
-<!--                        style="@style/divider"-->
-<!--                        android:layout_width="1dp"-->
-<!--                        android:layout_height="20dp"-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:layout_marginHorizontal="10dp"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                        app:layout_constraintEnd_toStartOf="@id/tv_find_pw"-->
-<!--                        />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/tv_find_pw"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="비밀번호 찾기"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="16sp"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        />-->
-
-<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/const_btn_login_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/const_btn_sns_field"
+                    app:layout_constraintTop_toBottomOf="@id/const_top"
                     android:layout_marginVertical="160dp">
-
-<!--                    <androidx.appcompat.widget.AppCompatButton-->
-<!--                        android:id="@+id/btn_login"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:background="@drawable/btn_login_container"-->
-<!--                        android:text="    로그인"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:textColor="#9585EB"-->
-<!--                        android:textStyle="bold"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        />-->
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_kakao_login"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                        android:background="@drawable/kakao_login_medium_wide"
+                        android:background="@drawable/btn_kakao_container_400px"
+                        android:text="      카카오로 시작하기"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:layout_marginTop="12dp"
+                        android:visibility="gone"
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -186,35 +64,27 @@
                         android:layout_height="48dp"
                         android:foreground="?android:attr/selectableItemBackgroundBorderless"
                         android:background="@drawable/btn_naver_container_400px"
-                        android:text="      네이버 로그인"
+                        android:text="      네이버로 시작하기"
                         android:textSize="16sp"
                         android:textColor="@color/white"
                         android:textStyle="bold"
                         android:layout_marginTop="20dp"
+                        android:visibility="gone"
                         app:layout_constraintTop_toBottomOf="@id/btn_kakao_login"/>
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/btn_join"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="  회원가입하기"-->
-<!--                        android:textSize="16sp"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:layout_marginBottom="16dp"-->
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_test_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                        android:background="@drawable/bg_white_radius_20"
+                        android:text="테스트 계정으로 시작하기"
+                        android:textSize="20sp"
+                        android:textColor="@color/sduty_mix_violet"
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintTop_toBottomOf="@id/btn_naver_login"/>
 
-<!--                        android:layout_marginTop="40dp"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/btn_naver_login"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"/>-->
-
-
-                    <!--                    <Button-->
-                    <!--                        android:id="@+id/btn_join"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:text="회원가입"-->
-                    <!--                        app:layout_constraintTop_toBottomOf="@id/btn_login"-->
-                    <!--                        />-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>

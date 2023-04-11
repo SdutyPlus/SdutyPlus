@@ -23,17 +23,21 @@ private const val TAG = "SplashActivity"
 class SplashActivity : AppCompatActivity() {
     private val loginViewModel : LoginViewModel by viewModels()
     private val userPref = UserSharedPreference(this)
+    private var jwt = "NoValue"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val jwt = userPref.getStringFromPreference("jwt")
+        jwt = userPref.getStringFromPreference("jwt")
         Log.d(TAG, "jwt : $jwt")
 
         CoroutineScope(Dispatchers.Main).launch {
+
             delay(1200)
-            if(isJwtAvailable()) {
+
+            if(isJwtAvailable() && (loginViewModel.user.value.nickname != null
+                        && loginViewModel.user.value.nickname != "")) {
                 moveToMainActivity()
             }
             else {
@@ -44,7 +48,14 @@ class SplashActivity : AppCompatActivity() {
 
 
     private suspend fun isJwtAvailable(): Boolean {
+        if(jwt == "NoValue")
+            return false
+        Log.d(TAG, "checkJwt start!")
         loginViewModel.checkJwt()
+        Log.d(TAG, "checkJwt end!")
+        Log.d(TAG, "getUser start!")
+        loginViewModel.getUser()
+        Log.d(TAG, "getUser end!")
         return loginViewModel.isJwtAvailable
     }
 

@@ -6,6 +6,7 @@ import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.dto.TaskPostDto;
 import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
+import com.d205.sdutyplus.domain.task.exception.InvalidEndTimeException;
 import com.d205.sdutyplus.domain.task.exception.SubTaskCntLimitException;
 import com.d205.sdutyplus.domain.task.exception.TimeDuplicateException;
 import com.d205.sdutyplus.domain.task.exception.TimeReveredException;
@@ -40,8 +41,7 @@ public class TaskService{
         final Task task = taskPostDto.toEntity();
         task.setOwnerSeq(userSeq);
 
-        timeReversedCheck(task.getStartTime(), task.getEndTime());
-        timeDuplicateCheck(userSeq, 0L, task.getStartTime(), task.getEndTime());
+        timeValidCheck(userSeq, 0L, task.getStartTime(), task.getEndTime());
 
         final Task createdTask = taskRepository.save(task);
         final List<String> createdSubTasks = createSubTask(createdTask.getSeq(), taskPostDto.getContents());
@@ -65,8 +65,7 @@ public class TaskService{
         final Task task = getTask(taskSeq);
         final Task updatedTask = taskDto.toEntity();
 
-        timeReversedCheck(updatedTask.getStartTime(), updatedTask.getEndTime());
-        timeDuplicateCheck(task.getOwnerSeq(), taskSeq, updatedTask.getStartTime(), updatedTask.getEndTime());
+        timeValidCheck(task.getOwnerSeq(), taskSeq, updatedTask.getStartTime(), updatedTask.getEndTime());
 
         task.setStartTime(updatedTask.getStartTime());
         task.setEndTime(updatedTask.getEndTime());
@@ -131,12 +130,23 @@ public class TaskService{
         subTaskRepository.deleteByTaskSeq(taskSeq);
     }
 
+    public List<String> getReportDateByOwnerSeq(){
+        final Long userSeq = authUtils.getLoginUserSeq();
+        return taskRepository.getReportDateByOwnerSeq(userSeq);
+    }
+
     /**
      * private
      */
     private Task getTask(Long taskSeq){
         return taskRepository.findById(taskSeq)
                 .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND));
+    }
+
+    private void timeValidCheck(Long userSeq, Long taskSeq, LocalDateTime startTime, LocalDateTime endTime){
+        timeReversedCheck(startTime, endTime);
+        timeDuplicateCheck(userSeq, taskSeq, startTime, endTime);
+        endTimeValidCheck(endTime);
     }
 
     private void timeReversedCheck(LocalDateTime startTime, LocalDateTime endTime){
@@ -150,6 +160,14 @@ public class TaskService{
         if(duplicatedCnt){
             throw new TimeDuplicateException();
         }
+    }
+
+    private void endTimeValidCheck(LocalDateTime endTime){
+        LocalDateTime nowTime = TimeFormatter.getTodayDateTime();
+        if(endTime.isAfter(nowTime)){
+            throw new InvalidEndTimeException();
+        }
+
     }
 
 }
