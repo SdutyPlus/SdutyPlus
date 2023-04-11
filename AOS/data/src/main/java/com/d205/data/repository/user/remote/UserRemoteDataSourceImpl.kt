@@ -79,6 +79,16 @@ class UserRemoteDataSourceImpl @Inject constructor(
         }
     }
 
+    override fun loginTestUser(): Flow<UserResponse> = flow {
+        val response = userApi.loginTestUser()
+        if(response.status == 200 && response.data != null) {
+            emit(response.data)
+        } else {
+            emit(UserResponse())
+        }
+    }
+
+
     @SuppressLint("LongLogTag")
     override fun getUser(): Flow<UserResponse>  = flow {
         val response = userApi.getUser()

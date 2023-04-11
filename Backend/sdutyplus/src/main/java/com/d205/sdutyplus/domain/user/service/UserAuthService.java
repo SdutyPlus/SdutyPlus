@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.domain.user.service;
 
-
 import com.d205.sdutyplus.domain.feed.service.FeedService;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
@@ -58,42 +57,33 @@ public class UserAuthService {
     public UserLoginDto loginUser(String email, SocialType socialType) {
         //가입된 유저인지 확인
         final Optional<User> userOp = userRepository.findByEmailAndSocialType(email, socialType);
-        User realUser = null;
-        if(!userOp.isPresent()) {//가입안 된 user면 => DB save
-            User user = new User();
-            user.setEmail(email);
-            user.setSocialType(socialType);
-            user.setRegTime(LocalDateTime.now());
-            user.setLastReport(LocalDate.now());
-            realUser = userRepository.save(user);
+        User user = null;
+        if(!userOp.isPresent()) {
+            user = registUser(email, socialType);
 
             final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
             dailyStatisticsRepository.save(dailyStatistics);
-
-            if(realUser == null) {
-                return null;
-            }
         }
         else {
-            realUser = userOp.get();
+            user = userOp.get();
         }
-        final JwtDto jwtDto = new JwtDto(JwtUtils.createAccessToken(realUser), JwtUtils.createRefreshToken(realUser));
 
-        //token저장
-        final Jwt jwt = jwtRepository.findByUserSeq(realUser.getSeq()).orElseGet(()->new Jwt());
-        jwt.setUserSeq(realUser.getSeq());
-        jwt.setAccessToken(jwtDto.getAccessToken());
-        jwt.setRefreshToken(jwtDto.getRefreshToken());
-        jwtRepository.save(jwt);
+        final Jwt jwt = issueJWT(user);
+        final JwtDto jwtDto = new JwtDto(jwt.getAccessToken(), jwt.getRefreshToken());
 
-        final String jobName = "";
-        final UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto, jobName);
+        final UserLoginDto userLoginDto = new UserLoginDto(user, jwtDto, "");
 
         return userLoginDto;
     }
 
+    @Transactional
+    public UserLoginDto loginTestUser(){
+        final String email = createTestEmail();
+        final UserLoginDto userLoginDto = loginUser(email, SocialType.SDUTY);
+        return userLoginDto;
+    }
 
-    //naver 회원정보 받기
+
     public Map<String, Object> getNaverUserInfo(String token) {
         RestTemplate rt = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -170,15 +160,46 @@ public class UserAuthService {
         return true;
     }
 
+    private String createTestEmail(){
+        final String lastTestUserEmail = userRepository.findLastTestUserEmail();
+
+        int no = 1;
+        if(lastTestUserEmail != null){
+            String[] prevUser = lastTestUserEmail.split("@");
+            no = Integer.parseInt(prevUser[0].substring(4)) + 1;
+        }
+
+        final StringBuilder sb = new StringBuilder();
+        sb.append("test").append(no).append("@sduty.com");
+        return sb.toString();
+    }
+
+    private User registUser(String email, SocialType socialType){
+        User user = new User();
+        user.setEmail(email);
+        user.setSocialType(socialType);
+        user.setRegTime(LocalDateTime.now());
+        user.setLastReport(LocalDate.now());
+        return userRepository.save(user);
+    }
+
+    private Jwt issueJWT(User user){
+        final Jwt jwt = jwtRepository.findByUserSeq(user.getSeq()).orElseGet(()->new Jwt());
+        jwt.setUserSeq(user.getSeq());
+        jwt.setAccessToken(JwtUtils.createAccessToken(user));
+        jwt.setRefreshToken(JwtUtils.createRefreshToken(user));
+        return jwtRepository.save(jwt);
+    }
+
     private void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
-        //스크랩, 좋아요, 신고, 차단 정보 삭제
+
         feedService.deleteAllFeedScrapByUserSeq(userSeq);
         feedService.deleteAllFeedLikeByUserSeq(userSeq);
         warnService.deleteAllFeedWarnByUserSeq(userSeq);
         offService.deleteAllFeedOffByUserSeq(userSeq);
-        //내가 쓴 글 삭제
+
         feedService.deleteAllFeedByUserSeq(userSeq);
 
         warnUserRepository.deleteAllByFromUserSeq(userSeq);
