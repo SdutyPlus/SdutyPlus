@@ -1,4 +1,4 @@
-package com.d205.sdutyplus;
+package com.d205.sdutyplus.domain.task;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
