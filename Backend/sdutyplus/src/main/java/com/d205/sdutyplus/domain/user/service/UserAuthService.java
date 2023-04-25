@@ -23,6 +23,7 @@ import java.util.Optional;
 import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
 import com.d205.sdutyplus.util.AuthUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -78,8 +79,14 @@ public class UserAuthService {
 
     @Transactional
     public UserLoginDto loginTestUser(){
-        final String email = createTestEmail();
+        final StringBuilder sb = new StringBuilder();
+        sb.append(RandomStringUtils.random(6, true, false))
+                .append((int)(Math.random()*99) + 1)
+                .append("@sduty.com");
+
+        final String email = sb.toString();
         final UserLoginDto userLoginDto = loginUser(email, SocialType.SDUTY);
+
         return userLoginDto;
     }
 
@@ -158,20 +165,6 @@ public class UserAuthService {
         final Long userSeq = authUtils.getLoginUserSeq();
 
         return true;
-    }
-
-    private String createTestEmail(){
-        final String lastTestUserEmail = userRepository.findLastTestUserEmail();
-
-        int no = 1;
-        if(lastTestUserEmail != null){
-            String[] prevUser = lastTestUserEmail.split("@");
-            no = Integer.parseInt(prevUser[0].substring(4)) + 1;
-        }
-
-        final StringBuilder sb = new StringBuilder();
-        sb.append("test").append(no).append("@sduty.com");
-        return sb.toString();
     }
 
     private User registUser(String email, SocialType socialType){
