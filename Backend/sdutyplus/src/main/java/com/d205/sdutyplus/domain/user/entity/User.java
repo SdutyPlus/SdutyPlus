@@ -14,6 +14,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @DynamicInsert
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "UniqueEmailAndSocialType",
+                        columnNames = {
+                                "email",
+                                "social_type"
+                        }
+                )
+        }
+)
 public class User {
 
     @Id

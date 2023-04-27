@@ -1,4 +1,4 @@
-package com.d205.sdutyplus;
+package com.d205.sdutyplus.domain.feed;
 
 import com.d205.sdutyplus.domain.feed.dto.FeedResponseDto;
 import com.d205.sdutyplus.domain.feed.dto.QFeedResponseDto;
