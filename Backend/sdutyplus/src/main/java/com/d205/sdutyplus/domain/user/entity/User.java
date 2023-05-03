@@ -1,6 +1,7 @@
 package com.d205.sdutyplus.domain.user.entity;
 
 import com.d205.sdutyplus.global.entity.Job;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -78,4 +79,12 @@ public class User {
     @Column(name = "study_percent")
     @ColumnDefault("0")
     private Long studyPercent;
+
+    @Builder
+    public User(String email, SocialType socialType){
+        this.email = email;
+        this.socialType = socialType;
+        this.regTime = LocalDateTime.now();
+        this.lastReport = LocalDate.now();
+    }
 }
