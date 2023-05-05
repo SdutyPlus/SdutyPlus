@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserTestLoginTest extends IntegrationTest {
+public class UserAuthServiceTest extends IntegrationTest {
     @Autowired
     private UserAuthService userAuthService;
 
@@ -17,6 +17,8 @@ public class UserTestLoginTest extends IntegrationTest {
     @DisplayName("테스트용 계정 생성 테스트")
     public void makeTestIDTest() {
         UserLoginDto userLoginDto = userAuthService.loginTestUser();
+
+        assertThat(userLoginDto.getEmail().length()).isLessThan(11);
         assertThat(userLoginDto.getEmail().endsWith("@sduty.com"));
     }
 }
