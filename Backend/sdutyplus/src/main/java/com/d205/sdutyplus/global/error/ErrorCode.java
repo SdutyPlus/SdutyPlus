@@ -28,6 +28,7 @@ public enum ErrorCode {
     AUTHORITY_INVALID(403, "U004", "권한이 없습니다."),
     ACCOUNT_MISMATCH(401, "U005", "계정 정보가 일치하지 않습니다."),
     AUTHENTICATION_EXPIRED(401, "U006", "만료된 토큰입니다"),
+    USER_ALREADY_EXIST(400, "U007", "이미 가입된 유저입니다."),
 
     // Task
     TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다."),
