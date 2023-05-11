@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
+import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
 import com.d205.sdutyplus.util.AuthUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.json.simple.JSONObject;
@@ -37,6 +38,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
+
+import static com.d205.sdutyplus.global.error.ErrorCode.USER_ALREADY_EXIST;
 
 
 @Service
@@ -56,25 +59,12 @@ public class UserAuthService {
 
     @Transactional
     public UserLoginDto loginUser(String email, SocialType socialType) {
-        //가입된 유저인지 확인
-        final Optional<User> userOp = userRepository.findByEmailAndSocialType(email, socialType);
-        User user = null;
-        if(!userOp.isPresent()) {
-            user = registUser(email, socialType);
+        final Optional<User> registedUser = userRepository.findByEmailAndSocialType(email, socialType);
+        final User user = registedUser.orElseGet(() -> registUser(email, socialType));
 
-            final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
-            dailyStatisticsRepository.save(dailyStatistics);
-        }
-        else {
-            user = userOp.get();
-        }
+        final JwtDto jwtDto = issueJWT(user);
 
-        final Jwt jwt = issueJWT(user);
-        final JwtDto jwtDto = new JwtDto(jwt.getAccessToken(), jwt.getRefreshToken());
-
-        final UserLoginDto userLoginDto = new UserLoginDto(user, jwtDto, "");
-
-        return userLoginDto;
+        return new UserLoginDto(user, jwtDto, "");
     }
 
     @Transactional
@@ -85,9 +75,14 @@ public class UserAuthService {
                 .append("@sduty.com");
 
         final String email = sb.toString();
-        final UserLoginDto userLoginDto = loginUser(email, SocialType.SDUTY);
+        if(userRepository.existsByEmailAndSocialType(email, SocialType.SDUTY)){
+            throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
+        }
 
-        return userLoginDto;
+        final User user = registUser(email, SocialType.SDUTY);
+        final JwtDto jwtDto = issueJWT(user);
+
+        return new UserLoginDto(user, jwtDto, "");
     }
 
 
@@ -173,15 +168,20 @@ public class UserAuthService {
         user.setSocialType(socialType);
         user.setRegTime(LocalDateTime.now());
         user.setLastReport(LocalDate.now());
-        return userRepository.save(user);
+        userRepository.save(user);
+
+        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
+        dailyStatisticsRepository.save(dailyStatistics);
+        return user;
     }
 
-    private Jwt issueJWT(User user){
+    private JwtDto issueJWT(User user){
         final Jwt jwt = jwtRepository.findByUserSeq(user.getSeq()).orElseGet(()->new Jwt());
         jwt.setUserSeq(user.getSeq());
         jwt.setAccessToken(JwtUtils.createAccessToken(user));
         jwt.setRefreshToken(JwtUtils.createRefreshToken(user));
-        return jwtRepository.save(jwt);
+        jwtRepository.save(jwt);
+        return new JwtDto(jwt.getAccessToken(), jwt.getRefreshToken());
     }
 
     private void deleteUserCade(Long userSeq) {
