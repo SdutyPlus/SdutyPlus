@@ -18,7 +18,7 @@ private const val TAG = "LoginActivity"
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
     private val REQUIRED_PERMISSIONS = mutableListOf(
         Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
-        Manifest.permission.ACCESS_NETWORK_STATE).toTypedArray()
+        Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.FOREGROUND_SERVICE).toTypedArray()
     private val userPref = UserSharedPreference(this)
 
     override fun init() {
