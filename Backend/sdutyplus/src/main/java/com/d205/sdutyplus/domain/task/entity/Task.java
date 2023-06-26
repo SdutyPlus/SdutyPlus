@@ -26,7 +26,7 @@ public class Task {
     @Column(name="title", nullable = false, length=200)
     private String title;
 
-    @OneToMany(mappedBy = "taskSeq")
+    @OneToMany(mappedBy = "taskSeq", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubTask> subTasks = new ArrayList<>();
 
     @Builder

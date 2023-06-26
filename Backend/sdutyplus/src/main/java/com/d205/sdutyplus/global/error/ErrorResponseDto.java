@@ -4,6 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponseDto {
@@ -20,4 +23,5 @@ public class ErrorResponseDto {
     public static ErrorResponseDto of(final ErrorCode code) {
         return new ErrorResponseDto(code);
     }
+
 }

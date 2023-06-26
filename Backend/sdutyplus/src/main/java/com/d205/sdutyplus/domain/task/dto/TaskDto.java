@@ -1,9 +1,11 @@
 package com.d205.sdutyplus.domain.task.dto;
 
+import com.d205.sdutyplus.domain.task.entity.SubTask;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.util.TimeFormatter;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,11 +17,15 @@ public class TaskDto {
     private String title;
     private List<String> contents;
 
-    public TaskDto(Task task, List<String> contents){
+    public TaskDto(Task task){
         this.seq = task.getSeq();
         this.startTime = TimeFormatter.LocalDateTimeToString(task.getStartTime());
         this.endTime = TimeFormatter.LocalDateTimeToString(task.getEndTime());
         this.title = task.getTitle();
+        List<String> contents = new ArrayList<>();
+        for(SubTask subTask : task.getSubTasks()){
+            contents.add(subTask.getContent());
+        }
         this.contents = contents;
     }
 

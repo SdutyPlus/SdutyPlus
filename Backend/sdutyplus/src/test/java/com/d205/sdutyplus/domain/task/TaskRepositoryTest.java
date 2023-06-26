@@ -1,19 +1,14 @@
-package com.d205.sdutyplus;
+package com.d205.sdutyplus.domain.task;
 
 import com.d205.sdutyplus.domain.task.dto.TaskDto;
 import com.d205.sdutyplus.domain.task.entity.Task;
 import com.d205.sdutyplus.domain.task.repository.TaskRepository;
-import com.d205.sdutyplus.domain.task.repository.querydsl.TaskRepositoryQuerydsl;
 import com.d205.sdutyplus.global.error.exception.EntityNotFoundException;
 import com.d205.sdutyplus.util.TimeFormatter;
-import com.google.type.DateTime;
 import com.querydsl.core.types.ConstantImpl;
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.DateTemplate;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import net.bytebuddy.asm.Advice;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -21,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,35 +38,35 @@ public class TaskRepositoryTest {
     public void findTaskBySeq() {
         //given
         Long taskSeq = 4L;
-        Optional<TaskDto> taskDto = taskRepository.findTaskBySeq(taskSeq);
+        Optional<Task> task = taskRepository.findById(taskSeq);
 
         //then
-        assertThat(taskDto
-                .orElseThrow(()->new EntityNotFoundException(TASK_NOT_FOUND)).getSeq())
+        assertThat(task
+                .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND)).getSeq())
                 .isEqualTo(taskSeq);
 
     }
 
     @Test
-    public void getReportTotalTime(){
+    public void getReportTotalTime() {
         LocalDateTime startTime = TimeFormatter.StringToLocalDateTime("2022-11-04 00:00:00");
         LocalDateTime endTime = TimeFormatter.StringToLocalDateTime("2022-11-04 23:59:59");
         Long userSeq = 3L;
 
-       Integer duration = queryFactory
+        Integer duration = queryFactory
                 .select(
                         task.durationTime.sum()
                 )
                 .from(task)
                 .where(task.startTime.between(startTime, endTime).and(task.ownerSeq.eq(userSeq)))
-               .fetchFirst();
-       String time = TimeFormatter.msToTime(duration);
-       assertThat(time).isEqualTo("00:10:00");
+                .fetchFirst();
+        String time = TimeFormatter.msToTime(duration);
+        assertThat(time).isEqualTo("00:10:00");
     }
 
     @Test
     @DisplayName("시간 중복 검사")
-    public void existTimeDuplicate(){
+    public void existTimeDuplicate() {
         Long userSeq = 20L;
         Long taskSeq = 106L;
         LocalDateTime startTime = TimeFormatter.StringToLocalDateTime("2022-11-15 17:13:37");
@@ -97,7 +89,7 @@ public class TaskRepositoryTest {
 
     @Test
     @DisplayName("리포트 등록한 날짜 조회")
-    public void getReportDateTime(){
+    public void getReportDateTime() {
         Long userSeq = 1L;
 
 //        DateTemplate formattedDate2 = Expressions.dateTemplate(
@@ -109,8 +101,8 @@ public class TaskRepositoryTest {
 
         StringTemplate formattedDate = Expressions.stringTemplate(
                 "DATE_FORMAT({0}, {1})" //printf처럼 뒤에 인자를 넣는 거 같음
-                ,task.startTime
-                ,ConstantImpl.create("%Y-%m-%d")
+                , task.startTime
+                , ConstantImpl.create("%Y-%m-%d")
         );
 
         List<String> reportDates = queryFactory
@@ -122,7 +114,7 @@ public class TaskRepositoryTest {
                 .distinct()
                 .fetch();
 
-        for(String date: reportDates){
+        for (String date : reportDates) {
             System.out.println(date);
         }
     }

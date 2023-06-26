@@ -1,6 +1,5 @@
 package com.d205.sdutyplus.domain.user.service;
 
-
 import com.d205.sdutyplus.domain.feed.service.FeedService;
 import com.d205.sdutyplus.domain.jwt.dto.JwtDto;
 import com.d205.sdutyplus.domain.jwt.entity.Jwt;
@@ -23,7 +22,9 @@ import java.util.Optional;
 
 import com.d205.sdutyplus.domain.warn.repository.WarnUserRepository;
 import com.d205.sdutyplus.domain.warn.service.WarnService;
+import com.d205.sdutyplus.global.error.exception.EntityAlreadyExistException;
 import com.d205.sdutyplus.util.AuthUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -37,6 +38,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.RequiredArgsConstructor;
+
+import static com.d205.sdutyplus.global.error.ErrorCode.USER_ALREADY_EXIST;
 
 
 @Service
@@ -56,44 +59,33 @@ public class UserAuthService {
 
     @Transactional
     public UserLoginDto loginUser(String email, SocialType socialType) {
-        //가입된 유저인지 확인
-        final Optional<User> userOp = userRepository.findByEmailAndSocialType(email, socialType);
-        User realUser = null;
-        if(!userOp.isPresent()) {//가입안 된 user면 => DB save
-            User user = new User();
-            user.setEmail(email);
-            user.setSocialType(socialType);
-            user.setRegTime(LocalDateTime.now());
-            user.setLastReport(LocalDate.now());
-            realUser = userRepository.save(user);
+        final Optional<User> registedUser = userRepository.findByEmailAndSocialType(email, socialType);
+        final User user = registedUser.orElseGet(() -> registUser(email, socialType));
 
-            final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
-            dailyStatisticsRepository.save(dailyStatistics);
+        final JwtDto jwtDto = issueJWT(user);
 
-            if(realUser == null) {
-                return null;
-            }
+        return new UserLoginDto(user, jwtDto, "");
+    }
+
+    @Transactional
+    public UserLoginDto loginTestUser(){
+        final StringBuilder sb = new StringBuilder();
+        sb.append(RandomStringUtils.random(6, true, false))
+                .append((int)(Math.random()*99) + 1)
+                .append("@sduty.com");
+
+        final String email = sb.toString();
+        if(userRepository.existsByEmailAndSocialType(email, SocialType.SDUTY)){
+            throw new EntityAlreadyExistException(USER_ALREADY_EXIST);
         }
-        else {
-            realUser = userOp.get();
-        }
-        final JwtDto jwtDto = new JwtDto(JwtUtils.createAccessToken(realUser), JwtUtils.createRefreshToken(realUser));
 
-        //token저장
-        final Jwt jwt = jwtRepository.findByUserSeq(realUser.getSeq()).orElseGet(()->new Jwt());
-        jwt.setUserSeq(realUser.getSeq());
-        jwt.setAccessToken(jwtDto.getAccessToken());
-        jwt.setRefreshToken(jwtDto.getRefreshToken());
-        jwtRepository.save(jwt);
+        final User user = registUser(email, SocialType.SDUTY);
+        final JwtDto jwtDto = issueJWT(user);
 
-        final String jobName = "";
-        final UserLoginDto userLoginDto = new UserLoginDto(realUser, jwtDto, jobName);
-
-        return userLoginDto;
+        return new UserLoginDto(user, jwtDto, "");
     }
 
 
-    //naver 회원정보 받기
     public Map<String, Object> getNaverUserInfo(String token) {
         RestTemplate rt = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -170,15 +162,37 @@ public class UserAuthService {
         return true;
     }
 
+    private User registUser(String email, SocialType socialType){
+        User user = new User();
+        user.setEmail(email);
+        user.setSocialType(socialType);
+        user.setRegTime(LocalDateTime.now());
+        user.setLastReport(LocalDate.now());
+        userRepository.save(user);
+
+        final DailyStatistics dailyStatistics = createUserStatisticsInfo(user);
+        dailyStatisticsRepository.save(dailyStatistics);
+        return user;
+    }
+
+    private JwtDto issueJWT(User user){
+        final Jwt jwt = jwtRepository.findByUserSeq(user.getSeq()).orElseGet(()->new Jwt());
+        jwt.setUserSeq(user.getSeq());
+        jwt.setAccessToken(JwtUtils.createAccessToken(user));
+        jwt.setRefreshToken(JwtUtils.createRefreshToken(user));
+        jwtRepository.save(jwt);
+        return new JwtDto(jwt.getAccessToken(), jwt.getRefreshToken());
+    }
+
     private void deleteUserCade(Long userSeq) {
 
         dailyStatisticsRepository.deleteByUserSeq(userSeq);
-        //스크랩, 좋아요, 신고, 차단 정보 삭제
+
         feedService.deleteAllFeedScrapByUserSeq(userSeq);
         feedService.deleteAllFeedLikeByUserSeq(userSeq);
         warnService.deleteAllFeedWarnByUserSeq(userSeq);
         offService.deleteAllFeedOffByUserSeq(userSeq);
-        //내가 쓴 글 삭제
+
         feedService.deleteAllFeedByUserSeq(userSeq);
 
         warnUserRepository.deleteAllByFromUserSeq(userSeq);

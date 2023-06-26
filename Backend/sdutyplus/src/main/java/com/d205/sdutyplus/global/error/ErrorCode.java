@@ -15,10 +15,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
     //Global
-    INPUT_VALUE_INVALID(400, "G001", "유효하지 않은 입력입니다."),
-    INPUT_TYPE_INVALID(400, "G002", "입력 타입이 유효하지 않습니다."),
-    TIME_FORMAT_INVALID(400, "G003", "날짜, 시간 타입 형식이 유효하지 않습니다."),
-    JOB_NOT_FOUND(400,"G004", "존재하지 않는 직업입니다."),
+    INTERNAL_SERVER_ERROR(400, "G001", "내부 서버 오류입니다."),
+    INPUT_VALUE_INVALID(400, "G002", "유효하지 않은 입력입니다."),
+    INPUT_TYPE_INVALID(400, "G003", "입력 타입이 유효하지 않습니다."),
+    TIME_FORMAT_INVALID(400, "G004", "날짜, 시간 타입 형식이 유효하지 않습니다."),
+    JOB_NOT_FOUND(400,"G005", "존재하지 않는 직업입니다."),
 
     // User
     USER_NOT_FOUND(400, "U001", "존재하지 않는 유저입니다."),
@@ -27,13 +28,15 @@ public enum ErrorCode {
     AUTHORITY_INVALID(403, "U004", "권한이 없습니다."),
     ACCOUNT_MISMATCH(401, "U005", "계정 정보가 일치하지 않습니다."),
     AUTHENTICATION_EXPIRED(401, "U006", "만료된 토큰입니다"),
+    USER_ALREADY_EXIST(400, "U007", "이미 가입된 유저입니다."),
 
     // Task
     TASK_NOT_FOUND(400, "T001", "존재하지 않는 테스크입니다."),
     SUBTASK_NOT_FOUND(400, "T002", "존재하지 않는 서브 테스크입니다."),
     TASK_TIME_DUPLICATE(400, "T003", "해당 시간에 테스크가 이미 존재합니다."),
     SUBTASK_CNT_EXCEEDED_LIMIT(400, "T004", "컨텐츠를 3개 이상 등록할 수 없습니다."),
-    TASK_TIME_NOT_REVERSED(400, "T005", "시작 시간보다 종료 시간이 큰 값이어야 합니다."),
+    TASK_TIME_NOT_REVERSED(400, "T005", "시작 시간이 종료 시간보다 큰 값입니다."),
+    INVALID_END_TIME(400, "T006", "종료 시간이 현재 시간보다 큰 값입니다"),
 
     // Feed
     IMAGE_TYPE_NOT_SUPPORT(400, "F001", "지원되지 않는 파일 형식입니다."),
