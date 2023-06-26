@@ -4,6 +4,7 @@ import com.d205.sdutyplus.IntegrationTest;
 import com.d205.sdutyplus.domain.user.entity.SocialType;
 import com.d205.sdutyplus.domain.user.entity.User;
 import com.d205.sdutyplus.domain.user.repository.UserRepository;
+import com.d205.sdutyplus.util.domain.user.UserUtils;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
